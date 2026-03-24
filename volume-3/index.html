@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volume 3 — Future Ambassadors Handbook</title>
+  <style>
+    :root { --bg:#0b1020; --bg-card:#111831; --bg-card-alt:#172246; --text:#e9eefc; --muted:#b8c3e3; --accent:#79a7ff; --accent-2:#8de7d9; --border:#2b3a70; --shadow:rgba(0,0,0,.35); }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5;background:radial-gradient(circle at top,#1b2752 0%,var(--bg) 45%);color:var(--text);min-height:100vh}
+    .container{max-width:1100px;margin:0 auto;padding:2.5rem 1rem 3rem}
+    .kicker{letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);font-size:.8rem;font-weight:600;margin-bottom:.5rem}
+    h1{margin:0;font-size:clamp(1.8rem,3vw,2.5rem)}
+    .subtitle{color:var(--muted);margin-top:.75rem;max-width:75ch}
+    .start-here{margin-top:1rem;border-left:3px solid var(--accent);padding:.35rem .85rem;background:rgba(121,167,255,.08);border-radius:8px}
+    .start-here a{color:var(--text)}
+    .cards{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:1.2rem}
+    .card,details{background:linear-gradient(180deg,var(--bg-card) 0%,#0f1733 100%);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 22px var(--shadow)}
+    .card-link{display:block;height:100%;text-decoration:none;color:inherit;padding:1rem;border-radius:14px}
+    .card-link:hover,.card-link:focus-visible,summary:hover,summary:focus-visible{background:rgba(121,167,255,.12);outline:none}
+    .card h2,details h2{margin-top:0;margin-bottom:.5rem;font-size:1.1rem}
+    .card p,details p{margin:0;color:var(--muted);font-size:.96rem}
+    details{grid-column:1/-1;overflow:hidden}
+    summary{list-style:none;cursor:pointer;padding:1rem;background:linear-gradient(180deg,var(--bg-card-alt) 0%,#111b3b 100%)}
+    summary::-webkit-details-marker{display:none}
+    .sub-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem;padding:0 1rem 1rem;border-top:1px solid var(--border);background:rgba(12,18,38,.9)}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="kicker">Dynamic Knowledge Repository</div>
+      <h1>Volume 3 — Future Ambassadors Handbook</h1>
+      <p class="subtitle">Chronological module flow: A → B (with B1–B5 nested) → C → D.</p>
+      <p class="start-here">Optional prelude: <a href="module-0-welcome.html">Module 0 — Orientation</a>.</p>
+    </header>
+
+    <section class="cards" aria-label="Volume 3 Modules">
+      <article class="card">
+        <a class="card-link" href="module-a-foundations.html">
+          <h2>Module A — Foundations</h2>
+          <p>“You don't need to understand the math. You need to understand what the math makes possible.”</p>
+        </a>
+      </article>
+
+      <details>
+        <summary>
+          <h2>Module B — Scenario Tracks</h2>
+          <p>Open to view B1–B5 modules.</p>
+        </summary>
+        <div class="sub-cards">
+          <article class="card"><a class="card-link" href="module-b1-post-quantum.html"><h2>Module B1 — Post-Quantum Transition</h2><p>“The mathematics beneath the internet will break. The question is whether we will be ready.”</p></a></article>
+          <article class="card"><a class="card-link" href="module-b2-ai-governance.html"><h2>Module B2 — AI Governance &amp; Verifiable Trust</h2><p>“AI can generate anything. Cryptography can prove what's real.”</p></a></article>
+          <article class="card"><a class="card-link" href="module-b3-digital-sovereignty.html"><h2>Module B3 — Digital Sovereignty &amp; DPI Models</h2><p>“Four regions built the digital future differently. What can each learn from the others?”</p></a></article>
+          <article class="card"><a class="card-link" href="module-b4-digital-inclusion.html"><h2>Module B4 — Digital Inclusion &amp; the Trust Gap</h2><p>“Connectivity without trust isn't enough. And trust without voice isn't trust at all.”</p></a></article>
+          <article class="card"><a class="card-link" href="module-b5-your-own-track.html"><h2>Module B5 — Your Own Track</h2><p>“The question that wouldn't fit anywhere else.”</p></a></article>
+        </div>
+      </details>
+
+      <article class="card">
+        <a class="card-link" href="module-c-going-public.html">
+          <h2>Module C — Going Public</h2>
+          <p>“Private inquiry becomes public contribution the moment someone else can use it.”</p>
+        </a>
+      </article>
+
+      <article class="card">
+        <a class="card-link" href="module-d-log-global-connector.html">
+          <h2>Module D — Ambassador Log &amp; Global Connector</h2>
+          <p>“Everything you wrote in passing, gathered into something that lasts.”</p>
+        </a>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
