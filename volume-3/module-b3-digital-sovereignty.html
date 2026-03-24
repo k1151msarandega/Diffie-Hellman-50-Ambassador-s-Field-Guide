@@ -1,26 +1,400 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module B3 — Digital Sovereignty & DPI Models</title>
-  <style>
-    :root { --bg:#0b1020; --card:#111831; --text:#e9eefc; --muted:#b8c3e3; --border:#2b3a70; --accent:#79a7ff; }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at top,#1b2752 0%,var(--bg) 45%);color:var(--text)}
-    .container{max-width:900px;margin:0 auto;padding:2.5rem 1rem}
-    .card{background:linear-gradient(180deg,var(--card) 0%,#0f1733 100%);border:1px solid var(--border);border-radius:14px;padding:1.25rem}
-    h1{margin-top:0} p{color:var(--muted)} a{color:var(--accent)}
-  </style>
-</head>
-<body>
-  <main class="container">
-    <article class="card">
-      <h1>Module B3 — Digital Sovereignty & DPI Models</h1>
-      <p>“Four regions built the digital future differently. What can each learn from the others?”</p>
-      <p>Scenario track notes and activity prompts go here.</p>
-      <p><a href="index.html">← Back to Volume 3</a></p>
-    </article>
-  </main>
-</body>
-</html>
+<style>
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:10px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:9px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .callout { border-radius:var(--border-radius-lg); padding:16px 18px; margin:20px 0; background:var(--color-background-secondary); }
+  .callout-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .model-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
+  .model-card { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); padding:14px; cursor:pointer; transition:border-color .15s; }
+  .model-card:hover { border-color:var(--color-border-primary); }
+  .model-card.selected { border-color:var(--color-text-info); background:var(--color-background-info); }
+  .model-name { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:3px; }
+  .model-card.selected .model-name { color:var(--color-text-info); }
+  .model-eg { font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .model-card.selected .model-eg { color:var(--color-text-info); opacity:.7; }
+  .model-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .compare-table { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:16px 0; }
+  .compare-row { display:flex; border-bottom:1px solid var(--color-border-tertiary); }
+  .compare-row:last-child { border-bottom:none; }
+  .compare-head { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); padding:8px 12px; flex:1; background:var(--color-background-secondary); }
+  .compare-cell { font-size:13px; color:var(--color-text-secondary); padding:10px 12px; flex:1; line-height:1.5; border-left:1px solid var(--color-border-tertiary); }
+  .compare-label { font-size:13px; font-weight:500; color:var(--color-text-primary); padding:10px 12px; flex:1; line-height:1.5; }
+  .scenario-guide { background:var(--color-background-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .scenario-step { display:flex; gap:14px; margin-bottom:18px; align-items:flex-start; }
+  .scenario-step:last-child { margin-bottom:0; }
+  .step-num { width:26px; height:26px; border-radius:50%; background:var(--color-border-tertiary); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; color:var(--color-text-secondary); flex-shrink:0; margin-top:1px; }
+  .step-content { flex:1; }
+  .step-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:3px; }
+  .step-desc { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .result-box { display:none; border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:16px 18px; margin-top:10px; background:var(--color-background-secondary); }
+  .result-box.show { display:block; }
+  .completion { margin-top:24px; padding:16px 18px; border-radius:var(--border-radius-lg); background:var(--color-background-secondary); }
+  .nav-btn-row { display:flex; gap:6px; margin-bottom:24px; flex-wrap:wrap; }
+  .nav-btn { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-secondary); cursor:pointer; }
+</style>
+
+<div class="page">
+  <div class="nav-btn-row">
+    <button class="nav-btn" onclick="showPage(0)" id="nav0" style="background:var(--color-background-info);color:var(--color-text-info)">B3 — Opening</button>
+    <button class="nav-btn" onclick="showPage(1)" id="nav1" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">The four models</button>
+    <button class="nav-btn" onclick="showPage(2)" id="nav2" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Comparison activity</button>
+    <button class="nav-btn" onclick="showPage(3)" id="nav3" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Writing your scenario</button>
+    <button class="nav-btn" onclick="showPage(4)" id="nav4" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Log + completion</button>
+  </div>
+
+  <!-- Page 0: Opening -->
+  <div id="page0">
+    <div class="chapter-label">Section B — Scenario Tracks · Track B3</div>
+    <div class="chapter-title">Digital sovereignty and DPI models</div>
+    <div class="chapter-sub">Four regions built the digital future differently. What can each learn from the others — and what does that mean for the next 50 years?</div>
+
+    <p class="body-text">There is no single model for how a society builds digital public infrastructure. Some countries have made identity and payments a public utility, open and interoperable. Others have let private platforms fill the same role at massive scale. Others are still building, navigating debt, vendor lock-in, and political pressure simultaneously.</p>
+
+    <p class="body-text">Each approach encodes a set of choices about who controls data, who can access services, who profits, and who is trusted. Those choices compound over decades. A payment architecture built in 2010 shapes what's possible in 2040.</p>
+
+    <div class="pull-quote">"Digital infrastructure is never neutral. Every design decision is also a political decision about power, access, and accountability."</div>
+
+    <p class="body-text">This track asks you to become a close reader of at least two models — ideally one near your own region and one that challenges your assumptions. You will compare how they handle a specific dimension of trust: identity, payments, data exchange, or governance. And you will write a scenario that draws a lesson from that comparison and applies it somewhere it hasn't been applied yet.</p>
+
+    <div class="callout">
+      <div class="callout-title">Who this track is for</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">This track works best for Connectors and Critics — people who see across systems and are energised by finding the insight that one region's experience offers to another. It also suits policy analysts, development economists, and anyone embedded in a government digital transformation programme.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">You don't need deep technical knowledge. You need rigour, curiosity, and a willingness to be genuinely changed by what you find.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Before you start — 10 minutes</div>
+      <div class="activity-title">Your starting position</div>
+      <div class="activity-body">
+        <p>Write one honest sentence for each of the following in your log. You'll return to these at the end of the track to see what changed.</p>
+        <ul class="prompt-list">
+          <li>Which DPI model do you know best, and why?</li>
+          <li>Which model do you know least — and what assumptions do you carry about it?</li>
+          <li>What question about digital sovereignty do you most want to be able to answer by the end of this track?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 1: The four models -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Section B · Track B3</div>
+    <div class="chapter-title">The four models</div>
+    <div class="chapter-sub">A working framework — not a ranking.</div>
+
+    <p class="body-text">These four models are not the only ways to build digital infrastructure, but they represent distinct philosophies that are shaping global norms right now. Understanding them as philosophies — not just as case studies — is what makes comparison useful.</p>
+
+    <p class="body-text">Select a model below to see its core logic, what it does well, and where its tensions lie.</p>
+
+    <div class="model-grid">
+      <div class="model-card" onclick="selectModel(this,'india')">
+        <div class="model-eg">India</div>
+        <div class="model-name">Open public stack</div>
+        <div class="model-desc">DPI as national infrastructure — open, interoperable, built for billion-person scale.</div>
+      </div>
+      <div class="model-card" onclick="selectModel(this,'estonia')">
+        <div class="model-eg">Estonia / Ukraine</div>
+        <div class="model-name">Distributed resilience</div>
+        <div class="model-desc">Federated, decentralised systems designed to survive political pressure and active warfare.</div>
+      </div>
+      <div class="model-card" onclick="selectModel(this,'china')">
+        <div class="model-eg">China</div>
+        <div class="model-name">Platform-state integration</div>
+        <div class="model-desc">Private super-platforms operating at public scale, deeply integrated with state governance.</div>
+      </div>
+      <div class="model-card" onclick="selectModel(this,'asean')">
+        <div class="model-eg">ASEAN</div>
+        <div class="model-name">Public-private convergence</div>
+        <div class="model-desc">Fragmented national systems converging through regional interoperability agreements.</div>
+      </div>
+    </div>
+
+    <div class="result-box" id="model-result">
+      <div style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px" id="model-title"></div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px" id="model-body"></div>
+      <div style="font-size:12px;color:var(--color-text-tertiary);line-height:1.6" id="model-tension"></div>
+    </div>
+
+    <div class="activity-box" style="margin-top:20px">
+      <div class="activity-label">Activity — 45 to 60 minutes</div>
+      <div class="activity-title">Go deeper on one model you don't know well</div>
+      <div class="activity-body">
+        <p>Choose the model furthest from your own experience. Spend 45 minutes reading — primary sources where possible (government strategy documents, official reports, academic papers) rather than just news coverage.</p>
+        <ul class="prompt-list">
+          <li>What problem was this model designed to solve? What was the founding moment or crisis?</li>
+          <li>Who governs it, and who is accountable when something goes wrong?</li>
+          <li>What does "trust" mean in this model — trust between whom, enforced how?</li>
+          <li>What would a citizen with no technical knowledge need to believe for this model to serve them well?</li>
+        </ul>
+        <p style="margin-top:10px">Write a half-page summary. This becomes a source document for your scenario.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2: Comparison activity -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Section B · Track B3</div>
+    <div class="chapter-title">The comparison activity</div>
+    <div class="chapter-sub">The lesson lives in the gap between two models — not inside either one.</div>
+
+    <p class="body-text">Comparison is not about ranking systems from best to worst. It is about finding the question that one model's experience answers for another — and asking whether that answer travels.</p>
+
+    <p class="body-text">Choose two models to compare. Pick one you know well and one you researched in the previous module. Focus your comparison on a single dimension — don't try to compare everything at once.</p>
+
+    <div class="callout">
+      <div class="callout-title">Choose a comparison dimension</div>
+      <div class="activity-body" style="margin-top:8px">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 10px">Pick one of these five — the one most relevant to your region or your scenario question:</p>
+        <ul class="prompt-list">
+          <li>Identity: who issues it, who controls it, who can revoke it</li>
+          <li>Payments: who runs the rails, who profits, who is excluded</li>
+          <li>Data governance: where data lives, who can access it, what rights citizens have</li>
+          <li>Resilience: what happens under attack, disaster, or political pressure</li>
+          <li>Inclusion: who is served, who is left out, and whether the gap is closing</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="body-text">Fill in the comparison table below for your chosen dimension and your two chosen models. Then answer the three synthesis questions beneath it — these are the questions your scenario will need to address.</p>
+
+    <div class="compare-table">
+      <div class="compare-row">
+        <div class="compare-head" style="flex:1.2">Dimension</div>
+        <div class="compare-head" style="flex:2">Model A — <input style="border:none;background:transparent;font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-secondary);outline:none;font-family:var(--font-sans);width:90px" placeholder="name it here"></div>
+        <div class="compare-head" style="flex:2">Model B — <input style="border:none;background:transparent;font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-secondary);outline:none;font-family:var(--font-sans);width:90px" placeholder="name it here"></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label" style="flex:1.2">Who governs it?</div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label" style="flex:1.2">Who benefits most?</div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label" style="flex:1.2">Who is most at risk?</div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label" style="flex:1.2">What breaks first under stress?</div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-label" style="flex:1.2">What has it done that the other hasn't?</div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+        <div class="compare-cell" style="flex:2"><input style="border:none;background:transparent;font-size:13px;color:var(--color-text-primary);outline:none;font-family:var(--font-sans);width:100%" placeholder="…"></div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Synthesis — the three questions your scenario must answer</div>
+      <div class="activity-title">What the comparison reveals</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>What has Model A learned — the hard way — that Model B hasn't had to learn yet?</li>
+          <li>If a third region wanted to adopt the best of both models, what would they need to build first?</li>
+          <li>What assumption does each model make that the other would reject — and who is right?</li>
+        </ul>
+        <p style="margin-top:10px">Write your answers in your log. These three answers are the spine of your scenario paper.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: Writing your scenario -->
+  <div id="page3" style="display:none">
+    <div class="chapter-label">Section B · Track B3</div>
+    <div class="chapter-title">Writing your scenario</div>
+    <div class="chapter-sub">A scenario is not a prediction. It is a rigorous, structured argument about what could happen — and what it would require.</div>
+
+    <p class="body-text">The best scenarios in this track will not be abstract. They will be set in a specific place, at a specific moment — a government deciding which DPI model to adopt, a regional body negotiating an interoperability standard, a community discovering that the system they rely on has been designed for someone else.</p>
+
+    <p class="body-text">Your scenario should be 1,500 to 3,000 words. It will be submitted to the IEEE DH50 repository and may be presented at the Santa Clara celebration in November 2026 if selected. Write it as if a policymaker in your target region will read it — and act on it.</p>
+
+    <div class="scenario-guide">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:16px">Scenario structure — five sections</div>
+      <div class="scenario-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">The setting (200–300 words)</div>
+          <div class="step-desc">Name the place, the moment, and the decision. What is at stake, for whom, and by when? Ground the reader immediately in something specific and real.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">What the models show (400–600 words)</div>
+          <div class="step-desc">Present the comparison you built in the previous module. What has been learned, elsewhere, that is directly relevant to this setting? Cite your sources. Be specific about what worked, what failed, and under what conditions.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">The lesson that travels (300–400 words)</div>
+          <div class="step-desc">This is the core of your scenario. What is the transferable insight — the thing that another region can actually use? Be honest about what does not travel: every model is shaped by its context, and false universalism is worse than no lesson at all.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">What would need to be true (300–500 words)</div>
+          <div class="step-desc">Scenarios are conditional. What political, technical, or social conditions would need to hold for the lesson to apply? What are the most likely failure modes? Who would resist this, and why would they be right to?</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">The question you're leaving open (200–300 words)</div>
+          <div class="step-desc">A good scenario does not close every door. End with the question your research could not answer — the thing someone in that region, with better access, would need to investigate next. This is not a weakness. It is intellectual honesty, and it is an invitation to the next ambassador.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — ongoing, 2 to 4 weeks</div>
+      <div class="activity-title">Interview at least one practitioner</div>
+      <div class="activity-body">
+        <p>Before you finalise your scenario, talk to someone who has built or governed DPI in your region or in one of the models you're studying. Your comparison table will have raised questions that no document can answer.</p>
+        <ul class="prompt-list">
+          <li>What decision, in retrospect, shaped everything else?</li>
+          <li>What did you get wrong that you wish you'd known earlier?</li>
+          <li>What is the question you think the outside world consistently fails to ask about your system?</li>
+        </ul>
+        <p style="margin-top:10px">You don't need their answers to change your scenario. You need them to make it honest.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt</div>
+      <div class="activity-title">After your first full draft</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>What did you have to cut that you wish you could have kept — and what does that tell you about scope?</li>
+          <li>Which of your sources would disagree with your conclusion — and have you engaged with that disagreement honestly?</li>
+          <li>Who is the most important person who should read this, and have you written it for them?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 4: Log + completion -->
+  <div id="page4" style="display:none">
+    <div class="chapter-label">Section B · Track B3</div>
+    <div class="chapter-title">Log and completion</div>
+    <div class="chapter-sub">Looking back before you share your work with the world.</div>
+
+    <p class="body-text">You started this track with three sentences about what you knew and what you assumed. Before you submit your scenario, return to those sentences — and to these final log prompts. The gap between where you started and where you ended is part of the record.</p>
+
+    <div class="log-box">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Log entry — Track B3 complete</div>
+      <div class="log-field">
+        <div class="log-label">The assumption I held at the start that I no longer hold</div>
+        <textarea class="log-area" rows="2" placeholder="Be specific. What did you believe about one of the models that turned out to be wrong or incomplete?"></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The most important thing I learned from the practitioner I interviewed</div>
+        <textarea class="log-area" rows="2" placeholder="One sentence — the thing that documents couldn't have told you."></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The lesson in my scenario — in one sentence</div>
+        <input class="log-line" type="text" placeholder="If your reader forgets everything else, what should they remember?">
+      </div>
+      <div class="log-field">
+        <div class="log-label">The question I'm leaving open — and who should answer it</div>
+        <textarea class="log-area" rows="2" placeholder="Name the question and the person or community best placed to investigate it next."></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">One ambassador in a different region I want to share this with</div>
+        <input class="log-line" type="text" placeholder="Name, country, and why — this is the seed of your Global Connector badge.">
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:8px">
+      <div class="callout-title">Submitting your scenario</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">Your completed scenario paper goes to the IEEE DH50 global repository. Scenarios received by October 2026 are eligible for presentation at the Santa Clara Final Celebration. Submit via your regional coordinator or directly through the DH50 ambassador portal.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">Include your regional DPI map from Module A3 as an appendix. It gives readers context and makes your scenario more useful to ambassadors in your region who come after you.</p>
+      </div>
+    </div>
+
+    <div class="completion">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Track B3 complete</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.6">You've completed a full scenario investigation, compared at least two DPI models, interviewed a practitioner, and submitted your findings to the global record. Move to Section C to prepare your public presentation — or to the Global Connector badge if you're ready to share your work with an ambassador in another region.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Track B3 complete</div>
+        <div class="badge-pill">🟣 Scenario builder — earned</div>
+        <div class="badge-pill">Section C unlocked</div>
+        <div class="badge-pill">🌍 Global connector — 1 step done</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(n) {
+  for(let i=0;i<5;i++){
+    document.getElementById('page'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('nav'+i);
+    b.style.background=i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    b.style.color=i===n?'var(--color-text-info)':'var(--color-text-secondary)';
+  }
+}
+const models={
+  india:{
+    title:'India — Open public stack',
+    body:'India\'s DPI philosophy treats identity (Aadhaar), payments (UPI), and data exchange (DEPA) as public utilities — open-source, interoperable, and licensed to any provider. The state builds and maintains the rails; the private sector builds on top. UPI processed over 100 billion transactions in 2023. The model\'s founding insight was that inclusion at scale requires zero marginal cost — no transaction fee, no gatekeeping platform.',
+    tension:'Tensions: Aadhaar\'s centralised biometric database has faced serious privacy and exclusion critiques. Welfare recipients have been denied benefits due to fingerprint failures. The "open stack" depends on smartphone access that not all citizens have. And the model\'s success has made it a geopolitical export, which brings its own complications.'
+  },
+  estonia:{
+    title:'Estonia / Ukraine — Distributed resilience',
+    body:'Estonia\'s X-Road is a decentralised data exchange layer: no central database, no single point of failure. Data stays with its owner; requests are logged and auditable. After the 2007 cyberattacks, Estonia built "data embassies" — encrypted government data vaults hosted in allied countries. Ukraine has taken this further: during the 2022 invasion, government services migrated to cloud infrastructure within days, allowing the state to function even as physical infrastructure was destroyed.',
+    tension:'Tensions: Decentralisation requires a high baseline of institutional trust and technical capacity that many countries lack. X-Road\'s federation model works when all participants follow the rules — but enforcement across a network of independent nodes is genuinely hard. Ukraine\'s rapid cloud migration was remarkable, but it also raised questions about sovereignty when state data lives on foreign commercial servers.'
+  },
+  china:{
+    title:'China — Platform-state integration',
+    body:'China\'s DPI emerged from private platforms — Alipay, WeChat Pay, DiDi — that grew to public-infrastructure scale before being brought under closer state oversight. The result is a system with extraordinary reach and capability: nearly universal digital payments, integrated social services, and one of the world\'s most sophisticated digital identity infrastructures. The state can mandate interoperability (as it did with Alipay and WeChat Pay in 2021) in ways that liberal democracies find politically impossible.',
+    tension:'Tensions: The integration of platform data with state surveillance is not a bug in this model — for its architects, it is a feature. For other countries considering elements of this approach, the question is whether you can adopt the capability without the control architecture. Most evidence suggests you cannot easily separate them.'
+  },
+  asean:{
+    title:'ASEAN — Public-private convergence',
+    body:'Southeast Asia has no unified DPI model — it has ten national systems at varying stages of development, converging unevenly toward regional interoperability. Singapore\'s Singpass is highly sophisticated; Cambodia\'s digital infrastructure is a decade behind. The ASEAN Digital Economy Framework Agreement (DEFA) and bilateral payment linkages (Singapore-Thailand, Malaysia-Indonesia) are building connectivity from the edges. The Open Finance Utility model — a shared regional layer for financial data — is one of the most interesting experiments in this space.',
+    tension:'Tensions: Convergence is happening fastest where it\'s commercially valuable (payments) and slowest where it\'s most needed (identity, health, social protection). Smaller economies risk being shaped by the standards of larger ones. And the "public-private" framing often obscures who is actually accountable when something fails.'
+  }
+};
+function selectModel(el,key){
+  document.querySelectorAll('.model-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  const r=document.getElementById('model-result');
+  document.getElementById('model-title').textContent=models[key].title;
+  document.getElementById('model-body').textContent=models[key].body;
+  document.getElementById('model-tension').textContent=models[key].tension;
+  r.classList.add('show');
+}
+</script>
