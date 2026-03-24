@@ -1,26 +1,409 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module B2 — AI Governance & Verifiable Trust</title>
-  <style>
-    :root { --bg:#0b1020; --card:#111831; --text:#e9eefc; --muted:#b8c3e3; --border:#2b3a70; --accent:#79a7ff; }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at top,#1b2752 0%,var(--bg) 45%);color:var(--text)}
-    .container{max-width:900px;margin:0 auto;padding:2.5rem 1rem}
-    .card{background:linear-gradient(180deg,var(--card) 0%,#0f1733 100%);border:1px solid var(--border);border-radius:14px;padding:1.25rem}
-    h1{margin-top:0} p{color:var(--muted)} a{color:var(--accent)}
-  </style>
-</head>
-<body>
-  <main class="container">
-    <article class="card">
-      <h1>Module B2 — AI Governance & Verifiable Trust</h1>
-      <p>“AI can generate anything. Cryptography can prove what's real.”</p>
-      <p>Scenario track notes and activity prompts go here.</p>
-      <p><a href="index.html">← Back to Volume 3</a></p>
-    </article>
-  </main>
-</body>
-</html>
+<style>
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:10px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:9px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .callout { border-radius:var(--border-radius-lg); padding:16px 18px; margin:20px 0; background:var(--color-background-secondary); }
+  .callout-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .layer-row { display:flex; gap:12px; margin-bottom:12px; align-items:flex-start; }
+  .layer-row:last-child { margin-bottom:0; }
+  .layer-icon { width:32px; height:32px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; flex-shrink:0; margin-top:1px; }
+  .layer-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:2px; }
+  .layer-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .tension-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
+  .tension-card { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); padding:14px; cursor:pointer; transition:border-color .15s; }
+  .tension-card:hover { border-color:var(--color-border-primary); }
+  .tension-card.selected { border-color:var(--color-text-info); background:var(--color-background-info); }
+  .tension-tag { font-size:10px; font-weight:500; letter-spacing:.07em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:4px; }
+  .tension-card.selected .tension-tag { color:var(--color-text-info); opacity:.7; }
+  .tension-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px; }
+  .tension-card.selected .tension-title { color:var(--color-text-info); }
+  .tension-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .result-box { display:none; border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:16px 18px; margin-top:10px; background:var(--color-background-secondary); }
+  .result-box.show { display:block; }
+  .scenario-guide { background:var(--color-background-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .scenario-step { display:flex; gap:14px; margin-bottom:18px; align-items:flex-start; }
+  .scenario-step:last-child { margin-bottom:0; }
+  .step-num { width:26px; height:26px; border-radius:50%; background:var(--color-border-tertiary); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; color:var(--color-text-secondary); flex-shrink:0; margin-top:1px; }
+  .step-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:3px; }
+  .step-desc { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .completion { margin-top:24px; padding:16px 18px; border-radius:var(--border-radius-lg); background:var(--color-background-secondary); }
+  .nav-btn { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-secondary); cursor:pointer; }
+  .case-tab-row { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .case-tab { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-tertiary); cursor:pointer; background:var(--color-background-secondary); color:var(--color-text-secondary); transition:all .15s; }
+  .case-tab.active { background:var(--color-background-info); color:var(--color-text-info); border-color:var(--color-text-info); }
+  .case-panel { display:none; }
+  .case-panel.active { display:block; }
+  .case-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:6px; }
+  .case-body { font-size:13px; color:var(--color-text-secondary); line-height:1.6; margin-bottom:10px; }
+  .case-question { font-size:13px; color:var(--color-text-secondary); line-height:1.6; padding:10px 14px; border-left:2px solid var(--color-border-secondary); margin-top:10px; font-style:italic; }
+  .map-area { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:16px 0; }
+  .map-row { display:flex; border-bottom:1px solid var(--color-border-tertiary); }
+  .map-row:last-child { border-bottom:none; }
+  .map-head { font-size:10px; font-weight:500; letter-spacing:.07em; text-transform:uppercase; color:var(--color-text-tertiary); padding:8px 12px; flex:1; background:var(--color-background-secondary); }
+  .map-label { font-size:13px; font-weight:500; color:var(--color-text-primary); padding:10px 12px; flex:1; line-height:1.5; border-bottom: none; }
+  .map-cell { padding:9px 12px; flex:1; border-left:1px solid var(--color-border-tertiary); }
+  .map-input { border:none; background:transparent; width:100%; font-size:13px; color:var(--color-text-primary); outline:none; font-family:var(--font-sans); }
+  .map-input::placeholder { color:var(--color-text-tertiary); }
+</style>
+
+<div class="page">
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+    <button class="nav-btn" onclick="showPage(0)" id="nav0" style="background:var(--color-background-info);color:var(--color-text-info)">B2 — Opening</button>
+    <button class="nav-btn" onclick="showPage(1)" id="nav1" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">The core tensions</button>
+    <button class="nav-btn" onclick="showPage(2)" id="nav2" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Cases in the wild</button>
+    <button class="nav-btn" onclick="showPage(3)" id="nav3" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Writing your scenario</button>
+    <button class="nav-btn" onclick="showPage(4)" id="nav4" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Log + completion</button>
+  </div>
+
+  <!-- Page 0: Opening -->
+  <div id="page0">
+    <div class="chapter-label">Section B — Scenario Tracks · Track B2</div>
+    <div class="chapter-title">AI governance and verifiable trust</div>
+    <div class="chapter-sub">AI can generate anything. Cryptography can prove what's real. The question is whether we build that bridge — and who controls it.</div>
+
+    <p class="body-text">For fifty years, cryptographic signatures have answered a deceptively simple question: did this come from who it claims to come from, and has it been changed since? A signed document, a verified identity, a timestamped record — these are statements about provenance and integrity that a third party can check without trusting the sender.</p>
+
+    <p class="body-text">Generative AI has made that question newly urgent. When any piece of content — text, image, audio, video, code, scientific data — can be synthesised at negligible cost and indistinguishable quality, the infrastructure of trust that underpins journalism, law, medicine, elections, and commerce begins to strain. The tools exist, in principle, to sign AI-generated content, to watermark model outputs, to verify the provenance of training data. The question is whether we will deploy them, at what cost, and who will govern them.</p>
+
+    <div class="pull-quote">"The problem is not that AI can deceive. The problem is that we have not yet decided what infrastructure we want to build so that it doesn't have to."</div>
+
+    <p class="body-text">This track sits at the intersection of cryptography, AI policy, and institutional design. It is not primarily a technical track — though understanding what's technically possible matters. It is a track about governance: who decides what gets verified, by what means, under what rules, with what accountability.</p>
+
+    <div class="callout">
+      <div class="callout-title">Who this track is for</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">This track is built for Connectors and Narrators who are drawn to the policy and institutional dimensions of AI — but it has meaningful technical depth for Builders willing to engage with governance questions. It suits AI policy researchers, legal and regulatory analysts, journalists and media professionals, and anyone working on digital identity or content authenticity.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">It is also the right track if your primary question is about a specific sector — electoral integrity, scientific publishing, legal evidence, healthcare AI — rather than AI governance in the abstract. The most useful scenarios in this track are tightly scoped: one domain, one decision, one place.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">You do not need to be a cryptographer. You need to understand enough about what cryptographic tools can and cannot do to assess whether a proposed governance approach is technically coherent — and to call out the ones that aren't.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Before you start — 10 minutes</div>
+      <div class="activity-title">Your starting position</div>
+      <div class="activity-body">
+        <p>Write one honest sentence for each in your log:</p>
+        <ul class="prompt-list">
+          <li>Which domain — journalism, law, medicine, elections, science, finance, something else — will you focus on?</li>
+          <li>What is the most urgent trust problem AI is creating in that domain right now?</li>
+          <li>What would "enough trust" look like in that domain — and who currently gets to decide what counts?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 1: The core tensions -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Section B · Track B2</div>
+    <div class="chapter-title">The core tensions</div>
+    <div class="chapter-sub">Four fault lines that run through every AI governance and trust debate. Your scenario will sit on at least one of them.</div>
+
+    <p class="body-text">The governance debates around AI and verifiable trust are not primarily technical disagreements. They are disagreements about values — about who should have power over what can be verified, what can be attributed, and what can be trusted. Understanding the fault lines before you choose your scenario focus will save you from building a technically elegant proposal that is politically impossible — or a politically popular one that doesn't work.</p>
+
+    <p class="body-text">Select a tension below to explore its logic and what it means for scenario design.</p>
+
+    <div class="tension-grid">
+      <div class="tension-card" onclick="selectTension(this,'verif')">
+        <div class="tension-tag">Tension 1</div>
+        <div class="tension-title">Verification vs. anonymity</div>
+        <div class="tension-desc">Proving provenance requires attribution. Attribution threatens anonymity. Both values are real.</div>
+      </div>
+      <div class="tension-card" onclick="selectTension(this,'interop')">
+        <div class="tension-tag">Tension 2</div>
+        <div class="tension-title">Openness vs. control</div>
+        <div class="tension-desc">Open standards enable interoperability. Proprietary systems enable accountability. Hard to have both.</div>
+      </div>
+      <div class="tension-card" onclick="selectTension(this,'mandate')">
+        <div class="tension-tag">Tension 3</div>
+        <div class="tension-title">Voluntary vs. mandated trust</div>
+        <div class="tension-desc">Voluntary adoption is slow. Mandated adoption creates gatekeepers. Every governance model picks a side.</div>
+      </div>
+      <div class="tension-card" onclick="selectTension(this,'global')">
+        <div class="tension-tag">Tension 4</div>
+        <div class="tension-title">Global standards vs. digital sovereignty</div>
+        <div class="tension-desc">Common standards reduce fragmentation. National systems protect against foreign control. Both matter.</div>
+      </div>
+    </div>
+
+    <div class="result-box" id="tension-result">
+      <div style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px" id="tension-title"></div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px" id="tension-body"></div>
+      <div style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:5px">What this means for your scenario</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.55" id="tension-implication"></div>
+    </div>
+
+    <div class="activity-box" style="margin-top:20px">
+      <div class="activity-label">Activity — 30 minutes</div>
+      <div class="activity-title">Map the stakeholders in your domain</div>
+      <div class="activity-body">
+        <p>Every governance question has stakeholders with different interests. For your chosen domain, identify who sits on each side of the tension you've selected — and what they would gain or lose from different governance approaches.</p>
+        <ul class="prompt-list">
+          <li>Who benefits most from the current lack of verifiable trust infrastructure — and would they say so publicly?</li>
+          <li>Who bears the cost of that absence — and do they have enough power to change it?</li>
+          <li>Who would control the governance mechanism if it were built — and why does that matter?</li>
+          <li>Where is there unexpected common ground between parties that appear to be in opposition?</li>
+        </ul>
+        <p style="margin-top:10px">Write a half-page stakeholder map. It will become the political analysis section of your scenario.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2: Cases in the wild -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Section B · Track B2</div>
+    <div class="chapter-title">Cases in the wild</div>
+    <div class="chapter-sub">Real attempts to build cryptographic trust into AI systems — what they tried, what they got right, and what they didn't.</div>
+
+    <p class="body-text">The governance of AI outputs is not a purely theoretical problem. Several serious attempts are already underway — from content provenance standards to watermarking initiatives to regulatory mandates. None of them is fully mature. All of them are instructive. Your scenario will be stronger if it is built on top of what has already been tried, rather than proposing something that has already been attempted and found wanting.</p>
+
+    <div class="case-tab-row">
+      <div class="case-tab active" onclick="showCase(this,'c2pa')">C2PA</div>
+      <div class="case-tab" onclick="showCase(this,'watermark')">AI watermarking</div>
+      <div class="case-tab" onclick="showCase(this,'eidas')">eIDAS 2.0</div>
+      <div class="case-tab" onclick="showCase(this,'euai')">EU AI Act</div>
+    </div>
+
+    <div id="case-c2pa" class="case-panel active">
+      <div class="case-title">C2PA — Coalition for Content Provenance and Authenticity</div>
+      <div class="case-body">C2PA is an open technical standard for attaching cryptographically signed provenance metadata to digital content — images, video, audio, documents. A C2PA manifest records what tool created the content, what edits were made, and by whom, creating a verifiable chain of custody. It is backed by Adobe, Microsoft, Google, the BBC, and others, and is being embedded into camera hardware, editing software, and publishing platforms.</div>
+      <div class="case-body">The standard works as designed: content signed under C2PA can be verified against the signer's certificate. The harder problem is adoption and incentives. Signing requires participating in the ecosystem; unsigned content carries no penalty. A reader cannot distinguish between content that was unsigned because it was created before C2PA existed, content whose creator chose not to participate, and content that was deliberately generated without provenance metadata to avoid detection.</div>
+      <div class="case-question">The scenario question: In your domain, what would need to be true — technically, legally, or institutionally — for C2PA adoption to become the default rather than the exception? Who would need to mandate it, and under what authority?</div>
+    </div>
+
+    <div id="case-watermark" class="case-panel">
+      <div class="case-title">AI watermarking — invisible attribution for model outputs</div>
+      <div class="case-body">AI watermarking embeds imperceptible signals into model-generated content — statistical patterns in text, pixel-level modifications in images — that can be detected by the model's operator. Unlike C2PA, watermarks do not require the receiver to trust a certificate chain; detection is performed by the model provider. The EU AI Act mandates watermarking for certain AI-generated content; the White House voluntary AI commitments (2023) included watermarking as a commitment from major developers.</div>
+      <div class="case-body">The technical limitations are significant. Text watermarks are fragile — paraphrasing, translation, or even minor editing can remove them. Image watermarks are more robust but can be stripped by post-processing. Watermarks are also fundamentally operator-controlled: only the model provider can detect them, which raises accountability questions if the provider is also a party to a dispute. And open-source models cannot be watermarked in any durable sense — anyone can remove the watermarking layer.</div>
+      <div class="case-question">The scenario question: For your domain, is watermarking a meaningful governance tool — or a compliance theatre that shifts responsibility from institutions to technology? What would a watermarking regime that actually changed behaviour look like?</div>
+    </div>
+
+    <div id="case-eidas" class="case-panel">
+      <div class="case-title">eIDAS 2.0 — Digital identity as the anchor for AI trust</div>
+      <div class="case-body">The EU's revised eIDAS regulation (2024) requires member states to offer citizens a European Digital Identity Wallet — a verifiable credential system enabling authenticated, privacy-preserving claims about identity and qualifications. The wallet uses selective disclosure: a user can prove they are over 18 without revealing their date of birth, or prove they hold a professional qualification without revealing their employer.</div>
+      <div class="case-body">The connection to AI governance is indirect but significant: eIDAS 2.0 provides an identity infrastructure that could anchor provenance in AI-assisted professional contexts — legal submissions, medical records, financial advice, educational assessments — where the human professional's verified identity needs to be attached to AI-augmented outputs. It also creates a model for how verifiable credentials can preserve privacy while enabling accountability, which is the core design challenge for most AI governance proposals.</div>
+      <div class="case-question">The scenario question: In your domain, what would it mean to attach a professional's verified digital identity to an AI-assisted output? Who bears responsibility when the output is wrong — the professional, the AI provider, or the institution? Does eIDAS 2.0 provide the architecture to answer that question, or does it only reframe it?</div>
+    </div>
+
+    <div id="case-euai" class="case-panel">
+      <div class="case-title">EU AI Act — Regulatory mandates for transparency and traceability</div>
+      <div class="case-body">The EU AI Act (in force 2024, phased implementation through 2027) establishes risk-tiered obligations for AI systems deployed in the EU. High-risk systems — including those used in healthcare, employment, education, law enforcement, and critical infrastructure — must meet requirements for transparency, human oversight, and technical documentation. Providers must maintain logs enabling post-hoc traceability of system outputs.</div>
+      <div class="case-body">The Act's traceability requirements create a de facto demand for something like cryptographic audit trails in high-risk AI deployments — without mandating any specific technical approach. This creates a gap that technical standards bodies, vendors, and national regulators are actively trying to fill. It also creates jurisdiction questions: an AI system developed in the US, deployed via an API, used by a professional in Germany to generate a medical report — who is responsible, under which regulation, and what technical evidence would be needed to establish that?</div>
+      <div class="case-question">The scenario question: For your domain, what would a technically coherent implementation of the EU AI Act's traceability requirements actually look like? Is the cryptographic infrastructure to support it available, deployed, or still missing — and what is the cost of the gap?</div>
+    </div>
+
+    <div class="activity-box" style="margin-top:20px">
+      <div class="activity-label">Activity — 45 minutes</div>
+      <div class="activity-title">Find a real incident in your domain</div>
+      <div class="activity-body">
+        <p>Identify a recent, documented case where the absence of verifiable trust in AI outputs caused measurable harm — or nearly did — in your chosen domain. Court cases, regulatory findings, journalistic investigations, and published post-mortems are all valid sources.</p>
+        <ul class="prompt-list">
+          <li>What was the harm, and who bore it?</li>
+          <li>Which of the governance mechanisms above, if it had been in place, would have prevented or mitigated it?</li>
+          <li>Which would not have helped — and why not?</li>
+          <li>What did the incident reveal about the gap between what governance frameworks promise and what they can actually enforce?</li>
+        </ul>
+        <p style="margin-top:10px">This incident becomes the opening of your scenario. Ground truth is more persuasive than hypothetical risk.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: Writing your scenario -->
+  <div id="page3" style="display:none">
+    <div class="chapter-label">Section B · Track B2</div>
+    <div class="chapter-title">Writing your scenario</div>
+    <div class="chapter-sub">One domain. One governance gap. One concrete proposal — and an honest account of why it might fail.</div>
+
+    <p class="body-text">The AI governance space is full of high-altitude proposals — principles, frameworks, voluntary commitments — that are never tested against the messy reality of a specific domain. Your scenario should be the opposite: ground-level, specific, and grounded in a real incident or documented gap. It should be legible to a policymaker, a technologist, and a domain practitioner simultaneously — which means it cannot be purely technical or purely political. It must hold both.</p>
+
+    <p class="body-text">Your scenario should be 1,500 to 3,000 words, and it should be written for a reader who has authority in your domain — a regulator, a professional body, a platform operator, a standards organisation — and who is currently doing nothing about this problem, probably because they don't yet know what "doing something" would actually mean.</p>
+
+    <div class="scenario-guide">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:16px">Scenario structure — five sections</div>
+      <div class="scenario-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">The incident (200–300 words)</div>
+          <div class="step-desc">Open with the real case you found. What happened? Who was harmed? What would a reader in your domain recognise as the core failure? Do not begin with statistics or policy context — begin with the event. Make your reader feel why this matters before you explain what to do about it.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">The governance gap (300–400 words)</div>
+          <div class="step-desc">What made the incident possible? Map the gap precisely: not "there is no regulation" but "there is no mechanism for X to verify Y before Z occurs." Be specific about what cryptographic or institutional infrastructure is missing — and what exists elsewhere (C2PA, eIDAS, watermarking, audit trails) that could address part of the gap if deployed differently.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">The proposal (400–600 words)</div>
+          <div class="step-desc">Describe a governance mechanism that would close or significantly narrow the gap. Be technically coherent: if your proposal relies on cryptographic signatures, explain whose key infrastructure, governed how, revocable by whom. If it relies on watermarking, acknowledge the open-source problem. Name the tension your proposal sits on — verification vs. anonymity, mandatory vs. voluntary — and explain the trade-off you are making and why.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">The political analysis (300–400 words)</div>
+          <div class="step-desc">Use the stakeholder map you built in the previous module. Who benefits from your proposal? Who loses? Who would resist it, and do they have the power to block it? What is the minimum viable coalition needed to move this forward — and does it currently exist? This is not a section to soften or skip. A proposal without political analysis is a wish, not a scenario.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">The next incident (200–300 words)</div>
+          <div class="step-desc">Unlike B1 and B3, which end with a decision or an open question, B2 ends with a prediction: if your proposal is not adopted, what is the next incident that will occur in your domain — and roughly when? Make it specific. This is not alarmism; it is what rigorous scenario planning does. It makes the cost of inaction visible in the same concrete terms as the opening incident.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 1 to 2 weeks</div>
+      <div class="activity-title">Interview someone who has been inside a governance failure</div>
+      <div class="activity-body">
+        <p>The most valuable interviews for this track are not with AI researchers or policymakers — they are with people who have experienced, at close range, a breakdown of trust in AI outputs in your domain. A journalist who published a fabricated quote. A lawyer whose opposing counsel submitted an AI-hallucinated citation. A radiologist whose AI-assisted diagnosis was wrong in a way no human would have been. A moderator whose platform failed to detect synthetic media in an election campaign.</p>
+        <ul class="prompt-list">
+          <li>What did you know, and when did you know it — and how did you find out the content wasn't what it claimed to be?</li>
+          <li>What would you have needed to have in place to catch this before it caused harm?</li>
+          <li>What stopped you from having that — was it technical, institutional, financial, or political?</li>
+          <li>What do you think your sector is still not taking seriously enough?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt</div>
+      <div class="activity-title">After your first full draft</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Is your proposal technically coherent — have you checked it against someone who understands the cryptographic infrastructure it depends on?</li>
+          <li>Have you been honest about the tension your proposal sits on, or have you written around it?</li>
+          <li>Is the "next incident" prediction specific enough to be falsifiable — or is it vague enough to be unfalsifiable and therefore useless?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 4: Log + completion -->
+  <div id="page4" style="display:none">
+    <div class="chapter-label">Section B · Track B2</div>
+    <div class="chapter-title">Log and completion</div>
+    <div class="chapter-sub">What you found, what you proposed, and the honest account of why it might not happen.</div>
+
+    <p class="body-text">AI governance is a field where the gap between what is technically possible and what is politically achievable is unusually wide — and where the cost of that gap is paid by people who have no idea the infrastructure they rely on is missing. Your scenario makes one part of that gap visible and specific. That is a contribution regardless of whether your proposal is adopted.</p>
+
+    <p class="body-text">Before you submit, return to the three sentences you wrote at the start of this track. Then complete the log entry below.</p>
+
+    <div class="log-box">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Log entry — Track B2 complete</div>
+      <div class="log-field">
+        <div class="log-label">The incident that anchors my scenario — in one sentence</div>
+        <input class="log-line" type="text" placeholder="Domain, event, harm. What happened and to whom.">
+      </div>
+      <div class="log-field">
+        <div class="log-label">The tension my proposal sits on — and the trade-off I made</div>
+        <textarea class="log-area" rows="2" placeholder="Which of the four tensions? What did you sacrifice, and why was it worth it?"></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The stakeholder I most underestimated — and what I learned about them</div>
+        <textarea class="log-area" rows="2" placeholder="Who surprised you in the political analysis? What did they want that you didn't initially see?"></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The next incident — domain, nature, rough timeline</div>
+        <textarea class="log-area" rows="2" placeholder="If nothing changes, what happens next — and when?"></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">One ambassador working on B1 or B3 whose scenario connects to mine</div>
+        <input class="log-line" type="text" placeholder="Name, track, and the specific connection — this is the seed of your Global Connector badge.">
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:8px">
+      <div class="callout-title">A note on cross-track connections</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">B2 scenarios connect naturally to both other tracks. Post-quantum transition (B1) is directly relevant — if AI governance infrastructure is built on classical cryptography today, it will need to migrate. Digital sovereignty (B3) is relevant too — a content provenance standard designed in California may not be the right governance model for a country with different values around anonymity or state control.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">If your scenario identifies a connection to another ambassador's work, note it in your submission. The global repository is more valuable when its connections are visible.</p>
+      </div>
+    </div>
+
+    <div class="completion">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Track B2 complete</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.6">You've identified a real governance gap in a specific domain, mapped the stakeholders and tensions, proposed a technically coherent mechanism, and made the cost of inaction concrete. Move to Section C to prepare your public presentation — or connect with a B1 or B3 ambassador for your Global Connector badge.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Track B2 complete</div>
+        <div class="badge-pill">🟣 Scenario builder — earned</div>
+        <div class="badge-pill">Section C unlocked</div>
+        <div class="badge-pill">🌍 Global connector — 1 step done</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(n){
+  for(let i=0;i<5;i++){
+    document.getElementById('page'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('nav'+i);
+    b.style.background=i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    b.style.color=i===n?'var(--color-text-info)':'var(--color-text-secondary)';
+  }
+}
+const tensions={
+  verif:{
+    title:'Verification vs. anonymity',
+    body:'Provenance verification requires that content be attributable to someone — a person, an organisation, a device. That attribution creates a record. In many contexts — journalism protecting sources, political dissent, medical privacy, survivor testimony — the existence of that record is itself a harm. The right to speak without being identified is not a loophole in trust infrastructure; it is a design requirement.',
+    implication:'Your scenario must decide: is anonymous but verifiable content possible in your domain, or does verification require identity? Systems like zero-knowledge proofs can verify claims without revealing the claimant — that someone holds a valid press credential, for instance, without revealing who they are. But zero-knowledge infrastructure is complex to deploy and not yet widely understood by the institutions that would need to govern it. If your proposal requires identity, be explicit about what protections are in place for people for whom that is dangerous.'
+  },
+  interop:{
+    title:'Openness vs. control',
+    body:'Open technical standards — like C2PA — enable interoperability across platforms and vendors, and prevent any single actor from controlling the trust infrastructure. But open systems are also harder to enforce: anyone can implement them incorrectly, incompletely, or not at all. Proprietary systems — like a platform\'s own content labelling — can be enforced consistently within the platform\'s walls, but create fragmentation and lock users into whatever accountability the platform chooses to provide.',
+    implication:'Your scenario must decide: who owns the key infrastructure that makes verification possible? If it is a consortium of large platforms, small publishers are excluded. If it is a government body, jurisdictional limits apply. If it is an open standard, enforcement is voluntary. There is no neutral answer. Be explicit about the governance model for the trust infrastructure itself — not just for the content it is meant to verify.'
+  },
+  mandate:{
+    title:'Voluntary vs. mandated trust',
+    body:'Voluntary adoption of trust infrastructure tends to be slow and unevenly distributed: early adopters are often the actors who least need governance nudges, while the highest-risk contexts are last to participate. Mandated adoption moves faster and creates floors, but mandates require enforcement mechanisms, create compliance costs, and give regulators significant power over what can be published or distributed — which is a serious concern in contexts where the regulator and the regulated are not fully independent.',
+    implication:'Your scenario must decide: what is the adoption mechanism for your proposal? If voluntary, what are the incentives to participate — and are they strong enough to produce the coverage you need? If mandated, what is the enforcement mechanism, who bears the cost of compliance, and what are the safeguards against the mandate being used to suppress legitimate expression? The answer to this question often determines whether a technically sound proposal is politically viable.'
+  },
+  global:{
+    title:'Global standards vs. digital sovereignty',
+    body:'Content provenance standards designed in the EU or the US encode assumptions about speech, identity, accountability, and state power that are not universal. A watermarking regime designed around the First Amendment looks different from one designed around the EU\'s right to be forgotten or India\'s intermediary liability framework. When global platforms adopt a single standard, they export those assumptions everywhere — including to countries that have made different choices, not all of them authoritarian.',
+    implication:'Your scenario must decide: is your proposal designed for a specific jurisdiction, or does it claim global applicability? If the latter, whose values does it encode — and have you engaged honestly with the contexts where those values are contested? The most sophisticated scenarios in this track will acknowledge that "global" trust infrastructure is always someone\'s trust infrastructure, and will be explicit about whose.'
+  }
+};
+function selectTension(el,key){
+  document.querySelectorAll('.tension-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  const r=document.getElementById('tension-result');
+  document.getElementById('tension-title').textContent=tensions[key].title;
+  document.getElementById('tension-body').textContent=tensions[key].body;
+  document.getElementById('tension-implication').textContent=tensions[key].implication;
+  r.classList.add('show');
+}
+function showCase(el,key){
+  document.querySelectorAll('.case-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.case-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('case-'+key).classList.add('active');
+}
+</script>
