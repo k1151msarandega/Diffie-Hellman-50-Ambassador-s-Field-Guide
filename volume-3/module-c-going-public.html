@@ -1,27 +1,535 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module C — Going Public</title>
-    <link rel="stylesheet" href="./shared.css">
 <style>
-    :root { --bg:#0b1020; --card:#111831; --text:#e9eefc; --muted:#b8c3e3; --border:#2b3a70; --accent:#79a7ff; }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at top,#1b2752 0%,var(--bg) 45%);color:var(--text)}
-    .container{max-width:900px;margin:0 auto;padding:2.5rem 1rem}
-    .card{background:linear-gradient(180deg,var(--card) 0%,#0f1733 100%);border:1px solid var(--border);border-radius:14px;padding:1.25rem}
-    h1{margin-top:0} p{color:var(--muted)} a{color:var(--accent)}
-  </style>
-</head>
-<body>
-  <main class="container">
-    <article class="card">
-      <h1>Module C — Going Public</h1>
-      <p>“Private inquiry becomes public contribution the moment someone else can use it.”</p>
-      <p>Draft your publishable insights, briefs, and collaborative outputs.</p>
-      <p><a href="./index.html">← Back to Volume 3</a></p>
-    </article>
-  </main>
-</body>
-</html>
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:10px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:9px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .callout { border-radius:var(--border-radius-lg); padding:16px 18px; margin:20px 0; background:var(--color-background-secondary); }
+  .callout-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:8px; }
+  .nav-btn { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-secondary); cursor:pointer; }
+  .open-source-band { border-left:3px solid var(--color-text-success); background:var(--color-background-success); border-radius:0 var(--border-radius-md) var(--border-radius-md) 0; padding:12px 16px; margin:16px 0; }
+  .open-source-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-success); margin-bottom:4px; }
+  .open-source-body { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .completion { margin-top:24px; padding:16px 18px; border-radius:var(--border-radius-lg); background:var(--color-background-secondary); }
+  .timeline { margin:16px 0; }
+  .tl-row { display:flex; gap:14px; margin-bottom:14px; align-items:flex-start; }
+  .tl-row:last-child { margin-bottom:0; }
+  .tl-time { font-size:11px; font-weight:500; color:var(--color-text-tertiary); width:52px; flex-shrink:0; padding-top:2px; text-align:right; }
+  .tl-dot-col { display:flex; flex-direction:column; align-items:center; flex-shrink:0; width:18px; }
+  .tl-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; margin-top:3px; }
+  .tl-line { width:1px; flex:1; min-height:14px; background:var(--color-border-tertiary); margin-top:3px; }
+  .tl-content { flex:1; padding-bottom:4px; }
+  .tl-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:2px; }
+  .tl-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .tl-tip { font-size:11px; color:var(--color-text-tertiary); margin-top:3px; font-style:italic; }
+  .slide-block { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:12px 0; }
+  .slide-head { display:flex; align-items:center; gap:12px; padding:12px 16px; background:var(--color-background-secondary); cursor:pointer; user-select:none; }
+  .slide-head:hover { opacity:.9; }
+  .slide-num { font-size:11px; font-weight:500; color:var(--color-text-tertiary); width:24px; flex-shrink:0; }
+  .slide-title { font-size:13px; font-weight:500; color:var(--color-text-primary); flex:1; }
+  .slide-duration { font-size:11px; color:var(--color-text-tertiary); }
+  .chevron { font-size:11px; color:var(--color-text-tertiary); transition:transform .2s; }
+  .chevron.open { transform:rotate(90deg); }
+  .slide-body { display:none; padding:14px 16px; border-top:1px solid var(--color-border-tertiary); font-size:13px; color:var(--color-text-secondary); line-height:1.6; }
+  .slide-body.open { display:block; }
+  .slide-body ul { list-style:none; padding:0; margin:8px 0 0; }
+  .slide-body ul li { display:flex; gap:8px; margin-bottom:6px; }
+  .slide-body ul li::before { content:"·"; color:var(--color-text-tertiary); flex-shrink:0; }
+  .writing-phase { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:10px 0; }
+  .writing-head { display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer; user-select:none; }
+  .writing-head:hover { background:var(--color-background-secondary); }
+  .writing-icon { width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; flex-shrink:0; }
+  .writing-title { font-size:13px; font-weight:500; color:var(--color-text-primary); flex:1; }
+  .writing-sub { font-size:12px; color:var(--color-text-tertiary); }
+  .writing-body { display:none; padding:14px 16px; border-top:1px solid var(--color-border-tertiary); font-size:13px; color:var(--color-text-secondary); line-height:1.6; }
+  .writing-body.open { display:block; }
+  .writing-body ul { list-style:none; padding:0; margin:8px 0 0; }
+  .writing-body ul li { display:flex; gap:8px; margin-bottom:7px; }
+  .writing-body ul li::before { content:"→"; color:var(--color-text-tertiary); flex-shrink:0; }
+  .analogy-tab-row { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .analogy-tab { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-tertiary); cursor:pointer; background:var(--color-background-secondary); color:var(--color-text-secondary); transition:all .15s; }
+  .analogy-tab.active { background:var(--color-background-info); color:var(--color-text-info); border-color:var(--color-text-info); }
+  .analogy-panel { display:none; }
+  .analogy-panel.active { display:block; }
+  .analogy-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:6px; }
+  .analogy-body { font-size:13px; color:var(--color-text-secondary); line-height:1.6; margin-bottom:8px; }
+  .analogy-use { font-size:12px; color:var(--color-text-tertiary); font-style:italic; }
+</style>
+
+<div class="page">
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+    <button class="nav-btn" onclick="showPage(0)" id="nav0" style="background:var(--color-background-info);color:var(--color-text-info)">C — Opening</button>
+    <button class="nav-btn" onclick="showPage(1)" id="nav1" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">C1 — "What if?" salon</button>
+    <button class="nav-btn" onclick="showPage(2)" id="nav2" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">C2 — Talk template</button>
+    <button class="nav-btn" onclick="showPage(3)" id="nav3" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">C3 — Writing guide</button>
+    <button class="nav-btn" onclick="showPage(4)" id="nav4" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">C4 — Non-technical audiences</button>
+  </div>
+
+  <!-- Page 0: Opening -->
+  <div id="page0">
+    <div class="chapter-label">Section C — Going Public</div>
+    <div class="chapter-title">Sharing your work with the world</div>
+    <div class="chapter-sub">Private inquiry becomes public contribution the moment someone else can use it.</div>
+
+    <p class="body-text">Everything in Section B was preparation. The scenario you built, the inventory you completed, the conversations you had — these have value in the global repository. But they have more value when they are spoken aloud in a room, when they are explained to someone who didn't know they needed to hear them, when they become the starting point for a conversation that changes how someone thinks or acts.</p>
+
+    <p class="body-text">Section C gives you the tools to make that happen. There are four modules — a hosted conversation format, a talk structure for conferences and universities, a writing guide for turning your work into a publishable paper, and a practical guide to explaining cryptographic trust to people who have never thought about it. You don't need to use all four. Use what fits the opportunities in front of you.</p>
+
+    <div class="callout">
+      <div class="callout-title">The Public Voice badge</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">Completing any one module in Section C and hosting or presenting at least one public event earns the Public Voice badge — milestone 3 on the path to the Published Future-Maker badge.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">You don't need a large audience. A workshop with twelve people who leave thinking differently is more valuable than a lecture hall that forgets what it heard.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Before you choose a format</div>
+      <div class="activity-title">Who is your audience — really?</div>
+      <div class="activity-body">
+        <p>The four formats in this section serve different audiences and different goals. Before you pick one, answer these three questions:</p>
+        <ul class="prompt-list">
+          <li>Who is the most important audience for your scenario — policymakers, technical peers, a specific community, the general public?</li>
+          <li>What do you want them to leave with — a feeling, a question, a decision, a connection to each other?</li>
+          <li>What setting is available to you — a conference slot, a community space, an IEEE chapter meeting, a university seminar, something informal?</li>
+        </ul>
+        <p style="margin-top:10px">The answers will point you toward C1 (conversation), C2 (formal talk), or both. C3 and C4 support whatever format you choose.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 1: What if salon -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Section C · Module C1</div>
+    <div class="chapter-title">The "What if?" salon</div>
+    <div class="chapter-sub">A 90-minute hosted conversation that makes the future feel real — for people who don't yet know they care about it.</div>
+
+    <p class="body-text">The "What if?" salon is designed for mixed audiences — people who are curious but not technical, who have opinions about the future but haven't connected those opinions to digital infrastructure. It works in community centres, university common rooms, corporate off-sites, IEEE chapter evenings, and living rooms. It is the most reusable format in this section and the one most likely to reach people outside the networks you already move in.</p>
+
+    <p class="body-text">The format is a structured conversation, not a lecture. Your job as host is to ask good questions, create conditions for honest exchange, and introduce your scenario as a provocation — not a conclusion. The room does the work. You create the conditions.</p>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-time">0:00</div>
+        <div class="tl-dot-col"><div class="tl-dot" style="background:#1D9E75"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">The hook — 10 minutes</div>
+          <div class="tl-desc">Open not with history but with a question participants can answer from their own life. "What did you do this morning that depended on a system trusting that you are who you say you are?" Let three or four people answer. Don't explain — yet.</div>
+          <div class="tl-tip">Tip: Write the question on a board or screen before people arrive. It starts the thinking before the room settles.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">0:10</div>
+        <div class="tl-dot-col"><div class="tl-dot" style="background:#378ADD"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">The story — 15 minutes</div>
+          <div class="tl-desc">Tell the 50-year story briefly — 1976, the padlock idea, what it made possible. Then jump to now: the quantum transition, AI-generated content, the billion people without digital identity. Keep it narrative, not technical. You are drawing a map, not teaching a course.</div>
+          <div class="tl-tip">Tip: End this section with a single "What if?" question drawn from your own scenario track. Not the answer — the question.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">0:25</div>
+        <div class="tl-dot-col"><div class="tl-dot" style="background:#7F77DD"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Small group conversation — 25 minutes</div>
+          <div class="tl-desc">Split into groups of 3–4. Give each group one "What if?" prompt drawn from your scenario. They discuss for 20 minutes, then each group shares one thing that surprised them — not a summary, just one thing.</div>
+          <div class="tl-tip">Tip: Prompts work best when they are genuinely open — where you don't know the answer either. If you already know what the "right" answer is, it's a leading question, not a "What if?"</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">0:50</div>
+        <div class="tl-dot-col"><div class="tl-dot" style="background:#EF9F27"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">The scenario — 15 minutes</div>
+          <div class="tl-desc">Present the core finding from your scenario paper — in plain language, without jargon. What did you find? What surprised you? What do you think should happen — and why aren't you certain? Frame it as your current thinking, not a finished conclusion.</div>
+          <div class="tl-tip">Tip: The most important word in this section is "I." Not "the evidence suggests" but "I found" and "I'm not sure whether." Ownership makes it credible.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">1:05</div>
+        <div class="tl-dot-col"><div class="tl-dot" style="background:#D85A30"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">Open questions — 20 minutes</div>
+          <div class="tl-desc">Return to the full group. What did the conversation open up? What questions do people leave with? Collect them — on a board, in a shared doc, on cards. These questions are data: they tell you what your audience needed to hear that you didn't yet say.</div>
+          <div class="tl-tip">Tip: Don't try to answer all the questions. Acknowledge the ones you can't answer. "I don't know — and here's why that matters" is one of the most useful things a host can say.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">1:25</div>
+        <div class="tl-dot-col"><div class="tl-dot" style="background:#888780"></div></div>
+        <div class="tl-content">
+          <div class="tl-title">The close — 5 minutes</div>
+          <div class="tl-desc">End with one thing you want participants to do before they sleep tonight — look something up, notice something, tell someone. Not a call to action, a call to attention. Leave them more curious than when they arrived.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">After every salon — log entry</div>
+      <div class="activity-title">What the room told you</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Which "What if?" prompt generated the most genuine disagreement — and what did people disagree about?</li>
+          <li>What question from the audience did you not know how to answer?</li>
+          <li>What did you learn about your scenario from watching people react to it?</li>
+          <li>Would you change anything about the scenario based on what you heard?</li>
+        </ul>
+        <p style="margin-top:10px">Add this log entry to your global ambassador record. Patterns across multiple salons — questions that recur, framings that land, assumptions that don't travel — are among the most useful contributions you can make to the network.</p>
+      </div>
+    </div>
+
+    <div class="open-source-band">
+      <div class="open-source-label">Adapting this template</div>
+      <div class="open-source-body">The 90-minute format works for mixed adult audiences in most cultural contexts — but "mixed" and "adult" cover a lot of ground. If you run a version of this salon that requires significant changes — a different opening question, a different group structure, a different way of handling disagreement — document what you changed and why. Adapted templates contributed back to the handbook become the version that works for the next ambassador in your context.</div>
+    </div>
+
+    <div style="margin-top:8px;padding:14px 16px;border-radius:var(--border-radius-lg);background:var(--color-background-secondary)">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Module C1 complete</div>
+      <div class="badge-row">
+        <div class="badge-pill">C1 complete</div>
+        <div class="badge-pill">🟡 Public voice — in progress</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2: Talk template -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Section C · Module C2</div>
+    <div class="chapter-title">The conference or university talk</div>
+    <div class="chapter-sub">A 30-minute talk structure for an audience that came to learn — and will judge you on whether they did.</div>
+
+    <p class="body-text">A conference or university talk is a different contract from a salon. The audience came prepared to be informed, has a higher tolerance for technical or analytical depth, and will measure success by whether they leave knowing something they didn't know before — not just feeling something they hadn't felt. The "What if?" salon opens a conversation. This talk delivers a finding.</p>
+
+    <p class="body-text">The structure below is for a 30-minute slot with 10 minutes of questions. It works for IEEE chapter presentations, academic conference lightning talks, university seminars, and policy forum sessions. Each section is expandable for longer slots — the bones stay the same.</p>
+
+    <div class="slide-block">
+      <div class="slide-head" onclick="toggleSlide(this)">
+        <div class="slide-num">1–2</div>
+        <div class="slide-title">The question — why this matters now</div>
+        <div class="slide-duration">3 min</div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="slide-body">
+        Open with a single, specific question — the one your scenario investigated. Not the broad field, not the history: the question. Then give the audience one reason why this question matters more now than it did five years ago. One reason, stated plainly, with evidence. Resist the impulse to establish your credentials or explain how you got here. Get to the question in the first sixty seconds.
+        <ul>
+          <li>State your question in one sentence.</li>
+          <li>Give one concrete development — a NIST standard, a documented incident, a policy change — that makes it urgent now.</li>
+          <li>Tell the audience what you are going to show them, not what you are going to talk about. "I'm going to show you that X is true, and that it has consequence Y" — not "I'm going to discuss the implications of X."</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="slide-block">
+      <div class="slide-head" onclick="toggleSlide(this)">
+        <div class="slide-num">3–6</div>
+        <div class="slide-title">What you found — the evidence</div>
+        <div class="slide-duration">10 min</div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="slide-body">
+        Present your primary evidence — the cryptographic inventory, the comparative model analysis, the community conversations, the governance gap — in the order that builds the argument, not the order you encountered it. Four slides, one claim each. Each slide should be legible in three seconds: a single visual or a single sentence, not a paragraph.
+        <ul>
+          <li>Each slide carries exactly one claim. If you find yourself writing "and also" — make a new slide or cut the second point.</li>
+          <li>Put your strongest finding in slide 4, not slide 6. Audiences remember what they heard at the peak, not at the end of the evidence section.</li>
+          <li>Cite your sources verbally, not on the slide. A slide covered in footnotes signals insecurity, not rigour.</li>
+          <li>If your evidence is qualitative — conversations, case studies — quote directly and briefly. One well-chosen sentence from a practitioner is worth three slides of paraphrase.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="slide-block">
+      <div class="slide-head" onclick="toggleSlide(this)">
+        <div class="slide-num">7–8</div>
+        <div class="slide-title">What it means — the argument</div>
+        <div class="slide-duration">8 min</div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="slide-body">
+        This is where most talks lose their audience — by retreating from a clear claim to a fog of "implications" and "considerations." State your argument directly: given what you found, what do you believe is true, and what should happen? Two slides: one for the claim, one for the strongest objection to it and your response.
+        <ul>
+          <li>Your claim should be falsifiable — specific enough that someone could, in principle, show you are wrong.</li>
+          <li>Address the strongest version of the counter-argument, not the weakest. The audience already thought of the weak one.</li>
+          <li>Say what you are uncertain about. A speaker who acknowledges uncertainty is more credible than one who doesn't — provided the uncertainty is specific, not a hedge.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="slide-block">
+      <div class="slide-head" onclick="toggleSlide(this)">
+        <div class="slide-num">9–10</div>
+        <div class="slide-title">What comes next — the close</div>
+        <div class="slide-duration">5 min</div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="slide-body">
+        End with two things: the one thing you want the audience to remember, and the one question you want the field to answer. Not a list of recommendations, not a call to action — those are easy to ignore. A single memorable claim and a single open question are much harder to forget.
+        <ul>
+          <li>The memorable claim: one sentence, present tense, no hedging. Write it before you write the rest of the talk, then check whether everything else in the talk supports it.</li>
+          <li>The open question: something you genuinely don't know, that the people in this room are positioned to help answer. Make them feel needed — because they are.</li>
+          <li>Do not end with "thank you." End with the question, then stop. The silence is part of the close.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Before you give the talk</div>
+      <div class="activity-title">The three rehearsals</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Rehearsal 1 — alone, out loud, full speed. Identify where you hesitate: those are the places you don't yet believe what you're saying, or don't yet understand it well enough to say it simply.</li>
+          <li>Rehearsal 2 — to one person who knows your field. Ask them: what is the strongest objection to my central claim? If they can't find one, your claim isn't sharp enough.</li>
+          <li>Rehearsal 3 — to one person who knows nothing about your field. Ask them: what did you understand, and where did you lose track? The second answer is your editing list.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:8px;padding:14px 16px;border-radius:var(--border-radius-lg);background:var(--color-background-secondary)">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Module C2 complete</div>
+      <div class="badge-row">
+        <div class="badge-pill">C2 complete</div>
+        <div class="badge-pill">🟡 Public voice — in progress</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: Writing guide -->
+  <div id="page3" style="display:none">
+    <div class="chapter-label">Section C · Module C3</div>
+    <div class="chapter-title">Writing your scenario paper</div>
+    <div class="chapter-sub">From working document to citable, permanent contribution — without losing what made it true.</div>
+
+    <p class="body-text">Your scenario paper is not a report. It is not a white paper. It is a specific form: a structured argument about what could happen in a specific place, grounded in evidence and honest about its limits. The IEEE DH50 repository will hold it permanently — it will be citable, searchable, and available to researchers, policymakers, and future ambassadors who arrive at questions related to yours.</p>
+
+    <p class="body-text">That permanence is worth taking seriously. It also means the writing process is different from a blog post or a conference abstract. Work through each phase below before you submit.</p>
+
+    <div class="writing-phase">
+      <div class="writing-head" onclick="toggleWriting(this)">
+        <div class="writing-icon" style="background:#E1F5EE;color:#0F6E56">1</div>
+        <div>
+          <div class="writing-title">The zero draft — write without stopping</div>
+          <div class="writing-sub">Get it out, not right</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="writing-body">
+        Before you worry about structure, argument, or citations: write the whole scenario from memory, as fast as you can, without stopping to check anything. This is not your submission — it is a map of what you actually think, as opposed to what you think you should think. Most writers discover their real argument in the zero draft, not in their notes.
+        <ul>
+          <li>Set a timer for 45 minutes. Write until it goes off. Do not re-read while you write.</li>
+          <li>After the timer, read what you wrote and underline the sentences that surprised you. Those are the ones that matter.</li>
+          <li>The zero draft is private. It will not resemble the final paper. That is correct.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="writing-phase">
+      <div class="writing-head" onclick="toggleWriting(this)">
+        <div class="writing-icon" style="background:#E6F1FB;color:#185FA5">2</div>
+        <div>
+          <div class="writing-title">The structural draft — argument before prose</div>
+          <div class="writing-sub">Know what you're saying before you say it</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="writing-body">
+        Before writing the second draft, write a one-page outline — not section headings, but one sentence per section stating the claim that section makes. If you cannot state the claim of a section in one sentence, you do not yet know what that section is for. The outline is the argument. The prose is how you demonstrate it.
+        <ul>
+          <li>Each section should make a claim that the next section builds on. If you can rearrange the sections without the argument falling apart, the structure is not doing its job.</li>
+          <li>Identify the one sentence in the entire paper that, if removed, would make the argument collapse. That is your central claim. Put it somewhere the reader will find it — not buried in section 3.</li>
+          <li>Show the outline to your practitioner interviewee. Ask: is this a fair account of what you told me? The answer will improve your paper more than any editing pass.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="writing-phase">
+      <div class="writing-head" onclick="toggleWriting(this)">
+        <div class="writing-icon" style="background:#EEEDFE;color:#534AB7">3</div>
+        <div>
+          <div class="writing-title">The evidence pass — every claim has a source</div>
+          <div class="writing-sub">Or an honest acknowledgement that it doesn't</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="writing-body">
+        Go through the second draft sentence by sentence. For every factual claim, ask: what is the source? If it is a document, cite it. If it is a conversation, attribute it (with permission). If it is your own observation or inference, say so explicitly — "in my assessment" or "this is not yet documented but is consistent with..." Undisclosed inferences masquerading as evidence are the most common integrity failure in policy-adjacent writing.
+        <ul>
+          <li>Distinguish between three types of claim: documented fact, practitioner testimony, and your own analysis. Make the type visible to the reader.</li>
+          <li>If a claim is important to your argument but your evidence is weak, say so. "This is a gap that deserves further research" is a contribution, not a weakness.</li>
+          <li>Remove any claim you cannot source or honestly own. If removing it breaks the argument, the argument was not as strong as you thought — which is useful to know before submission.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="writing-phase">
+      <div class="writing-head" onclick="toggleWriting(this)">
+        <div class="writing-icon" style="background:#FAEEDA;color:#854F0B">4</div>
+        <div>
+          <div class="writing-title">The reader pass — is it legible to the person who matters?</div>
+          <div class="writing-sub">Not to you. To them.</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="writing-body">
+        Name, specifically, the one person you most want to read this paper. Not a type of reader — a person, or a role so specific it is almost a person. A CISO at a mid-sized hospital in your country. The head of digital identity at a specific ministry. The programme officer at a development organisation working on financial inclusion in your region. Write for that reader in the final pass.
+        <ul>
+          <li>Every term they would not know, define it — once, briefly, and then use it freely.</li>
+          <li>Every paragraph that requires background they don't have, cut or rewrite it so they don't need the background.</li>
+          <li>Every section that could be cut without the argument suffering — cut it. Length is not credibility. Precision is.</li>
+          <li>Read the abstract last. It should contain your central claim, your evidence type, and your main finding — in that order, in four sentences or fewer.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt</div>
+      <div class="activity-title">Before you submit</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>What is the sentence in this paper that you are least certain is true — and have you said so?</li>
+          <li>Who is the most important person who should read this, and have you sent it to them directly — not just submitted it to the repository?</li>
+          <li>If you could add one paragraph you cut for length, what would it say — and does its absence mean the paper is better or just shorter?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:8px;padding:14px 16px;border-radius:var(--border-radius-lg);background:var(--color-background-secondary)">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Module C3 complete</div>
+      <div class="badge-row">
+        <div class="badge-pill">C3 complete</div>
+        <div class="badge-pill">🔴 Published future-maker — in progress</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 4: Non-technical audiences -->
+  <div id="page4" style="display:none">
+    <div class="chapter-label">Section C · Module C4</div>
+    <div class="chapter-title">Talking to non-technical audiences</div>
+    <div class="chapter-sub">The hardest version of the work — because you cannot hide behind the complexity.</div>
+
+    <p class="body-text">There is a specific failure mode common to technically-literate speakers when they talk to general audiences: they mistake familiarity for simplicity. Because they understand the material, they cannot feel how unfamiliar it is to someone who doesn't. The words that feel clear to them — "encryption," "key exchange," "certificate authority" — land as noise for everyone else.</p>
+
+    <p class="body-text">The solution is not to dumb things down. It is to find the right entry point — the thing a general audience already understands that is genuinely analogous to what you're trying to explain. The analogy is not decoration. It is the explanation.</p>
+
+    <div class="analogy-tab-row">
+      <div class="analogy-tab active" onclick="showAnalogy(this,'padlock')">The padlock</div>
+      <div class="analogy-tab" onclick="showAnalogy(this,'paint')">Mixing paint</div>
+      <div class="analogy-tab" onclick="showAnalogy(this,'notary')">The notary</div>
+      <div class="analogy-tab" onclick="showAnalogy(this,'postbox')">The post box</div>
+    </div>
+
+    <div id="analogy-padlock" class="analogy-panel active">
+      <div class="analogy-title">The padlock — for explaining public-key encryption</div>
+      <div class="analogy-body">Imagine I send you an open padlock in the post — but I keep the key. You put your message in a box, close my padlock on it, and send it back. Only I can open it, because only I have the key. Anyone could send me a locked box, but only I can read what's inside. That's public-key encryption: the padlock is your public key, the key is your private key.</div>
+      <div class="analogy-body">The analogy holds for the basic mechanism. Where it breaks: the mathematical version does not require physical delivery — the padlock can be published openly, which is what makes the internet work. Acknowledge the break when it matters; for most audiences in most contexts, it doesn't.</div>
+      <div class="analogy-use">Best for: general public, introductory talks, school audiences, anyone who has never heard of public-key cryptography.</div>
+    </div>
+
+    <div id="analogy-paint" class="analogy-panel">
+      <div class="analogy-title">Mixing paint — for explaining Diffie-Hellman key exchange</div>
+      <div class="analogy-body">Two people want to agree on a secret colour without anyone who's watching being able to copy it. They each start with the same public colour — say, yellow. Each adds their own secret colour privately. They swap the results. Each then adds their own secret colour to what they received. Both end up with the same final colour — a shared secret — even though they never shared their private colours, and a watcher who saw the whole exchange still can't reproduce the final mix without knowing at least one private colour.</div>
+      <div class="analogy-body">This is the closest intuitive analogy to the actual mathematics of Diffie-Hellman. It breaks at scale — you can't actually reverse paint mixing; the mathematics uses modular exponentiation, which has similar one-way properties for different reasons — but the logic of the exchange is preserved.</div>
+      <div class="analogy-use">Best for: audiences with a little more patience, anyone who asks "but how do they agree on a shared secret without sharing it?", technically curious non-specialists.</div>
+    </div>
+
+    <div id="analogy-notary" class="analogy-panel">
+      <div class="analogy-title">The notary — for explaining digital signatures</div>
+      <div class="analogy-body">A notary stamps a document to certify that it was signed by who it claims to have been signed by, and that it hasn't been changed since. A digital signature does the same thing — mathematically. The signer uses their private key to create a signature that is uniquely tied to both them and the specific content of the document. Anyone with the signer's public key can verify that the signature is genuine and the document is unaltered. No notary's office, no courier, no physical presence required.</div>
+      <div class="analogy-body">The analogy works well for professional and legal audiences. The key difference — a notary can be bribed or deceived; mathematics cannot — is usually worth mentioning, because it is the reason digital signatures are more reliable than physical ones in most contexts.</div>
+      <div class="analogy-use">Best for: legal, medical, and financial professionals; government audiences; anyone who deals with signed documents as part of their work.</div>
+    </div>
+
+    <div id="analogy-postbox" class="analogy-panel">
+      <div class="analogy-title">The post box — for explaining public vs. private keys</div>
+      <div class="analogy-body">A post box has a slot anyone can use to deposit a letter — that's the public key. Only the owner has the key to open the box and read what's inside — that's the private key. The address of the post box is public; you can tell anyone where to send things. But only you can receive them.</div>
+      <div class="analogy-body">Simple and durable. It breaks when explaining digital signatures — because there, the private key is used to sign, not to receive — but for the basic concept of asymmetric access, it is hard to beat.</div>
+      <div class="analogy-use">Best for: very general audiences, children, anyone for whom the padlock analogy feels abstract.</div>
+    </div>
+
+    <div class="activity-box" style="margin-top:20px">
+      <div class="activity-label">Activity — 20 minutes</div>
+      <div class="activity-title">Find your own analogy</div>
+      <div class="activity-body">
+        <p>The analogies above are starting points. The best analogy for your audience is one drawn from their world — their work, their daily life, their cultural context. Spend 20 minutes finding one that you didn't read here.</p>
+        <ul class="prompt-list">
+          <li>What does your specific audience already understand that has the same logical structure as the concept you're explaining?</li>
+          <li>Where does the analogy hold — and where does it break? Know the break before you use the analogy, so you can acknowledge it honestly if someone pushes.</li>
+          <li>Test it on one person before you use it in public. Did they understand the concept — or just the analogy?</li>
+        </ul>
+        <p style="margin-top:10px">The difference between those two outcomes is the difference between a good analogy and a misleading one.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The three things a non-technical audience needs to leave with</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 10px">Not an understanding of the mathematics. Not the policy details. Three things:</p>
+        <ul class="prompt-list" style="margin-top:0">
+          <li>A feeling that this is real and affects their life — not a future technology story</li>
+          <li>One concrete thing they did not know before that they can tell someone else</li>
+          <li>A sense that the next 50 years are not already decided — that people like them have a role in shaping them</li>
+        </ul>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:10px 0 0">If they leave with those three things, the technical content is secondary. The point of a non-technical talk is not to make people understand cryptography. It is to make them care about it enough to pay attention to the decisions that shape it.</p>
+      </div>
+    </div>
+
+    <div class="completion">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Section C complete</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.6">You have the formats, the structure, and the language tools to take your scenario public. Host your first event, submit your paper, and earn the Public Voice and Published Future-Maker badges. Then move to Section D — your ambassador log and the Global Connector badge — to complete the handbook.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Section C complete</div>
+        <div class="badge-pill">🟡 Public voice — earned on first event</div>
+        <div class="badge-pill">🔴 Published future-maker — earned on submission</div>
+        <div class="badge-pill">Section D unlocked</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(n){
+  for(let i=0;i<5;i++){
+    document.getElementById('page'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('nav'+i);
+    b.style.background=i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    b.style.color=i===n?'var(--color-text-info)':'var(--color-text-secondary)';
+  }
+}
+function toggleSlide(el){
+  const body=el.nextElementSibling;
+  const chev=el.querySelector('.chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+function toggleWriting(el){
+  const body=el.nextElementSibling;
+  const chev=el.querySelector('.chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+function showAnalogy(el,key){
+  document.querySelectorAll('.analogy-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.analogy-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('analogy-'+key).classList.add('active');
+}
+</script>
