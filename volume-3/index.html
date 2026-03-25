@@ -4,83 +4,451 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Volume 3 — Future Ambassadors Handbook</title>
-  <script>
-    // GitHub Pages can serve /volume-3 without a trailing slash in some navigations.
-    // Relative module links break in that case, so normalize to /volume-3/.
-    (function () {
-      var p = window.location.pathname;
-      if (p.endsWith('/volume-3')) {
-        window.location.replace(p + '/' + window.location.search + window.location.hash);
-      }
-    })();
-  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    :root { --bg:#0b1020; --bg-card:#111831; --bg-card-alt:#172246; --text:#e9eefc; --muted:#b8c3e3; --accent:#79a7ff; --accent-2:#8de7d9; --border:#2b3a70; --shadow:rgba(0,0,0,.35); }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5;background:radial-gradient(circle at top,#1b2752 0%,var(--bg) 45%);color:var(--text);min-height:100vh}
-    .container{max-width:1100px;margin:0 auto;padding:2.5rem 1rem 3rem}
-    .kicker{letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);font-size:.8rem;font-weight:600;margin-bottom:.5rem}
-    h1{margin:0;font-size:clamp(1.8rem,3vw,2.5rem)}
-    .subtitle{color:var(--muted);margin-top:.75rem;max-width:75ch}
-    .start-here{margin-top:1rem;border-left:3px solid var(--accent);padding:.35rem .85rem;background:rgba(121,167,255,.08);border-radius:8px}
-    .start-here a{color:var(--text)}
-    .cards{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:1.2rem}
-    .card,details{background:linear-gradient(180deg,var(--bg-card) 0%,#0f1733 100%);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 22px var(--shadow)}
-    .card-link{display:block;height:100%;text-decoration:none;color:inherit;padding:1rem;border-radius:14px}
-    .card-link:hover,.card-link:focus-visible,summary:hover,summary:focus-visible{background:rgba(121,167,255,.12);outline:none}
-    .card h2,details h2{margin-top:0;margin-bottom:.5rem;font-size:1.1rem}
-    .card p,details p{margin:0;color:var(--muted);font-size:.96rem}
-    details{grid-column:1/-1;overflow:hidden}
-    summary{list-style:none;cursor:pointer;padding:1rem;background:linear-gradient(180deg,var(--bg-card-alt) 0%,#111b3b 100%)}
-    summary::-webkit-details-marker{display:none}
-    .sub-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem;padding:0 1rem 1rem;border-top:1px solid var(--border);background:rgba(12,18,38,.9)}
+    :root {
+      --ieee-blue: #00629B;
+      --ieee-blue-dark: #004F7C;
+      --ieee-blue-light: #E8F3FA;
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a5568;
+      --text-muted: #8a94a6;
+      --border: #dde3ec;
+      --bg: #f8f9fc;
+      --white: #ffffff;
+      --card-radius: 10px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .site-header a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ieee-blue);
+      text-decoration: none;
+    }
+    .site-header a:hover { text-decoration: underline; }
+    .site-header .sep {
+      width: 1px; height: 16px;
+      background: var(--border);
+    }
+    .site-header .current {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 64px 48px 48px;
+      max-width: 860px;
+    }
+    .hero .vol-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ieee-blue);
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* Main content */
+    .content {
+      padding: 0 48px 80px;
+    }
+
+    /* Module 0 — prelude strip */
+    .module-prelude {
+      background: var(--ieee-blue-light);
+      border: 1px solid #b8d8ee;
+      border-radius: var(--card-radius);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 32px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .2s, background .2s;
+    }
+    .module-prelude:hover {
+      border-color: var(--ieee-blue);
+      background: #d6eaf5;
+    }
+    .prelude-left .tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ieee-blue);
+      margin-bottom: 6px;
+    }
+    .prelude-left .title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .prelude-left .desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+    .prelude-cta {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ieee-blue);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .prelude-cta::after { content: '→'; }
+
+    /* Section label */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      margin-top: 8px;
+    }
+
+    /* Module grid */
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .module-grid.two-col { grid-template-columns: repeat(2, 1fr); }
+
+    /* Module card */
+    .module-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 28px 24px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      height: 200px;
+      transition: border-color .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .module-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--border);
+      transition: background .2s;
+    }
+    .module-card:hover {
+      border-color: var(--ieee-blue);
+      box-shadow: 0 4px 20px rgba(0,98,155,.08);
+    }
+    .module-card:hover::before {
+      background: var(--ieee-blue);
+    }
+
+    .mod-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .mod-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .mod-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    /* Module B — parent card (expandable) */
+    .module-b-wrapper {
+      margin-bottom: 16px;
+    }
+    .module-b-parent {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+    }
+    .module-b-header {
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      transition: background .15s;
+    }
+    .module-b-header:hover { background: var(--bg); }
+    .module-b-header-left .mod-tag { margin-bottom: 6px; }
+    .module-b-header-left .mod-title { font-size: 17px; margin-bottom: 4px; }
+    .module-b-header-left .mod-desc { font-size: 14px; }
+    .module-b-toggle {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: transform .25s, border-color .2s;
+    }
+    .module-b-parent.open .module-b-toggle {
+      transform: rotate(45deg);
+      border-color: var(--ieee-blue);
+      color: var(--ieee-blue);
+    }
+
+    .module-b-tracks {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      background: var(--bg);
+    }
+    .module-b-parent.open .module-b-tracks { display: block; }
+
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+    .track-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 18px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      height: 180px;
+      transition: border-color .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .track-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--border);
+      transition: background .2s;
+    }
+    .track-card:hover {
+      border-color: var(--ieee-blue);
+      box-shadow: 0 4px 16px rgba(0,98,155,.08);
+    }
+    .track-card:hover::before { background: var(--ieee-blue); }
+    .track-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .track-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .track-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 960px) {
+      .tracks-grid { grid-template-columns: repeat(2, 1fr); }
+      .track-card { height: auto; min-height: 160px; }
+    }
+    @media (max-width: 768px) {
+      .site-header { padding: 16px 24px; }
+      .hero { padding: 48px 24px 36px; }
+      .hero h1 { font-size: 32px; }
+      .content { padding: 0 24px 60px; }
+      .module-grid { grid-template-columns: 1fr; }
+      .module-grid.two-col { grid-template-columns: 1fr; }
+      .module-card { height: auto; min-height: 160px; }
+      .tracks-grid { grid-template-columns: 1fr; }
+      .module-prelude { flex-direction: column; align-items: flex-start; gap: 14px; }
+      footer { padding: 20px 24px; }
+    }
   </style>
 </head>
 <body>
-  <main class="container">
-    <header>
-      <div class="kicker">Dynamic Knowledge Repository</div>
-      <h1>Volume 3 — Future Ambassadors Handbook</h1>
-      <p class="subtitle">Chronological module flow: A → B (with B1–B5 nested) → C → D.</p>
-      <p class="start-here">Optional prelude: <a href="module-0-welcome.html">Module 0 — Orientation</a>.</p>
-    </header>
 
-    <section class="cards" aria-label="Volume 3 Modules">
-      <article class="card">
-        <a class="card-link" href="module-a-foundations.html">
-          <h2>Module A — Foundations</h2>
-          <p>“You don't need to understand the math. You need to understand what the math makes possible.”</p>
-        </a>
-      </article>
+  <header class="site-header">
+    <a href="../index.html">Dynamic Knowledge Repository</a>
+    <div class="sep"></div>
+    <span class="current">Volume 3</span>
+  </header>
 
-      <details>
-        <summary>
-          <h2>Module B — Scenario Tracks</h2>
-          <p>Open to view B1–B5 modules.</p>
-        </summary>
-        <div class="sub-cards">
-          <article class="card"><a class="card-link" href="module-b1-post-quantum.html"><h2>Module B1 — Post-Quantum Transition</h2><p>“The mathematics beneath the internet will break. The question is whether we will be ready.”</p></a></article>
-          <article class="card"><a class="card-link" href="module-b2-ai-governance.html"><h2>Module B2 — AI Governance &amp; Verifiable Trust</h2><p>“AI can generate anything. Cryptography can prove what's real.”</p></a></article>
-          <article class="card"><a class="card-link" href="module-b3-digital-sovereignty.html"><h2>Module B3 — Digital Sovereignty &amp; DPI Models</h2><p>“Four regions built the digital future differently. What can each learn from the others?”</p></a></article>
-          <article class="card"><a class="card-link" href="module-b4-digital-inclusion.html"><h2>Module B4 — Digital Inclusion &amp; the Trust Gap</h2><p>“Connectivity without trust isn't enough. And trust without voice isn't trust at all.”</p></a></article>
-          <article class="card"><a class="card-link" href="module-b5-your-own-track.html"><h2>Module B5 — Your Own Track</h2><p>“The question that wouldn't fit anywhere else.”</p></a></article>
+  <section class="hero">
+    <div class="vol-label">Volume 3</div>
+    <h1>Future Ambassadors<br>Handbook</h1>
+    <p>A field guide for ambassadors researching, imagining, and communicating the next 50 years of digital trust and cryptographic infrastructure.</p>
+  </section>
+
+  <div class="content">
+
+    <!-- Module 0 prelude -->
+    <a href="../module-0-welcome.html" class="module-prelude">
+      <div class="prelude-left">
+        <div class="tag">Module 0 — Orientation</div>
+        <div class="title">Welcome to the mission</div>
+        <div class="desc">Start here if you are new to the handbook. This is not a manual. It is a field guide.</div>
+      </div>
+      <div class="prelude-cta">Open module</div>
+    </a>
+
+    <!-- Modules A, C, D -->
+    <div class="section-label">Core Modules</div>
+    <div class="module-grid two-col" style="margin-bottom:16px">
+      <a href="../module-a-foundations.html" class="module-card">
+        <div class="mod-tag">Module A</div>
+        <div class="mod-title">Foundations</div>
+        <div class="mod-desc">You don't need to understand the math. You need to understand what the math makes possible.</div>
+      </a>
+      <div></div><!-- spacer to keep A left-aligned in 2-col -->
+    </div>
+
+    <!-- Module B expandable -->
+    <div class="module-b-wrapper">
+      <div class="module-b-parent" id="moduleB">
+        <div class="module-b-header" onclick="toggleB()">
+          <div class="module-b-header-left">
+            <div class="mod-tag">Module B</div>
+            <div class="mod-title">Scenario Tracks</div>
+            <div class="mod-desc">Choose the corner of the future that fascinates you most.</div>
+          </div>
+          <div class="module-b-toggle">+</div>
         </div>
-      </details>
+        <div class="module-b-tracks">
+          <div class="tracks-grid">
+            <a href="../module-b1-post-quantum.html" class="track-card">
+              <div class="track-tag">Track B1</div>
+              <div class="track-title">Post-Quantum Transition</div>
+              <div class="track-desc">The mathematics beneath the internet will break. The question is whether we will be ready.</div>
+            </a>
+            <a href="../module-b2-ai-governance.html" class="track-card">
+              <div class="track-tag">Track B2</div>
+              <div class="track-title">AI Governance &amp; Verifiable Trust</div>
+              <div class="track-desc">AI can generate anything. Cryptography can prove what is real.</div>
+            </a>
+            <a href="../module-b3-digital-sovereignty.html" class="track-card">
+              <div class="track-tag">Track B3</div>
+              <div class="track-title">Digital Sovereignty &amp; DPI Models</div>
+              <div class="track-desc">Four regions built the digital future differently. What can each learn from the others?</div>
+            </a>
+            <a href="../module-b4-digital-inclusion.html" class="track-card">
+              <div class="track-tag">Track B4</div>
+              <div class="track-title">Digital Inclusion &amp; the Trust Gap</div>
+              <div class="track-desc">Connectivity without trust is not enough. And trust without voice is not trust at all.</div>
+            </a>
+            <a href="../module-b5-your-own-track.html" class="track-card">
+              <div class="track-tag">Track B5</div>
+              <div class="track-title">Your Own Track</div>
+              <div class="track-desc">The question that would not fit anywhere else.</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <article class="card">
-        <a class="card-link" href="module-c-going-public.html">
-          <h2>Module C — Going Public</h2>
-          <p>“Private inquiry becomes public contribution the moment someone else can use it.”</p>
-        </a>
-      </article>
+    <div class="module-grid two-col">
+      <a href="../module-c-going-public.html" class="module-card">
+        <div class="mod-tag">Module C</div>
+        <div class="mod-title">Going Public</div>
+        <div class="mod-desc">Private inquiry becomes public contribution the moment someone else can use it.</div>
+      </a>
+      <a href="../module-d-log-global-connector.html" class="module-card">
+        <div class="mod-tag">Module D</div>
+        <div class="mod-title">Ambassador Log &amp; Global Connector</div>
+        <div class="mod-desc">Everything you wrote in passing, gathered into something that lasts.</div>
+      </a>
+    </div>
 
-      <article class="card">
-        <a class="card-link" href="module-d-log-global-connector.html">
-          <h2>Module D — Ambassador Log &amp; Global Connector</h2>
-          <p>“Everything you wrote in passing, gathered into something that lasts.”</p>
-        </a>
-      </article>
-    </section>
-  </main>
+  </div>
+
+  <footer>
+    Open source — fork, adapt, and contribute on GitHub.
+  </footer>
+
+  <script>
+    function toggleB() {
+      document.getElementById('moduleB').classList.toggle('open');
+    }
+  </script>
+
 </body>
 </html>

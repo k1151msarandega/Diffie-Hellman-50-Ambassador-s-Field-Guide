@@ -1,312 +1,283 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module 0 — Orientation</title>
-  <style>
-    :root {
-      --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-      --color-background-primary: #0b1020;
-      --color-background-secondary: #111831;
-      --color-background-info: rgba(121, 167, 255, 0.16);
-      --color-text-primary: #e9eefc;
-      --color-text-secondary: #b8c3e3;
-      --color-text-tertiary: #8f9bc2;
-      --color-text-info: #9ac8ff;
-      --color-border-primary: #79a7ff;
-      --color-border-secondary: #425791;
-      --color-border-tertiary: #2b3a70;
-      --border-radius-md: 10px;
-      --border-radius-lg: 14px;
-    }
+<style>
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .page-divider { border:none; border-top:1px solid var(--color-border-tertiary); margin:36px 0; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-num { font-size:52px; font-weight:500; color:var(--color-border-secondary); line-height:1; margin-bottom:4px; font-family:var(--font-serif); }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:12px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:8px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .track-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+  .track-card { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); padding:14px 14px 12px; cursor:pointer; transition:border-color .15s; }
+  .track-card:hover { border-color:var(--color-border-primary); }
+  .track-card.selected { border-color:var(--color-text-info); background:var(--color-background-info); }
+  .track-card-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:4px; }
+  .track-card.selected .track-card-label { color:var(--color-text-info); }
+  .track-card-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px; }
+  .track-card-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .result-box { display:none; border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:16px 18px; margin-top:12px; background:var(--color-background-secondary); }
+  .result-box.show { display:block; }
+  .result-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:6px; }
+  .result-body { font-size:13px; color:var(--color-text-secondary); line-height:1.6; }
+  .nav { display:flex; justify-content:space-between; align-items:center; margin-top:32px; padding-top:20px; border-top:1px solid var(--color-border-tertiary); }
+  .nav-btn { font-size:13px; font-weight:500; color:var(--color-text-info); background:none; border:none; cursor:pointer; padding:0; }
+  .nav-btn:hover { text-decoration:underline; }
+  .nav-dots { display:flex; gap:6px; }
+  .nav-dot { width:7px; height:7px; border-radius:50%; background:var(--color-border-secondary); }
+  .nav-dot.active { background:var(--color-text-info); }
+  .footnote { font-size:12px; color:var(--color-text-tertiary); margin-top:28px; line-height:1.6; }
+</style>
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: var(--font-sans);
-      background: radial-gradient(circle at top, #1b2752 0%, var(--color-background-primary) 45%);
-      color: var(--color-text-primary);
-      min-height: 100vh;
-      padding: 24px 16px 40px;
-    }
-    .top-nav { max-width: 620px; margin: 0 auto 16px; }
-    .top-nav a { color: var(--color-text-info); text-decoration: none; font-size: 14px; }
-    .top-nav a:hover { text-decoration: underline; }
+<div class="page">
+  <!-- Pages nav -->
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+    <button onclick="showPage(0)" id="nav0" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-info);color:var(--color-text-info)">Welcome</button>
+    <button onclick="showPage(1)" id="nav1" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)">The 50-year story</button>
+    <button onclick="showPage(2)" id="nav2" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)">What kind of ambassador?</button>
+    <button onclick="showPage(3)" id="nav3" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)">Your first log entry</button>
+  </div>
 
-    .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
-    .page-divider { border:none; border-top:1px solid var(--color-border-tertiary); margin:36px 0; }
-    .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
-    .chapter-num { font-size:52px; font-weight:500; color:var(--color-border-secondary); line-height:1; margin-bottom:4px; font-family:var(--font-serif); }
-    .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
-    .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
-    .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
-    .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
-    .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; background: rgba(17, 24, 49, 0.45); }
-    .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
-    .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
-    .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
-    .activity-body p { margin:0 0 10px; }
-    .activity-body p:last-child { margin:0; }
-    .prompt-list { list-style:none; padding:0; margin:12px 0 0; }
-    .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:8px; line-height:1.5; }
-    .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
-    .track-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-    .track-card { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); padding:14px 14px 12px; cursor:pointer; transition:border-color .15s; background: rgba(17, 24, 49, 0.45); }
-    .track-card:hover { border-color:var(--color-border-primary); }
-    .track-card.selected { border-color:var(--color-text-info); background:var(--color-background-info); }
-    .track-card-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:4px; }
-    .track-card.selected .track-card-label { color:var(--color-text-info); }
-    .track-card-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px; }
-    .track-card-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
-    .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; background: rgba(17, 24, 49, 0.45); }
-    .log-field { margin-bottom:18px; }
-    .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
-    .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
-    .log-line:focus { border-bottom-color:var(--color-border-primary); }
-    .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
-    .log-area:focus { border-bottom-color:var(--color-border-primary); }
-    .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-    .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
-    .result-box { display:none; border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:16px 18px; margin-top:12px; background:var(--color-background-secondary); }
-    .result-box.show { display:block; }
-    .result-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:6px; }
-    .result-body { font-size:13px; color:var(--color-text-secondary); line-height:1.6; }
-    .footnote { font-size:12px; color:var(--color-text-tertiary); margin-top:28px; line-height:1.6; }
-  </style>
-</head>
-<body>
-  <div class="top-nav"><a href="index.html">← Back to Volume 3</a></div>
+  <!-- Page 0: Welcome -->
+  <div id="page0">
+    <div class="chapter-label">Module 0 — Orientation</div>
+    <div class="chapter-num">0</div>
+    <div class="chapter-title">Welcome to the mission</div>
+    <div class="chapter-sub">This is not a manual. It is a field guide.</div>
 
-  <div class="page">
-    <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
-      <button onclick="showPage(0)" id="nav0" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-info);color:var(--color-text-info)">Welcome</button>
-      <button onclick="showPage(1)" id="nav1" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)">The 50-year story</button>
-      <button onclick="showPage(2)" id="nav2" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)">What kind of ambassador?</button>
-      <button onclick="showPage(3)" id="nav3" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)">Your first log entry</button>
-    </div>
+    <p class="body-text">In 1976, two mathematicians at Stanford published a paper that changed how every human being on earth communicates. You almost certainly used their idea this morning — to check your messages, pay for something, log into an account. You probably didn't notice. That's the point.</p>
 
-    <div id="page0">
-      <div class="chapter-label">Module 0 — Orientation</div>
-      <div class="chapter-num">0</div>
-      <div class="chapter-title">Welcome to the mission</div>
-      <div class="chapter-sub">This is not a manual. It is a field guide.</div>
+    <p class="body-text">Whitfield Diffie and Martin Hellman — working with Ralph Merkle — solved a problem that had stumped cryptographers for centuries: how do two strangers share a secret over an open channel, with no courier, no prior contact, no shared codebook? Their answer became the foundation of the secure internet.</p>
 
-      <p class="body-text">In 1976, two mathematicians at Stanford published a paper that changed how every human being on earth communicates. You almost certainly used their idea this morning — to check your messages, pay for something, log into an account. You probably didn't notice. That's the point.</p>
+    <p class="body-text">Fifty years later, we're marking that anniversary. But this is not a commemoration. It is an expedition.</p>
 
-      <p class="body-text">Whitfield Diffie and Martin Hellman — working with Ralph Merkle — solved a problem that had stumped cryptographers for centuries: how do two strangers share a secret over an open channel, with no courier, no prior contact, no shared codebook? Their answer became the foundation of the secure internet.</p>
+    <div class="pull-quote">"The next 50 years of the internet will be shaped by the decisions we make now — and by who gets to make them."</div>
 
-      <p class="body-text">Fifty years later, we're marking that anniversary. But this is not a commemoration. It is an expedition.</p>
+    <p class="body-text">As a Future Ambassador, your job is to imagine those decisions clearly, rigorously, and publicly. You will pick a corner of the future that fascinates you — post-quantum security, AI governance, digital sovereignty, inclusion — and you will research it, think hard about it, and share what you find with the world.</p>
 
-      <div class="pull-quote">"The next 50 years of the internet will be shaped by the decisions we make now — and by who gets to make them."</div>
+    <p class="body-text">This field guide will walk you through that journey. You don't need to read it front to back. Pick it up anywhere. Follow your curiosity. Come back when you need a framework, a template, or a prompt to get unstuck.</p>
 
-      <p class="body-text">As a Future Ambassador, your job is to imagine those decisions clearly, rigorously, and publicly. You will pick a corner of the future that fascinates you — post-quantum security, AI governance, digital sovereignty, inclusion — and you will research it, think hard about it, and share what you find with the world.</p>
-
-      <p class="body-text">This field guide will walk you through that journey. You don't need to read it front to back. Pick it up anywhere. Follow your curiosity. Come back when you need a framework, a template, or a prompt to get unstuck.</p>
-
-      <div class="activity-box">
-        <div class="activity-label">Before you go further</div>
-        <div class="activity-title">Three questions worth sitting with</div>
-        <div class="activity-body">
-          <p>You don't need to answer these now. But keep them somewhere you'll return to.</p>
-          <ul class="prompt-list">
-            <li>What aspect of the next 50 years of digital infrastructure worries you most?</li>
-            <li>What would you most like to see built — or fixed — in your country or region?</li>
-            <li>Who in your life would benefit most from understanding this, and can't yet?</li>
-          </ul>
-        </div>
-      </div>
-
-      <p class="footnote">This handbook was created as part of the Diffie-Hellman-Merkle 50th Anniversary Initiative, a global project by IEEE societies and partners to document the past, engage communities today, and imagine the next 50 years of cryptographic trust.</p>
-    </div>
-
-    <div id="page1" style="display:none">
-      <div class="chapter-label">Module 0.1 — Orientation</div>
-      <div class="chapter-title">The 50-year story in 5 minutes</div>
-      <div class="chapter-sub">A hook, not a lecture.</div>
-
-      <p class="body-text">Imagine you want to send a locked box to a stranger. The problem is that any lock requires a key — and if you send the key, anyone could intercept it and open the box. For centuries, this was the fundamental problem of secure communication. You could only communicate privately with someone you'd already met in person, already shared a secret with.</p>
-
-      <p class="body-text">In 1976, Diffie and Hellman proposed something that seemed almost paradoxical: what if you could lock the box with information you shared openly — in public — and only the recipient could unlock it? What if the locking and unlocking used different keys, mathematically related but practically impossible to reverse-engineer?</p>
-
-      <div class="pull-quote">"It was as if someone had figured out how to build a padlock that anyone could close, but only the owner could open."</div>
-
-      <p class="body-text">This became public-key cryptography. It made the commercial internet possible. Every time you see a padlock icon in your browser, every time a digital signature confirms a document is authentic, every time a government system verifies your identity — that's the DHM idea, running silently underneath.</p>
-
-      <p class="body-text">Now the foundations are shifting. Quantum computers threaten to crack the mathematics that DHM depends on. AI is generating content that can no longer be trusted at face value. Billions of people are being brought onto digital infrastructure that may or may not be trustworthy. The next 50 years will require the same kind of creative leap that Diffie, Hellman, and Merkle made in 1976.</p>
-
-      <p class="body-text">That's where you come in.</p>
-
-      <div class="activity-box">
-        <div class="activity-label">Activity — 15 minutes</div>
-        <div class="activity-title">Explain it without math</div>
-        <div class="activity-body">
-          <p>Choose one of the following ways to explain public-key cryptography to someone who has never heard of it. Don't use equations. Don't use the word "algorithm."</p>
-          <ul class="prompt-list">
-            <li>Use a physical object as a metaphor (a lock, a paint colour, a safety deposit box)</li>
-            <li>Tell it as a short story with two characters who need to share a secret</li>
-            <li>Draw it — a diagram, a comic strip, a map</li>
-          </ul>
-          <p style="margin-top:12px">Then actually explain it to someone — a friend, a family member, a colleague. Note what they ask. Their questions are data.</p>
-        </div>
-      </div>
-
-      <div class="activity-box" style="margin-top:12px">
-        <div class="activity-label">Reflection prompt</div>
-        <div class="activity-title">After explaining it</div>
-        <div class="activity-body">
-          <ul class="prompt-list">
-            <li>What part was hardest to explain, and why?</li>
-            <li>What question did they ask that you couldn't answer?</li>
-            <li>What metaphor landed best?</li>
-          </ul>
-          <p style="margin-top:8px">Write your answers in your ambassador log.</p>
-        </div>
+    <div class="activity-box">
+      <div class="activity-label">Before you go further</div>
+      <div class="activity-title">Three questions worth sitting with</div>
+      <div class="activity-body">
+        <p>You don't need to answer these now. But keep them somewhere you'll return to.</p>
+        <ul class="prompt-list">
+          <li>What aspect of the next 50 years of digital infrastructure worries you most?</li>
+          <li>What would you most like to see built — or fixed — in your country or region?</li>
+          <li>Who in your life would benefit most from understanding this, and can't yet?</li>
+        </ul>
       </div>
     </div>
 
-    <div id="page2" style="display:none">
-      <div class="chapter-label">Module 0.2 — Orientation</div>
-      <div class="chapter-title">What kind of Future Ambassador are you?</div>
-      <div class="chapter-sub">This points you toward the modules that will suit you best.</div>
+    <p class="footnote">This handbook was created as part of the Diffie-Hellman-Merkle 50th Anniversary Initiative, a global project by IEEE societies and partners to document the past, engage communities today, and imagine the next 50 years of cryptographic trust.</p>
+  </div>
 
-      <p class="body-text">Future Ambassadors come from everywhere — graduate students, policy analysts, engineers, journalists, community organisers. The scenario you choose to investigate should match not just your interests, but how you work and what you bring.</p>
+  <!-- Page 1: 50-year story -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Module 0.1 — Orientation</div>
+    <div class="chapter-title">The 50-year story in 5 minutes</div>
+    <div class="chapter-sub">A hook, not a lecture.</div>
 
-      <p class="body-text">Read the four profiles below. Pick the one that fits closest — or the two that split your attention. Then check which B-track modules they point toward.</p>
+    <p class="body-text">Imagine you want to send a locked box to a stranger. The problem is that any lock requires a key — and if you send the key, anyone could intercept it and open the box. For centuries, this was the fundamental problem of secure communication. You could only communicate privately with someone you'd already met in person, already shared a secret with.</p>
 
-      <div class="track-grid" id="track-grid">
-        <div class="track-card" onclick="selectTrack(this, 'builder')">
-          <div class="track-card-label">The builder</div>
-          <div class="track-card-title">You ask: "What should we build?"</div>
-          <div class="track-card-desc">You're drawn to technical possibility — systems, infrastructure, protocols. You think in architectures.</div>
-        </div>
-        <div class="track-card" onclick="selectTrack(this, 'critic')">
-          <div class="track-card-label">The critic</div>
-          <div class="track-card-title">You ask: "What's missing or broken?"</div>
-          <div class="track-card-desc">You notice gaps, failures, and inequities. You're energised by what hasn't been fixed yet.</div>
-        </div>
-        <div class="track-card" onclick="selectTrack(this, 'connector')">
-          <div class="track-card-label">The connector</div>
-          <div class="track-card-title">You ask: "Who needs to talk to whom?"</div>
-          <div class="track-card-desc">You see relationships between domains — policy, technology, community. You translate across worlds.</div>
-        </div>
-        <div class="track-card" onclick="selectTrack(this, 'narrator')">
-          <div class="track-card-label">The narrator</div>
-          <div class="track-card-title">You ask: "How do we tell this story?"</div>
-          <div class="track-card-desc">You make complex ideas accessible. You write, speak, film. Your superpower is public clarity.</div>
-        </div>
-      </div>
+    <p class="body-text">In 1976, Diffie and Hellman proposed something that seemed almost paradoxical: what if you could lock the box with information you shared openly — in public — and only the recipient could unlock it? What if the locking and unlocking used different keys, mathematically related but practically impossible to reverse-engineer?</p>
 
-      <div class="result-box" id="result-box">
-        <div class="result-title" id="result-title"></div>
-        <div class="result-body" id="result-body"></div>
-      </div>
+    <div class="pull-quote">"It was as if someone had figured out how to build a padlock that anyone could close, but only the owner could open."</div>
 
-      <div class="activity-box" style="margin-top:20px">
-        <div class="activity-label">Reflection prompt</div>
-        <div class="activity-title">Before you choose your scenario track</div>
-        <div class="activity-body">
-          <ul class="prompt-list">
-            <li>Which region or country are you most embedded in — and what's the most urgent digital infrastructure question there right now?</li>
-            <li>What would a meaningful contribution from you look like by November 2026?</li>
-            <li>Who in your network could you collaborate with — or learn from?</li>
-          </ul>
-        </div>
+    <p class="body-text">This became public-key cryptography. It made the commercial internet possible. Every time you see a padlock icon in your browser, every time a digital signature confirms a document is authentic, every time a government system verifies your identity — that's the DHM idea, running silently underneath.</p>
+
+    <p class="body-text">Now the foundations are shifting. Quantum computers threaten to crack the mathematics that DHM depends on. AI is generating content that can no longer be trusted at face value. Billions of people are being brought onto digital infrastructure that may or may not be trustworthy. The next 50 years will require the same kind of creative leap that Diffie, Hellman, and Merkle made in 1976.</p>
+
+    <p class="body-text">That's where you come in.</p>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 15 minutes</div>
+      <div class="activity-title">Explain it without math</div>
+      <div class="activity-body">
+        <p>Choose one of the following ways to explain public-key cryptography to someone who has never heard of it. Don't use equations. Don't use the word "algorithm."</p>
+        <ul class="prompt-list">
+          <li>Use a physical object as a metaphor (a lock, a paint colour, a safety deposit box)</li>
+          <li>Tell it as a short story with two characters who need to share a secret</li>
+          <li>Draw it — a diagram, a comic strip, a map</li>
+        </ul>
+        <p style="margin-top:12px">Then actually explain it to someone — a friend, a family member, a colleague. Note what they ask. Their questions are data.</p>
       </div>
     </div>
 
-    <div id="page3" style="display:none">
-      <div class="chapter-label">Module 0.3 — Orientation</div>
-      <div class="chapter-title">Your ambassador log — first entry</div>
-      <div class="chapter-sub">Every expedition needs a record. This is yours.</div>
-
-      <p class="body-text">Your log is not a report. It is a thinking tool. You'll return to it after each activity, each event, each conversation that surprises you. Over the course of the year, it will become a record of how your thinking developed — and that record has value, both for you and for the ambassadors who come after.</p>
-
-      <p class="body-text">Fill in your first entry below. There are no wrong answers.</p>
-
-      <div class="log-box">
-        <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Entry 1 — Arrival</div>
-
-        <div class="log-field">
-          <div class="log-label">Date</div>
-          <input class="log-line" type="text" placeholder="Today's date">
-        </div>
-        <div class="log-field">
-          <div class="log-label">Location</div>
-          <input class="log-line" type="text" placeholder="City, country">
-        </div>
-        <div class="log-field">
-          <div class="log-label">What brought you here?</div>
-          <textarea class="log-area" rows="3" placeholder="What made you say yes to this? What are you hoping to do or understand?"></textarea>
-        </div>
-        <div class="log-field">
-          <div class="log-label">The future question you're most drawn to right now</div>
-          <textarea class="log-area" rows="2" placeholder="Finish this sentence: 'I want to understand what happens when...'"></textarea>
-        </div>
-        <div class="log-field" style="margin-bottom:0">
-          <div class="log-label">One person you'll tell about this — and why them</div>
-          <input class="log-line" type="text" placeholder="Name or role, and what makes them the right person">
-        </div>
-      </div>
-
-      <div class="activity-box">
-        <div class="activity-label">Note</div>
-        <div class="activity-title">This log travels with you</div>
-        <div class="activity-body">
-          <p>Each section of this field guide ends with a log prompt. Some are short — a single question. Some ask you to describe an event you hosted. By the end of the year, your log will document your journey from first entry to final submission.</p>
-          <p>If you're contributing to the global ambassador record, you'll draw directly from these entries. Nothing needs to be rewritten from scratch.</p>
-        </div>
-      </div>
-
-      <div style="margin-top:24px;padding:16px 18px;border-radius:var(--border-radius-lg);background:var(--color-background-secondary)">
-        <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px">You've completed Module 0</div>
-        <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6">Next: move to Section A (Foundations) to understand the terrain, or jump straight to Section B if you already know which scenario track you're pursuing.</div>
-        <div class="badge-row">
-          <div class="badge-pill">Module 0 complete</div>
-          <div class="badge-pill">🔵 Foundations explorer — 1 of 3 steps done</div>
-        </div>
+    <div class="activity-box" style="margin-top:12px">
+      <div class="activity-label">Reflection prompt</div>
+      <div class="activity-title">After explaining it</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>What part was hardest to explain, and why?</li>
+          <li>What question did they ask that you couldn't answer?</li>
+          <li>What metaphor landed best?</li>
+        </ul>
+        <p style="margin-top:8px">Write your answers in your ambassador log.</p>
       </div>
     </div>
   </div>
 
-  <script>
-  function showPage(n) {
-    for(let i=0;i<4;i++){
-      document.getElementById('page'+i).style.display = i===n?'block':'none';
-      const btn = document.getElementById('nav'+i);
-      btn.style.background = i===n?'var(--color-background-info)':'var(--color-background-secondary)';
-      btn.style.color = i===n?'var(--color-text-info)':'var(--color-text-secondary)';
-    }
-  }
+  <!-- Page 2: What kind of ambassador -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Module 0.2 — Orientation</div>
+    <div class="chapter-title">What kind of Future Ambassador are you?</div>
+    <div class="chapter-sub">This points you toward the modules that will suit you best.</div>
 
-  const results = {
-    builder: {
-      title: 'You lean toward: The Builder',
-      body: 'Your best modules are B1 (Post-quantum transition) and B3 (Digital sovereignty models). You\'ll do your best work when you have a concrete system or architecture to analyse. Consider pairing with a Connector or Narrator who can help you communicate your findings to a non-technical audience.'
-    },
-    critic: {
-      title: 'You lean toward: The Critic',
-      body: 'Your best modules are B4 (Digital inclusion and the trust gap) and the "What\'s NOT happening" strand of B3. You\'ll find your sharpest thinking by identifying what\'s failing or missing in a specific region. Pair your analysis with a Builder or Connector to make it actionable.'
-    },
-    connector: {
-      title: 'You lean toward: The Connector',
-      body: 'Your best module is B3 (Digital sovereignty models — comparing India, Estonia, China, ASEAN) and the policy briefs in Section C. You see across systems. The most powerful thing you can do is find the lesson in one region\'s experience that another region hasn\'t spotted yet.'
-    },
-    narrator: {
-      title: 'You lean toward: The Narrator',
-      body: 'Every B-track module benefits from a Narrator. Your best path is to adopt one scenario track (any of B1–B4) and invest in communicating it brilliantly — the "What if?" salon format in C1 and the writing guide in C3 were made for you.'
-    }
-  };
+    <p class="body-text">Future Ambassadors come from everywhere — graduate students, policy analysts, engineers, journalists, community organisers. The scenario you choose to investigate should match not just your interests, but how you work and what you bring.</p>
 
-  function selectTrack(el, key) {
-    document.querySelectorAll('.track-card').forEach(c=>c.classList.remove('selected'));
-    el.classList.add('selected');
-    const box = document.getElementById('result-box');
-    document.getElementById('result-title').textContent = results[key].title;
-    document.getElementById('result-body').textContent = results[key].body;
-    box.classList.add('show');
+    <p class="body-text">Read the four profiles below. Pick the one that fits closest — or the two that split your attention. Then check which B-track modules they point toward.</p>
+
+    <div class="track-grid" id="track-grid">
+      <div class="track-card" onclick="selectTrack(this, 'builder')">
+        <div class="track-card-label">The builder</div>
+        <div class="track-card-title">You ask: "What should we build?"</div>
+        <div class="track-card-desc">You're drawn to technical possibility — systems, infrastructure, protocols. You think in architectures.</div>
+      </div>
+      <div class="track-card" onclick="selectTrack(this, 'critic')">
+        <div class="track-card-label">The critic</div>
+        <div class="track-card-title">You ask: "What's missing or broken?"</div>
+        <div class="track-card-desc">You notice gaps, failures, and inequities. You're energised by what hasn't been fixed yet.</div>
+      </div>
+      <div class="track-card" onclick="selectTrack(this, 'connector')">
+        <div class="track-card-label">The connector</div>
+        <div class="track-card-title">You ask: "Who needs to talk to whom?"</div>
+        <div class="track-card-desc">You see relationships between domains — policy, technology, community. You translate across worlds.</div>
+      </div>
+      <div class="track-card" onclick="selectTrack(this, 'narrator')">
+        <div class="track-card-label">The narrator</div>
+        <div class="track-card-title">You ask: "How do we tell this story?"</div>
+        <div class="track-card-desc">You make complex ideas accessible. You write, speak, film. Your superpower is public clarity.</div>
+      </div>
+    </div>
+
+    <div class="result-box" id="result-box">
+      <div class="result-title" id="result-title"></div>
+      <div class="result-body" id="result-body"></div>
+    </div>
+
+    <div class="activity-box" style="margin-top:20px">
+      <div class="activity-label">Reflection prompt</div>
+      <div class="activity-title">Before you choose your scenario track</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Which region or country are you most embedded in — and what's the most urgent digital infrastructure question there right now?</li>
+          <li>What would a meaningful contribution from you look like by November 2026?</li>
+          <li>Who in your network could you collaborate with — or learn from?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: First log entry -->
+  <div id="page3" style="display:none">
+    <div class="chapter-label">Module 0.3 — Orientation</div>
+    <div class="chapter-title">Your ambassador log — first entry</div>
+    <div class="chapter-sub">Every expedition needs a record. This is yours.</div>
+
+    <p class="body-text">Your log is not a report. It is a thinking tool. You'll return to it after each activity, each event, each conversation that surprises you. Over the course of the year, it will become a record of how your thinking developed — and that record has value, both for you and for the ambassadors who come after.</p>
+
+    <p class="body-text">Fill in your first entry below. There are no wrong answers.</p>
+
+    <div class="log-box">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Entry 1 — Arrival</div>
+
+      <div class="log-field">
+        <div class="log-label">Date</div>
+        <input class="log-line" type="text" placeholder="Today's date">
+      </div>
+      <div class="log-field">
+        <div class="log-label">Location</div>
+        <input class="log-line" type="text" placeholder="City, country">
+      </div>
+      <div class="log-field">
+        <div class="log-label">What brought you here?</div>
+        <textarea class="log-area" rows="3" placeholder="What made you say yes to this? What are you hoping to do or understand?"></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The future question you're most drawn to right now</div>
+        <textarea class="log-area" rows="2" placeholder="Finish this sentence: 'I want to understand what happens when...'"></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">One person you'll tell about this — and why them</div>
+        <input class="log-line" type="text" placeholder="Name or role, and what makes them the right person">
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Note</div>
+      <div class="activity-title">This log travels with you</div>
+      <div class="activity-body">
+        <p>Each section of this field guide ends with a log prompt. Some are short — a single question. Some ask you to describe an event you hosted. By the end of the year, your log will document your journey from first entry to final submission.</p>
+        <p>If you're contributing to the global ambassador record, you'll draw directly from these entries. Nothing needs to be rewritten from scratch.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;padding:16px 18px;border-radius:var(--border-radius-lg);background:var(--color-background-secondary)">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px">You've completed Module 0</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6">Next: move to Section A (Foundations) to understand the terrain, or jump straight to Section B if you already know which scenario track you're pursuing.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Module 0 complete</div>
+        <div class="badge-pill">🔵 Foundations explorer — 1 of 3 steps done</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(n) {
+  for(let i=0;i<4;i++){
+    document.getElementById('page'+i).style.display = i===n?'block':'none';
+    const btn = document.getElementById('nav'+i);
+    btn.style.background = i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    btn.style.color = i===n?'var(--color-text-info)':'var(--color-text-secondary)';
   }
-  </script>
-</body>
-</html>
+}
+
+const results = {
+  builder: {
+    title: 'You lean toward: The Builder',
+    body: 'Your best modules are B1 (Post-quantum transition) and B3 (Digital sovereignty models). You\'ll do your best work when you have a concrete system or architecture to analyse. Consider pairing with a Connector or Narrator who can help you communicate your findings to a non-technical audience.'
+  },
+  critic: {
+    title: 'You lean toward: The Critic',
+    body: 'Your best modules are B4 (Digital inclusion and the trust gap) and the "What\'s NOT happening" strand of B3. You\'ll find your sharpest thinking by identifying what\'s failing or missing in a specific region. Pair your analysis with a Builder or Connector to make it actionable.'
+  },
+  connector: {
+    title: 'You lean toward: The Connector',
+    body: 'Your best module is B3 (Digital sovereignty models — comparing India, Estonia, China, ASEAN) and the policy briefs in Section C. You see across systems. The most powerful thing you can do is find the lesson in one region\'s experience that another region hasn\'t spotted yet.'
+  },
+  narrator: {
+    title: 'You lean toward: The Narrator',
+    body: 'Every B-track module benefits from a Narrator. Your best path is to adopt one scenario track (any of B1–B4) and invest in communicating it brilliantly — the "What if?" salon format in C1 and the writing guide in C3 were made for you.'
+  }
+};
+
+function selectTrack(el, key) {
+  document.querySelectorAll('.track-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  const box = document.getElementById('result-box');
+  document.getElementById('result-title').textContent = results[key].title;
+  document.getElementById('result-body').textContent = results[key].body;
+  box.classList.add('show');
+}
+</script>
