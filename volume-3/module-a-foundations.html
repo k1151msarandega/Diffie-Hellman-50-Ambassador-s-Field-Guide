@@ -1,27 +1,313 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module A — Foundations</title>
-    <link rel="stylesheet" href="./shared.css">
 <style>
-    :root { --bg:#FFFFFF; --card:#F5F7FA; --text:#1A1A2E; --muted:#4A5568; --border:#DDE3EC; --accent:#00629B; }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#FFFFFF;color:var(--text)}
-    .container{max-width:900px;margin:0 auto;padding:2.5rem 1rem}
-    .card{background:linear-gradient(180deg,var(--card) 0%,#0f1733 100%);border:1px solid var(--border);border-radius:14px;padding:1.25rem}
-    h1{margin-top:0} p{color:var(--muted)} a{color:var(--accent)}
-  </style>
-</head>
-<body>
-  <main class="container">
-    <article class="card">
-      <h1>Module A — Foundations</h1>
-      <p>“You don't need to understand the math. You need to understand what the math makes possible.”</p>
-      <p>Module A1 (Foundations) · A2 (Post-quantum primer) · A3 (Critical infrastructure mapping activity)</p>
-      <p><a href="./index.html">← Back to Volume 3</a></p>
-    </article>
-  </main>
-</body>
-</html>
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-num { font-size:52px; font-weight:500; color:var(--color-border-secondary); line-height:1; margin-bottom:4px; font-family:var(--font-serif); }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:12px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:9px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .callout { border-radius:var(--border-radius-lg); padding:16px 18px; margin:20px 0; background:var(--color-background-secondary); }
+  .callout-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:5px; }
+  .callout-body { font-size:13px; color:var(--color-text-secondary); line-height:1.6; }
+  .map-area { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:16px 0; }
+  .map-row { display:flex; border-bottom:1px solid var(--color-border-tertiary); }
+  .map-row:last-child { border-bottom:none; }
+  .map-cell { padding:10px 14px; font-size:13px; color:var(--color-text-secondary); flex:1; line-height:1.5; }
+  .map-cell-head { padding:8px 14px; font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); flex:1; background:var(--color-background-secondary); }
+  .map-input { border:none; background:transparent; width:100%; font-size:13px; color:var(--color-text-primary); outline:none; font-family:var(--font-sans); padding:0; }
+  .map-input:focus { color:var(--color-text-primary); }
+  .map-input::placeholder { color:var(--color-text-tertiary); }
+  .layer-row { display:flex; gap:10px; margin-bottom:10px; align-items:flex-start; }
+  .layer-icon { width:32px; height:32px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:500; flex-shrink:0; margin-top:2px; }
+  .layer-content { flex:1; }
+  .layer-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:2px; }
+  .layer-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .scenario-pill { display:inline-block; font-size:11px; font-weight:500; padding:3px 10px; border-radius:20px; margin:3px 3px 0 0; border:1px solid var(--color-border-tertiary); color:var(--color-text-secondary); cursor:pointer; transition:all .15s; }
+  .scenario-pill:hover, .scenario-pill.on { background:var(--color-background-info); color:var(--color-text-info); border-color:var(--color-text-info); }
+  .completion { margin-top:24px; padding:16px 18px; border-radius:var(--border-radius-lg); background:var(--color-background-secondary); }
+</style>
+
+<div class="page">
+  <!-- Nav -->
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+    <button onclick="showPage(0)" id="nav0" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-info);color:var(--color-text-info)">A1 — Keys to trust</button>
+    <button onclick="showPage(1)" id="nav1" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)">A2 — The quantum threat</button>
+    <button onclick="showPage(2)" id="nav2" style="font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)">A3 — Map your region</button>
+  </div>
+
+  <!-- Page A1: Keys to trust -->
+  <div id="page0">
+    <div class="chapter-label">Section A — Foundations · Module A1</div>
+    <div class="chapter-num">A</div>
+    <div class="chapter-title">From keys to trust: the foundation</div>
+    <div class="chapter-sub">You don't need to understand the math. You need to understand what the math makes possible.</div>
+
+    <p class="body-text">Digital trust is not abstract. It is the reason you can buy something from a stranger on the other side of the world and have a reasonable expectation they will send it. It is the reason a hospital in Tallinn can share a patient record with a clinic in Helsinki without anyone intercepting it. It is the reason a billion people in India can receive government payments directly, without a bank in the middle taking a cut.</p>
+
+    <p class="body-text">All of this runs on a small set of mathematical ideas, most of them traceable back to the Diffie-Hellman-Merkle paper of 1976. Understanding those ideas — not the equations, but the logic — is the foundation of your work as a Future Ambassador.</p>
+
+    <div class="callout">
+      <div class="callout-title">Three ideas to hold onto</div>
+      <div class="callout-body">
+        <div class="layer-row" style="margin-top:10px">
+          <div class="layer-icon" style="background:#E1F5EE;color:#0F6E56">1</div>
+          <div class="layer-content">
+            <div class="layer-title">Public-key cryptography</div>
+            <div class="layer-desc">Two mathematically linked keys: one shared openly, one kept private. What one locks, only the other can open. This makes it possible to communicate securely with strangers.</div>
+          </div>
+        </div>
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#E6F1FB;color:#185FA5">2</div>
+          <div class="layer-content">
+            <div class="layer-title">Digital signatures</div>
+            <div class="layer-desc">A way to prove a document hasn't been tampered with, and that it came from who it claims to come from — without revealing your private key. The foundation of trust in digital contracts, identity, and records.</div>
+          </div>
+        </div>
+        <div class="layer-row" style="margin-bottom:0">
+          <div class="layer-icon" style="background:#EEEDFE;color:#534AB7">3</div>
+          <div class="layer-content">
+            <div class="layer-title">Digital Public Infrastructure (DPI)</div>
+            <div class="layer-desc">The open, interoperable systems — identity, payments, data exchange — that cryptographic trust makes possible at national scale. India's Aadhaar and UPI, Estonia's X-Road, and Singapore's Singpass are all examples.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">These three ideas stack on each other. Public-key cryptography makes digital signatures possible. Digital signatures make DPI trustworthy. Trustworthy DPI makes it possible for governments and economies to function digitally at scale.</p>
+
+    <p class="body-text">As a Future Ambassador, your work will almost certainly touch one of the layers in this stack — even if it focuses on policy, inclusion, or governance rather than technology. Knowing where your question lives in the stack helps you see who you need to talk to and what's already been built beneath you.</p>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 20 minutes</div>
+      <div class="activity-title">Trace the trust chain in one transaction</div>
+      <div class="activity-body">
+        <p>Pick any digital transaction you completed today — a payment, a login, a signed document, a health or government service. Then work backwards:</p>
+        <ul class="prompt-list">
+          <li>Where is a digital signature involved? (Even if you didn't see one.)</li>
+          <li>Who issued the certificate or credential being used?</li>
+          <li>What would break if that certificate were compromised or no longer trusted?</li>
+          <li>Who — if anyone — has no access to this transaction because they lack the required infrastructure?</li>
+        </ul>
+        <p style="margin-top:12px">You don't need to find perfect answers. The goal is to develop the habit of seeing trust infrastructure where it's invisible.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt — log entry</div>
+      <div class="activity-title">After tracing the trust chain</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Which layer surprised you most — and why?</li>
+          <li>Where was the trust chain weakest or most opaque?</li>
+          <li>Did this change which scenario track you want to pursue?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page A2: Quantum threat -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Section A — Foundations · Module A2</div>
+    <div class="chapter-title">The quantum threat — and what comes next</div>
+    <div class="chapter-sub">The math beneath the internet was built for a world without quantum computers. That world is ending.</div>
+
+    <p class="body-text">Every time you send an encrypted message, your device and the recipient's device agree on a shared secret using mathematics that depends on a simple fact: certain problems are extraordinarily hard to reverse. Multiplying two large prime numbers together is easy. Factoring the result back into those primes is, with today's computers, practically impossible.</p>
+
+    <p class="body-text">A sufficiently powerful quantum computer running Shor's algorithm could factor those numbers in hours. Most estimates suggest that kind of quantum computer is somewhere between 10 and 20 years away — but no one is certain, and the infrastructure we're building now will still be running when it arrives.</p>
+
+    <div class="pull-quote">"Harvest now, decrypt later." Some adversaries are already collecting encrypted data today, betting they will be able to read it in the future. The threat isn't waiting for quantum computers to exist.</div>
+
+    <p class="body-text">The response is called post-quantum cryptography (PQC): a new generation of algorithms designed to be hard for quantum computers to crack. In 2024, NIST finalised its first set of post-quantum standards. The question is no longer whether to transition — it is how, how fast, and who gets left behind in the process.</p>
+
+    <div class="callout">
+      <div class="callout-title">The transition challenge in three parts</div>
+      <div class="callout-body">
+        <div class="layer-row" style="margin-top:10px">
+          <div class="layer-icon" style="background:#FAEEDA;color:#854F0B">T</div>
+          <div class="layer-content">
+            <div class="layer-title">Technical: replacing 50 years of infrastructure</div>
+            <div class="layer-desc">Cryptographic algorithms are embedded in hardware, firmware, and software across billions of devices. Many can be updated remotely. Some — industrial controllers, medical implants, legacy government systems — cannot.</div>
+          </div>
+        </div>
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#FAECE7;color:#993C1D">P</div>
+          <div class="layer-content">
+            <div class="layer-title">Political: who sets the standards?</div>
+            <div class="layer-desc">NIST's PQC standards reflect US priorities. Other countries — notably China, which has its own PQC programme — may not adopt them. A fragmented global transition creates new interoperability gaps and trust boundaries.</div>
+          </div>
+        </div>
+        <div class="layer-row" style="margin-bottom:0">
+          <div class="layer-icon" style="background:#EAF3DE;color:#3B6D11">E</div>
+          <div class="layer-content">
+            <div class="layer-title">Equity: the transition burden is not evenly shared</div>
+            <div class="layer-desc">High-income countries with modern infrastructure can upgrade relatively quickly. Countries running older systems, or dependent on foreign vendors, face a harder path — and a longer window of vulnerability.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 30 to 45 minutes</div>
+      <div class="activity-title">Map the transition risk in your region</div>
+      <div class="activity-body">
+        <p>Research one of the following questions for your country or region and write a one-page summary of what you find:</p>
+        <ul class="prompt-list">
+          <li>Has your government published a post-quantum migration strategy? If so, what does it prioritise? If not, what does that silence suggest?</li>
+          <li>Which critical systems in your region — financial, health, identity, energy — are most exposed to "harvest now, decrypt later" attacks?</li>
+          <li>Are there legacy systems (infrastructure more than 10 years old, hardware that cannot be updated remotely) that will be difficult or impossible to migrate?</li>
+        </ul>
+        <p style="margin-top:12px">Your one-page summary is the seed of a Section B scenario. Keep it — you'll return to it.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt — log entry</div>
+      <div class="activity-title">After researching the transition risk</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>What was hardest to find out — and what does that gap tell you?</li>
+          <li>Who in your region is responsible for this transition, and do they know it?</li>
+          <li>What would need to be true for your region to complete a post-quantum transition successfully by 2035?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="completion">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Module A2 complete</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.6">This module, combined with A1, earns the Foundations Explorer badge. Complete A3 to finish Section A and unlock your first scenario track.</div>
+      <div class="badge-row">
+        <div class="badge-pill">A2 complete</div>
+        <div class="badge-pill">🔵 Foundations explorer — 2 of 3 steps done</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page A3: Map your region -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Section A — Foundations · Module A3</div>
+    <div class="chapter-title">Map your region's digital infrastructure</div>
+    <div class="chapter-sub">The most important activity in Section A. Draw what exists, name what's missing, and locate yourself in the picture.</div>
+
+    <p class="body-text">Every scenario you investigate in Section B will be rooted in a specific place. Before you can imagine what the next 50 years might look like in your region, you need a clear picture of what exists today — not the official narrative, but the ground truth.</p>
+
+    <p class="body-text">This activity asks you to build a simple map. Not a technical architecture diagram — a strategic one. What DPI layers exist in your country or region? Who built them, who runs them, who is excluded from them? What's fragile, what's contested, and what's genuinely missing?</p>
+
+    <p class="body-text">You will almost certainly not be able to fill in every cell. The gaps are part of the map.</p>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 60 to 90 minutes (can be done over multiple sessions)</div>
+      <div class="activity-title">Your regional DPI map</div>
+      <div class="activity-body">
+        <p>Fill in the table below for your country or region. Use what you know, then research what you don't. Write short notes — a few words per cell is enough. If a cell is blank, write "unknown" or "does not exist" rather than leaving it empty. Both are informative.</p>
+      </div>
+    </div>
+
+    <div class="map-area">
+      <div class="map-row">
+        <div class="map-cell-head" style="flex:1.4">DPI layer</div>
+        <div class="map-cell-head" style="flex:2">What exists in your region?</div>
+        <div class="map-cell-head" style="flex:1.6">Who's excluded or underserved?</div>
+        <div class="map-cell-head" style="flex:1.4">Fragile, contested, or missing?</div>
+      </div>
+      <div class="map-row">
+        <div class="map-cell" style="flex:1.4;font-weight:500;color:var(--color-text-primary)">Digital identity</div>
+        <div class="map-cell" style="flex:2"><input class="map-input" placeholder="e.g. national ID card, biometric system..."></div>
+        <div class="map-cell" style="flex:1.6"><input class="map-input" placeholder="e.g. rural populations, refugees..."></div>
+        <div class="map-cell" style="flex:1.4"><input class="map-input" placeholder="e.g. fragile, centralised..."></div>
+      </div>
+      <div class="map-row">
+        <div class="map-cell" style="flex:1.4;font-weight:500;color:var(--color-text-primary)">Digital payments</div>
+        <div class="map-cell" style="flex:2"><input class="map-input" placeholder="e.g. UPI, mobile money, card rails..."></div>
+        <div class="map-cell" style="flex:1.6"><input class="map-input" placeholder=""></div>
+        <div class="map-cell" style="flex:1.4"><input class="map-input" placeholder=""></div>
+      </div>
+      <div class="map-row">
+        <div class="map-cell" style="flex:1.4;font-weight:500;color:var(--color-text-primary)">Data exchange</div>
+        <div class="map-cell" style="flex:2"><input class="map-input" placeholder="e.g. X-Road, health data network..."></div>
+        <div class="map-cell" style="flex:1.6"><input class="map-input" placeholder=""></div>
+        <div class="map-cell" style="flex:1.4"><input class="map-input" placeholder=""></div>
+      </div>
+      <div class="map-row">
+        <div class="map-cell" style="flex:1.4;font-weight:500;color:var(--color-text-primary)">Verifiable credentials</div>
+        <div class="map-cell" style="flex:2"><input class="map-input" placeholder="e.g. digital driving licence, vaccine cert..."></div>
+        <div class="map-cell" style="flex:1.6"><input class="map-input" placeholder=""></div>
+        <div class="map-cell" style="flex:1.4"><input class="map-input" placeholder=""></div>
+      </div>
+      <div class="map-row">
+        <div class="map-cell" style="flex:1.4;font-weight:500;color:var(--color-text-primary)">Cybersecurity / policy</div>
+        <div class="map-cell" style="flex:2"><input class="map-input" placeholder="e.g. CERT, national cyber strategy..."></div>
+        <div class="map-cell" style="flex:1.6"><input class="map-input" placeholder=""></div>
+        <div class="map-cell" style="flex:1.4"><input class="map-input" placeholder=""></div>
+      </div>
+    </div>
+
+    <div class="activity-box" style="margin-top:8px">
+      <div class="activity-label">After completing the map</div>
+      <div class="activity-title">The three most important things you found</div>
+      <div class="activity-body">
+        <p>Write one sentence for each in your log:</p>
+        <ul class="prompt-list">
+          <li>The thing that surprised you most about what exists</li>
+          <li>The gap you believe matters most</li>
+          <li>The question this map opened up that you didn't have before</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Log entry — Section A complete</div>
+      <div class="log-field">
+        <div class="log-label">The most important gap in my region's DPI is</div>
+        <textarea class="log-area" rows="2" placeholder="Be specific — name a system, a population, a failure mode."></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The scenario track I'm most drawn to, and why</div>
+        <textarea class="log-area" rows="2" placeholder="B1, B2, B3, B4, or your own — and one sentence on why it connects to what you've just mapped."></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">One person I want to interview or consult before starting Section B</div>
+        <input class="log-line" type="text" placeholder="Name or role — a practitioner, a policymaker, a community member.">
+      </div>
+    </div>
+
+    <div class="completion">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Section A complete — ready for Section B</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.6">You've built the foundation. You understand the trust stack, the quantum transition challenge, and the current state of your region's digital infrastructure. Turn to Section B and choose your scenario track.</div>
+      <div class="badge-row">
+        <div class="badge-pill">A3 complete</div>
+        <div class="badge-pill">🔵 Foundations explorer — earned</div>
+        <div class="badge-pill">Section B unlocked</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(n) {
+  for(let i=0;i<3;i++){
+    document.getElementById('page'+i).style.display = i===n?'block':'none';
+    const btn = document.getElementById('nav'+i);
+    btn.style.background = i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    btn.style.color = i===n?'var(--color-text-info)':'var(--color-text-secondary)';
+  }
+}
+</script>
