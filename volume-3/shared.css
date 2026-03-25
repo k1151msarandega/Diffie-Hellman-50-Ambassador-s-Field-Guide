@@ -1,0 +1,158 @@
+/* ============================================================ 
+   IEEE DH50 — Shared Design Tokens
+   Based on IEEE Brand Identity Guidelines
+   Fonts: Open Sans (web-safe Formata substitute), Cambria (serif)
+   Colors: IEEE full brand palette
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  /* ---- Typography ---- */
+  --font-sans:  'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif;
+  --font-serif: Cambria, 'Adobe Caslon Pro', Georgia, serif;
+
+  /* ---- IEEE Brand Colors ---- */
+  --ieee-blue:        #00629B;   /* PMS 3015 C — primary */
+  --ieee-blue-dark:   #002855;   /* PMS 295 C  — dark blue */
+  --ieee-cyan:        #00B5E2;   /* PMS Cyan   */
+  --ieee-teal:        #009CA6;   /* PMS 320 C  */
+  --ieee-dark-teal:   #007377;   /* PMS 322 C  */
+  --ieee-green:       #00843D;   /* PMS 348 C  */
+  --ieee-dark-green:  #006341;   /* PMS 3425 C */
+  --ieee-olive:       #658D1B;   /* PMS 370 C  */
+  --ieee-bright-green:#78BE20;   /* PMS 368 C  */
+  --ieee-yellow:      #FFD100;   /* PMS 109 C  */
+  --ieee-dark-yellow: #FFC72C;   /* PMS 123 C  */
+  --ieee-orange:      #FFA300;   /* PMS 137 C  */
+  --ieee-dark-orange: #E87722;   /* PMS 158 C  */
+  --ieee-red:         #BA0C2F;   /* PMS 200 C  */
+  --ieee-dark-red:    #861F41;   /* PMS 208 C  */
+  --ieee-purple:      #981D97;   /* PMS 254 C  */
+  --ieee-dark-purple: #772583;   /* PMS 2612 C */
+  --ieee-gray:        #75787B;   /* Cool Gray 9C */
+  --ieee-black:       #000000;
+  --ieee-white:       #FFFFFF;
+
+  /* ---- Semantic Text Colors ---- */
+  --color-text-primary:   #1A1A2E;
+  --color-text-secondary: #4A5568;
+  --color-text-tertiary:  #8A94A6;
+  --color-text-info:      #00629B;   /* ieee-blue */
+  --color-text-warning:   #C4621A;   /* darker orange for text contrast */
+  --color-text-success:   #00843D;   /* ieee-green */
+  --color-text-error:     #BA0C2F;   /* ieee-red */
+
+  /* ---- Semantic Background Colors ---- */
+  --color-background-primary:   #FFFFFF;
+  --color-background-secondary: #F5F7FA;
+  --color-background-info:      #E5F0F8;   /* light IEEE blue tint */
+  --color-background-warning:   #FEF3E8;   /* light orange tint */
+  --color-background-success:   #E8F5EE;   /* light green tint */
+  --color-background-error:     #FDECEA;   /* light red tint */
+
+  /* ---- Semantic Border Colors ---- */
+  --color-border-primary:   #00629B;
+  --color-border-secondary: #B8C5D3;
+  --color-border-tertiary:  #DDE3EC;
+
+  /* ---- Border Radius ---- */
+  --border-radius-lg: 10px;
+  --border-radius-md:  6px;
+  --border-radius-sm:  4px;
+}
+
+/* ============================================================
+   Navigation Bar
+   ============================================================ */
+
+#dkr-nav {
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border-tertiary);
+  padding: 14px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-sans);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+
+.dkr-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  flex-wrap: wrap;
+}
+
+.dkr-breadcrumb a {
+  color: var(--ieee-blue);
+  text-decoration: none;
+  transition: color .15s;
+}
+
+.dkr-breadcrumb a:hover { text-decoration: underline; }
+
+.dkr-breadcrumb .sep {
+  color: var(--color-border-secondary);
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.dkr-breadcrumb .current {
+  color: var(--color-text-tertiary);
+}
+
+.dkr-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.dkr-nav-arrow {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ieee-blue);
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: border-color .15s, background .15s;
+  white-space: nowrap;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+}
+
+.dkr-nav-arrow:hover {
+  border-color: var(--ieee-blue);
+  background: var(--color-background-info);
+}
+
+.dkr-nav-arrow.disabled {
+  color: var(--color-text-tertiary);
+  border-color: var(--color-border-tertiary);
+  pointer-events: none;
+  opacity: .5;
+}
+
+@media (max-width: 700px) {
+  #dkr-nav {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .dkr-nav-arrows { width: 100%; justify-content: space-between; }
+}
