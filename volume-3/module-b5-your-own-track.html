@@ -1,26 +1,342 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module B5 — Your Own Track</title>
-    <link rel="stylesheet" href="./shared.css">
 <style>
-*{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background: #FFFFFF;color:#1A1A2E}
-    .container{max-width:900px;margin:0 auto;padding:2.5rem 1rem}
-    .card{background:linear-gradient(180deg,#F5F7FA 0%,#0f1733 100%);border:1px solid #DDE3EC;border-radius:14px;padding:1.25rem}
-    h1{margin-top:0} p{color:#4A5568} a{color:#00629B}
-  </style>
-</head>
-<body>
-  <main class="container">
-    <article class="card">
-      <h1>Module B5 — Your Own Track</h1>
-      <p>“The question that wouldn't fit anywhere else.”</p>
-      <p>Use this page to define your custom scenario track.</p>
-      <p><a href="./index.html">← Back to Volume 3</a></p>
-    </article>
-  </main>
-</body>
-</html>
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:10px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:9px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .callout { border-radius:var(--border-radius-lg); padding:16px 18px; margin:20px 0; background:var(--color-background-secondary); }
+  .callout-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:8px; }
+  .scaffold-block { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); margin:12px 0; overflow:hidden; }
+  .scaffold-head { display:flex; align-items:center; gap:12px; padding:13px 16px; cursor:pointer; user-select:none; background:var(--color-background-secondary); }
+  .scaffold-head:hover { background:var(--color-background-secondary); opacity:.9; }
+  .scaffold-num { width:26px; height:26px; border-radius:50%; background:var(--color-border-tertiary); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; color:var(--color-text-secondary); flex-shrink:0; }
+  .scaffold-title { font-size:14px; font-weight:500; color:var(--color-text-primary); flex:1; }
+  .scaffold-hint { font-size:12px; color:var(--color-text-tertiary); }
+  .chevron { font-size:11px; color:var(--color-text-tertiary); transition:transform .2s; }
+  .chevron.open { transform:rotate(90deg); }
+  .scaffold-body { display:none; padding:16px 18px; border-top:1px solid var(--color-border-tertiary); }
+  .scaffold-body.open { display:block; }
+  .scaffold-body-text { font-size:13px; color:var(--color-text-secondary); line-height:1.65; margin-bottom:12px; }
+  .scaffold-prompts { list-style:none; padding:0; margin:0; }
+  .scaffold-prompts li { display:flex; gap:10px; font-size:13px; color:var(--color-text-secondary); margin-bottom:8px; line-height:1.5; }
+  .scaffold-prompts li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .scaffold-input { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:13px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); margin-top:12px; }
+  .scaffold-input::placeholder { color:var(--color-text-tertiary); }
+  .scaffold-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:13px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; margin-top:10px; }
+  .scaffold-area::placeholder { color:var(--color-text-tertiary); }
+  .test-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
+  .test-card { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); padding:14px; }
+  .test-q { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:5px; line-height:1.4; }
+  .test-hint { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .open-source-band { border-left:3px solid var(--color-text-success); background:var(--color-background-success); border-radius:0 var(--border-radius-md) var(--border-radius-md) 0; padding:12px 16px; margin:16px 0; }
+  .open-source-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-success); margin-bottom:4px; }
+  .open-source-body { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .completion { margin-top:24px; padding:16px 18px; border-radius:var(--border-radius-lg); background:var(--color-background-secondary); }
+  .nav-btn { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-secondary); cursor:pointer; }
+</style>
+
+<div class="page">
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+    <button class="nav-btn" onclick="showPage(0)" id="nav0" style="background:var(--color-background-info);color:var(--color-text-info)">B5 — Opening</button>
+    <button class="nav-btn" onclick="showPage(1)" id="nav1" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Test your question</button>
+    <button class="nav-btn" onclick="showPage(2)" id="nav2" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Build your scaffold</button>
+    <button class="nav-btn" onclick="showPage(3)" id="nav3" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Log + completion</button>
+  </div>
+
+  <!-- Page 0: Opening -->
+  <div id="page0">
+    <div class="chapter-label">Section B — Scenario Tracks · Track B5</div>
+    <div class="chapter-title">Your own track</div>
+    <div class="chapter-sub">The question that wouldn't fit anywhere else.</div>
+
+    <p class="body-text">Tracks B1 through B4 were written by people who don't know you, your region, your community, or the specific corner of the next fifty years that you find yourself thinking about at odd hours. They cover a lot. They don't cover everything.</p>
+
+    <p class="body-text">B5 exists because the most important contributions to this anniversary will probably not be the ones that fit neatly into a predetermined category. They will be the ones that noticed something the category system missed — a question specific to a region, a sector, a technology, a community, or a moment in time that none of the other tracks anticipated.</p>
+
+    <div class="pull-quote">"The question that won't leave you alone is usually the one worth asking."</div>
+
+    <p class="body-text">This track gives you the scaffold to pursue that question rigorously — to test whether it's genuinely distinct from the existing tracks, to build your own analytical structure, and to connect your work to the broader network of ambassadors in a way that makes its contribution legible.</p>
+
+    <p class="body-text">It does not give you the content. That part is yours.</p>
+
+    <div class="callout">
+      <div class="callout-title">Before you commit to B5</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 10px">B5 is not an easier path than B1–B4. It is a harder one — because you are responsible for the analytical structure as well as the content, and because a scenario that is merely different from the other tracks is not the same as one that is better for being different.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 10px">Ask yourself: does my question require a new track, or does it fit within an existing one approached from a different angle? A question about child safety online might be a B2 scenario focused on a specific governance gap. A question about post-quantum transition in a specific region might be a B1 scenario with a tighter geographic scope. If an existing track can hold your question, use it — the connective tissue of the handbook will serve you better.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">If, after that test, your question still doesn't fit — you're in the right place.</p>
+      </div>
+    </div>
+
+    <div class="open-source-band">
+      <div class="open-source-label">B5 and the handbook's future</div>
+      <div class="open-source-body">B5 scenarios that prove generative — that open a territory other ambassadors want to explore — become the seed of future tracks. If your question resonates widely enough, the next version of this handbook may include a B6 that wouldn't exist without you. Document your analytical structure carefully, even as you build it. It is the contribution that outlasts the scenario itself.</div>
+    </div>
+  </div>
+
+  <!-- Page 1: Test your question -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Section B · Track B5</div>
+    <div class="chapter-title">Test your question</div>
+    <div class="chapter-sub">Four tests. If your question passes them all, it's worth a track of its own.</div>
+
+    <p class="body-text">A good B5 scenario begins with a question that is specific, consequential, tractable, and genuinely connected to cryptographic trust infrastructure — even if that connection is oblique. These four tests are designed to help you assess whether your question meets that bar before you build the rest of your work around it.</p>
+
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-q">Is it specific enough to be answerable?</div>
+        <div class="test-hint">Not "what is the future of digital identity?" but "what happens to informal cross-border labour when verifiable digital credentials become mandatory for work authorisation in the Gulf states?"</div>
+      </div>
+      <div class="test-card">
+        <div class="test-q">Is it consequential enough to matter?</div>
+        <div class="test-hint">If the answer to your question is "not much changes either way," it's probably a footnote to someone else's scenario, not a track of its own. What hangs on the answer?</div>
+      </div>
+      <div class="test-card">
+        <div class="test-q">Is it tractable in the time you have?</div>
+        <div class="test-hint">Can you make meaningful progress on this question between now and October 2026? A question that requires a decade of fieldwork is a research agenda, not a scenario. Scope it until it's achievable.</div>
+      </div>
+      <div class="test-card">
+        <div class="test-q">Does it connect to the DHM legacy?</div>
+        <div class="test-hint">Not every question needs cryptography at its centre — but there should be a visible thread. Where does digital trust infrastructure appear in your question, even in the background?</div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 30 minutes</div>
+      <div class="activity-title">Write your question three ways</div>
+      <div class="activity-body">
+        <p>Take the question driving you toward B5 and write it three times — each time sharper and more specific than the last.</p>
+        <ul class="prompt-list">
+          <li>Version 1: the broad version, as it first occurred to you</li>
+          <li>Version 2: narrowed to a specific region, sector, or moment in time</li>
+          <li>Version 3: narrow enough that you could outline an answer in 2,000 words</li>
+        </ul>
+        <p style="margin-top:10px">Version 3 is your working question. If you cannot get from Version 1 to Version 3, the question may not yet be ready for a scenario — or it may need a collaborator who can help you scope it.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt</div>
+      <div class="activity-title">The honest check</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Which of the four tests is your question weakest on — and what would it take to strengthen it?</li>
+          <li>Who else, anywhere in the world, is working on this question — and have you found them yet?</li>
+          <li>If you had to explain to a B3 or B4 ambassador why your question deserves its own track, what would you say?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2: Build your scaffold -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Section B · Track B5</div>
+    <div class="chapter-title">Build your scaffold</div>
+    <div class="chapter-sub">The structure is yours to design. These blocks are the connective tissue that keeps it part of the handbook.</div>
+
+    <p class="body-text">Each block below corresponds to something every B-track scenario must contain — regardless of which track it belongs to. They are the minimum connective tissue that makes your work legible to other ambassadors, to the global repository, and to the next person who arrives at a similar question.</p>
+
+    <p class="body-text">Open each block, read what it requires, and write your own version of it — specific to your question, your evidence, and your analytical approach. These notes become the planning document for your scenario paper.</p>
+
+    <div class="scaffold-block">
+      <div class="scaffold-head" onclick="toggleScaffold(this)">
+        <div class="scaffold-num">1</div>
+        <div>
+          <div class="scaffold-title">What you're investigating — and why it belongs here</div>
+          <div class="scaffold-hint">Your question, your track name, your case for why it's distinct</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="scaffold-body">
+        <div class="scaffold-body-text">Every B5 scenario begins with a declaration: here is my question, here is why it doesn't fit an existing track, and here is what it will contribute that wouldn't exist otherwise. This is not throat-clearing — it is the analytical foundation of your track. Be specific and be honest.</div>
+        <ul class="scaffold-prompts">
+          <li>What is your working question — Version 3 from the previous module?</li>
+          <li>Which existing track comes closest to holding it — and what does it leave out?</li>
+          <li>What is the specific contribution your scenario makes that the existing tracks don't?</li>
+        </ul>
+        <input class="scaffold-input" placeholder="Working title for your track…">
+        <textarea class="scaffold-area" rows="3" placeholder="Your case in 3–4 sentences: question, gap, contribution…"></textarea>
+      </div>
+    </div>
+
+    <div class="scaffold-block">
+      <div class="scaffold-head" onclick="toggleScaffold(this)">
+        <div class="scaffold-num">2</div>
+        <div>
+          <div class="scaffold-title">Your primary evidence — what you're building on</div>
+          <div class="scaffold-hint">What exists, what you found, who you talked to</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="scaffold-body">
+        <div class="scaffold-body-text">Every track has its primary evidence type: B1 has the cryptographic inventory; B3 has the comparative model analysis; B4 has the listening conversations. B5 requires you to name yours — what is the evidence your scenario is built on, and why is it the right evidence for your question?</div>
+        <ul class="scaffold-prompts">
+          <li>What is your primary evidence type — technical audit, policy analysis, fieldwork, comparative research, something else?</li>
+          <li>What existing work are you building on — and what gap in that literature is your scenario filling?</li>
+          <li>Who have you talked to, and what did they tell you that written sources couldn't?</li>
+        </ul>
+        <textarea class="scaffold-area" rows="3" placeholder="Evidence type and sources — be specific about what you found and where…"></textarea>
+      </div>
+    </div>
+
+    <div class="scaffold-block">
+      <div class="scaffold-head" onclick="toggleScaffold(this)">
+        <div class="scaffold-num">3</div>
+        <div>
+          <div class="scaffold-title">Your analytical structure — the five sections</div>
+          <div class="scaffold-hint">Named for your question, not borrowed from another track</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="scaffold-body">
+        <div class="scaffold-body-text">Every B-track scenario has five sections. The sections in B1, B2, B3, and B4 are named for what those specific questions require. Yours should be too. Below, name your five sections — not as generic headings, but as specific descriptions of what each section will do for your particular argument.</div>
+        <ul class="scaffold-prompts">
+          <li>What does your opening section need to establish — and what is the right evidence to open with?</li>
+          <li>What is the analytical core of your scenario — the section where the real argument lives?</li>
+          <li>How does your scenario end — with a decision, an open question, a prediction, a community's knowledge, or something else?</li>
+        </ul>
+        <textarea class="scaffold-area" rows="5" placeholder="Section 1: …&#10;Section 2: …&#10;Section 3: …&#10;Section 4: …&#10;Section 5: …"></textarea>
+      </div>
+    </div>
+
+    <div class="scaffold-block">
+      <div class="scaffold-head" onclick="toggleScaffold(this)">
+        <div class="scaffold-num">4</div>
+        <div>
+          <div class="scaffold-title">Your connection to the network</div>
+          <div class="scaffold-hint">How your track connects to the other four — and to the ambassadors working them</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="scaffold-body">
+        <div class="scaffold-body-text">A B5 track that is entirely isolated from the other four is a missed opportunity. Even the most novel question will have contact points with post-quantum transition, AI governance, digital sovereignty, or inclusion — because these are not separate problems. They are facets of the same set of decisions about the next fifty years of digital infrastructure. Name the connections explicitly.</div>
+        <ul class="scaffold-prompts">
+          <li>Where does your question intersect with B1, B2, B3, or B4 — even tangentially?</li>
+          <li>Which ambassador working another track would most benefit from reading your scenario — and which of theirs would most inform yours?</li>
+          <li>What would a future track building on your work look like — and who might write it?</li>
+        </ul>
+        <textarea class="scaffold-area" rows="3" placeholder="Connections to other tracks and ambassadors…"></textarea>
+      </div>
+    </div>
+
+    <div class="scaffold-block">
+      <div class="scaffold-head" onclick="toggleScaffold(this)">
+        <div class="scaffold-num">5</div>
+        <div>
+          <div class="scaffold-title">Your reflection questions</div>
+          <div class="scaffold-hint">Write the prompts your track asks — for yourself and for the ambassadors who come after</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="scaffold-body">
+        <div class="scaffold-body-text">Each track has reflection prompts — the questions an ambassador asks themselves after completing the core activity and after their first draft. Write yours. They should be specific to the analytical and ethical challenges of your question. They will become part of the handbook if your track is adopted for future versions.</div>
+        <ul class="scaffold-prompts">
+          <li>What is the hardest question your scenario forces you to answer honestly?</li>
+          <li>What assumption, if wrong, would invalidate your central argument?</li>
+          <li>What would you tell the next ambassador who arrives at a similar question with different evidence?</li>
+        </ul>
+        <textarea class="scaffold-area" rows="4" placeholder="After the core activity: …&#10;After the first draft: …&#10;For the next ambassador: …"></textarea>
+      </div>
+    </div>
+
+    <div class="open-source-band" style="margin-top:20px">
+      <div class="open-source-label">Submit your scaffold, not just your scenario</div>
+      <div class="open-source-body">When you submit your B5 scenario to the IEEE DH50 repository, include your completed scaffold as an appendix — with the five section names, the evidence type, and the connection map. This is what makes your track replicable. The scenario is your contribution to this anniversary. The scaffold is your contribution to the next one.</div>
+    </div>
+  </div>
+
+  <!-- Page 3: Log + completion -->
+  <div id="page3" style="display:none">
+    <div class="chapter-label">Section B · Track B5</div>
+    <div class="chapter-title">Log and completion</div>
+    <div class="chapter-sub">What you built, what it cost, and what it opens up.</div>
+
+    <p class="body-text">B5 asks more of you than any other track — not in time or expertise, but in self-direction. You had no model cards to click through, no documented cases to read, no predetermined scenario structure to fill. You had to decide what counted as evidence, what structure served your argument, and what questions your track needed to ask.</p>
+
+    <p class="body-text">That work is not just the content of your scenario. It is the methodological contribution of your track. The log entry below asks you to make it explicit.</p>
+
+    <div class="log-box">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Log entry — Track B5 complete</div>
+      <div class="log-field">
+        <div class="log-label">My working question — final version</div>
+        <input class="log-line" type="text" placeholder="The sharpest version of your question, as it stands now.">
+      </div>
+      <div class="log-field">
+        <div class="log-label">The name of my track — as I would want it to appear in a future handbook</div>
+        <input class="log-line" type="text" placeholder="Not 'B5 — my own track.' Something a future ambassador could find and recognise as theirs.">
+      </div>
+      <div class="log-field">
+        <div class="log-label">The evidence type I used — and why it was right for this question</div>
+        <textarea class="log-area" rows="2" placeholder="What you built your scenario on, and what that choice required of you."></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The connection to the existing tracks — the thread I followed back in</div>
+        <textarea class="log-area" rows="2" placeholder="Which track does your scenario touch — and what is the specific point of contact?"></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The question my track leaves open — for the ambassador who comes next</div>
+        <textarea class="log-area" rows="2" placeholder="What did you not have time, access, or knowledge to answer? Who should?"></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">One sentence I would say to the next person who arrives at this question</div>
+        <input class="log-line" type="text" placeholder="Not advice. What you wish you had known at the start.">
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:8px">
+      <div class="callout-title">Submitting your scenario and scaffold</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">Submit your completed scenario and your scaffold appendix to the IEEE DH50 repository via your regional coordinator or the ambassador portal. In your submission notes, flag it as a B5 track and include your proposed track name. Scenarios received by October 2026 are eligible for presentation at the Santa Clara Final Celebration.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">The handbook's editors will review B5 submissions after the anniversary to identify tracks that generated interest from multiple ambassadors. If yours is among them, you may be invited to co-author a new track for the next edition.</p>
+      </div>
+    </div>
+
+    <div class="completion">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Track B5 complete</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.6">You built something that didn't exist before — a question, a structure, and a scenario that the other tracks couldn't hold. You've also left behind a scaffold that the next ambassador who arrives at your question can use as a starting point. Move to Section C to prepare your public presentation, or connect with another ambassador for your Global Connector badge.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Track B5 complete</div>
+        <div class="badge-pill">🟣 Scenario builder — earned</div>
+        <div class="badge-pill">Section C unlocked</div>
+        <div class="badge-pill">🌍 Global connector — 1 step done</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(n){
+  for(let i=0;i<4;i++){
+    document.getElementById('page'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('nav'+i);
+    b.style.background=i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    b.style.color=i===n?'var(--color-text-info)':'var(--color-text-secondary)';
+  }
+}
+function toggleScaffold(el){
+  const body=el.nextElementSibling;
+  const chev=el.querySelector('.chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+</script>
