@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Knowledge Repository</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-card: #111831;
+      --text: #e9eefc;
+      --muted: #b8c3e3;
+      --accent: #79a7ff;
+      --border: #2b3a70;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top, #1b2752 0%, var(--bg) 45%);
+      min-height: 100vh;
+    }
+    .container { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1rem; }
+    h1 { margin: 0; font-size: clamp(1.9rem, 3vw, 2.5rem); }
+    .subtitle { color: var(--muted); max-width: 70ch; margin-top: 0.75rem; }
+    .cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 1.5rem; }
+    .card { background: linear-gradient(180deg, var(--bg-card) 0%, #0f1733 100%); border: 1px solid var(--border); border-radius: 14px; }
+    .card a { display: block; text-decoration: none; color: inherit; padding: 1rem; border-radius: 14px; }
+    .card a:hover, .card a:focus-visible { background: rgba(121, 167, 255, 0.12); outline: none; }
+    .card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; }
+    .card p { margin: 0; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Dynamic Knowledge Repository</h1>
+    <p class="subtitle">Chronological volume navigation: Volume 1, then Volume 2, then Volume 3 (Future Ambassadors Handbook).</p>
+    <section class="cards" aria-label="Volumes">
+      <article class="card"><a href="volume-1/index.html"><h2>Volume 1</h2><p>Coming Soon</p></a></article>
+      <article class="card"><a href="volume-2/index.html"><h2>Volume 2</h2><p>Coming Soon</p></a></article>
+      <article class="card"><a href="volume-3/index.html"><h2>Volume 3</h2><p>Future Ambassadors Handbook</p></a></article>
+    </section>
+  </main>
+</body>
+</html>
