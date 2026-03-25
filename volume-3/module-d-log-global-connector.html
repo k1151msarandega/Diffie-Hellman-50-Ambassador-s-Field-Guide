@@ -1,67 +1,423 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module D — Ambassador Log & Global Connector · DH50 Future Ambassador Field Guide</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <style>
+<style>
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:10px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:9px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .callout { border-radius:var(--border-radius-lg); padding:16px 18px; margin:20px 0; background:var(--color-background-secondary); }
+  .callout-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:8px; }
+  .nav-btn { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-secondary); cursor:pointer; }
+  .open-source-band { border-left:3px solid var(--color-text-success); background:var(--color-background-success); border-radius:0 var(--border-radius-md) var(--border-radius-md) 0; padding:12px 16px; margin:16px 0; }
+  .open-source-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-success); margin-bottom:4px; }
+  .open-source-body { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .log-index { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:16px 0; }
+  .log-index-row { display:flex; align-items:center; gap:12px; padding:11px 14px; border-bottom:1px solid var(--color-border-tertiary); }
+  .log-index-row:last-child { border-bottom:none; }
+  .log-index-module { font-size:11px; font-weight:500; color:var(--color-text-tertiary); width:52px; flex-shrink:0; }
+  .log-index-title { font-size:13px; color:var(--color-text-secondary); flex:1; line-height:1.4; }
+  .log-index-check { width:18px; height:18px; border-radius:4px; border:1px solid var(--color-border-secondary); flex-shrink:0; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:11px; color:transparent; transition:all .15s; }
+  .log-index-check.done { background:var(--color-background-success); border-color:var(--color-text-success); color:var(--color-text-success); }
+  .connector-steps { margin:16px 0; }
+  .connector-step { display:flex; gap:14px; margin-bottom:16px; align-items:flex-start; }
+  .connector-step:last-child { margin-bottom:0; }
+  .cs-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; flex-shrink:0; margin-top:1px; }
+  .cs-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:3px; }
+  .cs-desc { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .exchange-table { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:16px 0; }
+  .et-row { display:flex; border-bottom:1px solid var(--color-border-tertiary); }
+  .et-row:last-child { border-bottom:none; }
+  .et-head { font-size:10px; font-weight:500; letter-spacing:.07em; text-transform:uppercase; color:var(--color-text-tertiary); padding:8px 12px; flex:1; background:var(--color-background-secondary); }
+  .et-label { font-size:13px; font-weight:500; color:var(--color-text-primary); padding:10px 12px; flex:1; line-height:1.5; }
+  .et-cell { padding:9px 12px; flex:1.6; border-left:1px solid var(--color-border-tertiary); }
+  .et-input { border:none; background:transparent; width:100%; font-size:13px; color:var(--color-text-primary); outline:none; font-family:var(--font-sans); }
+  .et-input::placeholder { color:var(--color-text-tertiary); }
+  .badge-map { margin:20px 0; }
+  .badge-item { display:flex; gap:14px; margin-bottom:14px; align-items:flex-start; }
+  .badge-item:last-child { margin-bottom:0; }
+  .badge-icon { font-size:18px; flex-shrink:0; width:28px; text-align:center; margin-top:2px; }
+  .badge-content { flex:1; }
+  .badge-name { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:2px; }
+  .badge-req { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .badge-status { font-size:11px; font-weight:500; margin-top:4px; }
+  .final-entry { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; background:var(--color-background-secondary); }
+  .final-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:16px; }
+  .closing-block { border-radius:var(--border-radius-lg); padding:24px; margin:24px 0; text-align:center; background:var(--color-background-secondary); }
+  .closing-title { font-size:18px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; line-height:1.3; }
+  .closing-body { font-size:14px; color:var(--color-text-secondary); line-height:1.7; margin-bottom:16px; }
+  .all-badges { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .all-badge { font-size:13px; font-weight:500; padding:6px 16px; border-radius:20px; background:var(--color-background-primary); border:1px solid var(--color-border-secondary); color:var(--color-text-primary); }
+</style>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: 400; line-height: 1.7; color: #1A2B3C; background: #EAEEF3; min-height: 100vh; }
-    .page-shell { min-height: 100vh; display: flex; flex-direction: column; }
-    .topbar { height: 4px; flex-shrink: 0; background: linear-gradient(90deg, #002855 0%, #00629B 50%, #00B5E2 100%); }
-    .nav { background: #ffffff; border-bottom: 1px solid #DDE4EE; padding: 14px 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,.06); flex-shrink: 0; }
-    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-badge { background: #00629B; color: #ffffff; font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
-    .nav-title { font-size: 13px; font-weight: 600; color: #1A2B3C; }
-    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-    .breadcrumb a { color: #00629B; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-    .breadcrumb .sep { color: #B8C9D9; font-weight: 400; font-size: 13px; }
-    .breadcrumb .current { color: #8A94A6; }
-    .nav-arrows { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-    .nav-arrow { font-size: 11px; font-weight: 600; color: #00629B; text-decoration: none; padding: 6px 14px; border: 1px solid #DDE4EE; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px; letter-spacing: .04em; text-transform: uppercase; transition: border-color .15s, background .15s; white-space: nowrap; }
-    .nav-arrow:hover { border-color: #00629B; background: #E3EFF8; text-decoration: none; }
-    .nav-arrow.disabled { color: #8A94A6; border-color: #DDE4EE; pointer-events: none; opacity: .5; }
-    .main { flex: 1; padding: 48px 40px 72px; display: flex; justify-content: center; }
-    .module { width: 100%; max-width: 660px; }
-    .container{max-width:900px;margin:0 auto;padding:2.5rem 1rem}
-    .card{background:linear-gradient(180deg,#F5F7FA 0%,#0f1733 100%);border:1px solid #DDE3EC;border-radius:14px;padding:1.25rem}
-    h1{margin-top:0} p{color:#4A5568} a{color:#00629B}
-    .footer { background: #002855; color: rgba(255,255,255,.5); font-size: 12px; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-shrink: 0; }
-    .footer a { color: rgba(255,255,255,.75); text-decoration: none; }
-    .footer a:hover { color: #ffffff; }
-    @media (max-width: 700px) { .nav { padding: 12px 20px; flex-wrap: wrap; gap: 10px; } .nav-arrows { width: 100%; justify-content: space-between; } .main { padding: 32px 20px 56px; } .footer { padding: 16px 20px; flex-direction: column; gap: 6px; } }
+<div class="page">
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+    <button class="nav-btn" onclick="showPage(0)" id="nav0" style="background:var(--color-background-info);color:var(--color-text-info)">D — Opening</button>
+    <button class="nav-btn" onclick="showPage(1)" id="nav1" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Your full log</button>
+    <button class="nav-btn" onclick="showPage(2)" id="nav2" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Global connector</button>
+    <button class="nav-btn" onclick="showPage(3)" id="nav3" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">The final entry</button>
+  </div>
 
-  </style>
-</head>
-<body>
-<div class="page-shell">
-  <div class="topbar"></div>
-  <nav class="nav">
-    <a class="nav-brand" href="../index.html">
-      <span class="nav-badge">DH50</span>
-      <span class="nav-title">Future Ambassador Field Guide</span>
-    </a>
-    <div class="breadcrumb">
-      <a href="../index.html">Home</a>
-      <span class="sep">›</span>
-      <span class="current">Module D — Ambassador Log & Global Connector</span>
+  <!-- Page 0: Opening -->
+  <div id="page0">
+    <div class="chapter-label">Section D — Ambassador Log and Global Record</div>
+    <div class="chapter-title">The year in full</div>
+    <div class="chapter-sub">Everything you wrote in passing, gathered into something that lasts.</div>
+
+    <p class="body-text">When you opened this handbook — whenever that was, wherever you were — you wrote a first log entry. You named the question that drew you here, the person you would tell, the future you were trying to understand. That entry is probably still honest. But it is probably also incomplete in ways you could not have anticipated at the time.</p>
+
+    <p class="body-text">Section D is where the year becomes visible as a whole. The log entries you made after each module are not a collection of separate notes — they are a record of how your thinking developed, where it surprised you, where it stalled, and what it eventually produced. That record has value beyond the scenario paper. It is a document of how a serious person engaged seriously with a hard problem over the course of a year.</p>
+
+    <div class="pull-quote">"The log is not a record of what you did. It is a record of who you became while doing it."</div>
+
+    <p class="body-text">Section D has four parts: a complete log index that lets you review everything you wrote in one place; the Global Connector exchange, which is the last active task in the handbook; a global ambassador record entry that contributes your work to the shared network; and a final log entry — the last thing you write before closing the handbook.</p>
+
+    <div class="callout">
+      <div class="callout-title">What Section D produces</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">Three things leave this section and enter the world:</p>
+        <ul class="prompt-list" style="margin-top:0">
+          <li>Your global ambassador record entry — a structured contribution to the DH50 network that other ambassadors and coordinators can find and build on</li>
+          <li>Your Global Connector exchange — a documented conversation with an ambassador in another region that earns the final badge and feeds the network's cross-fertilisation</li>
+          <li>Your final log entry — a private document, for you alone, that marks the end of the year and the beginning of whatever comes next</li>
+        </ul>
+      </div>
     </div>
-    <div class="nav-arrows"><a class="nav-arrow" href="./module-c-going-public.html">← Previous</a><a class="nav-arrow disabled">Next →</a></div>
-  </nav>
-  <main class="main"><div class="module"><article class="card">
-      <h1>Module D — Ambassador Log & Global Connector</h1>
-      <p>“Everything you wrote in passing, gathered into something that lasts.”</p>
-      <p>Compile reflections, logs, and cross-region learnings here.</p>
-      <p><a href="./index.html">← Back to Volume 3</a></p>
-    </article></div></main>
-  <footer class="footer">
-    <span>DH50 Future Ambassador Field Guide · IEEE</span>
-    <span>Module D · <a href="../index.html">Back to contents</a></span>
-  </footer>
+  </div>
+
+  <!-- Page 1: Full log -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Section D · Module D1</div>
+    <div class="chapter-title">Your full log</div>
+    <div class="chapter-sub">One place to see the whole year — and to notice what you didn't see at the time.</div>
+
+    <p class="body-text">Every module in this handbook ended with a log entry. Some were short — a single sentence. Some were extended — a full reflection after a difficult interview or a salon that didn't go as planned. Together they form a record that is worth reading in one sitting before you write anything else in Section D.</p>
+
+    <p class="body-text">Use the index below to confirm which entries you've completed — then read through them in order. Don't edit. Don't improve. Just read. You are looking for the moments where something shifted, where a question changed shape, where you wrote something that turned out to be wrong.</p>
+
+    <div class="log-index">
+      <div class="et-row" style="background:var(--color-background-secondary)">
+        <div class="et-head" style="flex:.6">Module</div>
+        <div class="et-head" style="flex:3">Entry prompt</div>
+        <div class="et-head" style="flex:.5;text-align:center">Done</div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">0.3</div>
+        <div class="log-index-title">Why you came. The question you were most drawn to. The first person you planned to tell.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">0.1</div>
+        <div class="log-index-title">What part of the 50-year story was hardest to explain — and what metaphor landed best.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">0.2</div>
+        <div class="log-index-title">Which ambassador archetype you identified with — and what that suggested about your work.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">A1</div>
+        <div class="log-index-title">Where the trust chain was weakest in a transaction you traced — and whether it changed your scenario track.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">A2</div>
+        <div class="log-index-title">What your region's quantum transition research revealed — and who you found was responsible for it.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">A3</div>
+        <div class="log-index-title">The most important gap in your region's DPI. The scenario track you chose and why. The first person you would interview.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">B track</div>
+        <div class="log-index-title">Opening position — what you knew and what you assumed before starting your scenario track.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">B track</div>
+        <div class="log-index-title">Core activity reflection — what the primary evidence revealed, what the practitioner told you, what surprised you.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">B track</div>
+        <div class="log-index-title">After first draft — what you cut, what you're uncertain about, who the most important reader is.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">B track</div>
+        <div class="log-index-title">Completion entry — the changed assumption, the practitioner's key insight, the open question you're leaving.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+      <div class="log-index-row">
+        <div class="log-index-module">C1/C2</div>
+        <div class="log-index-title">After your first event — what the audience told you about your own scenario that you hadn't seen.</div>
+        <div class="log-index-check" onclick="toggleCheck(this)"></div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 30 minutes</div>
+      <div class="activity-title">Read your log in one sitting</div>
+      <div class="activity-body">
+        <p>Once you've confirmed which entries you've completed, read through all of them in order — from the first entry in Module 0.3 to the most recent. Read as a stranger would: someone who has never met you, reading the record of a year's serious work.</p>
+        <ul class="prompt-list">
+          <li>What is the arc — how did your thinking move from the first entry to the last?</li>
+          <li>Where was the sharpest turn — the moment where something you believed was wrong, or something you hadn't considered became central?</li>
+          <li>Is the person who wrote the first entry recognisably the same person who wrote the last one?</li>
+        </ul>
+        <p style="margin-top:10px">Write three sentences answering those questions. They become the opening of your final log entry.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2: Global connector -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Section D · Module D2</div>
+    <div class="chapter-title">The Global Connector exchange</div>
+    <div class="chapter-sub">Knowledge multiplied is not the same as knowledge shared. The exchange has to be real.</div>
+
+    <p class="body-text">Every track in Section B ended with a log prompt asking you to name an ambassador in a different region whose work connects to yours. The Global Connector badge is earned by following through on that prompt — by actually having the exchange, documenting what each of you brought to it, and recording what neither of you could have arrived at alone.</p>
+
+    <p class="body-text">The exchange is not a courtesy call. It is the moment where the handbook's network logic becomes real — where the knowledge that was generated in isolation meets the knowledge generated elsewhere, and something new becomes visible in the gap between them.</p>
+
+    <div class="connector-steps">
+      <div class="connector-step">
+        <div class="cs-num" style="background:#E1F5EE;color:#0F6E56">1</div>
+        <div>
+          <div class="cs-title">Identify your connector</div>
+          <div class="cs-desc">Return to the ambassador you named at the end of your B-track log. Contact them through your regional coordinator or the DH50 ambassador portal. If that person is not reachable, ask your coordinator to match you with an ambassador whose scenario track intersects with yours from a different regional perspective.</div>
+        </div>
+      </div>
+      <div class="connector-step">
+        <div class="cs-num" style="background:#E6F1FB;color:#185FA5">2</div>
+        <div>
+          <div class="cs-title">Prepare one thing to bring</div>
+          <div class="cs-desc">Before the exchange, identify one specific finding from your scenario — not a summary of your whole paper, but one thing that surprised you, that you think the other ambassador's context would either confirm or challenge. Come with that one thing ready to offer. The exchange works when both people arrive with something specific, not when one person interviews the other.</div>
+        </div>
+      </div>
+      <div class="connector-step">
+        <div class="cs-num" style="background:#EEEDFE;color:#534AB7">3</div>
+        <div>
+          <div class="cs-title">Have the exchange — 60 minutes</div>
+          <div class="cs-desc">The format is a conversation, not a presentation. Each person shares their one specific finding and asks the other: does this hold in your context? Where does it diverge? The divergences are the data. Spend more time on the places where your findings don't travel than on the places where they do.</div>
+        </div>
+      </div>
+      <div class="connector-step">
+        <div class="cs-num" style="background:#FAEEDA;color:#854F0B">4</div>
+        <div>
+          <div class="cs-title">Document the multiplied insight</div>
+          <div class="cs-desc">After the exchange, each ambassador writes a short note — no more than 200 words — describing the insight that emerged from the conversation that neither person could have arrived at alone. This note is attached to both scenario submissions in the global repository. It is the evidence that the exchange actually happened, and it is what the NIC-of-NICs framework calls multiplied knowledge.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange-table">
+      <div class="et-row">
+        <div class="et-head" style="flex:1.2">Exchange record</div>
+        <div class="et-head" style="flex:3">Your entry</div>
+      </div>
+      <div class="et-row">
+        <div class="et-label" style="flex:1.2">Connector ambassador</div>
+        <div class="et-cell"><input class="et-input" placeholder="Name, region, scenario track"></div>
+      </div>
+      <div class="et-row">
+        <div class="et-label" style="flex:1.2">What I brought</div>
+        <div class="et-cell"><input class="et-input" placeholder="The one specific finding you offered"></div>
+      </div>
+      <div class="et-row">
+        <div class="et-label" style="flex:1.2">Where it held in their context</div>
+        <div class="et-cell"><input class="et-input" placeholder="What confirmed your finding from a different direction"></div>
+      </div>
+      <div class="et-row">
+        <div class="et-label" style="flex:1.2">Where it diverged</div>
+        <div class="et-cell"><input class="et-input" placeholder="What their context revealed that yours couldn't"></div>
+      </div>
+      <div class="et-row">
+        <div class="et-label" style="flex:1.2">The multiplied insight</div>
+        <div class="et-cell">
+          <textarea style="border:none;background:transparent;width:100%;font-size:13px;color:var(--color-text-primary);outline:none;resize:none;font-family:var(--font-sans);line-height:1.6;padding:2px 0" rows="3" placeholder="In 200 words or fewer: what emerged from the conversation that neither of you could have arrived at alone."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Why this badge is last</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">The Global Connector badge is the only one in the handbook that requires another person. That is not an accident. The scenario you wrote is a contribution to the global record. The exchange is a contribution to the global intelligence — the emergent understanding that arises when findings from different contexts are put in conversation.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">The NIC-of-NICs framework that underpins this initiative describes knowledge as non-rivalrous: when you share it, you keep it, and the act of sharing creates something new. The exchange is where you experience that logic directly, rather than reading about it in an appendix.</p>
+      </div>
+    </div>
+
+    <div style="padding:14px 16px;border-radius:var(--border-radius-lg);background:var(--color-background-secondary);margin-top:8px">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Module D2 complete</div>
+      <div class="badge-row">
+        <div class="badge-pill">🌍 Global connector — earned</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: Final entry -->
+  <div id="page3" style="display:none">
+    <div class="chapter-label">Section D · Module D3</div>
+    <div class="chapter-title">The final entry</div>
+    <div class="chapter-sub">The last thing you write in this handbook. Take your time with it.</div>
+
+    <p class="body-text">Every previous log entry in this handbook was prompted by a module — something you had just done, just found, just heard. This one is different. There is no module before it. It follows from the year as a whole, from reading your log in one sitting, from the exchange with your connector ambassador, from whatever has happened in the months between your first entry and this one.</p>
+
+    <p class="body-text">The global ambassador record that follows is structured and public — it will be visible to other ambassadors and to coordinators. This final entry is yours alone. It will not be submitted anywhere. Write it for the person who will open this handbook in a few years, wonder who used it, and find your name in the record — and for the version of yourself who returns to it and needs to remember why this year mattered.</p>
+
+    <div class="final-entry">
+      <div class="final-label">Final log entry — year's end</div>
+      <div class="log-field">
+        <div class="log-label">Where I started — the question I came in with</div>
+        <textarea class="log-area" rows="2" placeholder="Copy or paraphrase your first entry. Let the distance show."></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">Where I arrived — the question I leave with</div>
+        <textarea class="log-area" rows="2" placeholder="Not the answer. The question the year opened that wasn't there at the beginning."></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The moment the work became real</div>
+        <textarea class="log-area" rows="2" placeholder="The conversation, the finding, the event where you stopped going through the motions and started actually believing it mattered."></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">What I would tell the next ambassador who picks up this handbook</div>
+        <textarea class="log-area" rows="2" placeholder="Not advice. What you know now that you didn't know when you opened it."></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">What comes next — for me, not for the handbook</div>
+        <textarea class="log-area" rows="2" placeholder="The thing this year made possible that wasn't possible before. A collaboration, a paper, a question worth years, a community you're now part of."></textarea>
+      </div>
+    </div>
+
+    <div class="body-text" style="margin-top:24px">Below is your global ambassador record — the structured, public contribution that makes your year visible to the network. Fill it in after the final entry above, not before.</div>
+
+    <div class="log-box">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Global ambassador record — DH50 Future Ambassador</div>
+      <div class="log-field">
+        <div class="log-label">Name</div>
+        <input class="log-line" type="text" placeholder="As you would like it to appear in the repository">
+      </div>
+      <div class="log-field">
+        <div class="log-label">Country / region</div>
+        <input class="log-line" type="text" placeholder="Where you worked from during this year">
+      </div>
+      <div class="log-field">
+        <div class="log-label">Scenario track</div>
+        <input class="log-line" type="text" placeholder="B1 / B2 / B3 / B4 / B5 — and your track title if B5">
+      </div>
+      <div class="log-field">
+        <div class="log-label">Scenario title and repository link</div>
+        <input class="log-line" type="text" placeholder="Title of your submitted paper and the IEEE DH50 repository URL">
+      </div>
+      <div class="log-field">
+        <div class="log-label">Events hosted</div>
+        <input class="log-line" type="text" placeholder="Number, format (salon / talk / workshop), and cities or institutions">
+      </div>
+      <div class="log-field">
+        <div class="log-label">Global connector</div>
+        <input class="log-line" type="text" placeholder="Name and region of your connector ambassador, and the multiplied insight in one sentence">
+      </div>
+      <div class="log-field">
+        <div class="log-label">The one thing you found that others should know</div>
+        <textarea class="log-area" rows="2" placeholder="A single finding from your year's work — specific enough to be useful to an ambassador who arrives at a related question."></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">The question you're leaving open</div>
+        <textarea class="log-area" rows="2" placeholder="What you didn't have time or access to answer — and who you think should pursue it."></textarea>
+      </div>
+    </div>
+
+    <div class="open-source-band">
+      <div class="open-source-label">Your record joins the network</div>
+      <div class="open-source-body">Submit your global ambassador record to your regional coordinator alongside your scenario paper. Together they form your complete contribution to the DH50 archive — a permanent record of the year and of the network of people who showed up to think seriously about the next 50 years of cryptographic trust.</div>
+    </div>
+
+    <div class="badge-map" style="margin-top:24px">
+      <div style="font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:14px">Complete badge record</div>
+      <div class="badge-item">
+        <div class="badge-icon">🔵</div>
+        <div class="badge-content">
+          <div class="badge-name">Foundations explorer</div>
+          <div class="badge-req">Completed Modules A1, A2, and A3 — you understand the terrain.</div>
+        </div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon">🟣</div>
+        <div class="badge-content">
+          <div class="badge-name">Scenario builder</div>
+          <div class="badge-req">Completed a B-track scenario with a written output — you've imagined a specific future.</div>
+        </div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon">🟡</div>
+        <div class="badge-content">
+          <div class="badge-name">Public voice</div>
+          <div class="badge-req">Hosted or presented at one event using a Section C format — you've shared your future publicly.</div>
+        </div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon">🔴</div>
+        <div class="badge-content">
+          <div class="badge-name">Published future-maker</div>
+          <div class="badge-req">Submitted your scenario paper to the IEEE DH50 repository — your vision is on the record.</div>
+        </div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-icon">🌍</div>
+        <div class="badge-content">
+          <div class="badge-name">Global connector</div>
+          <div class="badge-req">Exchanged insights with an ambassador in a different region and documented the multiplied insight — knowledge given, received, and transformed.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="closing-block">
+      <div class="closing-title">Thank you for being a Future Ambassador.</div>
+      <div class="closing-body">The next 50 years of the internet will be shaped by the decisions being made right now — and by who gets to make them. You spent a year making yourself someone who understands those decisions, can explain them to others, and has put something into the permanent record about what they should be.<br><br>That is not a small thing. The work you did here is part of the foundation the next generation will build on — just as Diffie, Hellman, and Merkle's work in 1976 became the foundation you built on without knowing it.</div>
+      <div class="all-badges">
+        <div class="all-badge">🔵 Foundations explorer</div>
+        <div class="all-badge">🟣 Scenario builder</div>
+        <div class="all-badge">🟡 Public voice</div>
+        <div class="all-badge">🔴 Published future-maker</div>
+        <div class="all-badge">🌍 Global connector</div>
+      </div>
+    </div>
+  </div>
 </div>
-</body>
-</html>
+
+<script>
+function showPage(n){
+  for(let i=0;i<4;i++){
+    document.getElementById('page'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('nav'+i);
+    b.style.background=i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    b.style.color=i===n?'var(--color-text-info)':'var(--color-text-secondary)';
+  }
+}
+function toggleCheck(el){
+  el.classList.toggle('done');
+  el.textContent = el.classList.contains('done') ? '✓' : '';
+}
+</script>
