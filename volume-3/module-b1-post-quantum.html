@@ -1,85 +1,471 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module B1 — Post-Quantum Transition · DH50 Future Ambassador Field Guide</title>
-    <link rel="stylesheet" href="./shared.css">
 <style>
-* { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif;
-      background: #FFFFFF;
-      color: #1A1A2E;
-      min-height: 100vh;
-      padding: 24px 16px 40px;
-    }
-    .top-nav { max-width: 620px; margin: 0 auto 16px; }
-    .top-nav a { color: #00629B; text-decoration: none; font-size: 14px; }
-    .top-nav a:hover { text-decoration: underline; }
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:10px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:9px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .callout { border-radius:var(--border-radius-lg); padding:16px 18px; margin:20px 0; background:var(--color-background-secondary); }
+  .callout-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .layer-row { display:flex; gap:12px; margin-bottom:12px; align-items:flex-start; }
+  .layer-row:last-child { margin-bottom:0; }
+  .layer-icon { width:32px; height:32px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; flex-shrink:0; margin-top:1px; }
+  .layer-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:2px; }
+  .layer-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .algo-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
+  .algo-card { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); padding:14px; cursor:pointer; transition:border-color .15s; }
+  .algo-card:hover { border-color:var(--color-border-primary); }
+  .algo-card.selected { border-color:var(--color-text-info); background:var(--color-background-info); }
+  .algo-family { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:4px; }
+  .algo-card.selected .algo-family { color:var(--color-text-info); opacity:.7; }
+  .algo-name { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px; }
+  .algo-card.selected .algo-name { color:var(--color-text-info); }
+  .algo-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .result-box { display:none; border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:16px 18px; margin-top:10px; background:var(--color-background-secondary); }
+  .result-box.show { display:block; }
+  .inventory-table { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:16px 0; }
+  .inv-row { display:flex; border-bottom:1px solid var(--color-border-tertiary); }
+  .inv-row:last-child { border-bottom:none; }
+  .inv-head { font-size:10px; font-weight:500; letter-spacing:.07em; text-transform:uppercase; color:var(--color-text-tertiary); padding:8px 12px; flex:1; background:var(--color-background-secondary); }
+  .inv-label { font-size:13px; font-weight:500; color:var(--color-text-primary); padding:10px 12px; flex:1; line-height:1.5; }
+  .inv-cell { padding:9px 12px; flex:1; border-left:1px solid var(--color-border-tertiary); }
+  .inv-input { border:none; background:transparent; width:100%; font-size:13px; color:var(--color-text-primary); outline:none; font-family:var(--font-sans); }
+  .inv-input::placeholder { color:var(--color-text-tertiary); }
+  .urgency-row { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
+  .urgency-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .urgency-label { font-size:12px; color:var(--color-text-secondary); }
+  .scenario-guide { background:var(--color-background-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .scenario-step { display:flex; gap:14px; margin-bottom:18px; align-items:flex-start; }
+  .scenario-step:last-child { margin-bottom:0; }
+  .step-num { width:26px; height:26px; border-radius:50%; background:var(--color-border-tertiary); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; color:var(--color-text-secondary); flex-shrink:0; margin-top:1px; }
+  .step-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:3px; }
+  .step-desc { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .completion { margin-top:24px; padding:16px 18px; border-radius:var(--border-radius-lg); background:var(--color-background-secondary); }
+  .nav-btn { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-secondary); cursor:pointer; }
+  .warning-band { border-left:3px solid var(--color-text-warning); background:var(--color-background-warning); border-radius:0 var(--border-radius-md) var(--border-radius-md) 0; padding:12px 16px; margin:16px 0; }
+  .warning-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-warning); margin-bottom:4px; }
+  .warning-body { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+</style>
 
-    .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
-    .page-divider { border:none; border-top:1px solid #DDE3EC; margin:36px 0; }
-    .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#8A94A6; margin-bottom:10px; }
-    .chapter-num { font-size:52px; font-weight:500; color:#B8C5D3; line-height:1; margin-bottom:4px; font-family:Cambria, 'Adobe Caslon Pro', Georgia, serif; }
-    .chapter-title { font-size:24px; font-weight:500; color:#1A1A2E; line-height:1.25; margin-bottom:6px; }
-    .chapter-sub { font-size:14px; color:#4A5568; margin-bottom:28px; font-style:italic; }
-    .body-text { font-size:15px; color:#1A1A2E; line-height:1.75; margin-bottom:16px; }
-    .pull-quote { border-left:3px solid #00629B; margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:#4A5568; line-height:1.6; }
-    .activity-box { border:1px solid #DDE3EC; border-radius:10px; padding:20px 22px; margin:24px 0; background: rgba(17, 24, 49, 0.45); }
-    .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#8A94A6; margin-bottom:8px; }
-    .activity-title { font-size:16px; font-weight:500; color:#1A1A2E; margin-bottom:10px; }
-    .activity-body { font-size:14px; color:#4A5568; line-height:1.65; }
-    .activity-body p { margin:0 0 10px; }
-    .activity-body p:last-child { margin:0; }
-    .prompt-list { list-style:none; padding:0; margin:12px 0 0; }
-    .prompt-list li { display:flex; gap:10px; font-size:14px; color:#4A5568; margin-bottom:8px; line-height:1.5; }
-    .prompt-list li::before { content:"→"; flex-shrink:0; color:#8A94A6; }
-    .track-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-    .track-card { border:1px solid #DDE3EC; border-radius:6px; padding:14px 14px 12px; cursor:pointer; transition:border-color .15s; background: rgba(17, 24, 49, 0.45); }
-    .track-card:hover { border-color:#00629B; }
-    .track-card.selected { border-color:#00629B; background:#E5F0F8; }
-    .track-card-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:#8A94A6; margin-bottom:4px; }
-    .track-card.selected .track-card-label { color:#00629B; }
-    .track-card-title { font-size:13px; font-weight:500; color:#1A1A2E; margin-bottom:4px; }
-    .track-card-desc { font-size:12px; color:#4A5568; line-height:1.5; }
-    .log-box { border:1px dashed #B8C5D3; border-radius:10px; padding:20px 22px; margin:20px 0; background: rgba(17, 24, 49, 0.45); }
-    .log-field { margin-bottom:18px; }
-    .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:#8A94A6; margin-bottom:6px; }
-    .log-line { border:none; border-bottom:1px solid #DDE3EC; width:100%; background:transparent; font-size:14px; color:#1A1A2E; padding:4px 0 6px; outline:none; font-family:'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif; }
-    .log-line:focus { border-bottom-color:#00629B; }
-    .log-area { border:none; border-bottom:1px solid #DDE3EC; width:100%; background:transparent; font-size:14px; color:#1A1A2E; padding:4px 0 6px; outline:none; resize:none; font-family:'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif; line-height:1.6; }
-    .log-area:focus { border-bottom-color:#00629B; }
-    .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-    .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:#F5F7FA; color:#4A5568; border:1px solid #DDE3EC; }
-    .result-box { display:none; border:1px solid #DDE3EC; border-radius:10px; padding:16px 18px; margin-top:12px; background:#F5F7FA; }
-    .result-box.show { display:block; }
-    .result-title { font-size:14px; font-weight:500; color:#1A1A2E; margin-bottom:6px; }
-    .result-body { font-size:13px; color:#4A5568; line-height:1.6; }
-    .footnote { font-size:12px; color:#8A94A6; margin-top:28px; line-height:1.6; }
-  </style>
-</head>
-<body>
-<div class="page-shell">
-  <div class="topbar"></div>
-  <div class="top-nav">
-    <a href="./index.html">← Back to Volume 3</a>
-    <span style="margin-left:10px;color:#8A94A6;font-size:13px">Module B1 — Post-Quantum Transition</span>
-    <span style="margin-left:10px"><a href="./module-a-foundations.html">← Previous</a></span>
-    <span style="margin-left:10px"><a href="./module-b2-ai-governance.html">Next →</a></span>
+<div class="page">
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+    <button class="nav-btn" onclick="showPage(0)" id="nav0" style="background:var(--color-background-info);color:var(--color-text-info)">B1 — Opening</button>
+    <button class="nav-btn" onclick="showPage(1)" id="nav1" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">The new algorithms</button>
+    <button class="nav-btn" onclick="showPage(2)" id="nav2" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Crypto inventory</button>
+    <button class="nav-btn" onclick="showPage(3)" id="nav3" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Writing your scenario</button>
+    <button class="nav-btn" onclick="showPage(4)" id="nav4" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Log + completion</button>
   </div>
 
-<main class="main">
-    <div class="module">
-      <article class="card">
-      <h1>Module B1 — Post-Quantum Transition</h1>
-      <p>“The mathematics beneath the internet will break. The question is whether we will be ready.”</p>
-      <p>Scenario track notes and activity prompts go here.</p>
-      <p><a href="./index.html">← Back to Volume 3</a></p>
-    </article>
+  <!-- Page 0: Opening -->
+  <div id="page0">
+    <div class="chapter-label">Section B — Scenario Tracks · Track B1</div>
+    <div class="chapter-title">Post-quantum transition</div>
+    <div class="chapter-sub">The mathematics beneath the internet will break. The question is not whether — it is whether we will be ready.</div>
+
+    <p class="body-text">Every secure connection on the internet — every HTTPS handshake, every digital signature, every encrypted file — is protected by mathematics that depends on problems a classical computer cannot solve in any reasonable amount of time. Factoring large numbers. Computing discrete logarithms. The security of the internet is, at its foundation, a bet on computational hardness.</p>
+
+    <p class="body-text">Quantum computers do not play by the same rules. Shor's algorithm, running on a sufficiently large and stable quantum computer, would reduce those hard problems to tractable ones. The padlock does not get harder to pick — it gets a different kind of lock altogether, one the old key opens trivially.</p>
+
+    <div class="pull-quote">"We are in a race between the maturation of quantum hardware and the global migration of cryptographic infrastructure. The hardware side of that race does not wait for the migration side to catch up."</div>
+
+    <p class="body-text">In 2024, NIST published its first finalised post-quantum cryptography standards — the result of an eight-year global competition. The starting gun for transition has officially been fired. What follows is the largest coordinated infrastructure migration in the history of computing, and it is happening largely out of public view.</p>
+
+    <p class="body-text">Your job in this track is to make one specific part of that transition visible, legible, and actionable — for a region, a sector, or a class of system that you understand better than most. The hardest problems in this transition are not algorithmic. They are logistical, political, and deeply human.</p>
+
+    <div class="callout">
+      <div class="callout-title">Who this track is for</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">This track is built for Builders and Critics with technical grounding — engineers, security researchers, systems architects, and technically-minded policy analysts. You don't need to be a cryptographer; you need to understand systems well enough to audit them and imagine their failure modes.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">It is also a track for anyone working in critical infrastructure — healthcare, finance, energy, government — who has wondered whether their organisation is prepared. The answer, in most cases, is not yet. This track will help you understand what "prepared" actually means.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">Narrators are welcome here too — this is one of the most consequential and least-understood transitions of our era, and people who can explain it clearly to non-technical audiences are urgently needed.</p>
+      </div>
     </div>
-  </main>
+
+    <div class="warning-band">
+      <div class="warning-label">Urgency note</div>
+      <div class="warning-body">Unlike most technology transitions, post-quantum migration cannot wait until quantum computers arrive. Data encrypted today under classical algorithms can be harvested now and decrypted later, once quantum hardware matures. For long-lived secrets — classified documents, health records, financial archives, national security communications — the window for safe transition may already be closing.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Before you start — 10 minutes</div>
+      <div class="activity-title">Your starting position</div>
+      <div class="activity-body">
+        <p>Write one honest sentence for each in your log:</p>
+        <ul class="prompt-list">
+          <li>What system, sector, or organisation are you thinking about as you work through this track?</li>
+          <li>What is your current assessment of that system's quantum readiness — and what is that assessment based on?</li>
+          <li>What would a successful transition look like for that system by 2035?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 1: The new algorithms -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Section B · Track B1</div>
+    <div class="chapter-title">The new algorithms</div>
+    <div class="chapter-sub">What NIST standardised, why it matters, and what it doesn't solve.</div>
+
+    <p class="body-text">The post-quantum algorithms standardised by NIST in 2024 are not drop-in replacements for RSA or elliptic curve cryptography. They are based on different mathematical problems, have different performance profiles, and make different trade-offs between security, speed, and key size. Understanding those trade-offs is the starting point for any serious transition plan.</p>
+
+    <p class="body-text">Select an algorithm family below to understand its foundations, strengths, and the transition challenges it creates.</p>
+
+    <div class="algo-grid">
+      <div class="algo-card" onclick="selectAlgo(this,'mlkem')">
+        <div class="algo-family">Key encapsulation</div>
+        <div class="algo-name">ML-KEM (CRYSTALS-Kyber)</div>
+        <div class="algo-desc">NIST's primary standard for key exchange. Replaces RSA and ECDH in TLS and similar protocols.</div>
+      </div>
+      <div class="algo-card" onclick="selectAlgo(this,'mldsa')">
+        <div class="algo-family">Digital signatures</div>
+        <div class="algo-name">ML-DSA (CRYSTALS-Dilithium)</div>
+        <div class="algo-desc">NIST's primary standard for digital signatures. Replaces RSA-PSS and ECDSA.</div>
+      </div>
+      <div class="algo-card" onclick="selectAlgo(this,'slhdsa')">
+        <div class="algo-family">Digital signatures — backup</div>
+        <div class="algo-name">SLH-DSA (SPHINCS+)</div>
+        <div class="algo-desc">Hash-based signatures. Conservative choice: security rests on assumptions held for decades.</div>
+      </div>
+      <div class="algo-card" onclick="selectAlgo(this,'fndsa')">
+        <div class="algo-family">Digital signatures — compact</div>
+        <div class="algo-name">FN-DSA (FALCON)</div>
+        <div class="algo-desc">Lattice-based, smaller signatures than ML-DSA. Suited for constrained environments.</div>
+      </div>
+    </div>
+
+    <div class="result-box" id="algo-result">
+      <div style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px" id="algo-title"></div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px" id="algo-body"></div>
+      <div style="font-size:12px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:5px">Transition challenge</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.55" id="algo-challenge"></div>
+    </div>
+
+    <div class="callout" style="margin-top:20px">
+      <div class="callout-title">What NIST standardisation does not solve</div>
+      <div class="activity-body">
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#FAEEDA;color:#854F0B">H</div>
+          <div>
+            <div class="layer-title">Hardware that cannot be updated</div>
+            <div class="layer-desc">Industrial controllers, medical devices, smart meters, and HSMs (hardware security modules) with fixed cryptographic implementations. Estimated global install base: hundreds of millions of devices.</div>
+          </div>
+        </div>
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#FAECE7;color:#993C1D">L</div>
+          <div>
+            <div class="layer-title">Long-lived certificates and signatures</div>
+            <div class="layer-desc">Code-signing certificates, legal documents, land registries, and archival records signed under classical algorithms will eventually be verifiable only by systems that retain classical algorithm support — creating a long-tail verification problem.</div>
+          </div>
+        </div>
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#EEEDFE;color:#534AB7">G</div>
+          <div>
+            <div class="layer-title">Global fragmentation</div>
+            <div class="layer-desc">China's SM2/SM9 algorithms and its own PQC programme may not align with NIST standards. Cross-border systems — trade finance, diplomatic communications, international health data — must navigate multiple incompatible standards simultaneously.</div>
+          </div>
+        </div>
+        <div class="layer-row" style="margin-bottom:0">
+          <div class="layer-icon" style="background:#E1F5EE;color:#0F6E56">S</div>
+          <div>
+            <div class="layer-title">Skills gap</div>
+            <div class="layer-desc">The number of engineers who understand both classical and post-quantum cryptography is small. Most organisations do not yet know which of their systems are cryptographically vulnerable. The audit has not happened.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 30 minutes</div>
+      <div class="activity-title">Read the primary source</div>
+      <div class="activity-body">
+        <p>Download and read the executive summary of NIST's post-quantum cryptography standards (NIST IR 8413 or the individual FIPS publications for ML-KEM, ML-DSA, and SLH-DSA). These are public documents and free to access at nist.gov.</p>
+        <p>As you read, note:</p>
+        <ul class="prompt-list">
+          <li>What problem is each algorithm designed to solve — and what is it explicitly not designed to solve?</li>
+          <li>What does NIST say about transition timelines and the deprecation of classical algorithms?</li>
+          <li>What is not addressed in the standards that your target system or sector will need to figure out for itself?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2: Crypto inventory -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Section B · Track B1</div>
+    <div class="chapter-title">The cryptographic inventory</div>
+    <div class="chapter-sub">You cannot migrate what you cannot see. Most organisations have never fully mapped their cryptographic dependencies.</div>
+
+    <p class="body-text">A cryptographic inventory is a systematic audit of every place an organisation uses cryptography: which algorithms, for what purpose, in which systems, with what key lifetimes. It sounds straightforward. In practice, for any organisation older than ten years, it is a significant undertaking — cryptographic dependencies are embedded in libraries, firmware, third-party services, and legacy systems whose original developers may no longer be reachable.</p>
+
+    <p class="body-text">The inventory activity below is a structured exercise — not a full enterprise audit, but a rigorous enough mapping to identify the highest-priority vulnerabilities in a system or organisation you know well. It is also the research backbone of your scenario paper.</p>
+
+    <div class="warning-band">
+      <div class="warning-label">Scope this carefully</div>
+      <div class="warning-body">Choose a single system, organisation, or sector you have genuine access to — through your work, your research, or a practitioner relationship. A shallow inventory of a national healthcare system is less useful than a thorough inventory of a single hospital's records infrastructure. Go deep rather than wide.</div>
+    </div>
+
+    <div class="inventory-table">
+      <div class="inv-row">
+        <div class="inv-head" style="flex:1.4">System / component</div>
+        <div class="inv-head" style="flex:1.2">Algorithm(s) in use</div>
+        <div class="inv-head" style="flex:1">Key lifetime</div>
+        <div class="inv-head" style="flex:1">Updateable?</div>
+        <div class="inv-head" style="flex:1.4">Harvest risk</div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-cell" style="flex:1.4"><input class="inv-input" placeholder="e.g. patient record system"></div>
+        <div class="inv-cell" style="flex:1.2"><input class="inv-input" placeholder="e.g. RSA-2048, AES-256"></div>
+        <div class="inv-cell" style="flex:1"><input class="inv-input" placeholder="e.g. 2 years"></div>
+        <div class="inv-cell" style="flex:1"><input class="inv-input" placeholder="Yes / No / Unknown"></div>
+        <div class="inv-cell" style="flex:1.4"><input class="inv-input" placeholder="High / Medium / Low"></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-cell" style="flex:1.4"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1.2"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1.4"><input class="inv-input" placeholder=""></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-cell" style="flex:1.4"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1.2"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1.4"><input class="inv-input" placeholder=""></div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-cell" style="flex:1.4"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1.2"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1"><input class="inv-input" placeholder=""></div>
+        <div class="inv-cell" style="flex:1.4"><input class="inv-input" placeholder=""></div>
+      </div>
+    </div>
+
+    <div style="margin:4px 0 16px;padding:10px 14px;border-radius:var(--border-radius-md);background:var(--color-background-secondary)">
+      <div style="font-size:11px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase">Harvest risk guide</div>
+      <div class="urgency-row"><div class="urgency-dot" style="background:#E24B4A"></div><div class="urgency-label">High — data with long sensitivity lifetime (health, legal, financial archives, national security). Must migrate before quantum computers mature.</div></div>
+      <div class="urgency-row"><div class="urgency-dot" style="background:#EF9F27"></div><div class="urgency-label">Medium — data sensitive for 5–10 years (commercial contracts, personal data, short-lived credentials). Transition within the next decade.</div></div>
+      <div class="urgency-row" style="margin-bottom:0"><div class="urgency-dot" style="background:#639922"></div><div class="urgency-label">Low — ephemeral data (session keys, real-time transactions). Classical algorithms remain adequate until quantum hardware arrives.</div></div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 45 to 60 minutes</div>
+      <div class="activity-title">Find what your organisation doesn't know it has</div>
+      <div class="activity-body">
+        <p>After completing the inventory above, investigate at least one dependency you did not initially think to include:</p>
+        <ul class="prompt-list">
+          <li>Third-party libraries and open-source dependencies (run a software composition analysis if you have access)</li>
+          <li>Hardware security modules, smart cards, or embedded devices that implement cryptography in firmware</li>
+          <li>External services your system trusts — certificate authorities, timestamp services, authentication providers</li>
+          <li>Backup and archive systems, which may hold data encrypted years ago under algorithms no longer considered secure</li>
+        </ul>
+        <p style="margin-top:10px">Add what you find to the inventory. The surprises are the most valuable part of this exercise.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt — log entry</div>
+      <div class="activity-title">After completing the inventory</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>What was hardest to inventory — and why? What does that difficulty reveal about the governance of this system?</li>
+          <li>Which high-risk item surprised you most?</li>
+          <li>Who in your organisation or sector is currently responsible for this transition — and do they know the full scope of what that means?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: Writing your scenario -->
+  <div id="page3" style="display:none">
+    <div class="chapter-label">Section B · Track B1</div>
+    <div class="chapter-title">Writing your scenario</div>
+    <div class="chapter-sub">A transition plan no one has written yet — for a system or sector you understand better than most.</div>
+
+    <p class="body-text">The post-quantum transition is not one problem. It is thousands of overlapping, partially interdependent migration projects happening simultaneously across every sector of the global economy. What's missing is not a global strategy — NIST, ENISA, NCSC, and others have produced plenty of those. What's missing is ground-level visibility into specific systems, specific sectors, and specific regions where the transition is most urgent and least resourced.</p>
+
+    <p class="body-text">Your scenario should fill one of those gaps. It should be 1,500 to 3,000 words, grounded in your cryptographic inventory, and written for a reader who has authority over the system or sector you're describing — a CISO, a health ministry official, a central bank technologist, an infrastructure regulator.</p>
+
+    <div class="scenario-guide">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:16px">Scenario structure — five sections</div>
+      <div class="scenario-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">The system at risk (200–300 words)</div>
+          <div class="step-desc">Name the system or sector. Describe its cryptographic profile in non-technical terms: what does it protect, for how long, and for whom? Establish why quantum risk is not a distant abstraction for this system — it is a present-tense data governance problem.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">What the inventory revealed (400–600 words)</div>
+          <div class="step-desc">Present the findings from your cryptographic inventory. Where are the high-harvest-risk assets? Which dependencies are updatable, and which are not? Be specific about what you found and what you couldn't find — both are informative. If you consulted practitioners, cite what they told you.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">The migration path (300–500 words)</div>
+          <div class="step-desc">Propose a sequenced approach. What should be migrated first, and why? What are the dependencies — the things that cannot move until something else has moved first? Where does a hybrid approach (running classical and post-quantum algorithms in parallel during the transition) make sense, and where does it create its own risks? Be concrete: name the algorithms, the systems, the order of operations.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">The blockers (300–400 words)</div>
+          <div class="step-desc">What will prevent or slow this transition? Be honest about blockers that are not technical: budget cycles, procurement rules, vendor lock-in, skills gaps, organisational inertia, regulatory uncertainty. The most useful scenarios name the real obstacles — not the ones that are comfortable to mention.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">The decision that needs to be made (200–300 words)</div>
+          <div class="step-desc">End with one concrete, bounded decision that your reader has the authority to make — and that would meaningfully advance the transition if they made it. Not a vague recommendation to "prioritise post-quantum readiness." A specific action: commission an audit, amend a procurement standard, fund a pilot migration, convene a working group with a defined deliverable. Make it easy to say yes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 1 to 2 weeks</div>
+      <div class="activity-title">Interview a practitioner in your target sector</div>
+      <div class="activity-body">
+        <p>Before finalising your scenario, speak with someone who manages or secures infrastructure in your target system or sector. Your inventory will have surfaced questions that only an insider can answer.</p>
+        <ul class="prompt-list">
+          <li>Has your organisation begun a post-quantum readiness assessment? If not, why not?</li>
+          <li>What is the single biggest obstacle to starting a migration in your organisation?</li>
+          <li>What would you need to see — evidence, mandate, funding, or something else — to prioritise this in the next budget cycle?</li>
+          <li>What do you wish the security research community understood better about the operational realities of systems like yours?</li>
+        </ul>
+        <p style="margin-top:10px">That last question often produces the most useful material. Write the answer down verbatim if you can.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt</div>
+      <div class="activity-title">After your first full draft</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Is the decision you're asking your reader to make genuinely within their power — or have you asked for something that requires someone above them to act first?</li>
+          <li>Have you named the blockers honestly, including the ones that are politically uncomfortable?</li>
+          <li>Could a technically literate non-specialist read this and understand what's at stake? If not, where does it lose them?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 4: Log + completion -->
+  <div id="page4" style="display:none">
+    <div class="chapter-label">Section B · Track B1</div>
+    <div class="chapter-title">Log and completion</div>
+    <div class="chapter-sub">What you found, what changed, and what comes next.</div>
+
+    <p class="body-text">The post-quantum transition is too large and too urgent for any one person to document fully. Your scenario contributes one piece of the picture — one system, one sector, one region — that would otherwise remain invisible. That is not a small thing.</p>
+
+    <p class="body-text">Before you submit, return to the three sentences you wrote at the start of this track. Then complete the log entry below.</p>
+
+    <div class="log-box">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Log entry — Track B1 complete</div>
+      <div class="log-field">
+        <div class="log-label">The highest-risk finding in my cryptographic inventory</div>
+        <textarea class="log-area" rows="2" placeholder="Name the system, the algorithm, the sensitivity of the data it protects, and whether it can be updated remotely."></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The blocker I found hardest to write about honestly — and why</div>
+        <textarea class="log-area" rows="2" placeholder="Was it organisational inertia? A specific person or team? A political constraint? What made it hard to name?"></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The single decision I'm asking my reader to make</div>
+        <input class="log-line" type="text" placeholder="One sentence — specific, bounded, within their authority.">
+      </div>
+      <div class="log-field">
+        <div class="log-label">What I still don't know — and who should investigate it</div>
+        <textarea class="log-area" rows="2" placeholder="Name the gap and the person or organisation best placed to fill it."></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">One ambassador in a different region whose transition challenge I want to compare notes with</div>
+        <input class="log-line" type="text" placeholder="Name, country, and the specific question you want to explore together.">
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:8px">
+      <div class="callout-title">Submitting your scenario</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 8px">Submit your completed scenario to the IEEE DH50 global repository via your regional coordinator or the ambassador portal. Include your cryptographic inventory as an appendix — anonymised if necessary. Scenarios received by October 2026 are eligible for presentation at the Santa Clara Final Celebration.</p>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0">If your scenario identifies a significant vulnerability in a live system, consult your regional coordinator about responsible disclosure before submitting publicly.</p>
+      </div>
+    </div>
+
+    <div class="completion">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Track B1 complete</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.6">You've mapped a real system's cryptographic vulnerabilities, identified what NIST's standards don't solve, proposed a concrete migration path, and named the decision your reader needs to make. Move to Section C to prepare your public presentation — or to the Global Connector badge if you're ready to compare notes with an ambassador in another region.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Track B1 complete</div>
+        <div class="badge-pill">🟣 Scenario builder — earned</div>
+        <div class="badge-pill">Section C unlocked</div>
+        <div class="badge-pill">🌍 Global connector — 1 step done</div>
+      </div>
+    </div>
+  </div>
 </div>
-</body>
-</html>
+
+<script>
+function showPage(n){
+  for(let i=0;i<5;i++){
+    document.getElementById('page'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('nav'+i);
+    b.style.background=i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    b.style.color=i===n?'var(--color-text-info)':'var(--color-text-secondary)';
+  }
+}
+const algos={
+  mlkem:{
+    title:'ML-KEM (CRYSTALS-Kyber) — Key encapsulation',
+    body:'Based on the hardness of the Module Learning With Errors (MLWE) problem. ML-KEM replaces RSA and elliptic-curve Diffie-Hellman for key exchange in protocols like TLS 1.3. It produces larger public keys and ciphertexts than classical algorithms — a typical ML-KEM-768 public key is ~1,184 bytes, versus 65 bytes for an ECDH P-256 key — but its computational performance is competitive or superior on modern hardware.',
+    challenge:'Key size increases affect protocols with strict message size limits — DNSSEC, IoT constrained environments, and some hardware tokens. The transition to ML-KEM in TLS is relatively well-understood; the transition in embedded and IoT systems is not. Hybrid key exchange (classical + ML-KEM running in parallel) is the recommended interim approach for high-security applications, but it roughly doubles handshake overhead.'
+  },
+  mldsa:{
+    title:'ML-DSA (CRYSTALS-Dilithium) — Digital signatures',
+    body:'Also based on MLWE. ML-DSA is the primary replacement for RSA-PSS and ECDSA in signature applications — code signing, document authentication, certificate authorities, and identity systems. Signature sizes are significantly larger than classical equivalents: an ML-DSA-65 signature is ~3,309 bytes, versus ~72 bytes for ECDSA P-256. Verification is fast; signing is slower than ECDSA on constrained hardware.',
+    challenge:'The signature size increase has direct implications for PKI infrastructure, certificate chains, and any protocol that transmits signatures over bandwidth-constrained channels. Certificate authority systems, TLS certificate chains, and code-signing pipelines all need to be assessed for the impact of larger signatures. Long-lived digital signatures — on legal documents, archival records, software releases — create a particularly complex transition problem: documents signed under classical algorithms will eventually require re-signing or dual-signature approaches.'
+  },
+  slhdsa:{
+    title:'SLH-DSA (SPHINCS+) — Hash-based signatures',
+    body:'Unlike lattice-based algorithms, SLH-DSA\'s security rests on the collision resistance of hash functions — an assumption that has held for decades and is believed to be quantum-resistant without new mathematical assumptions. This makes it the most conservative choice in the NIST portfolio. The trade-off is significant: SLH-DSA signatures are large (8–50 KB depending on parameter set) and signing is computationally expensive.',
+    challenge:'SLH-DSA is best suited for use cases where signature size and signing speed are not primary constraints, but where long-term security assurance matters most — root certificate authorities, firmware signing for critical infrastructure, and long-lived archival signatures. For high-throughput signature applications, the performance cost is prohibitive. It is best understood as a backup algorithm or a conservative choice for specific high-assurance contexts, not a general replacement for ECDSA.'
+  },
+  fndsa:{
+    title:'FN-DSA (FALCON) — Compact lattice signatures',
+    body:'Based on NTRU lattices. FN-DSA produces significantly smaller signatures than ML-DSA — an FN-DSA-512 signature is ~666 bytes, making it the most compact of the NIST signature standards. It is well-suited for constrained environments where signature size matters: smart cards, IoT devices, embedded systems, and bandwidth-constrained protocols.',
+    challenge:'FN-DSA\'s implementation is notably complex and sensitive to side-channel attacks — correct, secure implementation requires careful engineering that is harder to get right than ML-DSA. NIST recommends ML-DSA as the primary standard and FN-DSA only where its size advantages are operationally necessary. The implementation risk means it should not be the first choice for organisations without deep cryptographic engineering expertise.'
+  }
+};
+function selectAlgo(el,key){
+  document.querySelectorAll('.algo-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  const r=document.getElementById('algo-result');
+  document.getElementById('algo-title').textContent=algos[key].title;
+  document.getElementById('algo-body').textContent=algos[key].body;
+  document.getElementById('algo-challenge').textContent=algos[key].challenge;
+  r.classList.add('show');
+}
+</script>

@@ -4,43 +4,227 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dynamic Knowledge Repository</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0b1020;
-      --bg-card: #111831;
-      --text: #e9eefc;
-      --muted: #b8c3e3;
-      --accent: #79a7ff;
-      --border: #2b3a70;
+      --ieee-blue: #00629B;
+      --ieee-blue-dark: #004F7C;
+      --ieee-blue-light: #E8F3FA;
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a5568;
+      --text-muted: #8a94a6;
+      --border: #dde3ec;
+      --bg: #f8f9fc;
+      --white: #ffffff;
+      --card-radius: 10px;
     }
-    * { box-sizing: border-box; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      background: radial-gradient(circle at top, #1b2752 0%, var(--bg) 45%);
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
       min-height: 100vh;
     }
-    .container { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1rem; }
-    h1 { margin: 0; font-size: clamp(1.9rem, 3vw, 2.5rem); }
-    .subtitle { color: var(--muted); max-width: 70ch; margin-top: 0.75rem; }
-    .cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 1.5rem; }
-    .card { background: linear-gradient(180deg, var(--bg-card) 0%, #0f1733 100%); border: 1px solid var(--border); border-radius: 14px; }
-    .card a { display: block; text-decoration: none; color: inherit; padding: 1rem; border-radius: 14px; }
-    .card a:hover, .card a:focus-visible { background: rgba(121, 167, 255, 0.12); outline: none; }
-    .card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; }
-    .card p { margin: 0; color: var(--muted); }
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .site-header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ieee-blue);
+    }
+    .site-header .sep {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+    .site-header .org {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 72px 48px 56px;
+      max-width: 860px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 580px;
+    }
+
+    /* Volume grid */
+    .volume-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 0 48px 80px;
+    }
+
+    .volume-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 32px 28px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+      transition: border-color .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .volume-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--border);
+      transition: background .2s;
+    }
+    .volume-card:hover {
+      border-color: var(--ieee-blue);
+      box-shadow: 0 4px 20px rgba(0,98,155,.08);
+    }
+    .volume-card:hover::before {
+      background: var(--ieee-blue);
+    }
+    .volume-card.disabled {
+      cursor: default;
+      opacity: .75;
+    }
+    .volume-card.disabled:hover {
+      border-color: var(--border);
+      box-shadow: none;
+    }
+    .volume-card.disabled:hover::before {
+      background: var(--border);
+    }
+
+    .vol-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .vol-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+    .vol-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-weight: 300;
+      flex: 1;
+    }
+    .vol-cta {
+      margin-top: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ieee-blue);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .vol-cta::after { content: '→'; }
+    .vol-coming {
+      margin-top: 24px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: .04em;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .site-header { padding: 16px 24px; }
+      .hero { padding: 48px 24px 40px; }
+      .hero h1 { font-size: 34px; }
+      .volume-grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
+      footer { padding: 20px 24px; }
+    }
   </style>
 </head>
 <body>
-  <main class="container">
-    <h1>Dynamic Knowledge Repository</h1>
-    <p class="subtitle">Chronological volume navigation: Volume 1, then Volume 2, then Volume 3 (Future Ambassadors Handbook).</p>
-    <section class="cards" aria-label="Volumes">
-      <article class="card"><a href="volume-1/index.html"><h2>Volume 1</h2><p>Coming Soon</p></a></article>
-      <article class="card"><a href="volume-2/index.html"><h2>Volume 2</h2><p>Coming Soon</p></a></article>
-      <article class="card"><a href="volume-3/index.html"><h2>Volume 3</h2><p>Future Ambassadors Handbook</p></a></article>
-    </section>
-  </main>
+
+  <header class="site-header">
+    <span class="eyebrow">Dynamic Knowledge Repository</span>
+    <div class="sep"></div>
+    <span class="org">Diffie–Hellman–Merkle 50th Anniversary Initiative</span>
+  </header>
+
+  <section class="hero">
+    <h1>Future Ambassadors<br>Handbook</h1>
+    <p>A living, open-source resource for IEEE ambassadors engaging with the next 50 years of cryptographic trust, digital infrastructure, and the open internet.</p>
+  </section>
+
+  <div class="volume-grid">
+
+    <div class="volume-card disabled">
+      <div class="vol-label">Volume 1</div>
+      <div class="vol-title">Foundations of the Open Internet</div>
+      <div class="vol-desc">The origins of public-key cryptography and the infrastructure it made possible.</div>
+      <div class="vol-coming">In preparation</div>
+    </div>
+
+    <div class="volume-card disabled">
+      <div class="vol-label">Volume 2</div>
+      <div class="vol-title">Five Decades of the Secure Web</div>
+      <div class="vol-desc">How the Diffie–Hellman–Merkle breakthrough shaped the world we live in today.</div>
+      <div class="vol-coming">In preparation</div>
+    </div>
+
+    <a href="volume-3/index.html" class="volume-card">
+      <div class="vol-label">Volume 3</div>
+      <div class="vol-title">Future Ambassadors Handbook</div>
+      <div class="vol-desc">A field guide for ambassadors researching, imagining, and communicating the next 50 years of digital trust.</div>
+      <div class="vol-cta">Open handbook</div>
+    </a>
+
+  </div>
+
+  <footer>
+    Open source — fork, adapt, and contribute on GitHub.
+  </footer>
+
 </body>
 </html>

@@ -1,85 +1,396 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module B4 — Digital Inclusion & the Trust Gap · DH50 Future Ambassador Field Guide</title>
-    <link rel="stylesheet" href="./shared.css">
 <style>
-* { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif;
-      background: #FFFFFF;
-      color: #1A1A2E;
-      min-height: 100vh;
-      padding: 24px 16px 40px;
-    }
-    .top-nav { max-width: 620px; margin: 0 auto 16px; }
-    .top-nav a { color: #00629B; text-decoration: none; font-size: 14px; }
-    .top-nav a:hover { text-decoration: underline; }
+  * { box-sizing: border-box; }
+  .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+  .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:10px; }
+  .chapter-title { font-size:24px; font-weight:500; color:var(--color-text-primary); line-height:1.25; margin-bottom:6px; }
+  .chapter-sub { font-size:14px; color:var(--color-text-secondary); margin-bottom:28px; font-style:italic; }
+  .body-text { font-size:15px; color:var(--color-text-primary); line-height:1.75; margin-bottom:16px; }
+  .pull-quote { border-left:3px solid var(--color-border-primary); margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:var(--color-text-secondary); line-height:1.6; }
+  .activity-box { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:24px 0; }
+  .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--color-text-tertiary); margin-bottom:8px; }
+  .activity-title { font-size:16px; font-weight:500; color:var(--color-text-primary); margin-bottom:10px; }
+  .activity-body { font-size:14px; color:var(--color-text-secondary); line-height:1.65; }
+  .activity-body p { margin:0 0 10px; }
+  .activity-body p:last-child { margin:0; }
+  .prompt-list { list-style:none; padding:0; margin:10px 0 0; }
+  .prompt-list li { display:flex; gap:10px; font-size:14px; color:var(--color-text-secondary); margin-bottom:9px; line-height:1.5; }
+  .prompt-list li::before { content:"→"; flex-shrink:0; color:var(--color-text-tertiary); }
+  .log-box { border:1px dashed var(--color-border-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .log-field { margin-bottom:18px; }
+  .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--color-text-tertiary); margin-bottom:6px; }
+  .log-line { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; font-family:var(--font-sans); }
+  .log-line:focus { border-bottom-color:var(--color-border-primary); }
+  .log-area { border:none; border-bottom:1px solid var(--color-border-tertiary); width:100%; background:transparent; font-size:14px; color:var(--color-text-primary); padding:4px 0 6px; outline:none; resize:none; font-family:var(--font-sans); line-height:1.6; }
+  .log-area:focus { border-bottom-color:var(--color-border-primary); }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); border:1px solid var(--color-border-tertiary); }
+  .callout { border-radius:var(--border-radius-lg); padding:16px 18px; margin:20px 0; background:var(--color-background-secondary); }
+  .callout-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:8px; }
+  .layer-row { display:flex; gap:12px; margin-bottom:14px; align-items:flex-start; }
+  .layer-row:last-child { margin-bottom:0; }
+  .layer-icon { width:32px; height:32px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; flex-shrink:0; margin-top:1px; }
+  .layer-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:2px; }
+  .layer-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+  .story-tab-row { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .story-tab { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-tertiary); cursor:pointer; background:var(--color-background-secondary); color:var(--color-text-secondary); transition:all .15s; }
+  .story-tab.active { background:var(--color-background-info); color:var(--color-text-info); border-color:var(--color-text-info); }
+  .story-panel { display:none; }
+  .story-panel.active { display:block; }
+  .story-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:6px; }
+  .story-body { font-size:13px; color:var(--color-text-secondary); line-height:1.6; margin-bottom:10px; }
+  .story-listen { font-size:13px; color:var(--color-text-secondary); line-height:1.6; padding:10px 14px; border-left:2px solid var(--color-border-secondary); margin-top:10px; font-style:italic; }
+  .gap-table { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin:16px 0; }
+  .gap-row { display:flex; border-bottom:1px solid var(--color-border-tertiary); }
+  .gap-row:last-child { border-bottom:none; }
+  .gap-head { font-size:10px; font-weight:500; letter-spacing:.07em; text-transform:uppercase; color:var(--color-text-tertiary); padding:8px 12px; flex:1; background:var(--color-background-secondary); }
+  .gap-label { font-size:13px; font-weight:500; color:var(--color-text-primary); padding:10px 12px; flex:1.2; line-height:1.5; }
+  .gap-cell { padding:9px 12px; flex:1; border-left:1px solid var(--color-border-tertiary); }
+  .gap-input { border:none; background:transparent; width:100%; font-size:13px; color:var(--color-text-primary); outline:none; font-family:var(--font-sans); }
+  .gap-input::placeholder { color:var(--color-text-tertiary); }
+  .scenario-guide { background:var(--color-background-secondary); border-radius:var(--border-radius-lg); padding:20px 22px; margin:20px 0; }
+  .scenario-step { display:flex; gap:14px; margin-bottom:18px; align-items:flex-start; }
+  .scenario-step:last-child { margin-bottom:0; }
+  .step-num { width:26px; height:26px; border-radius:50%; background:var(--color-border-tertiary); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; color:var(--color-text-secondary); flex-shrink:0; margin-top:1px; }
+  .step-title { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:3px; }
+  .step-desc { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .completion { margin-top:24px; padding:16px 18px; border-radius:var(--border-radius-lg); background:var(--color-background-secondary); }
+  .nav-btn { font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; border:1px solid var(--color-border-secondary); cursor:pointer; }
+  .open-source-band { border-left:3px solid var(--color-text-success); background:var(--color-background-success); border-radius:0 var(--border-radius-md) var(--border-radius-md) 0; padding:12px 16px; margin:16px 0; }
+  .open-source-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--color-text-success); margin-bottom:4px; }
+  .open-source-body { font-size:13px; color:var(--color-text-secondary); line-height:1.55; }
+  .posture-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
+  .posture-card { border:1px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); padding:14px; }
+  .posture-side { font-size:10px; font-weight:500; letter-spacing:.07em; text-transform:uppercase; margin-bottom:5px; }
+  .posture-title { font-size:13px; font-weight:500; color:var(--color-text-primary); margin-bottom:5px; }
+  .posture-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.5; }
+</style>
 
-    .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
-    .page-divider { border:none; border-top:1px solid #DDE3EC; margin:36px 0; }
-    .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#8A94A6; margin-bottom:10px; }
-    .chapter-num { font-size:52px; font-weight:500; color:#B8C5D3; line-height:1; margin-bottom:4px; font-family:Cambria, 'Adobe Caslon Pro', Georgia, serif; }
-    .chapter-title { font-size:24px; font-weight:500; color:#1A1A2E; line-height:1.25; margin-bottom:6px; }
-    .chapter-sub { font-size:14px; color:#4A5568; margin-bottom:28px; font-style:italic; }
-    .body-text { font-size:15px; color:#1A1A2E; line-height:1.75; margin-bottom:16px; }
-    .pull-quote { border-left:3px solid #00629B; margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:#4A5568; line-height:1.6; }
-    .activity-box { border:1px solid #DDE3EC; border-radius:10px; padding:20px 22px; margin:24px 0; background: rgba(17, 24, 49, 0.45); }
-    .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#8A94A6; margin-bottom:8px; }
-    .activity-title { font-size:16px; font-weight:500; color:#1A1A2E; margin-bottom:10px; }
-    .activity-body { font-size:14px; color:#4A5568; line-height:1.65; }
-    .activity-body p { margin:0 0 10px; }
-    .activity-body p:last-child { margin:0; }
-    .prompt-list { list-style:none; padding:0; margin:12px 0 0; }
-    .prompt-list li { display:flex; gap:10px; font-size:14px; color:#4A5568; margin-bottom:8px; line-height:1.5; }
-    .prompt-list li::before { content:"→"; flex-shrink:0; color:#8A94A6; }
-    .track-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-    .track-card { border:1px solid #DDE3EC; border-radius:6px; padding:14px 14px 12px; cursor:pointer; transition:border-color .15s; background: rgba(17, 24, 49, 0.45); }
-    .track-card:hover { border-color:#00629B; }
-    .track-card.selected { border-color:#00629B; background:#E5F0F8; }
-    .track-card-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:#8A94A6; margin-bottom:4px; }
-    .track-card.selected .track-card-label { color:#00629B; }
-    .track-card-title { font-size:13px; font-weight:500; color:#1A1A2E; margin-bottom:4px; }
-    .track-card-desc { font-size:12px; color:#4A5568; line-height:1.5; }
-    .log-box { border:1px dashed #B8C5D3; border-radius:10px; padding:20px 22px; margin:20px 0; background: rgba(17, 24, 49, 0.45); }
-    .log-field { margin-bottom:18px; }
-    .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:#8A94A6; margin-bottom:6px; }
-    .log-line { border:none; border-bottom:1px solid #DDE3EC; width:100%; background:transparent; font-size:14px; color:#1A1A2E; padding:4px 0 6px; outline:none; font-family:'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif; }
-    .log-line:focus { border-bottom-color:#00629B; }
-    .log-area { border:none; border-bottom:1px solid #DDE3EC; width:100%; background:transparent; font-size:14px; color:#1A1A2E; padding:4px 0 6px; outline:none; resize:none; font-family:'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif; line-height:1.6; }
-    .log-area:focus { border-bottom-color:#00629B; }
-    .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-    .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:#F5F7FA; color:#4A5568; border:1px solid #DDE3EC; }
-    .result-box { display:none; border:1px solid #DDE3EC; border-radius:10px; padding:16px 18px; margin-top:12px; background:#F5F7FA; }
-    .result-box.show { display:block; }
-    .result-title { font-size:14px; font-weight:500; color:#1A1A2E; margin-bottom:6px; }
-    .result-body { font-size:13px; color:#4A5568; line-height:1.6; }
-    .footnote { font-size:12px; color:#8A94A6; margin-top:28px; line-height:1.6; }
-  </style>
-</head>
-<body>
-<div class="page-shell">
-  <div class="topbar"></div>
-  <div class="top-nav">
-    <a href="./index.html">← Back to Volume 3</a>
-    <span style="margin-left:10px;color:#8A94A6;font-size:13px">Module B4 — Digital Inclusion & the Trust Gap</span>
-    <span style="margin-left:10px"><a href="./module-b3-digital-sovereignty.html">← Previous</a></span>
-    <span style="margin-left:10px"><a href="./module-b5-your-own-track.html">Next →</a></span>
+<div class="page">
+  <div style="display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap">
+    <button class="nav-btn" onclick="showPage(0)" id="nav0" style="background:var(--color-background-info);color:var(--color-text-info)">B4 — Opening</button>
+    <button class="nav-btn" onclick="showPage(1)" id="nav1" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">The gap beneath the gap</button>
+    <button class="nav-btn" onclick="showPage(2)" id="nav2" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Stories from the edge</button>
+    <button class="nav-btn" onclick="showPage(3)" id="nav3" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Writing your scenario</button>
+    <button class="nav-btn" onclick="showPage(4)" id="nav4" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">Log + completion</button>
   </div>
 
-<main class="main">
-    <div class="module">
-      <article class="card">
-      <h1>Module B4 — Digital Inclusion & the Trust Gap</h1>
-      <p>“Connectivity without trust isn't enough. And trust without voice isn't trust at all.”</p>
-      <p>Scenario track notes and activity prompts go here.</p>
-      <p><a href="./index.html">← Back to Volume 3</a></p>
-    </article>
+  <!-- Page 0: Opening -->
+  <div id="page0">
+    <div class="chapter-label">Section B — Scenario Tracks · Track B4</div>
+    <div class="chapter-title">Digital inclusion and the trust gap</div>
+    <div class="chapter-sub">Connectivity without trust isn't enough. And trust without voice isn't trust at all.</div>
+
+    <p class="body-text">The story of the internet's first fifty years has often been told as a story of expansion — more people online, more services digitised, more of daily life mediated by connected systems. The gaps that remain are framed as a connectivity problem: bring people online, and they gain access to everything the digital world offers.</p>
+
+    <p class="body-text">But the communities that have been excluded longest know something the expansion narrative tends to overlook. Getting online is not the same as being served. Being served is not the same as being trusted. And being trusted is not the same as having any say in how the systems that govern your life are designed.</p>
+
+    <div class="pull-quote">"The opposite of exclusion is not access. It is agency — the ability to participate in the decisions that shape the infrastructure you depend on."</div>
+
+    <p class="body-text">Cryptographic trust infrastructure — digital identity, verifiable credentials, secure payments, data rights — can extend genuine agency to people who have never had it. Or it can replicate the exclusions of every previous system, at greater scale and with more permanence. Which of those futures is arriving depends on choices being made right now, mostly by people who are not from the communities most affected.</p>
+
+    <p class="body-text">This track is for ambassadors who are close to those communities — by origin, by work, by long relationship — and who want to bring that proximity to bear on a question that too often gets answered from a distance.</p>
+
+    <div class="callout">
+      <div class="callout-title">Who this track is for — and a note on posture</div>
+      <div class="activity-body">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 10px">This track is built for community organisers, development practitioners, educators, social researchers, and anyone whose work keeps them in close contact with people who are underserved by digital infrastructure. It is also for policymakers and technologists who want to do that work with more honesty about what they don't know.</p>
+        <div class="posture-grid">
+          <div class="posture-card">
+            <div class="posture-side" style="color:var(--color-text-success)">Useful posture</div>
+            <div class="posture-title">Witness and translator</div>
+            <div class="posture-desc">You are close to a community. You listen carefully. You translate what you hear into terms that people with power can act on — without losing what made it true.</div>
+          </div>
+          <div class="posture-card">
+            <div class="posture-side" style="color:var(--color-text-danger)">Posture to watch for</div>
+            <div class="posture-title">Expert from outside</div>
+            <div class="posture-desc">You analyse a community's exclusion from the outside, propose solutions that weren't asked for, and present findings without checking them against the people they describe.</div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin:10px 0 0">Neither posture is about where you were born or what your credentials are. It is about how you work. This track will prompt you to check your posture at each stage.</p>
+      </div>
     </div>
-  </main>
+
+    <div class="open-source-band">
+      <div class="open-source-label">A note on this track's open-source nature</div>
+      <div class="open-source-body">More than any other track, B4 will be enriched by ambassadors who bring contexts, languages, and communities that no single author could anticipate. The activities and prompts here are starting points. If they don't fit your community — if the questions are wrong, if a framework doesn't translate, if an assumption is revealing its origins — change them. Document what you changed and why. That documentation is a contribution to the handbook itself.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Before you start — 15 minutes</div>
+      <div class="activity-title">Your starting position</div>
+      <div class="activity-body">
+        <p>Write one honest sentence for each in your log:</p>
+        <ul class="prompt-list">
+          <li>Which community are you closest to — and what is the nature of that closeness?</li>
+          <li>What digital infrastructure does that community depend on most — and where does it fail them?</li>
+          <li>What would you need to find out before you could write honestly about that failure?</li>
+        </ul>
+        <p style="margin-top:10px">That last question is the most important. Come back to it as you work through the track.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 1: The gap beneath the gap -->
+  <div id="page1" style="display:none">
+    <div class="chapter-label">Section B · Track B4</div>
+    <div class="chapter-title">The gap beneath the gap</div>
+    <div class="chapter-sub">Connectivity is the visible gap. Trust infrastructure is the one underneath it — and it compounds every other exclusion.</div>
+
+    <p class="body-text">When digital inclusion is discussed in policy circles, it is usually framed as a connectivity problem: broadband coverage, device access, digital literacy. These are real gaps and they matter. But there is a second gap that receives far less attention, and that sits underneath the first one in ways that make it harder to see and harder to fix.</p>
+
+    <p class="body-text">It is the gap in trustworthy digital infrastructure — identity systems that work for people without formal documents; payment rails that serve people without bank accounts; data rights that apply to people whose data is collected but whose consent is never sought; credential systems that recognise qualifications earned outside Western academic institutions.</p>
+
+    <p class="body-text">This gap is not a side effect of exclusion. In many cases, it is its mechanism. The same populations that lack connectivity also lack the identity documents that digital identity systems require. The same communities that struggle to access formal financial services are the ones whose informal savings and lending systems are invisible to digital payment infrastructure. Fixing connectivity without fixing trust infrastructure does not close the gap — it changes its shape.</p>
+
+    <div class="callout">
+      <div class="callout-title">Four dimensions of the trust gap</div>
+      <div style="margin-top:6px">
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#E1F5EE;color:#0F6E56">I</div>
+          <div>
+            <div class="layer-title">Identity</div>
+            <div class="layer-desc">An estimated one billion people worldwide lack any form of legal identity. Digital identity systems built on official documents exclude them by design. Systems that don't require prior documentation — like India's Aadhaar — make different trade-offs that carry their own risks for vulnerable populations.</div>
+          </div>
+        </div>
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#E6F1FB;color:#185FA5">P</div>
+          <div>
+            <div class="layer-title">Payments</div>
+            <div class="layer-desc">Mobile money has brought financial access to hundreds of millions — but informal economies, cross-border remittances, and community savings systems often remain outside formal rails, subject to fees, exclusion, or surveillance that formal participants don't face.</div>
+          </div>
+        </div>
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#EEEDFE;color:#534AB7">D</div>
+          <div>
+            <div class="layer-title">Data rights</div>
+            <div class="layer-desc">The communities whose data is most commercially valuable — for training AI, for public health surveillance, for agricultural planning — are often the communities with the least legal protection over how that data is used, shared, or sold.</div>
+          </div>
+        </div>
+        <div class="layer-row">
+          <div class="layer-icon" style="background:#FAEEDA;color:#854F0B">V</div>
+          <div>
+            <div class="layer-title">Voice in design</div>
+            <div class="layer-desc">Infrastructure built without the participation of the communities it serves tends to serve them badly — not through malice, but through the systematic absence of their knowledge. Who sits in the rooms where DPI standards are written? Whose failure modes are anticipated in the design?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 45 to 60 minutes</div>
+      <div class="activity-title">Map the trust gap in your community</div>
+      <div class="activity-body">
+        <p>Work through the four dimensions above for your community. For each one, write a paragraph — not a list — that describes the gap as someone inside the community would describe it. Not "access to formal identity is limited" but what it actually means to navigate a world of digital services without recognised identity: which doors are closed, what workarounds exist, what the workarounds cost.</p>
+        <ul class="prompt-list">
+          <li>Which dimension is most acute — and is that the one most visible to outsiders?</li>
+          <li>Where does the community have its own trust infrastructure — informal, oral, relational — that digital systems don't recognise?</li>
+          <li>What does the community trust that the formal system doesn't — and what does the formal system trust that the community can't access?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection prompt — posture check</div>
+      <div class="activity-title">After mapping the trust gap</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Did you write about the community, or did you write for it — and do you know the difference in this case?</li>
+          <li>Which part of the map is drawn from your own experience, which from direct conversation with community members, and which from secondary sources? Be explicit about the difference.</li>
+          <li>What would someone from inside the community correct, add, or push back on in what you've written?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 2: Stories from the edge -->
+  <div id="page2" style="display:none">
+    <div class="chapter-label">Section B · Track B4</div>
+    <div class="chapter-title">Stories from the edge</div>
+    <div class="chapter-sub">Not case studies. Stories — because the detail is where the truth lives.</div>
+
+    <p class="body-text">The other scenario tracks are built around frameworks: models to compare, algorithms to assess, governance mechanisms to evaluate. This one is built around stories, because the exclusion that B4 is trying to document is not primarily visible in aggregate data. It is visible in the specific, irreducible detail of what happens when a system meets a person it was not designed to serve.</p>
+
+    <p class="body-text">The examples below are starting points — documented cases from different contexts where trust infrastructure failed, excluded, or actively harmed the communities it was supposed to serve. Read them not as cautionary tales but as listening exercises: what does this tell you about what the designers did not know, or did not ask?</p>
+
+    <div class="story-tab-row">
+      <div class="story-tab active" onclick="showStory(this,'aadhaar')">Identity exclusion</div>
+      <div class="story-tab" onclick="showStory(this,'remit')">Remittances</div>
+      <div class="story-tab" onclick="showStory(this,'land')">Land rights</div>
+      <div class="story-tab" onclick="showStory(this,'ai')">AI and informal work</div>
+    </div>
+
+    <div id="story-aadhaar" class="story-panel active">
+      <div class="story-title">Aadhaar and the biometric exclusion problem — India</div>
+      <div class="story-body">India's Aadhaar system has enrolled over 1.3 billion people — a genuinely remarkable achievement of digital inclusion at scale. But for tens of millions of people, mostly manual labourers, elderly persons, and those with skin conditions or disabilities, the system's biometric authentication fails repeatedly. A fingerprint worn smooth by years of agricultural work cannot reliably authenticate. A person who cannot authenticate cannot access their ration entitlement. The system's inclusion was real — and its exclusion mechanism was built into its authentication design.</div>
+      <div class="story-body">The failure was not anticipated because the people most at risk of it were not consulted in the design process. They were the intended beneficiaries — not the intended participants in design. The distinction matters enormously for how you think about inclusion.</div>
+      <div class="story-listen">Listening question: In your community, what physical or social characteristic — a kind of work, a life circumstance, a form of identity — would a biometric or document-based system fail to recognise? Who would be asked to prove they exist to a system that cannot see them?</div>
+    </div>
+
+    <div id="story-remit" class="story-panel">
+      <div class="story-title">Remittances and the cost of trust — Sub-Saharan Africa and South Asia</div>
+      <div class="story-body">Global remittances to low- and middle-income countries exceed $650 billion annually — more than foreign direct investment and overseas development aid combined. For many recipient communities, this money is the primary source of income. And yet the average cost of sending $200 internationally is around 6%, with corridors to Sub-Saharan Africa averaging over 8%. The fees are not a technical necessity — they are the cost of using trust infrastructure (correspondent banking, AML compliance, identity verification) that was built for a different class of transaction.</div>
+      <div class="story-body">Mobile money and crypto-adjacent payment systems have reduced costs on some corridors. They have also introduced new risks: exchange rate volatility, platform failure, regulatory uncertainty, and the loss of the human relationships that informal hawala networks provided. Inclusion in formal payment systems is not always an improvement over exclusion from them, when the formal systems are designed for someone else.</div>
+      <div class="story-listen">Listening question: In your community, what informal trust systems — tontines, hawala, community savings groups, word-of-mouth credit — exist because formal systems can't or won't serve these needs? What do those systems do that digital infrastructure doesn't recognise or replicate?</div>
+    </div>
+
+    <div id="story-land" class="story-panel">
+      <div class="story-title">Land rights and digital registries — East Africa and Southeast Asia</div>
+      <div class="story-body">Digital land registries have been proposed and implemented in several countries as a way to reduce corruption, secure land tenure, and enable smallholder farmers to use land as collateral. The logic is sound. The implementation has often been devastating. In several cases, the process of digitising land records has overwritten customary and communal land rights — forms of tenure that were real, recognised within communities, and governed by oral tradition and social consensus — because they had no paper documentation to scan.</div>
+      <div class="story-body">The digital system did not deny that customary rights existed. It simply could not see them. And what the system cannot see, it cannot protect. The communities most dependent on customary tenure — women, smallholders, indigenous groups — found that the digitisation of land records that was supposed to secure their rights had instead made those rights invisible at exactly the moment when visibility mattered most.</div>
+      <div class="story-listen">Listening question: In your community, what rights, relationships, or forms of property exist that are real and recognised within the community but have no formal documentation? What happens to them when a digital system arrives that can only see what is written down?</div>
+    </div>
+
+    <div id="story-ai" class="story-panel">
+      <div class="story-title">AI, gig platforms, and the invisibility of informal work — Global South</div>
+      <div class="story-body">Gig economy platforms — ride-hailing, delivery, domestic work matching, freelance labour — have extended economic participation to workers who were previously excluded from formal employment. They have also created a new class of exclusion: workers who are deeply embedded in a platform's infrastructure, whose income depends on algorithmic allocation, but who have no employment relationship, no data rights, no recourse when the algorithm fails, and no voice in how the system that governs their working lives is designed.</div>
+      <div class="story-body">For workers in the Global South, these dynamics are intensified by currency risk, regulatory gaps, and the fact that many platforms are owned and governed in jurisdictions whose legal systems those workers cannot access. The AI systems that allocate their work, assess their performance, and can deactivate their accounts were trained largely on data from other workers, in other contexts, with different characteristics. The failure modes that emerge from that mismatch are felt locally, but the accountability sits elsewhere.</div>
+      <div class="story-listen">Listening question: In your community, who works within or is governed by digital platform infrastructure that they had no part in designing? What do they know about how it works — and what are they not permitted to know?</div>
+    </div>
+
+    <div class="activity-box" style="margin-top:20px">
+      <div class="activity-label">Core activity — 2 to 4 weeks</div>
+      <div class="activity-title">Listen before you map</div>
+      <div class="activity-body">
+        <p>Before you complete the gap mapping table in the next module, conduct at least three conversations with people inside your community who experience the trust gap you're studying. These are not interviews in the extractive sense — you are not collecting data. You are listening for what the frameworks above do not capture.</p>
+        <ul class="prompt-list">
+          <li>What is the most recent moment you were excluded from something because a system couldn't recognise you or your situation?</li>
+          <li>What workaround do you use — and what does that workaround cost you in time, money, dignity, or risk?</li>
+          <li>If you could change one thing about how this system works, what would it be — and who would you need to talk to, to change it?</li>
+          <li>Is there anything about your situation that you think I'm likely to misunderstand?</li>
+        </ul>
+        <p style="margin-top:10px">That last question is the most important. Ask it every time. Write down the answers verbatim wherever possible. With permission, these voices can appear directly in your scenario — not as data points, but as testimony.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: Writing your scenario -->
+  <div id="page3" style="display:none">
+    <div class="chapter-label">Section B · Track B4</div>
+    <div class="chapter-title">Writing your scenario</div>
+    <div class="chapter-sub">Start with a person. End with a structural change. Hold the distance between them honestly.</div>
+
+    <p class="body-text">B4 scenarios are built differently from the other tracks — not because the analytical standard is lower, but because the evidence is different. Your primary sources are conversations and lived experience, not NIST standards or NIST comparative data. Your argument is carried as much by narrative as by analysis. And your reader needs to be reached in a different way: not convinced by technical authority, but moved to recognise something they should have already known.</p>
+
+    <p class="body-text">This does not mean B4 scenarios are soft. The structural analysis — what exactly is broken, who designed it that way, what it would take to change — must be rigorous. It just begins differently.</p>
+
+    <div class="scenario-guide">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:16px">Scenario structure — five sections</div>
+      <div class="scenario-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">One person's experience (300–400 words)</div>
+          <div class="step-desc">Begin with a specific person — with their permission, either named or anonymised as they prefer — and a specific moment when a trust infrastructure failure affected their life. Not a composite, not a hypothetical. A real encounter between a real person and a system that could not see them. Write it as you heard it. Do not analyse it yet. Let it be what it is.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">What the system cannot see (300–500 words)</div>
+          <div class="step-desc">Now step back. What is the structural condition that made that experience possible? Which of the four dimensions of the trust gap — identity, payments, data rights, voice in design — is the operative one here? What did the designers of this system fail to anticipate, and why? Draw on your gap mapping and your listening. Be specific about the design choices that created the failure, not just the failure itself.</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">What exists elsewhere that could help (300–400 words)</div>
+          <div class="step-desc">Reference at least one example — from another country, another sector, another community — where a similar gap has been addressed more successfully, or where an approach is being tried that is worth attention. Be honest about whether it travels: what would need to be different for it to work in your context? What is the risk of importing a solution designed for someone else's problem?</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">What would need to change — and who would need to change it (300–500 words)</div>
+          <div class="step-desc">This is where the narrative meets the structural. What specific change — in design, in policy, in governance, in procurement, in standard-setting — would have prevented the experience you opened with? Who has the power to make that change? Who currently benefits from things staying as they are? And crucially: what role, if any, does the affected community have in making that change happen — or is the scenario proposing that change be done to them, again?</div>
+        </div>
+      </div>
+      <div class="scenario-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">What the community already knows (200–300 words)</div>
+          <div class="step-desc">End not with a recommendation to the powerful, but with an acknowledgement of the knowledge that already exists in the community — the workarounds, the informal systems, the hard-won expertise in navigating infrastructure that was not built for them. The best DPI will build on that knowledge, not replace it. Your scenario should end by making that knowledge visible, and by naming what would be lost if the proposed solution ignored it.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Before you submit — a final check</div>
+      <div class="activity-title">Three questions that only B4 asks</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>Have the people whose experience grounds your scenario read it — and have you incorporated what they said in response?</li>
+          <li>Does your proposed change increase the community's agency in shaping the infrastructure it depends on, or does it merely improve the quality of what is done to them?</li>
+          <li>If this scenario were read aloud in the community it describes, would the people there recognise themselves in it — and would they feel respected?</li>
+        </ul>
+        <p style="margin-top:10px">If the answer to any of these is no, or uncertain, go back before you submit. The standard for this track is not lower than the others. It is different.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 4: Log + completion -->
+  <div id="page4" style="display:none">
+    <div class="chapter-label">Section B · Track B4</div>
+    <div class="chapter-title">Log and completion</div>
+    <div class="chapter-sub">What you heard, what you understood, and what you still got wrong.</div>
+
+    <p class="body-text">Every scenario in this track is incomplete. The communities most excluded from digital infrastructure are also the communities most excluded from the rooms where research is discussed, publications are read, and policy is made. Your scenario will reach some of those rooms — it will not reach the community it describes, unless you carry it there yourself.</p>
+
+    <p class="body-text">The log entry below includes a prompt that no other track has: what you got wrong, and how you know. Include it. It is not a weakness in your submission — it is what makes it trustworthy.</p>
+
+    <div class="log-box">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:18px">Log entry — Track B4 complete</div>
+      <div class="log-field">
+        <div class="log-label">The person whose experience opens my scenario — and what they said when they read it</div>
+        <textarea class="log-area" rows="2" placeholder="Anonymised if needed. What did they correct, add, or say they recognised?"></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The trust gap dimension I focused on — and the one I underweighted</div>
+        <textarea class="log-area" rows="2" placeholder="Identity, payments, data rights, or voice in design — and what you left out, and why."></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">The informal system or community knowledge that my scenario builds on</div>
+        <textarea class="log-area" rows="2" placeholder="What did the community already know that the formal system doesn't recognise?"></textarea>
+      </div>
+      <div class="log-field">
+        <div class="log-label">What I got wrong — and how I know</div>
+        <textarea class="log-area" rows="2" placeholder="Not what you're uncertain about. What you got wrong. How did you find out?"></textarea>
+      </div>
+      <div class="log-field" style="margin-bottom:0">
+        <div class="log-label">One ambassador whose scenario connects to mine — and what I want to ask them</div>
+        <input class="log-line" type="text" placeholder="B1, B2, B3, or another B4 — name, region, and the specific connection.">
+      </div>
+    </div>
+
+    <div class="open-source-band" style="margin-top:16px">
+      <div class="open-source-label">An invitation to the next ambassador</div>
+      <div class="open-source-body">If you found that the activities in this track didn't fit your community — that a question assumed a context that isn't yours, that a framework left out something essential — document it. Write a note at the end of your scenario describing what you changed and why. Those notes are how this track improves. The community of ambassadors is the editor of this handbook.</div>
+    </div>
+
+    <div class="completion">
+      <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px">Track B4 complete</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;line-height:1.6">You've listened carefully, mapped a trust gap from the inside, grounded your analysis in a real person's experience, and submitted something to the global record that would not exist without your proximity. Move to Section C to prepare your public presentation — or connect with an ambassador in another region for your Global Connector badge.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Track B4 complete</div>
+        <div class="badge-pill">🟣 Scenario builder — earned</div>
+        <div class="badge-pill">Section C unlocked</div>
+        <div class="badge-pill">🌍 Global connector — 1 step done</div>
+      </div>
+    </div>
+  </div>
 </div>
-</body>
-</html>
+
+<script>
+function showPage(n){
+  for(let i=0;i<5;i++){
+    document.getElementById('page'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('nav'+i);
+    b.style.background=i===n?'var(--color-background-info)':'var(--color-background-secondary)';
+    b.style.color=i===n?'var(--color-text-info)':'var(--color-text-secondary)';
+  }
+}
+function showStory(el,key){
+  document.querySelectorAll('.story-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.story-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('story-'+key).classList.add('active');
+}
+</script>
