@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module A — Foundations · DH50 Future Ambassador Field Guide</title>
+    <link rel="stylesheet" href="./shared.css">
+<style>
+* { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif;
+      background: #FFFFFF;
+      color: #1A1A2E;
+      min-height: 100vh;
+      padding: 24px 16px 40px;
+    }
+    .top-nav { max-width: 620px; margin: 0 auto 16px; }
+    .top-nav a { color: #00629B; text-decoration: none; font-size: 14px; }
+    .top-nav a:hover { text-decoration: underline; }
+
+    .page { max-width:620px; margin:0 auto; padding:0 0 32px; }
+    .page-divider { border:none; border-top:1px solid #DDE3EC; margin:36px 0; }
+    .chapter-label { font-size:10px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#8A94A6; margin-bottom:10px; }
+    .chapter-num { font-size:52px; font-weight:500; color:#B8C5D3; line-height:1; margin-bottom:4px; font-family:Cambria, 'Adobe Caslon Pro', Georgia, serif; }
+    .chapter-title { font-size:24px; font-weight:500; color:#1A1A2E; line-height:1.25; margin-bottom:6px; }
+    .chapter-sub { font-size:14px; color:#4A5568; margin-bottom:28px; font-style:italic; }
+    .body-text { font-size:15px; color:#1A1A2E; line-height:1.75; margin-bottom:16px; }
+    .pull-quote { border-left:3px solid #00629B; margin:24px 0; padding:12px 20px; font-size:16px; font-style:italic; color:#4A5568; line-height:1.6; }
+    .activity-box { border:1px solid #DDE3EC; border-radius:10px; padding:20px 22px; margin:24px 0; background: rgba(17, 24, 49, 0.45); }
+    .activity-label { font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#8A94A6; margin-bottom:8px; }
+    .activity-title { font-size:16px; font-weight:500; color:#1A1A2E; margin-bottom:10px; }
+    .activity-body { font-size:14px; color:#4A5568; line-height:1.65; }
+    .activity-body p { margin:0 0 10px; }
+    .activity-body p:last-child { margin:0; }
+    .prompt-list { list-style:none; padding:0; margin:12px 0 0; }
+    .prompt-list li { display:flex; gap:10px; font-size:14px; color:#4A5568; margin-bottom:8px; line-height:1.5; }
+    .prompt-list li::before { content:"→"; flex-shrink:0; color:#8A94A6; }
+    .track-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+    .track-card { border:1px solid #DDE3EC; border-radius:6px; padding:14px 14px 12px; cursor:pointer; transition:border-color .15s; background: rgba(17, 24, 49, 0.45); }
+    .track-card:hover { border-color:#00629B; }
+    .track-card.selected { border-color:#00629B; background:#E5F0F8; }
+    .track-card-label { font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:#8A94A6; margin-bottom:4px; }
+    .track-card.selected .track-card-label { color:#00629B; }
+    .track-card-title { font-size:13px; font-weight:500; color:#1A1A2E; margin-bottom:4px; }
+    .track-card-desc { font-size:12px; color:#4A5568; line-height:1.5; }
+    .log-box { border:1px dashed #B8C5D3; border-radius:10px; padding:20px 22px; margin:20px 0; background: rgba(17, 24, 49, 0.45); }
+    .log-field { margin-bottom:18px; }
+    .log-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:#8A94A6; margin-bottom:6px; }
+    .log-line { border:none; border-bottom:1px solid #DDE3EC; width:100%; background:transparent; font-size:14px; color:#1A1A2E; padding:4px 0 6px; outline:none; font-family:'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif; }
+    .log-line:focus { border-bottom-color:#00629B; }
+    .log-area { border:none; border-bottom:1px solid #DDE3EC; width:100%; background:transparent; font-size:14px; color:#1A1A2E; padding:4px 0 6px; outline:none; resize:none; font-family:'Open Sans', Calibri, 'Segoe UI', Arial, sans-serif; line-height:1.6; }
+    .log-area:focus { border-bottom-color:#00629B; }
+    .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .badge-pill { font-size:12px; font-weight:500; padding:4px 12px; border-radius:20px; background:#F5F7FA; color:#4A5568; border:1px solid #DDE3EC; }
+    .result-box { display:none; border:1px solid #DDE3EC; border-radius:10px; padding:16px 18px; margin-top:12px; background:#F5F7FA; }
+    .result-box.show { display:block; }
+    .result-title { font-size:14px; font-weight:500; color:#1A1A2E; margin-bottom:6px; }
+    .result-body { font-size:13px; color:#4A5568; line-height:1.6; }
+    .footnote { font-size:12px; color:#8A94A6; margin-top:28px; line-height:1.6; }
+  </style>
+</head>
+<body>
+<div class="page-shell">
+  <div class="topbar"></div>
+  <div class="top-nav">
+    <a href="./index.html">← Back to Volume 3</a>
+    <span style="margin-left:10px;color:#8A94A6;font-size:13px">Module A — Foundations</span>
+    <span style="margin-left:10px"><a href="./module-0-welcome.html">← Previous</a></span>
+    <span style="margin-left:10px"><a href="./module-b1-post-quantum.html">Next →</a></span>
+  </div>
+
+<main class="main">
+    <div class="module">
+      <article class="card">
+      <h1>Module A — Foundations</h1>
+      <p>“You don't need to understand the math. You need to understand what the math makes possible.”</p>
+      <p>Module A1 (Foundations) · A2 (Post-quantum primer) · A3 (Critical infrastructure mapping activity)</p>
+      <p><a href="./index.html">← Back to Volume 3</a></p>
+    </article>
+    </div>
+  </main>
+</div>
+</body>
+</html>
