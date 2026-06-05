@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 History Ambassador — Module A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-soft: #7a7670;
+    --ink-faint: #b0ada6;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --rule: #e2ddd4;
+    --rule-soft: #ede9e0;
+    --accent: #8B4513;
+    --accent-light: #f0e6dc;
+    --accent-mid: #c4703a;
+    --teal: #2d6e6a;
+    --teal-light: #e0f0ef;
+    --teal-dark: #1a4a47;
+    --gold: #9a7b2e;
+    --gold-light: #f5edda;
+    --gold-dark: #7a6520;
+    --plum: #5a3d6b;
+    --plum-light: #ede5f5;
+    --slate: #3d5068;
+    --slate-light: #e5edf5;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  /* Header */
+  .header {
+    padding: 40px 32px 32px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .header-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .header-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .header-subtitle {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .module-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--teal);
+    background: var(--teal-light);
+    border: 1px solid #a8d4d1;
+    border-radius: 20px;
+    padding: 4px 12px;
+  }
+
+  /* Main content area */
+  .content { padding: 36px 32px; }
+
+  /* Typography */
+  .body-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+  .serif-text {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .pull-quote {
+    border-left: 3px solid var(--accent-mid);
+    margin: 28px 0;
+    padding: 14px 20px;
+    font-family: var(--serif);
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    background: var(--accent-light);
+    border-radius: 0 6px 6px 0;
+  }
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .page-divider {
+    border: none;
+    border-top: 1px solid var(--rule-soft);
+    margin: 32px 0;
+  }
+
+  /* Quest cards grid — the entry screen */
+  .quest-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 28px 0;
+  }
+  .quest-card {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 20px 20px 16px;
+    background: var(--paper-card);
+    cursor: pointer;
+    transition: border-color 0.18s, box-shadow 0.18s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .quest-card:hover {
+    border-color: var(--accent-mid);
+    transform: translateY(-2px);
+  }
+  .quest-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 12px 12px 0 0;
+  }
+  .quest-card.merkle::before { background: var(--plum); }
+  .quest-card.gchq::before { background: var(--slate); }
+  .quest-card.rsa::before { background: var(--teal); }
+  .quest-card.export::before { background: var(--accent); }
+
+  .quest-card-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .quest-card.merkle .quest-card-eyebrow { color: var(--plum); }
+  .quest-card.gchq .quest-card-eyebrow { color: var(--slate); }
+  .quest-card.rsa .quest-card-eyebrow { color: var(--teal); }
+  .quest-card.export .quest-card-eyebrow { color: var(--accent); }
+
+  .quest-card-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .quest-card-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+  .quest-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .quest-card-time {
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-weight: 300;
+  }
+  .quest-enter-btn {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-light);
+    border: 1px solid #ddbfa0;
+    border-radius: 20px;
+    padding: 3px 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .quest-enter-btn:hover { background: #e8d0be; }
+
+  .quest-note {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    font-weight: 300;
+    padding: 14px 18px;
+    background: var(--paper-warm);
+    border-radius: 8px;
+    margin-bottom: 28px;
+  }
+
+  /* Individual quest view */
+  .quest-view { display: none; }
+  .quest-view.active { display: block; }
+
+  .quest-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    padding: 5px 14px;
+    cursor: pointer;
+    margin-bottom: 28px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .quest-back-btn:hover { color: var(--ink); border-color: var(--ink-soft); }
+
+  .quest-header {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .quest-header-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .quest-merkle .quest-header-eyebrow { color: var(--plum); }
+  .quest-gchq .quest-header-eyebrow { color: var(--slate); }
+  .quest-rsa .quest-header-eyebrow { color: var(--teal); }
+  .quest-export .quest-header-eyebrow { color: var(--accent); }
+
+  .quest-header-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .quest-header-sub {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* Three-layer structure within each quest */
+  .layer {
+    margin: 28px 0;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .layer:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .layer-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .layer-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+    font-family: var(--serif);
+    font-style: italic;
+  }
+  .layer-icon.thread { background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+  .layer-icon.local { background: var(--teal-light); color: var(--teal-dark); border: 1px solid #a8d4d1; }
+  .layer-icon.living { background: var(--gold-light); color: var(--gold-dark); border: 1px solid #d4b870; }
+
+  .layer-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .layer-label.thread { color: var(--ink-soft); }
+  .layer-label.local { color: var(--teal); }
+  .layer-label.living { color: var(--gold); }
+
+  /* Activity and log boxes */
+  .activity-box {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 20px 0;
+    background: var(--paper-card);
+  }
+  .activity-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .activity-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-family: var(--serif);
+  }
+  .activity-body {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-mid);
+    margin-bottom: 9px;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); margin-top: 1px; }
+
+  .living-box {
+    border: 1px solid #d4b870;
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 20px 0;
+    background: var(--gold-light);
+  }
+  .living-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .living-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-family: var(--serif);
+  }
+  .living-body {
+    font-size: 14px;
+    color: var(--gold-dark);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .living-body p { margin-bottom: 10px; }
+  .living-body p:last-child { margin-bottom: 0; }
+
+  .log-box {
+    border: 1px dashed #c8c3ba;
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 20px 0;
+    background: var(--paper-warm);
+  }
+  .log-entry-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 18px;
+  }
+  .log-field { margin-bottom: 18px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin-bottom: 7px;
+    display: block;
+  }
+  .log-line {
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    width: 100%;
+    background: transparent;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 4px 0 7px;
+    outline: none;
+    font-family: var(--sans);
+    font-weight: 300;
+  }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+  .log-area {
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    width: 100%;
+    background: transparent;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 4px 0 7px;
+    outline: none;
+    resize: none;
+    font-family: var(--sans);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--paper-warm);
+    color: var(--ink-mid);
+    border: 1px solid var(--rule);
+  }
+
+  /* Bridge section */
+  .bridge-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 2px solid var(--rule);
+  }
+  .bridge-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .bridge-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .bridge-sub {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+
+  .deployment-card {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 16px 0;
+    background: var(--paper-card);
+  }
+  .deployment-card-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .deployment-card-year {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--ink-faint);
+    flex-shrink: 0;
+  }
+  .deployment-card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .deployment-card-body {
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .completion-box {
+    margin-top: 28px;
+    padding: 20px 22px;
+    border-radius: 10px;
+    background: var(--gold-light);
+    border: 1px solid #dfd0a0;
+  }
+  .completion-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .completion-body {
+    font-size: 13px;
+    color: var(--gold-dark);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  @media (max-width: 480px) {
+    .header, .content { padding-left: 20px; padding-right: 20px; }
+    .quest-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · History Ambassador Field Guide</div>
+    <div class="header-title">Module A — The Global Story</div>
+    <div class="header-subtitle">Four threads that run from Stanford outward. Follow the ones that pull you.</div>
+    <div class="module-badge">Core module</div>
+  </div>
+
+  <div class="content" id="main-view">
+    <div class="section-label">Module A — Discovery quests</div>
+
+    <p class="body-text">The 1976 paper did not appear from nowhere — and it did not travel alone. Around it, running parallel, preceding it, and following from it, were other stories: a graduate student whose idea arrived too early, an intelligence agency that solved the same problem in secret, three mathematicians who immediately built something further, and a government that decided this mathematics was too dangerous to share freely.</p>
+
+    <p class="body-text">Each of these threads has a local echo. Each one opens a question about your own region's history. And each one is still alive today — the patterns they reveal didn't end in the 1990s.</p>
+
+    <p class="quest-note">The four quests below are open in any order. Start with whichever thread interests you most. Each one takes roughly 60–90 minutes across reading, reflection, and the log entry. You can return to any of them at any point during your year.</p>
+
+    <div class="quest-grid">
+      <div class="quest-card merkle" onclick="showQuest('merkle')">
+        <div class="quest-card-eyebrow">Quest A1</div>
+        <div class="quest-card-title">The student who arrived too early</div>
+        <div class="quest-card-desc">Ralph Merkle had the idea before Diffie and Hellman published. What happened — and what it reveals about how breakthroughs actually travel.</div>
+        <div class="quest-card-footer">
+          <span class="quest-card-time">~60 min</span>
+          <button class="quest-enter-btn">Enter quest →</button>
+        </div>
+      </div>
+
+      <div class="quest-card gchq" onclick="showQuest('gchq')">
+        <div class="quest-card-eyebrow">Quest A2</div>
+        <div class="quest-card-title">The secret that couldn't be shared</div>
+        <div class="quest-card-desc">British intelligence solved public-key cryptography years before Diffie and Hellman — and locked it away. The world didn't find out until 1997.</div>
+        <div class="quest-card-footer">
+          <span class="quest-card-time">~75 min</span>
+          <button class="quest-enter-btn">Enter quest →</button>
+        </div>
+      </div>
+
+      <div class="quest-card rsa" onclick="showQuest('rsa')">
+        <div class="quest-card-eyebrow">Quest A3</div>
+        <div class="quest-card-title">One breakthrough, then another</div>
+        <div class="quest-card-desc">Within a year of the 1976 paper, three people at MIT built digital signatures on top of it. How one idea immediately enables the next.</div>
+        <div class="quest-card-footer">
+          <span class="quest-card-time">~60 min</span>
+          <button class="quest-enter-btn">Enter quest →</button>
+        </div>
+      </div>
+
+      <div class="quest-card export" onclick="showQuest('export')">
+        <div class="quest-card-eyebrow">Quest A4</div>
+        <div class="quest-card-title">Who decides who gets the tools</div>
+        <div class="quest-card-desc">The US government treated strong cryptography as a weapon and tried to control its spread. The cypherpunks decided it belonged to everyone. Sound familiar?</div>
+        <div class="quest-card-footer">
+          <span class="quest-card-time">~90 min</span>
+          <button class="quest-enter-btn">Enter quest →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bridge section always visible below quests -->
+    <div class="bridge-section" id="bridge">
+      <div class="bridge-eyebrow">From the global story to yours — Module A · Bridge</div>
+      <div class="bridge-title">When the idea hit the real world</div>
+      <div class="bridge-sub">The moment cryptography left the lab and entered daily life — and what that looked like in practice.</div>
+
+      <p class="body-text">The quests above trace the idea through academics, intelligence agencies, and activists. But at some point, someone had to build something ordinary people actually used. A bank. A government portal. A trading network. That transition — from mathematical concept to working infrastructure — is what you are going to trace in your own region.</p>
+
+      <p class="body-text">Before you do, here are three places where it happened early, and what made each one possible.</p>
+
+      <div class="deployment-card">
+        <div class="deployment-card-header">
+          <div class="deployment-card-year">1989</div>
+          <div class="deployment-card-title">TradeNet, Singapore — the world's first nationwide electronic trade documentation system</div>
+        </div>
+        <div class="deployment-card-body">Singapore's Port of Singapore Authority and the Trade Development Board built a single electronic window for all trade documentation — cutting clearance times from days to minutes. It required trust infrastructure that didn't yet exist as a standard: digital signatures to verify that documents were authentic and hadn't been altered in transit. The engineers who built it had to make decisions about cryptographic implementation that no rulebook covered. TradeNet became a model that countries across Asia studied for decades.</div>
+      </div>
+
+      <div class="deployment-card">
+        <div class="deployment-card-header">
+          <div class="deployment-card-year">1994</div>
+          <div class="deployment-card-title">Netscape SSL — the padlock that taught the world to trust the web</div>
+        </div>
+        <div class="deployment-card-body">When Netscape introduced the SSL protocol and the padlock icon in Navigator 1.0, it gave ordinary users a visible signal that a connection was secure. Behind that icon was the Diffie-Hellman key exchange — and the decision by a small team to make cryptography invisible, automatic, and present in every transaction. The padlock became the world's most consequential UI decision: it normalised the idea that the internet could be a trustworthy place to do business.</div>
+      </div>
+
+      <div class="deployment-card">
+        <div class="deployment-card-header">
+          <div class="deployment-card-year">2001</div>
+          <div class="deployment-card-title">Estonia's X-Road — a small country's decision to run on cryptographic trust</div>
+        </div>
+        <div class="deployment-card-body">Estonia, regaining independence and building its state infrastructure from scratch, made a deliberate decision to digitise government services on a foundation of cryptographic identity. X-Road — a data exchange layer connecting all government databases — used digital signatures as its trust mechanism. By 2007, Estonians were voting online. By 2012, almost every government service was available digitally. Estonia's approach was not just technical: it was a political choice about what kind of state to build.</div>
+      </div>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — your region's moment</div>
+        <div class="activity-title">Find the deployment story that happened where you are</div>
+        <div class="activity-body">
+          <p>Each of the three cases above had a specific moment when someone made a decision: to build this system, using this technology, for these people. Your region has a version of that moment — or a story of why it hasn't happened yet, or why it happened differently.</p>
+          <p>Start with what you already know, then research what you don't. You are looking for:</p>
+          <ul class="prompt-list">
+            <li>The first system in your region that used digital signatures or public-key cryptography in a way ordinary people encountered — even without knowing it</li>
+            <li>The people or institutions who built it — government, private sector, international partnership?</li>
+            <li>The moment of decision — what made it happen when it did, and not earlier or later?</li>
+            <li>Who was included in that system from the start — and who wasn't?</li>
+          </ul>
+          <p style="margin-top: 12px;">Write down what you find — and, just as importantly, what you cannot find. The gaps are part of the story.</p>
+        </div>
+      </div>
+
+      <div class="log-box">
+        <div class="log-entry-label">Log entry — Module A bridge</div>
+        <div class="log-field">
+          <label class="log-label" for="bridge-system">The first system I found</label>
+          <input class="log-line" type="text" id="bridge-system" placeholder="Name of system, approximate year, country or region">
+        </div>
+        <div class="log-field">
+          <label class="log-label" for="bridge-who">Who built it, and under what circumstances</label>
+          <textarea class="log-area" id="bridge-who" rows="2" placeholder="Government agency, private company, international body — and what drove the decision?"></textarea>
+        </div>
+        <div class="log-field">
+          <label class="log-label" for="bridge-gap">The most significant gap in what I could find</label>
+          <textarea class="log-area" id="bridge-gap" rows="2" placeholder="What's missing from the record — and who might hold that missing piece?"></textarea>
+        </div>
+        <div class="log-field">
+          <label class="log-label" for="bridge-person">One person I want to find who was part of this story</label>
+          <input class="log-line" type="text" id="bridge-person" placeholder="Name, role, or description — and how you might locate them">
+        </div>
+      </div>
+
+      <div class="completion-box">
+        <div class="completion-title">Module A complete</div>
+        <div class="completion-body">You've followed the threads that run from the 1976 paper outward, and you've located the first trace of the story in your own region. Module B takes you into the field — with specific methods, missions, and the tools to investigate what actually happened where you are.</div>
+        <div class="badge-row">
+          <div class="badge-pill">Module A complete</div>
+          <div class="badge-pill">Global story mapped</div>
+          <div class="badge-pill">Local trace found</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUEST VIEWS -->
+
+  <!-- Quest A1: Merkle -->
+  <div class="quest-view quest-merkle content" id="quest-merkle">
+    <button class="quest-back-btn" onclick="showMain()">← Back to Module A</button>
+
+    <div class="quest-header">
+      <div class="quest-header-eyebrow">Quest A1 — The thread</div>
+      <div class="quest-header-title">The student who arrived too early</div>
+      <div class="quest-header-sub">Ralph Merkle, independent discovery, and what the history books usually skip</div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon thread">I</div>
+        <div class="layer-label thread">The thread</div>
+      </div>
+
+      <p class="body-text">In 1974, a computer science undergraduate at UC Berkeley named Ralph Merkle submitted a class project proposing a method for two strangers to establish a shared secret over a public channel. His professor didn't understand it. The project was nearly rejected.</p>
+
+      <p class="body-text">Merkle refined the idea and submitted it to the Communications of the ACM in 1975. It sat unreviewed for nearly three years. By the time it was published, in 1978, Diffie and Hellman had already changed the world.</p>
+
+      <div class="pull-quote">"The idea was correct. The channel was wrong. The timing was off. And yet the idea survived — because Merkle kept pushing it toward people who might understand."</div>
+
+      <p class="body-text">Merkle's approach — now called Merkle's Puzzles — was less efficient than what Diffie and Hellman developed, but it was conceptually prior. It showed that the problem of public key exchange was solvable before Diffie and Hellman proved it elegantly. When Diffie encountered Merkle's work, it sharpened his own thinking. The three names — Diffie, Hellman, Merkle — are linked not because they worked together from the start, but because ideas in motion found each other.</p>
+
+      <p class="body-text">Merkle went on to invent hash trees (now called Merkle trees), which underpin blockchain technology and modern certificate infrastructure. His contributions were foundational — and for years, largely uncredited outside specialist circles.</p>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — find the primary sources</div>
+        <div class="activity-title">Merkle in his own words</div>
+        <div class="activity-body">
+          <p>Ralph Merkle has given interviews and written reflections on this period that are publicly available. Before moving on, find at least one primary account — from Merkle himself, not a summary of his work.</p>
+          <ul class="prompt-list">
+            <li>What does he say about the moment his professor didn't understand the idea? What did he do next?</li>
+            <li>How does he describe his relationship with Diffie and Hellman — collaboration, parallel discovery, or something else?</li>
+            <li>What does he say about credit, recognition, and how the history of the idea has been told?</li>
+          </ul>
+          <p style="margin-top:10px;">Note your source — the title, where you found it, and the date it was recorded or published. Primary sources need to be traceable.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon local">II</div>
+        <div class="layer-label local">The local echo</div>
+      </div>
+
+      <p class="body-text">Merkle's story is a story about ideas that arrive through the wrong channel, at the wrong time, to people who aren't ready for them. It is also a story about who gets credited when a breakthrough finally lands.</p>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — your region's uncredited work</div>
+        <div class="activity-title">Who in your community worked on problems like this — quietly, without recognition?</div>
+        <div class="activity-body">
+          <p>In almost every country, there were engineers, mathematicians, and researchers who engaged with early cryptography, digital security, or trust infrastructure — often before it became mainstream, often without institutional support, and often without appearing in any official record.</p>
+          <ul class="prompt-list">
+            <li>Are there universities, research institutes, or companies in your region that were working on security or cryptography in the 1980s or 1990s? What records exist of that work?</li>
+            <li>Who might remember those early efforts — a retired professor, a former government technologist, an early internet pioneer in your country?</li>
+            <li>Is there a version of Merkle's story in your region — someone whose contribution arrived too early, or through the wrong channel, and was never fully acknowledged?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon living">III</div>
+        <div class="layer-label living">The living pattern</div>
+      </div>
+
+      <p class="body-text">Independent discovery didn't end with Merkle. It is happening right now — in research labs, in open-source communities, in the work of individuals who are ahead of the institutions that will eventually catch up with them.</p>
+
+      <div class="living-box">
+        <div class="living-label">Pattern today</div>
+        <div class="living-title">Who is arriving too early in your field right now?</div>
+        <div class="living-body">
+          <p>Think about the domain you know best — technology, policy, infrastructure, finance. Where do you see ideas that are correct but not yet legible to the institutions that would need to act on them? Who is the Merkle in that story — working on the right problem, through the wrong channel, waiting for the moment the field catches up?</p>
+          <ul class="prompt-list" style="margin-top: 10px;">
+            <li>In AI development, foundational safety research was dismissed for years before it became urgent. Who held those ideas when no one was listening?</li>
+            <li>In your region specifically — what ideas about digital infrastructure, privacy, or trust are being proposed right now that the mainstream hasn't caught up with yet?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Log entry — Quest A1</div>
+      <div class="log-field">
+        <label class="log-label" for="a1-source">Primary source I found on Merkle</label>
+        <input class="log-line" type="text" id="a1-source" placeholder="Title, source, date">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a1-local">A person or institution in my region who fits this pattern</label>
+        <textarea class="log-area" id="a1-local" rows="2" placeholder="Name or description, and what makes them a parallel to Merkle's story"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a1-today">Where I see this pattern alive today</label>
+        <textarea class="log-area" id="a1-today" rows="2" placeholder="A specific person, idea, or domain — and what's blocking recognition"></textarea>
+      </div>
+    </div>
+
+    <button class="quest-back-btn" onclick="showMain()" style="margin-top: 8px;">← Back to Module A</button>
+  </div>
+
+  <!-- Quest A2: GCHQ -->
+  <div class="quest-view quest-gchq content" id="quest-gchq">
+    <button class="quest-back-btn" onclick="showMain()">← Back to Module A</button>
+
+    <div class="quest-header">
+      <div class="quest-header-eyebrow">Quest A2 — The thread</div>
+      <div class="quest-header-title">The secret that couldn't be shared</div>
+      <div class="quest-header-sub">GCHQ, classified discovery, and the difference between a breakthrough that stays locked and one that travels</div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon thread">I</div>
+        <div class="layer-label thread">The thread</div>
+      </div>
+
+      <p class="body-text">Between 1969 and 1974, a mathematician at GCHQ — Britain's signals intelligence agency — named James Ellis worked out the theoretical basis for public-key cryptography. He called it "non-secret encryption." Two colleagues, Clifford Cocks and Malcolm Williamson, subsequently developed working implementations — including one that was mathematically equivalent to what RSA would publish in 1977.</p>
+
+      <p class="body-text">None of it was published. All of it was classified. The people who did the work could not tell their families, could not present at conferences, could not claim credit. The world built its cryptographic infrastructure on the public discoveries of Diffie, Hellman, and the RSA team — not knowing that the same work existed, complete, in a filing cabinet in Cheltenham.</p>
+
+      <div class="pull-quote">"Ellis died in 1997, weeks after GCHQ finally declassified his work. He spent the last years of his life knowing that the history books had him absent from a story he had written."</div>
+
+      <p class="body-text">The GCHQ story is not simply about credit. It is about what happens when a breakthrough is locked inside an institution that cannot share it. The global internet was built on the open version of this idea — available to engineers everywhere, improvable by anyone, deployable without permission. The classified version, however complete, could not do that work.</p>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — find the declassified record</div>
+        <div class="activity-title">Read what GCHQ released</div>
+        <div class="activity-body">
+          <p>In 1997, GCHQ released a paper by James Ellis titled "The Possibility of Secure Non-Secret Digital Encryption." It is publicly available. Find it, and read at least the introduction and conclusion.</p>
+          <ul class="prompt-list">
+            <li>How does Ellis describe the problem he was trying to solve? How does his framing compare to Diffie and Hellman's?</li>
+            <li>What does the paper reveal about the institutional context — the constraints Ellis was working under, the reasons the work stayed classified?</li>
+            <li>What is missing from the paper that you would expect to find in an academic publication of the same work?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon local">II</div>
+        <div class="layer-label local">The local echo</div>
+      </div>
+
+      <p class="body-text">Most governments were engaged with cryptography during the Cold War period — some as users of classified systems, some as developers, some simply as consumers of what allied intelligence agencies shared with them. The history of what your government knew, when, and what they did with it is almost certainly not fully public.</p>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — your government's cryptographic history</div>
+        <div class="activity-title">What did your government know, and when?</div>
+        <div class="activity-body">
+          <p>This is genuinely investigative work. You may not find complete answers — but the process of looking will reveal something.</p>
+          <ul class="prompt-list">
+            <li>Does your country have a signals intelligence agency, a national cryptography authority, or a military communications unit? When was it established, and what is publicly known about its history?</li>
+            <li>Were there relationships with US, British, or other allied intelligence agencies that would have given your government access to cryptographic knowledge not available to the public?</li>
+            <li>Are there retired officials, academics, or journalists who have written about this period in your country's digital history? What have they been able to find — and what has remained classified or simply unrecorded?</li>
+            <li>If your country was not a participant in Cold War intelligence networks — how did that affect when and how cryptographic tools became available to your institutions?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon living">III</div>
+        <div class="layer-label living">The living pattern</div>
+      </div>
+
+      <p class="body-text">Governments are still classifying capabilities and running parallel secret programs. The GCHQ story did not end in 1997.</p>
+
+      <div class="living-box">
+        <div class="living-label">Pattern today</div>
+        <div class="living-title">What is your government doing with AI and surveillance that isn't public?</div>
+        <div class="living-body">
+          <p>The Snowden revelations of 2013 showed that the gap between what intelligence agencies were doing and what the public knew had grown vast — in the age of the internet, not despite it. Today, governments are developing AI capabilities, acquiring surveillance tools, and making decisions about cryptographic backdoors — much of it outside public view.</p>
+          <ul class="prompt-list" style="margin-top: 10px;">
+            <li>What do you know, or suspect, about your government's use of AI tools for surveillance, border control, or intelligence? What is the evidence base for what you know versus what you suspect?</li>
+            <li>The GCHQ parallel suggests that classified capability, however advanced, cannot build the open infrastructure the world needs. Where do you see that tension playing out today?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Log entry — Quest A2</div>
+      <div class="log-field">
+        <label class="log-label" for="a2-found">What I found about my government's cryptographic history</label>
+        <textarea class="log-area" id="a2-found" rows="2" placeholder="Key finding — and the source it came from"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a2-gap">The most significant thing I couldn't find — and why</label>
+        <textarea class="log-area" id="a2-gap" rows="2" placeholder="What's absent from the public record, and what might explain that absence?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a2-today">Where I see the GCHQ pattern alive today</label>
+        <textarea class="log-area" id="a2-today" rows="2" placeholder="A specific example of classified or opaque capability in your context"></textarea>
+      </div>
+    </div>
+
+    <button class="quest-back-btn" onclick="showMain()" style="margin-top: 8px;">← Back to Module A</button>
+  </div>
+
+  <!-- Quest A3: RSA -->
+  <div class="quest-view quest-rsa content" id="quest-rsa">
+    <button class="quest-back-btn" onclick="showMain()">← Back to Module A</button>
+
+    <div class="quest-header">
+      <div class="quest-header-eyebrow">Quest A3 — The thread</div>
+      <div class="quest-header-title">One breakthrough, then another</div>
+      <div class="quest-header-sub">RSA, digital signatures, and how a single paper immediately enables the next generation of builders</div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon thread">I</div>
+        <div class="layer-label thread">The thread</div>
+      </div>
+
+      <p class="body-text">In April 1977 — less than a year after Diffie and Hellman's paper — Ron Rivest, Adi Shamir, and Leonard Adleman at MIT published a method for implementing public-key cryptography using the mathematical difficulty of factoring large numbers. RSA, named for their initials, was the first practical implementation of the ideas Diffie and Hellman had theorised.</p>
+
+      <p class="body-text">But RSA did something the Diffie-Hellman paper had not fully resolved: it made digital signatures practical. A digital signature using RSA allowed a sender to sign a message with their private key in a way that anyone with their public key could verify — proving both the identity of the sender and the integrity of the message. This was the missing piece that made cryptographic trust useful for commerce, contracts, and identity.</p>
+
+      <div class="pull-quote">"Rivest has described the night he worked out the algorithm: unable to sleep after a Passover seder, he sat down and by morning had the mathematics. The three of them spent the next few weeks trying to find a flaw. They couldn't."</div>
+
+      <p class="body-text">RSA was published openly — deliberately so. Rivest has spoken about the decision to put it in a public memo rather than seek a patent first, precisely because they wanted it to travel. It did. Within a decade, RSA was the foundation of secure email, SSL, and the emerging infrastructure of digital commerce.</p>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — trace the adoption in your region</div>
+        <div class="activity-title">Find the early adopters</div>
+        <div class="activity-body">
+          <p>When RSA became publicly available, some people in your region read the paper — or heard about it — and understood immediately what it made possible. Find evidence of who those people were.</p>
+          <ul class="prompt-list">
+            <li>Which universities or research institutions in your region had computer science or mathematics departments engaged with cryptography in the late 1970s or 1980s? Are there published papers, theses, or course materials from that period?</li>
+            <li>Were there early internet communities, bulletin board systems, or professional networks through which cryptographic ideas circulated in your country? Who ran them?</li>
+            <li>Is there a person — a professor, an engineer, a government technologist — who was the first in your community to build something using RSA or public-key cryptography? Are they findable?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon local">II</div>
+        <div class="layer-label local">The local echo</div>
+      </div>
+
+      <p class="body-text">Every country has a version of the RSA adoption story — the moment when the theoretical became practical, and the people who were early enough to see it. In some places that story is well documented. In many it is not.</p>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — the cascade in your context</div>
+        <div class="activity-title">What did RSA make possible locally, and for whom?</div>
+        <div class="activity-body">
+          <p>The RSA story is really a story about a cascade: one breakthrough immediately enables the next generation of builders. Map that cascade as it played out in your region.</p>
+          <ul class="prompt-list">
+            <li>What was the first practical application of digital signatures in your country — a government document, a banking transaction, a legal instrument? When, and who built it?</li>
+            <li>Who were the builders — did this come from government, from private enterprise, from academic spinouts, from international technology transfer?</li>
+            <li>Who was excluded from the early cascade? Were there communities, industries, or regions within your country that didn't get access to these tools until much later?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon living">III</div>
+        <div class="layer-label living">The living pattern</div>
+      </div>
+
+      <p class="body-text">Breakthroughs still enable cascades. The question is always: who gets to build on the new foundation, and who doesn't find out until it's already built without them.</p>
+
+      <div class="living-box">
+        <div class="living-label">Pattern today</div>
+        <div class="living-title">What foundational capability is being built on right now — and who is in the room?</div>
+        <div class="living-body">
+          <p>Large language models are the current version of this story: a foundational capability that arrived publicly, that a first generation of builders is rapidly building on, and whose downstream applications will shape infrastructure for decades.</p>
+          <ul class="prompt-list" style="margin-top: 10px;">
+            <li>Who in your region is in the room for the current cascade? Are local researchers, engineers, and policymakers part of the conversation, or are they adopters rather than architects?</li>
+            <li>What foundational work is being done in your region right now that the rest of the world will eventually build on — whether or not they know it came from here?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Log entry — Quest A3</div>
+      <div class="log-field">
+        <label class="log-label" for="a3-adopter">The earliest RSA adopter I found in my region</label>
+        <input class="log-line" type="text" id="a3-adopter" placeholder="Name, institution, or application — and approximate date">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a3-excluded">Who was excluded from the early cascade, and why</label>
+        <textarea class="log-area" id="a3-excluded" rows="2" placeholder="A specific community, industry, or region — and what blocked their access"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a3-today">The current cascade I see playing out in my region</label>
+        <textarea class="log-area" id="a3-today" rows="2" placeholder="Who is building, who is being left out, and what might change that"></textarea>
+      </div>
+    </div>
+
+    <button class="quest-back-btn" onclick="showMain()" style="margin-top: 8px;">← Back to Module A</button>
+  </div>
+
+  <!-- Quest A4: Export controls -->
+  <div class="quest-view quest-export content" id="quest-export">
+    <button class="quest-back-btn" onclick="showMain()">← Back to Module A</button>
+
+    <div class="quest-header">
+      <div class="quest-header-eyebrow">Quest A4 — The thread</div>
+      <div class="quest-header-title">Who decides who gets the tools</div>
+      <div class="quest-header-sub">The crypto wars, the cypherpunks, and a fight that never really ended</div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon thread">I</div>
+        <div class="layer-label thread">The thread</div>
+      </div>
+
+      <p class="body-text">In the 1980s and early 1990s, the United States government classified strong cryptography as a munition under the International Traffic in Arms Regulations. Exporting software with encryption above a certain key length required an arms export licence. This was not a metaphor — cryptographic software was legally equivalent to weapons.</p>
+
+      <p class="body-text">The practical consequence: US companies could not ship strong encryption in their products to foreign customers. The global internet was growing, and the infrastructure of digital trust was being deliberately hobbled at the border. Many countries either adopted weak US-approved encryption standards or built their own — creating a fragmented, less secure global landscape.</p>
+
+      <div class="pull-quote">"Phil Zimmermann wrote PGP — Pretty Good Privacy — in 1991 and released it freely on the internet. The US government opened a criminal investigation. He was investigated for three years before the case was dropped."</div>
+
+      <p class="body-text">The cypherpunks — a loose movement of cryptographers, activists, and technologists — decided that the response to this was to make cryptography so widely distributed that controlling it became impossible. They printed source code in books (books were protected by the First Amendment, even if software wasn't). They shipped encryption across borders in ways that technically complied with the letter of export law. They published, argued, and built — treating strong cryptography as a fundamental right rather than a privilege governments could allocate.</p>
+
+      <p class="body-text">By 1999, the Clinton administration relaxed most of the export restrictions. The cypherpunks had not lost. But the years of restriction had shaped which countries built strong cryptographic infrastructure early and which arrived late.</p>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — read the primary arguments</div>
+        <div class="activity-title">The cypherpunk manifesto and the government's case</div>
+        <div class="activity-body">
+          <p>Two primary documents frame this debate. Find and read both before moving on.</p>
+          <ul class="prompt-list">
+            <li>Eric Hughes' "A Cypherpunk's Manifesto" (1993) — a short, direct statement of why cryptography is a political act. Available freely online.</li>
+            <li>The NSA's public arguments for the Clipper Chip proposal (1993) — the government's attempt to mandate a cryptographic backdoor in all US communications hardware. Look for contemporary news coverage or congressional testimony.</li>
+          </ul>
+          <p style="margin-top: 10px;">After reading both: whose argument holds up better, thirty years later? Where does each side's reasoning lead if you follow it to its conclusion?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon local">II</div>
+        <div class="layer-label local">The local echo</div>
+      </div>
+
+      <p class="body-text">Every country has a version of this story — a moment when the question of who controls access to cryptographic tools was decided, explicitly or by default. In some countries, that decision was made by following US export restrictions. In others, it was made by building national cryptographic standards. In others, it simply wasn't made, and the tools arrived unevenly and late.</p>
+
+      <div class="activity-box">
+        <div class="activity-label">Activity — your country's access story</div>
+        <div class="activity-title">When did strong cryptography become available where you are — and who decided?</div>
+        <div class="activity-body">
+          <p>This requires real investigation. The answers are rarely in a single source.</p>
+          <ul class="prompt-list">
+            <li>When did banks, government agencies, or businesses in your country first use strong encryption in their systems? What encryption standards did they use, and where did those standards come from?</li>
+            <li>Were there local debates about cryptographic policy — government proposals for key escrow, backdoors, or national encryption standards? Who were the voices on each side?</li>
+            <li>Did US export restrictions directly affect technology available in your country? Can you find a specific example — a product that couldn't be sold, a system that had to use weaker encryption because of export rules?</li>
+            <li>Who were the people in your country who understood the stakes of this debate early — and what did they do about it?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-header">
+        <div class="layer-icon living">III</div>
+        <div class="layer-label living">The living pattern</div>
+      </div>
+
+      <p class="body-text">This is the most alive of all four threads. The arguments from the 1990s crypto wars are being made again today, in different domains, with different technologies — and often by people who don't know they are repeating them.</p>
+
+      <div class="living-box">
+        <div class="living-label">Pattern today — the most timely of all</div>
+        <div class="living-title">The crypto wars never ended. They just moved.</div>
+        <div class="living-body">
+          <p>In 2023, the US imposed export controls on advanced AI chips — restricting access to NVIDIA's most powerful processors for certain countries. The arguments used were nearly identical to those used for cryptography in 1993: national security, dual-use risk, the danger of powerful tools in the wrong hands. The counterarguments were also familiar: that restriction fragments global development, that it accelerates parallel domestic programs, that it does not ultimately prevent access but only delays and distorts it.</p>
+          <ul class="prompt-list" style="margin-top: 10px;">
+            <li>How have AI export controls affected your country or region? Are researchers, companies, or government agencies facing restricted access to tools they need?</li>
+            <li>Is there a cypherpunk equivalent in the AI space — people arguing that powerful AI capabilities should be freely available as a matter of principle? What is the strongest version of that argument, and the strongest version of the counterargument?</li>
+            <li>Who in your country is having this debate right now? Are they aware of how it was resolved — and at what cost — in the cryptography context thirty years ago?</li>
+            <li>What does the history of the crypto wars suggest about how the AI access debate is likely to end?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Log entry — Quest A4</div>
+      <div class="log-field">
+        <label class="log-label" for="a4-local">The key finding from my country's access story</label>
+        <textarea class="log-area" id="a4-local" rows="2" placeholder="When strong cryptography arrived, how, and who shaped that — in one or two sentences"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a4-voice">A local voice I want to find — someone who was in this debate</label>
+        <input class="log-line" type="text" id="a4-voice" placeholder="Name, role, or institution — and how you might locate them">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a4-today">The clearest parallel I see today</label>
+        <textarea class="log-area" id="a4-today" rows="2" placeholder="A specific current debate — AI, surveillance, platform access — that echoes the crypto wars"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="a4-argument">The argument from the 1990s that most needs to be made today</label>
+        <textarea class="log-area" id="a4-argument" rows="2" placeholder="What did the cypherpunks or their opponents get right that the current debate is missing?"></textarea>
+      </div>
+    </div>
+
+    <button class="quest-back-btn" onclick="showMain()" style="margin-top: 8px;">← Back to Module A</button>
+  </div>
+
+</div>
+
+<script>
+function showQuest(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.quest-view').forEach(q => q.classList.remove('active'));
+  document.getElementById('quest-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showMain() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.quest-view').forEach(q => q.classList.remove('active'));
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

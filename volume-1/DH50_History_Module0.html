@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 History Ambassador — Module 0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-soft: #7a7670;
+    --ink-faint: #b0ada6;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --rule: #e2ddd4;
+    --rule-soft: #ede9e0;
+    --accent: #8B4513;
+    --accent-light: #f0e6dc;
+    --accent-mid: #c4703a;
+    --teal: #2d6e6a;
+    --teal-light: #e0f0ef;
+    --gold: #9a7b2e;
+    --gold-light: #f5edda;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .handbook {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 0 80px;
+  }
+
+  /* Header */
+  .header {
+    padding: 40px 32px 32px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .header-eyebrow {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .header-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .header-subtitle {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .module-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: var(--accent-light);
+    border: 1px solid #ddbfa0;
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-top: 16px;
+  }
+
+  /* Tab nav */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 0 32px;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .tab-btn {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 14px 16px 12px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* Page content */
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  /* Typography */
+  .body-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-family: var(--sans);
+    font-weight: 300;
+  }
+  .body-text strong { font-weight: 500; }
+
+  .serif-text {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .pull-quote {
+    border-left: 3px solid var(--accent-mid);
+    margin: 28px 0;
+    padding: 14px 20px;
+    font-family: var(--serif);
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    background: var(--accent-light);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+
+  /* Activity box */
+  .activity-box {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin: 24px 0;
+    background: var(--paper-card);
+  }
+  .activity-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .activity-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-family: var(--serif);
+  }
+  .activity-body {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-mid);
+    margin-bottom: 9px;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); margin-top: 1px; }
+
+  /* Log box */
+  .log-box {
+    border: 1px dashed #c8c3ba;
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin: 24px 0;
+    background: var(--paper-warm);
+  }
+  .log-entry-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 20px;
+  }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin-bottom: 7px;
+    display: block;
+  }
+  .log-line {
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    width: 100%;
+    background: transparent;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 4px 0 7px;
+    outline: none;
+    font-family: var(--sans);
+    font-weight: 300;
+  }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+  .log-area {
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    width: 100%;
+    background: transparent;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 4px 0 7px;
+    outline: none;
+    resize: none;
+    font-family: var(--sans);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  /* Callout */
+  .callout {
+    background: var(--teal-light);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 20px 0;
+  }
+  .callout-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .callout-body {
+    font-size: 13px;
+    color: #2a5a56;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* Badge / completion */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--paper-warm);
+    color: var(--ink-mid);
+    border: 1px solid var(--rule);
+  }
+  .completion-box {
+    margin-top: 28px;
+    padding: 18px 22px;
+    border-radius: 10px;
+    background: var(--gold-light);
+    border: 1px solid #dfd0a0;
+  }
+  .completion-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .completion-body {
+    font-size: 13px;
+    color: #7a6520;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* Steps */
+  .steps-block {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 24px 0;
+    background: var(--paper-card);
+  }
+  .step-row {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--rule-soft);
+    padding: 18px 20px;
+    align-items: flex-start;
+  }
+  .step-row:last-child { border-bottom: none; }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 16px;
+    margin-top: 1px;
+    border: 1px solid #ddbfa0;
+  }
+  .step-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .step-body {
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  /* Equation demo */
+  .eq-container {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 28px 24px;
+    margin: 24px 0;
+  }
+  .eq-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .eq-subtitle {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+  .eq-parties {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .eq-party {
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    background: var(--paper-warm);
+  }
+  .eq-party-name {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .eq-value-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+  .eq-value-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    flex-shrink: 0;
+  }
+  .eq-value-num {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    min-width: 36px;
+    text-align: right;
+  }
+  .eq-value-num.private { color: var(--accent); }
+  .eq-value-num.shared { color: var(--teal); }
+  .eq-value-num.secret { color: var(--gold); font-size: 22px; }
+  .eq-slider { width: 100%; margin-top: 4px; accent-color: var(--accent); }
+
+  .eq-public-row {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .eq-pub-item { }
+  .eq-pub-label {
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .eq-pub-val {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .eq-channel {
+    text-align: center;
+    padding: 12px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .eq-channel-line {
+    height: 1px;
+    background: var(--rule);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+  }
+  .eq-channel-label {
+    display: inline-block;
+    background: var(--paper);
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    position: relative;
+    z-index: 1;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+  }
+
+  .eq-result {
+    background: var(--paper-card);
+    border: 2px solid var(--rule-soft);
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-align: center;
+    transition: border-color 0.3s;
+  }
+  .eq-result.match { border-color: var(--teal); background: var(--teal-light); }
+  .eq-result-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+  .eq-result.match .eq-result-label { color: var(--teal); }
+  .eq-result-nums {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 28px;
+    font-weight: 500;
+  }
+  .eq-result-sep {
+    font-size: 14px;
+    color: var(--ink-faint);
+    font-weight: 300;
+  }
+  .eq-result-msg {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    font-weight: 300;
+  }
+  .eq-result.match .eq-result-msg { color: var(--teal); font-weight: 400; }
+
+  .eq-note {
+    font-size: 12px;
+    color: var(--ink-faint);
+    line-height: 1.6;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule-soft);
+    font-weight: 300;
+  }
+
+  .legend-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Divider */
+  .page-divider {
+    border: none;
+    border-top: 1px solid var(--rule-soft);
+    margin: 32px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .eq-parties { grid-template-columns: 1fr; }
+    .header-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · History Ambassador Field Guide</div>
+    <div class="header-title">Module 0 — Orientation</div>
+    <div class="header-subtitle">Before you go into the field, you need to know what you're looking for.</div>
+    <div class="module-badge">Always included</div>
+  </div>
+
+  <nav class="tab-nav" role="navigation" aria-label="Module sections">
+    <button class="tab-btn active" onclick="showTab(0)">The mission</button>
+    <button class="tab-btn" onclick="showTab(1)">The idea</button>
+    <button class="tab-btn" onclick="showTab(2)">How it works</button>
+    <button class="tab-btn" onclick="showTab(3)">First log entry</button>
+  </nav>
+
+  <!-- Tab 0: The mission -->
+  <div class="page active" id="tab0">
+    <div class="section-label">Module 0.0 — Why you're here</div>
+
+    <p class="serif-text">This is not an archive. It is a rescue mission.</p>
+
+    <p class="body-text">In 1976, an idea emerged from a Stanford lab that changed how every human being on earth communicates. You almost certainly used it this morning. The people who built the first systems on top of it — who deployed it in banks, government offices, and trading networks around the world — are aging. Their stories are not written down. In many cases, they exist nowhere except in memory.</p>
+
+    <p class="body-text">Your job as a History Ambassador is to find those stories before they are lost — starting in your own community, your own region, your own corner of the world.</p>
+
+    <div class="pull-quote">"How did this idea, born in a Stanford lab in 1976, travel to here — and change this community's relationship with trust, commerce, and identity?"</div>
+
+    <p class="body-text">That is the question at the heart of your work. Not a general history of cryptography — there are books for that. The specific, unrepeatable story of how cryptographic trust arrived where you are. Or didn't arrive. Or arrived unevenly, for some people and not others.</p>
+
+    <p class="body-text">This field guide will walk alongside you through that investigation. You don't need to read it front to back. Pick it up when you need a framework, a method, or a prompt to get unstuck. The work is yours. The guide just helps you do it.</p>
+
+    <div class="activity-box">
+      <div class="activity-label">Before you go further</div>
+      <div class="activity-title">Three questions worth sitting with</div>
+      <div class="activity-body">
+        <p>You don't need to answer these now. But keep them close — they will sharpen as you work.</p>
+        <ul class="prompt-list">
+          <li>When did people in your community first start trusting digital systems with something that mattered — money, identity, health records? What made that possible?</li>
+          <li>Who in your region was involved in building or deploying that trust? Are they findable?</li>
+          <li>What parts of this story might disappear if no one records them in the next few years?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">What an outstanding History Ambassador does</div>
+      <div class="callout-body">They don't just search online. They go to people — the engineers, administrators, and policymakers who were actually there. They ask questions nobody has thought to ask. They find primary sources in places secondary sources don't mention. And they bring back something the world didn't have before.</div>
+    </div>
+
+    <p class="body-text" style="color: var(--ink-soft); font-size: 13px;">This handbook was created as part of the Diffie-Hellman 50th Anniversary Initiative, a global project to document how public-key cryptography traveled from a 1976 paper to the digital infrastructure we depend on today.</p>
+  </div>
+
+  <!-- Tab 1: The idea -->
+  <div class="page" id="tab1">
+    <div class="section-label">Module 0.1 — The briefing</div>
+
+    <p class="serif-text" style="font-size: 18px; line-height: 1.6; margin-bottom: 24px;">The idea that changed everything</p>
+
+    <p class="body-text">In 1976, Whitfield Diffie and Martin Hellman published a paper in the IEEE Transactions on Information Theory. It was eleven pages long. Its title was modest: <em>New Directions in Cryptography</em>. What it contained was not modest at all.</p>
+
+    <p class="body-text">For centuries, secure communication had required a shared secret — a key, a codebook, a prior meeting between the people who needed to communicate. This was fine for diplomats with couriers and armies with codebooks. It was a fundamental barrier for everyone else. You could not have a private conversation with a stranger over an open channel — not without having already met them somewhere private first.</p>
+
+    <div class="pull-quote">"They showed that two parties who had never met — who shared no prior secret — could nonetheless establish a shared secret that no eavesdropper could crack."</div>
+
+    <p class="body-text">Diffie and Hellman dissolved that barrier. The locked box could be sent without the key. The key could be constructed, independently, at both ends. This was not an improvement on existing cryptography. It was a different kind of thing entirely.</p>
+
+    <p class="body-text">Within a year, three mathematicians at MIT — Ron Rivest, Adi Shamir, and Len Adleman — used Diffie and Hellman's framework to build something further: a system for digital signatures. Not just private communication, but verifiable identity. A way to prove, mathematically, that a message came from who it claimed to come from, and had not been altered in transit.</p>
+
+    <p class="body-text">These two ideas — public key exchange and digital signatures — are the foundation beneath nearly everything you do online today. The padlock in your browser. The payment you made this morning. The message that arrived with your name on it.</p>
+
+    <hr class="page-divider">
+
+    <div class="activity-box">
+      <div class="activity-label">Discovery quest — go deeper</div>
+      <div class="activity-title">The story has fringes worth following</div>
+      <div class="activity-body">
+        <p>The 1976 paper is where this story starts — but not where the interesting parts live. As you work through this handbook, you'll find quests that trace the stranger, less-told threads:</p>
+        <ul class="prompt-list">
+          <li>Ralph Merkle's puzzle concept — developed independently, it informed Diffie and Hellman's work in ways the history books often skip over</li>
+          <li>GCHQ's parallel secret — British intelligence solved the same problem years earlier and classified it; the world didn't know until 1997</li>
+          <li>The export control battles — the US government treated strong cryptography as a weapon and tried to control its spread</li>
+          <li>The first deployments — who actually built the first real systems, and where, and under what circumstances?</li>
+        </ul>
+        <p style="margin-top: 12px;">Each thread has a local echo. The export control story is a story about which countries got access and when. The deployment story played out differently in every region. Your investigation starts here and reaches outward.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: How it works (interactive) -->
+  <div class="page" id="tab2">
+    <div class="section-label">Module 0.2 — The mathematics, made tangible</div>
+
+    <p class="body-text">You don't need to understand the mathematics to do this work. But spending five minutes with it will make the magic real in a way that reading about it cannot.</p>
+
+    <p class="body-text">The core problem Diffie and Hellman solved: how do two people agree on a shared secret over a channel that anyone can listen to, without ever sending the secret itself? Here is exactly how it works — in four steps.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Public setup</div>
+          <div class="step-body">Both parties agree on two public numbers that anyone can know: a large prime number <em>p</em>, and a base generator <em>g</em>. In the demo below, <em>p</em> = 23 and <em>g</em> = 5. In real systems, <em>p</em> has hundreds of digits.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Private keys</div>
+          <div class="step-body">Alice secretly picks a private number <em>a</em>. Bob secretly picks a private number <em>b</em>. Neither tells the other. These never leave their hands.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Public exchange</div>
+          <div class="step-body">Alice computes <strong>A = g<sup>a</sup> mod p</strong> and sends <em>A</em> to Bob — openly, over the public channel. Bob computes <strong>B = g<sup>b</sup> mod p</strong> and sends <em>B</em> to Alice. An eavesdropper can see both <em>A</em> and <em>B</em>. That's fine.</div>
+        </div>
+      </div>
+      <div class="step-row" style="margin-bottom: 0;">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Shared secret</div>
+          <div class="step-body">Alice takes Bob's public value and computes <strong>s = B<sup>a</sup> mod p</strong>. Bob takes Alice's public value and computes <strong>s = A<sup>b</sup> mod p</strong>. Because of the commutative property of modular arithmetic, both calculations produce the same number — the shared secret. Neither sent it. The eavesdropper, who only has <em>A</em> and <em>B</em>, cannot work backwards to find it without solving a problem that is computationally infeasible for large numbers.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">The demonstration below uses small numbers so you can follow the arithmetic in your head. Try it.</p>
+
+    <div class="eq-container">
+      <div class="eq-title">Now try it yourself</div>
+      <div class="eq-subtitle">Adjust Alice's and Bob's private numbers. Watch steps 3 and 4 play out — and confirm that the shared secret always matches, no matter what private numbers you choose.</div>
+
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background: var(--accent)"></div> Private (known only to them)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--teal)"></div> Public (visible to anyone)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--gold)"></div> Shared secret</div>
+      </div>
+
+      <div class="eq-public-row">
+        <div class="eq-pub-item">
+          <div class="eq-pub-label">Public base (g)</div>
+          <div class="eq-pub-val" id="pub-g">5</div>
+        </div>
+        <div class="eq-pub-item">
+          <div class="eq-pub-label">Public modulus (p)</div>
+          <div class="eq-pub-val" id="pub-p">23</div>
+        </div>
+        <div style="flex:1; display:flex; align-items:flex-end; justify-content:flex-end;">
+          <span style="font-size:11px; color:var(--ink-faint); font-weight:300;">Known to everyone — including eavesdroppers</span>
+        </div>
+      </div>
+
+      <div class="eq-parties">
+        <div class="eq-party">
+          <div class="eq-party-name">Alice</div>
+          <div class="eq-value-row">
+            <span class="eq-value-label">Private number (a)</span>
+            <span class="eq-value-num private" id="alice-private">4</span>
+          </div>
+          <input type="range" class="eq-slider" id="alice-slider" min="2" max="11" value="4" oninput="update()">
+          <div class="eq-value-row" style="margin-top: 14px;">
+            <span class="eq-value-label">Sends publicly (g<sup>a</sup> mod p)</span>
+            <span class="eq-value-num shared" id="alice-public">4</span>
+          </div>
+        </div>
+
+        <div class="eq-party">
+          <div class="eq-party-name">Bob</div>
+          <div class="eq-value-row">
+            <span class="eq-value-label">Private number (b)</span>
+            <span class="eq-value-num private" id="bob-private">3</span>
+          </div>
+          <input type="range" class="eq-slider" id="bob-slider" min="2" max="11" value="3" oninput="update()">
+          <div class="eq-value-row" style="margin-top: 14px;">
+            <span class="eq-value-label">Sends publicly (g<sup>b</sup> mod p)</span>
+            <span class="eq-value-num shared" id="bob-public">10</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-channel">
+        <div class="eq-channel-line"></div>
+        <span class="eq-channel-label">Open channel — eavesdroppers see the public values, not the private ones</span>
+      </div>
+
+      <div class="eq-result" id="eq-result">
+        <div class="eq-result-label">Shared secret independently computed</div>
+        <div class="eq-result-nums">
+          <span id="alice-secret" style="color: var(--accent)">—</span>
+          <span class="eq-result-sep">Alice computes &nbsp;·&nbsp; Bob computes</span>
+          <span id="bob-secret" style="color: var(--teal)">—</span>
+        </div>
+        <div class="eq-result-msg" id="eq-msg">Move the sliders to see the exchange</div>
+      </div>
+
+      <div class="eq-note">
+        The eavesdropper sees <em>g</em>, <em>p</em>, <em>A</em>, and <em>B</em> — all four public values. To find the shared secret, they would need to reverse the modular exponentiation: given A = g<sup>a</sup> mod p, find <em>a</em>. This is the discrete logarithm problem. For the small numbers here, it's solvable by trial and error. For numbers with hundreds of digits, no computer built or conceivable could do it in any practical timeframe. That gap between easy and impossible is what makes the whole system work.
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection</div>
+      <div class="activity-title">What just happened?</div>
+      <div class="activity-body">
+        <p>Try a few different combinations of private numbers. Notice that the shared secret always matches — and that the public values alone don't reveal it.</p>
+        <ul class="prompt-list">
+          <li>What would an eavesdropper need to know to crack this? What makes that hard with large numbers?</li>
+          <li>Why did this idea take until 1976? What had to exist — mathematically, computationally — before it was possible?</li>
+          <li>When you explain this to someone in your community who has never thought about it — what analogy will you use?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: First log entry -->
+  <div class="page" id="tab3">
+    <div class="section-label">Module 0.3 — Your ambassador log</div>
+
+    <p class="body-text">Every investigation needs a record. Not a report — a thinking tool. Your log is where you note what surprised you, what you're not sure about, who you need to find, and what you're starting to understand that you didn't before.</p>
+
+    <p class="body-text">You'll return to it after every significant piece of work. By the end of the year, it will be a record of how your thinking developed — and that record matters. Not just for you, but for the ambassadors who come after you, investigating the same questions in different places.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 1 — Arrival</div>
+
+      <div class="log-field">
+        <label class="log-label" for="log-date">Date</label>
+        <input class="log-line" type="text" id="log-date" placeholder="Today's date">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="log-location">Location</label>
+        <input class="log-line" type="text" id="log-location" placeholder="City, country">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="log-why">What brought you here?</label>
+        <textarea class="log-area" id="log-why" rows="3" placeholder="What made you say yes to this? What are you hoping to find or understand?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="log-question">The local history question you're most drawn to right now</label>
+        <textarea class="log-area" id="log-question" rows="2" placeholder="Finish this sentence: 'I want to find out what happened when...'"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="log-person">One person you already know who might have part of this story</label>
+        <input class="log-line" type="text" id="log-person" placeholder="Name or role — and why them">
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Note</div>
+      <div class="activity-title">This log travels with you</div>
+      <div class="activity-body">
+        <p>Each section of this field guide ends with a log prompt. Some are short. Some ask you to describe a conversation that surprised you. Over time, your log will show you how your question evolved — and that evolution is part of what you contribute to the global record.</p>
+        <p>Nothing in your log needs to be polished. Write what you actually think, not what sounds right.</p>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module 0 complete</div>
+      <div class="completion-body">You have the briefing, a feel for the mathematics, and your first log entry. You're ready to move into the field. Next: Module A — The Global Story, where you'll follow the threads that lead from Stanford in 1976 to your part of the world.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Module 0 complete</div>
+        <div class="badge-pill">Field log opened</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => {
+    p.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === n);
+  });
+}
+
+function modpow(base, exp, mod) {
+  let result = 1;
+  base = base % mod;
+  while (exp > 0) {
+    if (exp % 2 === 1) result = (result * base) % mod;
+    exp = Math.floor(exp / 2);
+    base = (base * base) % mod;
+  }
+  return result;
+}
+
+function update() {
+  const g = 5, p = 23;
+  const a = parseInt(document.getElementById('alice-slider').value);
+  const b = parseInt(document.getElementById('bob-slider').value);
+
+  const A = modpow(g, a, p);
+  const B = modpow(g, b, p);
+  const aliceSecret = modpow(B, a, p);
+  const bobSecret = modpow(A, b, p);
+
+  document.getElementById('alice-private').textContent = a;
+  document.getElementById('bob-private').textContent = b;
+  document.getElementById('alice-public').textContent = A;
+  document.getElementById('bob-public').textContent = B;
+  document.getElementById('alice-secret').textContent = aliceSecret;
+  document.getElementById('bob-secret').textContent = bobSecret;
+
+  const result = document.getElementById('eq-result');
+  const msg = document.getElementById('eq-msg');
+
+  if (aliceSecret === bobSecret) {
+    result.className = 'eq-result match';
+    msg.textContent = 'They agree — the shared secret is ' + aliceSecret + '. Neither sent it. Anyone listening heard only ' + A + ' and ' + B + '.';
+  } else {
+    result.className = 'eq-result';
+    msg.textContent = 'Computing…';
+  }
+}
+
+update();
+</script>
+</body>
+</html>

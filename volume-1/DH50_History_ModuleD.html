@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 History Ambassador — Module D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-soft: #7a7670;
+    --ink-faint: #b0ada6;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --rule: #e2ddd4;
+    --rule-soft: #ede9e0;
+    --accent: #8B4513;
+    --accent-light: #f0e6dc;
+    --accent-mid: #c4703a;
+    --teal: #2d6e6a;
+    --teal-light: #e0f0ef;
+    --teal-dark: #1a4a47;
+    --gold: #9a7b2e;
+    --gold-light: #f5edda;
+    --gold-dark: #7a6520;
+    --plum: #5a3d6b;
+    --plum-light: #ede5f5;
+    --slate: #3d5068;
+    --slate-light: #e5edf5;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; margin-bottom: 16px; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--gold); background: var(--gold-light); border: 1px solid #d4b870; border-radius: 20px; padding: 4px 12px; }
+
+  .tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .serif-text { font-family: var(--serif); font-size: 16px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 32px 0; }
+
+  /* Arc timeline */
+  .arc-block { margin: 24px 0; }
+  .arc-row { display: flex; gap: 0; margin-bottom: 0; position: relative; }
+  .arc-row::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -1px; width: 1px; background: var(--rule); }
+  .arc-row:last-child::before { display: none; }
+  .arc-marker { width: 32px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
+  .arc-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--rule); background: var(--paper); flex-shrink: 0; position: relative; z-index: 1; }
+  .arc-dot.filled { border-color: var(--accent-mid); background: var(--accent-light); }
+  .arc-content { flex: 1; padding: 0 0 28px 16px; }
+  .arc-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .arc-field-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 6px; display: block; margin-top: 12px; }
+  .arc-field-label:first-of-type { margin-top: 0; }
+  .arc-input { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .arc-input:focus { border-bottom-color: var(--accent-mid); }
+  .arc-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .arc-area:focus { border-bottom-color: var(--accent-mid); }
+
+  /* Handoff card */
+  .handoff-card { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .handoff-header { background: var(--paper-warm); padding: 14px 18px; border-bottom: 1px solid var(--rule); }
+  .handoff-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+  .handoff-title { font-size: 15px; font-weight: 500; color: var(--ink); font-family: var(--serif); }
+  .handoff-body { padding: 18px; }
+  .handoff-field { margin-bottom: 18px; }
+  .handoff-field:last-child { margin-bottom: 0; }
+  .handoff-field-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 4px; display: block; }
+  .handoff-field-hint { font-size: 12px; color: var(--ink-faint); font-weight: 300; margin-bottom: 6px; font-style: italic; }
+  .handoff-input { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .handoff-input:focus { border-bottom-color: var(--accent-mid); }
+  .handoff-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .handoff-area:focus { border-bottom-color: var(--accent-mid); }
+
+  /* Badge map */
+  .badge-section { margin-bottom: 32px; }
+  .badge-section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--rule-soft); }
+  .badge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .badge-item { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; background: var(--paper-card); display: flex; gap: 12px; align-items: flex-start; cursor: pointer; transition: border-color 0.15s; }
+  .badge-item:hover { border-color: var(--ink-soft); }
+  .badge-item.earned { border-color: var(--gold); background: var(--gold-light); }
+  .badge-item.milestone-badge { border-color: var(--teal); background: var(--teal-light); }
+  .badge-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; background: var(--paper-warm); border: 1px solid var(--rule); }
+  .badge-item.earned .badge-icon { background: var(--gold-light); border-color: #d4b870; }
+  .badge-item.milestone-badge .badge-icon { background: var(--teal-light); border-color: #a8d4d1; }
+  .badge-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .badge-desc { font-size: 11px; color: var(--ink-soft); line-height: 1.45; font-weight: 300; }
+  .badge-item.earned .badge-desc { color: var(--gold-dark); }
+  .badge-item.milestone-badge .badge-desc { color: var(--teal-dark); }
+  .badge-earned-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-top: 4px; }
+  .badge-teal-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-top: 4px; }
+
+  /* Closing */
+  .closing-block { margin-top: 40px; }
+  .closing-rule { border: none; border-top: 2px solid var(--rule); margin-bottom: 40px; }
+  .closing-title { font-family: var(--serif); font-size: 26px; font-weight: 400; color: var(--ink); line-height: 1.25; margin-bottom: 20px; }
+  .closing-text { font-size: 15px; line-height: 1.85; color: var(--ink-mid); margin-bottom: 20px; font-weight: 300; }
+  .closing-text strong { font-weight: 500; color: var(--ink); }
+  .closing-final { font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-soft); line-height: 1.7; margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--rule-soft); }
+
+  /* Log box */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px; }
+  .log-field { margin-bottom: 18px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-line { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  @media (max-width: 480px) {
+    .header, .page { padding-left: 20px; padding-right: 20px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .header-title { font-size: 26px; }
+    .badge-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · History Ambassador Field Guide</div>
+    <div class="header-title">Module D — The Full Record</div>
+    <div class="header-subtitle">The arc of your year, what you leave behind, and what you earned.</div>
+    <div class="module-badge">Ongoing · Final</div>
+  </div>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">The arc</button>
+    <button class="tab-btn" onclick="showTab(1)">The handoff</button>
+    <button class="tab-btn" onclick="showTab(2)">Badge map</button>
+    <button class="tab-btn" onclick="showTab(3)">Closing</button>
+  </nav>
+
+  <!-- Tab 0: The arc -->
+  <div class="page active" id="tab0">
+    <div class="section-label">Module D — The story of how your thinking developed</div>
+
+    <p class="serif-text">Every investigation has an arc. The question you started with is rarely the question you ended up answering — and the distance between those two questions is where the real learning lives.</p>
+
+    <p class="body-text">This tab is not a summary of your findings. That is already in your Module C finding record. This is the story of how you got there — the moments that redirected you, the things that surprised you, the instincts that turned out to be right and the assumptions that turned out to be wrong. That story is part of what you contribute to the permanent record of this initiative.</p>
+
+    <p class="body-text">Future ambassadors investigating your region, or adjacent regions, will read this. It is a gift of accumulated judgment — the kind that only comes from having done the work.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">The arc of your year — fill this in as the year closes</div>
+
+    <div class="arc-block">
+
+      <div class="arc-row">
+        <div class="arc-marker"><div class="arc-dot filled"></div></div>
+        <div class="arc-content">
+          <div class="arc-label">Where you started — Module 0</div>
+          <label class="arc-field-label" for="arc-start-question">The question you arrived with</label>
+          <input class="arc-input" type="text" id="arc-start-question" placeholder="The investigative question from your first log entry">
+          <label class="arc-field-label" for="arc-start-assumption">The assumption you brought that turned out to be wrong</label>
+          <textarea class="arc-area" id="arc-start-assumption" rows="2" placeholder="What did you expect to find — and why was that expectation off?"></textarea>
+        </div>
+      </div>
+
+      <div class="arc-row">
+        <div class="arc-marker"><div class="arc-dot filled"></div></div>
+        <div class="arc-content">
+          <div class="arc-label">The turn — the moment things changed direction</div>
+          <label class="arc-field-label" for="arc-turn-what">What happened</label>
+          <textarea class="arc-area" id="arc-turn-what" rows="2" placeholder="A source that surprised you, a gap that redirected you, a connection you didn't see coming"></textarea>
+          <label class="arc-field-label" for="arc-turn-how">How it changed what you were looking for</label>
+          <textarea class="arc-area" id="arc-turn-how" rows="2" placeholder="What you stopped pursuing, and what you started pursuing instead"></textarea>
+        </div>
+      </div>
+
+      <div class="arc-row">
+        <div class="arc-marker"><div class="arc-dot filled"></div></div>
+        <div class="arc-content">
+          <div class="arc-label">The most difficult moment</div>
+          <label class="arc-field-label" for="arc-hard">What made it hard</label>
+          <textarea class="arc-area" id="arc-hard" rows="2" placeholder="The wall you hit — archival, institutional, personal, logistical — and what you did about it"></textarea>
+        </div>
+      </div>
+
+      <div class="arc-row">
+        <div class="arc-marker"><div class="arc-dot filled"></div></div>
+        <div class="arc-content">
+          <div class="arc-label">The most important thing you found</div>
+          <label class="arc-field-label" for="arc-best">Not the strongest evidence — the most significant moment of discovery</label>
+          <textarea class="arc-area" id="arc-best" rows="2" placeholder="The conversation, document, or realisation that changed what you understood"></textarea>
+        </div>
+      </div>
+
+      <div class="arc-row">
+        <div class="arc-marker"><div class="arc-dot filled"></div></div>
+        <div class="arc-content">
+          <div class="arc-label">Where you ended — the question you are now asking</div>
+          <label class="arc-field-label" for="arc-end-question">Your investigative question now</label>
+          <input class="arc-input" type="text" id="arc-end-question" placeholder="How has the question evolved from where you started?">
+          <label class="arc-field-label" for="arc-end-distance">The distance between your starting question and your ending question</label>
+          <textarea class="arc-area" id="arc-end-distance" rows="2" placeholder="What does that distance tell you about how your thinking developed?"></textarea>
+        </div>
+      </div>
+
+      <div class="arc-row">
+        <div class="arc-marker"><div class="arc-dot"></div></div>
+        <div class="arc-content">
+          <div class="arc-label">If you were starting again</div>
+          <label class="arc-field-label" for="arc-again">What you would do differently from day one</label>
+          <textarea class="arc-area" id="arc-again" rows="2" placeholder="One specific methodological choice — not a general observation"></textarea>
+          <label class="arc-field-label" for="arc-again-keep">What you would keep exactly as you did it</label>
+          <textarea class="arc-area" id="arc-again-keep" rows="2" placeholder="The instinct or decision that turned out to be right"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tab 1: The handoff -->
+  <div class="page" id="tab1">
+    <div class="section-label">Module D — What you leave for whoever comes next</div>
+
+    <p class="serif-text">Your investigation does not end when your year does. It becomes the starting point for the next person who investigates this story.</p>
+
+    <p class="body-text">The gaps you documented, the sources you couldn't reach, the threads you had to leave open — all of it has value for someone who picks up where you left off. A well-written handoff is one of the most generous things an investigator can leave. It turns your incomplete work into someone else's head start.</p>
+
+    <div class="pull-quote">"The archive grows one handoff at a time. What you leave is what makes the next investigation possible."</div>
+
+    <div class="handoff-card">
+      <div class="handoff-header">
+        <div class="handoff-label">DH50 History Ambassador — Handoff Record</div>
+        <div class="handoff-title">For the next person who investigates this story</div>
+      </div>
+      <div class="handoff-body">
+
+        <div class="handoff-field">
+          <label class="handoff-field-label" for="ho-region">Region and story</label>
+          <div class="handoff-field-hint">The specific local story you were investigating</div>
+          <input class="handoff-input" type="text" id="ho-region" placeholder="Country / region · The specific deployment or institution you were tracing">
+        </div>
+
+        <div class="handoff-field">
+          <label class="handoff-field-label" for="ho-where">Where the investigation stands</label>
+          <div class="handoff-field-hint">A brief, honest summary of what is established, what is supported but not confirmed, and what remains unknown</div>
+          <textarea class="handoff-area" id="ho-where" rows="3" placeholder="What is solid, what is likely, and what is still genuinely open"></textarea>
+        </div>
+
+        <div class="handoff-field">
+          <label class="handoff-field-label" for="ho-sources">Sources I found — and how to reach them</label>
+          <div class="handoff-field-hint">Archives, institutions, and people who were helpful — with enough detail for someone else to find them</div>
+          <textarea class="handoff-area" id="ho-sources" rows="3" placeholder="Archive name, URL or location, what it contains and how to access it&#10;Person or institution, how you reached them, what they were willing to share"></textarea>
+        </div>
+
+        <div class="handoff-field">
+          <label class="handoff-field-label" for="ho-unreached">Sources I could not reach — and why</label>
+          <div class="handoff-field-hint">The people or documents that would have changed your investigation if you'd found them</div>
+          <textarea class="handoff-area" id="ho-unreached" rows="2" placeholder="Who or what — and what blocked access. The next investigator may find a way through."></textarea>
+        </div>
+
+        <div class="handoff-field">
+          <label class="handoff-field-label" for="ho-threads">Open threads worth following</label>
+          <div class="handoff-field-hint">The leads that looked promising but that you didn't have time or access to pursue</div>
+          <textarea class="handoff-area" id="ho-threads" rows="3" placeholder="Thread 1 — what it is and why it matters&#10;Thread 2 — what it is and why it matters&#10;Thread 3 — what it is and why it matters"></textarea>
+        </div>
+
+        <div class="handoff-field">
+          <label class="handoff-field-label" for="ho-context">What you need to know about investigating in this context</label>
+          <div class="handoff-field-hint">The local knowledge that would have helped you if you'd had it from the start — languages, cultural dynamics, institutional trust, access challenges</div>
+          <textarea class="handoff-area" id="ho-context" rows="3" placeholder="Specific, practical — the things no guidebook would tell you"></textarea>
+        </div>
+
+        <div class="handoff-field">
+          <label class="handoff-field-label" for="ho-next">The single most important next step</label>
+          <div class="handoff-field-hint">If you could only tell the next investigator one thing to do first, what would it be?</div>
+          <input class="handoff-input" type="text" id="ho-next" placeholder="One specific action — not a general direction">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The handoff is part of the permanent record</div>
+      <div class="callout-body">Your handoff record is submitted to the DH50 repository alongside your finding record. Together they give future investigators both what you found and how to find more. The investigation of how cryptographic trust traveled to your region will outlast your year as an ambassador — your handoff is what makes that continuity possible.</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Badge map -->
+  <div class="page" id="tab2">
+    <div class="section-label">Module D — What you earned</div>
+
+    <p class="body-text">The badges below represent the full scope of what a History Ambassador can accomplish across the year. Each one marks a specific achievement — a piece of work done, a skill practiced, a contribution made to the permanent record. Click any badge to mark it earned.</p>
+
+    <p class="body-text" style="font-size: 13px; color: var(--ink-soft);">Badges are self-reported for now. Your regional coordinator will verify milestone badges when you submit your finding and handoff records.</p>
+
+    <hr class="page-divider">
+
+    <div class="badge-section">
+      <div class="badge-section-label">Module 0 — Orientation</div>
+      <div class="badge-grid">
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">📋</div>
+          <div>
+            <div class="badge-name">Module 0 complete</div>
+            <div class="badge-desc">Completed orientation, understood the mission</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">📖</div>
+          <div>
+            <div class="badge-name">Field log opened</div>
+            <div class="badge-desc">First log entry written — the investigation begins</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="badge-section">
+      <div class="badge-section-label">Module A — The Global Story</div>
+      <div class="badge-grid">
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🧩</div>
+          <div>
+            <div class="badge-name">Quest A1 complete</div>
+            <div class="badge-desc">The student who arrived too early — Merkle's story and its echoes</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🔒</div>
+          <div>
+            <div class="badge-name">Quest A2 complete</div>
+            <div class="badge-desc">The secret that couldn't be shared — GCHQ and classified discovery</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">⚡</div>
+          <div>
+            <div class="badge-name">Quest A3 complete</div>
+            <div class="badge-desc">One breakthrough then another — RSA and the deployment cascade</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">⚖️</div>
+          <div>
+            <div class="badge-name">Quest A4 complete</div>
+            <div class="badge-desc">Who decides who gets the tools — export controls and the crypto wars</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🗺️</div>
+          <div>
+            <div class="badge-name">Global story mapped</div>
+            <div class="badge-desc">All four quests complete — the full origin story in view</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🔍</div>
+          <div>
+            <div class="badge-name">Local trace found</div>
+            <div class="badge-desc">Bridge activity complete — first thread of the local story located</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="badge-section">
+      <div class="badge-section-label">Module B1 — Finding Your Sources</div>
+      <div class="badge-grid">
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🇸🇬</div>
+          <div>
+            <div class="badge-name">Lab 1 complete</div>
+            <div class="badge-desc">TradeNet investigated — historical source-finding practiced</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🇵🇭</div>
+          <div>
+            <div class="badge-name">Lab 2 complete</div>
+            <div class="badge-desc">PhilSys investigated — current deployment sources located</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">📐</div>
+          <div>
+            <div class="badge-name">Finding map built</div>
+            <div class="badge-desc">Local investigation mapped — questions, source types, and locations identified</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🏔️</div>
+          <div>
+            <div class="badge-name">Module B1 complete</div>
+            <div class="badge-desc">Source-finding methodology practiced and applied to local investigation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="badge-section">
+      <div class="badge-section-label">Module B2 — Going Deeper</div>
+      <div class="badge-grid">
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">📚</div>
+          <div>
+            <div class="badge-name">Pioneer record studied</div>
+            <div class="badge-desc">Diffie, Hellman, and Merkle interviews read and analysed</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">❓</div>
+          <div>
+            <div class="badge-name">Question submitted</div>
+            <div class="badge-desc">A question for Diffie, Hellman, or Merkle — going beyond the existing record</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🎙️</div>
+          <div>
+            <div class="badge-name">First interview conducted</div>
+            <div class="badge-desc">A local source interviewed — preparation, questions, and log entry complete</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🏔️</div>
+          <div>
+            <div class="badge-name">Module B2 complete</div>
+            <div class="badge-desc">Interview craft practiced, contradiction worked through, ethics observed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="badge-section">
+      <div class="badge-section-label">Module C — Bringing Something Back</div>
+      <div class="badge-grid">
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">📊</div>
+          <div>
+            <div class="badge-name">Inventory taken</div>
+            <div class="badge-desc">Evidence sorted by confidence — confirmed, supported, contested, absent</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">✍️</div>
+          <div>
+            <div class="badge-name">Finding written</div>
+            <div class="badge-desc">A calibrated finding statement — what the evidence shows, no more and no less</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🌍</div>
+          <div>
+            <div class="badge-name">Local in the global</div>
+            <div class="badge-desc">Local finding connected to the global story — the thread placed in the picture</div>
+          </div>
+        </div>
+        <div class="badge-item milestone-badge" onclick="toggleBadge(this)">
+          <div class="badge-icon">🏛️</div>
+          <div>
+            <div class="badge-name">Finding submitted</div>
+            <div class="badge-desc">Finding record in the DH50 repository — a permanent contribution</div>
+            <div class="badge-teal-label">Milestone</div>
+          </div>
+        </div>
+        <div class="badge-item milestone-badge" onclick="toggleBadge(this)">
+          <div class="badge-icon">🔗</div>
+          <div>
+            <div class="badge-name">Global connector active</div>
+            <div class="badge-desc">Exchange completed with another ambassador — knowledge multiplied</div>
+            <div class="badge-teal-label">Milestone</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="badge-section">
+      <div class="badge-section-label">Special recognition</div>
+      <div class="badge-grid">
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🎤</div>
+          <div>
+            <div class="badge-name">Question selected</div>
+            <div class="badge-desc">Your question for Diffie, Hellman, or Merkle selected for the DH50 Q&A programme</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">📰</div>
+          <div>
+            <div class="badge-name">Primary source uncovered</div>
+            <div class="badge-desc">A document, interview, or record previously unknown to the global repository</div>
+          </div>
+        </div>
+        <div class="badge-item" onclick="toggleBadge(this)">
+          <div class="badge-icon">🌱</div>
+          <div>
+            <div class="badge-name">Next ambassador found</div>
+            <div class="badge-desc">Recruited or introduced someone who continued your investigation</div>
+          </div>
+        </div>
+        <div class="badge-item milestone-badge" onclick="toggleBadge(this)">
+          <div class="badge-icon">⭐</div>
+          <div>
+            <div class="badge-name">Outstanding contribution</div>
+            <div class="badge-desc">Recognised by the DH50 initiative for exceptional fieldwork or a finding of particular significance</div>
+            <div class="badge-teal-label">Milestone — coordinator verified</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tab 3: Closing -->
+  <div class="page" id="tab3">
+    <div class="closing-block">
+      <div class="closing-rule"></div>
+
+      <p class="section-label">Module D — The closing</p>
+
+      <div class="closing-title">You went out. You found something. You brought it back.</div>
+
+      <p class="closing-text">At the beginning of this handbook, we said this was not an archive. It was a rescue mission. The stories of how cryptographic trust traveled from a Stanford lab in 1976 to the daily lives of people around the world — the engineers who built the first systems, the policymakers who debated access, the communities who waited, the individuals who never appear in any official record — these stories disappear unless someone goes looking for them.</p>
+
+      <p class="closing-text">You went looking. In your community, your region, your corner of the world, you asked questions that hadn't been asked before. You found people who hadn't been found. You documented things that existed in memory and nowhere else. You placed your local story in the global picture and showed where it confirms, where it complicates, and where it opens questions that remain.</p>
+
+      <p class="closing-text">That is not a small thing. The history of technology is mostly written from the center — from the labs, the universities, the governments, the companies that made the headlines. The history you have contributed comes from everywhere else. It is the part of the story that would not exist without you.</p>
+
+      <p class="closing-text">The 1976 paper that started all of this was eleven pages long. Whitfield Diffie and Martin Hellman published it openly, deliberately, because they believed that a breakthrough of this kind belonged to everyone — not to the institutions that might have classified it, not to the governments that might have controlled it, but to the world. The rescue mission you joined this year is an extension of that same belief: that the history of this idea, and what it made possible, belongs to everyone too.</p>
+
+      <div class="pull-quote">"The padlock in your browser. The payment you made this morning. The message that arrived with your name on it. All of it runs on mathematics that two people worked out and published openly, nearly fifty years ago. Now the story of how it reached you — and everyone like you, everywhere — is in the record."</div>
+
+      <p class="closing-text">Your finding record is in the repository. Your handoff is ready for whoever comes next. Your log is a document of how your thinking developed over a year of real investigative work. And somewhere in your region, there is a story that is in the permanent record now because you went looking for it.</p>
+
+      <p class="closing-text">That is what you did. <strong>Thank you for doing it.</strong></p>
+
+      <div class="closing-final">
+        The Diffie-Hellman 50th Anniversary Initiative<br>
+        History Ambassador Programme, 2026–2027
+      </div>
+
+      <div class="log-box" style="margin-top: 40px;">
+        <div class="log-entry-label">Final entry — in your own words</div>
+        <div class="log-field">
+          <label class="log-label" for="final-date">Date you are closing this record</label>
+          <input class="log-line" type="text" id="final-date" placeholder="Date">
+        </div>
+        <div class="log-field">
+          <label class="log-label" for="final-word">One word for the year</label>
+          <input class="log-line" type="text" id="final-word" placeholder="Not an evaluation — a description">
+        </div>
+        <div class="log-field">
+          <label class="log-label" for="final-unexpected">The most unexpected thing about doing this work</label>
+          <textarea class="log-area" id="final-unexpected" rows="2" placeholder="Not what you found — what doing this kind of work felt like that you didn't anticipate"></textarea>
+        </div>
+        <div class="log-field">
+          <label class="log-label" for="final-stays">What stays with you</label>
+          <textarea class="log-area" id="final-stays" rows="2" placeholder="The person, moment, or realisation you will not forget"></textarea>
+        </div>
+        <div class="log-field">
+          <label class="log-label" for="final-next">What you do next with what you learned</label>
+          <input class="log-line" type="text" id="final-next" placeholder="Not a plan — an intention">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  window.scrollTo(0, 0);
+}
+
+function toggleBadge(el) {
+  const isMilestone = el.classList.contains('milestone-badge');
+  if (isMilestone) return; // milestone badges are coordinator-verified, not self-toggled
+  el.classList.toggle('earned');
+  const label = el.querySelector('.badge-earned-label');
+  if (el.classList.contains('earned')) {
+    if (!label) {
+      const div = document.createElement('div');
+      div.className = 'badge-earned-label';
+      div.textContent = 'Earned';
+      el.querySelector('div:last-child').appendChild(div);
+    }
+  } else {
+    if (label) label.remove();
+  }
+}
+</script>
+</body>
+</html>

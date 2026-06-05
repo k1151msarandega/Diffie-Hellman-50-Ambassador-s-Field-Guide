@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 History Ambassador — Module B1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-soft: #7a7670;
+    --ink-faint: #b0ada6;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --rule: #e2ddd4;
+    --rule-soft: #ede9e0;
+    --accent: #8B4513;
+    --accent-light: #f0e6dc;
+    --accent-mid: #c4703a;
+    --teal: #2d6e6a;
+    --teal-light: #e0f0ef;
+    --teal-dark: #1a4a47;
+    --gold: #9a7b2e;
+    --gold-light: #f5edda;
+    --gold-dark: #7a6520;
+    --plum: #5a3d6b;
+    --plum-light: #ede5f5;
+    --slate: #3d5068;
+    --slate-light: #e5edf5;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  /* Header */
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; margin-bottom: 16px; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--teal); background: var(--teal-light); border: 1px solid #a8d4d1; border-radius: 20px; padding: 4px 12px; }
+
+  /* Nav tabs */
+  .tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Pages */
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  /* Typography */
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .serif-text { font-family: var(--serif); font-size: 16px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 32px 0; }
+
+  /* Lab section */
+  .lab-header { background: var(--slate-light); border: 1px solid #b8c8da; border-radius: 12px; padding: 22px 24px; margin-bottom: 28px; }
+  .lab-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin-bottom: 8px; }
+  .lab-title { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
+  .lab-sub { font-size: 13px; color: var(--ink-soft); line-height: 1.55; font-weight: 300; }
+
+  .lab-note { background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 18px; margin: 16px 0 24px; font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .lab-note strong { font-weight: 500; color: var(--ink); }
+
+  /* Steps */
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; gap: 0; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #ddbfa0; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  /* Activity and log boxes */
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; font-family: var(--serif); }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); margin-top: 1px; }
+
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px; }
+  .log-field { margin-bottom: 18px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-line { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: #fdf5e4; border: 1px solid #e8d48a; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: #9a7b2e; margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #7a6010; line-height: 1.65; font-weight: 300; }
+
+  /* Source card */
+  .source-card { border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; margin: 10px 0; background: var(--paper-card); display: flex; gap: 14px; align-items: flex-start; }
+  .source-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+  .source-tag.archive { background: var(--plum-light); color: var(--plum); }
+  .source-tag.person { background: var(--teal-light); color: var(--teal-dark); }
+  .source-tag.document { background: var(--accent-light); color: var(--accent); }
+  .source-tag.press { background: var(--gold-light); color: var(--gold-dark); }
+  .source-content { flex: 1; }
+  .source-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .source-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; }
+  .source-url { font-size: 11px; color: var(--teal); margin-top: 4px; word-break: break-all; }
+
+  /* Finding map */
+  .finding-map { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .finding-map-header { background: var(--paper-warm); padding: 12px 16px; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; }
+  .finding-map-col { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+  .finding-map-row { padding: 12px 16px; border-bottom: 1px solid var(--rule-soft); display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; align-items: start; }
+  .finding-map-row:last-child { border-bottom: none; }
+  .finding-map-question { font-size: 13px; color: var(--ink-mid); line-height: 1.45; font-weight: 300; }
+  .finding-map-type { font-size: 11px; color: var(--ink-soft); font-weight: 300; }
+  .finding-map-where { font-size: 11px; color: var(--teal); font-weight: 300; }
+
+  /* Badge / completion */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+  .completion-box { margin-top: 28px; padding: 20px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: var(--gold-dark); line-height: 1.6; font-weight: 300; }
+
+  @media (max-width: 480px) {
+    .header, .page { padding-left: 20px; padding-right: 20px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .header-title { font-size: 26px; }
+    .finding-map-header, .finding-map-row { grid-template-columns: 1fr; }
+    .finding-map-col:not(:first-child), .finding-map-type, .finding-map-where { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · History Ambassador Field Guide</div>
+    <div class="header-title">Module B1 — Finding Your Sources</div>
+    <div class="header-subtitle">Before you can tell the story, you have to find the people and documents that hold it.</div>
+    <div class="module-badge">Field module</div>
+  </div>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">Framing</button>
+    <button class="tab-btn" onclick="showTab(1)">Lab 1 — TradeNet</button>
+    <button class="tab-btn" onclick="showTab(2)">Lab 2 — PhilSys</button>
+    <button class="tab-btn" onclick="showTab(3)">Your investigation</button>
+    <button class="tab-btn" onclick="showTab(4)">When the trail goes cold</button>
+    <button class="tab-btn" onclick="showTab(5)">Log</button>
+  </nav>
+
+  <!-- Tab 0: Framing -->
+  <div class="page active" id="tab0">
+    <div class="section-label">Module B1 — Before you go looking</div>
+
+    <p class="serif-text">The most important thing you will do before any investigation is frame the question you are actually trying to answer.</p>
+
+    <p class="body-text">Not "what is the history of cryptography in my country" — that is a topic, not a question. A question has a specific answer that either exists or doesn't, and that you can go looking for. A good investigative question points you toward the sources you need.</p>
+
+    <div class="pull-quote">"I want to find out who built the first system in my country that used digital signatures — and what made them decide to do it when they did."</div>
+
+    <p class="body-text">That question has named people in it, a specific technology, a time period, and a human motivation. Each of those is a thread you can pull. Compare it to: "I want to understand how cryptography developed in my country." That question has nowhere to start.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">How to frame your question</div>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Start with what you already know</div>
+          <div class="step-body">Go back to your Module A bridge log entry. You found a trace — a system, an institution, a name. That trace is the starting point of your question. Your question should be specific enough that answering it would require you to find at least one person or document you don't currently have access to.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Identify what you don't know — and what kind of source would tell you</div>
+          <div class="step-body">For every gap in your knowledge, ask: is this something that would be in a document (policy, technical specification, meeting minutes, news report), or something that only a person would know? Documents and people require different search strategies.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Ask whether your question is primary or secondary</div>
+          <div class="step-body">A <strong>secondary question</strong> can be answered by reading what others have written. A <strong>primary question</strong> requires you to find sources that haven't been synthesised before — interviews, unpublished documents, institutional records. The best History Ambassador work lives in primary territory. Use secondary sources to orient, then go further.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Check that your question has a local dimension</div>
+          <div class="step-body">Your contribution to the global picture is the specific story from where you are. If your question could be answered from London or San Francisco without anyone ever going to your community, it isn't the right question. The right question requires your presence, your language, your relationships.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The question you can't answer yet is the right question</div>
+      <div class="callout-body">If you already know the answer, it isn't an investigative question — it's a summary. A good question should make you slightly uncomfortable, because it points toward something genuinely unknown. That discomfort is the engine of real fieldwork.</div>
+    </div>
+
+    <p class="body-text">The two labs in this module walk you through the source-finding process for two specific, real deployments — one historical, one current. In each lab, you will practice the full cycle: identifying what you need to know, locating the sources that would tell you, and mapping the gaps.</p>
+
+    <p class="body-text">Then you apply the same process to your own investigation.</p>
+  </div>
+
+  <!-- Tab 1: Lab 1 — TradeNet -->
+  <div class="page" id="tab1">
+    <div class="lab-header">
+      <div class="lab-eyebrow">Lab 1 — Historical deployment</div>
+      <div class="lab-title">Singapore Network Services & TradeNet, 1987–1989</div>
+      <div class="lab-sub">The world's first nationwide electronic trade documentation system — and the cryptographic trust decisions buried inside it.</div>
+    </div>
+
+    <div class="lab-note">
+      <strong>How this lab works:</strong> You are not being told what to find. You are being walked through how to look. The sources listed here are real and publicly accessible. Your job is to follow the trail, note what you find, and identify what's missing. The answers exist — but you have to retrieve them.
+    </div>
+
+    <div class="section-label">The scenario</div>
+
+    <p class="body-text">In January 1989, Singapore launched TradeNet — the world's first nationwide electronic single window for trade documentation. Within a year, it was handling nearly half of all trade declarations for the port. By 1991, the government mandated its use for all trade transactions.</p>
+
+    <p class="body-text">Behind that headline is a specific story: a small group of people, at a specific institution, made decisions about how to build trust into an electronic system at a time when no standard playbook existed. Who were they? What did they decide? And what cryptographic choices did they make — or inherit from the systems they integrated with?</p>
+
+    <p class="body-text">Your investigation has three layers: the institution, the people, and the technology.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">The source map — start here</div>
+
+    <p class="body-text">Below are the categories of sources available for this investigation, with specific starting points for each. Work through them in order — each layer will refine your questions for the next.</p>
+
+    <div class="source-card">
+      <div class="source-tag archive">Archive</div>
+      <div class="source-content">
+        <div class="source-title">National Library Board Singapore — eResources History Portal</div>
+        <div class="source-desc">Singapore's NLB maintains a curated history record for TradeNet, including digitised newspaper coverage from the Straits Times and Business Times going back to 1986. Named individuals, government statements, and contemporaneous reporting are all available. Search "TradeNet" in the NLB newspaper archive.</div>
+        <div class="source-url">eresources.nlb.gov.sg</div>
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-tag document">Document</div>
+      <div class="source-content">
+        <div class="source-title">NLB History Event Record — "TradeNet is officially launched"</div>
+        <div class="source-desc">A structured history record citing primary sources, naming key figures including Philip Yeo (then chairman of the National Computer Board) and describing the institutional structure of Singapore Network Services Pte Ltd, the joint-venture company that built and operated TradeNet.</div>
+        <div class="source-url">eresources.nlb.gov.sg/history/events/8db3ea66-c99a-41a0-bd9a-b6300d1a4454</div>
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-tag person">Person</div>
+      <div class="source-content">
+        <div class="source-title">Philip Yeo — National Computer Board chairman, 1981–1986</div>
+        <div class="source-desc">One of the principal architects of Singapore's early digital infrastructure. Has given interviews and spoken publicly about the National Computer Board's work in this period. Search for interviews or published accounts — he is a named, findable figure with a documented public record.</div>
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-tag document">Document</div>
+      <div class="source-content">
+        <div class="source-title">CrimsonLogic case study — TradeNet</div>
+        <div class="source-desc">CrimsonLogic (formerly Singapore Network Services) maintains a published case study of the TradeNet system describing its technical and institutional history. Useful as a secondary source to cross-reference against primary reporting.</div>
+        <div class="source-url">crimsonlogic.com/case-study-singapore-tradenet</div>
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-tag archive">Archive</div>
+      <div class="source-content">
+        <div class="source-title">Academic studies — ERIA and WCO documentation</div>
+        <div class="source-desc">TradeNet has been the subject of multiple academic and policy studies cited in the ERIA (Economic Research Institute for ASEAN and East Asia) and World Customs Organization documentation. These contain citations to primary government documents and can point toward further sources.</div>
+      </div>
+    </div>
+
+    <hr class="page-divider">
+
+    <div class="section-label">The investigation — work through these in order</div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B1.1 — The institution</div>
+      <div class="activity-title">Map who built TradeNet and why</div>
+      <div class="activity-body">
+        <p>Singapore Network Services Pte Ltd was a joint venture between three organisations. Find out which three, when the joint venture was established, and what mandate each partner brought to it.</p>
+        <ul class="prompt-list">
+          <li>Who initiated the project — was it government-led, industry-led, or a response to external pressure?</li>
+          <li>What was the National Computer Board's role, and how does that compare to how similar projects are governed in your own country?</li>
+          <li>What was the timeline from decision to launch — and what does that timeline reveal about the institutional capacity Singapore had in this period?</li>
+        </ul>
+        <p style="margin-top:10px;"><strong>Where to look:</strong> NLB history record, contemporaneous newspaper coverage in the NLB archive (search "TradeNet" and "National Computer Board" in the Straits Times, 1986–1989).</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B1.2 — The people</div>
+      <div class="activity-title">Find the named individuals and trace their decisions</div>
+      <div class="activity-body">
+        <p>Philip Yeo is named in the historical record. He is not the only person who made TradeNet happen — but he is a starting point. From his name, work outward.</p>
+        <ul class="prompt-list">
+          <li>What specifically did Philip Yeo say about TradeNet in contemporaneous statements? Find at least one direct quote from 1986–1989, not a later retrospective.</li>
+          <li>Who else is named in the NLB newspaper archive in connection with TradeNet? Build a short list of the people who appear most frequently — these are your primary targets if you were conducting this investigation for real.</li>
+          <li>Are any of these people findable today — still active, with a public profile, potentially reachable for an interview?</li>
+        </ul>
+        <p style="margin-top:10px;"><strong>Technique note:</strong> When reading archived newspaper articles, note not just who is quoted but who else is mentioned by name, and in what context. The people quoted in press releases are rarely the ones who made the hardest decisions.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B1.3 — The technology</div>
+      <div class="activity-title">What cryptographic choices did TradeNet make — and where are the gaps?</div>
+      <div class="activity-body">
+        <p>TradeNet was built before SSL existed and before digital signatures were standardised. The electronic data interchange (EDI) protocols it used had their own security model. This is where the investigation gets genuinely difficult — and genuinely interesting.</p>
+        <ul class="prompt-list">
+          <li>What EDI standard did TradeNet use? What security mechanisms did that standard include in 1989?</li>
+          <li>How did TradeNet verify that a trade declaration was authentic — that it came from who it claimed to come from, and hadn't been altered in transit?</li>
+          <li>What does the public record tell you about this — and where does it go silent? The silence is part of your finding.</li>
+        </ul>
+        <p style="margin-top:10px;"><strong>Note on gaps:</strong> You may not be able to answer the technology questions from public sources alone. That is intentional. In your own investigation, this is the moment you would need to find a person — an engineer, a technologist, someone who was in the room. Note who that person might be for TradeNet, even if you can't reach them.</p>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Lab 1 log — TradeNet</div>
+      <div class="log-field">
+        <label class="log-label" for="lab1-institution">The three partners in Singapore Network Services, and who led the project</label>
+        <textarea class="log-area" id="lab1-institution" rows="2" placeholder="What you found — and the source it came from"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="lab1-quote">A direct contemporaneous quote from a named individual (pre-1990)</label>
+        <textarea class="log-area" id="lab1-quote" rows="2" placeholder="The quote, who said it, and where it appeared"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="lab1-tech">What you found about TradeNet's security model — and where the public record goes silent</label>
+        <textarea class="log-area" id="lab1-tech" rows="2" placeholder="What the sources tell you, and what they don't"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="lab1-person">One person you would want to interview if you were conducting this investigation for real</label>
+        <input class="log-line" type="text" id="lab1-person" placeholder="Name or role — and why them">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="lab1-transfer">One method from this lab you will use in your own investigation</label>
+        <input class="log-line" type="text" id="lab1-transfer" placeholder="Specific technique — not a general observation">
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Lab 2 — PhilSys -->
+  <div class="page" id="tab2">
+    <div class="lab-header">
+      <div class="lab-eyebrow">Lab 2 — Current deployment</div>
+      <div class="lab-title">Philippine Statistics Authority & PhilSys, 2018–present</div>
+      <div class="lab-sub">A national digital ID system built on public-key cryptography — and a society that didn't immediately trust it.</div>
+    </div>
+
+    <div class="lab-note">
+      <strong>Why this case:</strong> PhilSys is a live deployment with living sources. The people who built it are reachable. The people who resisted it are documented. And the story of how a society learns to trust a new form of cryptographic identity is still unfolding. This is what your own investigation may look like.
+    </div>
+
+    <div class="section-label">The scenario</div>
+
+    <p class="body-text">In August 2018, the Philippines signed Republic Act 11055 — the Philippine Identification System Act — establishing a single national ID system for all citizens and resident aliens. The system uses asymmetric public-key cryptography embedded in a QR code on the physical card, enabling digital verification of identity without a handwritten signature.</p>
+
+    <p class="body-text">When the cards were issued, banks refused to accept them. The absence of a handwritten signature made the cards unrecognisable as legitimate identity documents to institutions whose verification processes had been built around a different trust model. The Philippine Statistics Authority had to issue memorandums instructing banks to accept their own government's ID.</p>
+
+    <div class="pull-quote">"The mathematics said the card was authentic. The bank teller said it wasn't. Both were, in their own way, right — about different things."</div>
+
+    <p class="body-text">This is a story about what cryptographic trust deployment actually looks like on the ground: not a clean technical rollout, but a negotiation between a new system of verification and the human institutions that had to learn to use it.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">The source map</div>
+
+    <div class="source-card">
+      <div class="source-tag document">Document</div>
+      <div class="source-content">
+        <div class="source-title">Republic Act 11055 — Philippine Identification System Act (2018)</div>
+        <div class="source-desc">The founding legislation. Available in full on the Official Gazette of the Philippines. Read Section 5 (authentication methods) and the Implementing Rules and Regulations for the technical framework. This is a primary legal document — read it as a source, not a summary of it.</div>
+        <div class="source-url">officialgazette.gov.ph — search "Republic Act 11055"</div>
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-tag archive">Archive</div>
+      <div class="source-content">
+        <div class="source-title">Philippine Statistics Authority — PhilSys press releases and advisories</div>
+        <div class="source-desc">The PSA maintains a public archive of press releases, public advisories, and policy statements. The 2021 advisory on the non-inclusion of handwritten signatures is particularly relevant — it documents the bank resistance problem directly, in the PSA's own voice.</div>
+        <div class="source-url">philsys.gov.ph and psa.gov.ph</div>
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-tag person">Person</div>
+      <div class="source-content">
+        <div class="source-title">National Statistician — PSA leadership, 2018–present</div>
+        <div class="source-desc">The National Statistician has made public statements about PhilSys at multiple points. Named officials have given press interviews and appeared before congressional hearings. Congressional records (available through the Philippine Congress official website) are a primary source for how the system was debated and defended publicly.</div>
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-tag press">Press</div>
+      <div class="source-content">
+        <div class="source-title">Philippine news archive — Rappler, Inquirer, BusinessWorld</div>
+        <div class="source-desc">The bank resistance story was covered in detail by Philippine business and technology press. Search "PhilID banks signature" and "PSA memorandum PhilID" in the Rappler and Inquirer archives. This coverage names the institutions that resisted and the officials who responded.</div>
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-tag document">Document</div>
+      <div class="source-content">
+        <div class="source-title">NEDA — PhilSys project overview and implementation documentation</div>
+        <div class="source-desc">The National Economic and Development Authority maintains project documentation on PhilSys including the original systems integrator information memorandum — a detailed technical and institutional document about how the system was designed to work.</div>
+        <div class="source-url">neda.gov.ph/philsys</div>
+      </div>
+    </div>
+
+    <hr class="page-divider">
+
+    <div class="section-label">The investigation</div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B1.4 — The technology, made concrete</div>
+      <div class="activity-title">Understand exactly what the QR code does</div>
+      <div class="activity-body">
+        <p>The PhilID uses asymmetric public-key cryptography in its QR code. This is Diffie-Hellman's intellectual descendant doing a specific, practical job. Before you investigate the institutional story, make sure you understand the technical claim being made.</p>
+        <ul class="prompt-list">
+          <li>What information is encoded in the PhilID QR code, and how does the digital signature work? Read the PSA's public advisory on security features — it describes the mechanism in plain language.</li>
+          <li>What does "the signature is valid" mean in this context — valid according to whom, using what verification infrastructure?</li>
+          <li>What would it take to forge a PhilID — and how does the cryptographic design make that hard?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B1.5 — The resistance</div>
+      <div class="activity-title">Find the bank refusal story in primary sources</div>
+      <div class="activity-body">
+        <p>The fact that banks refused to accept PhilIDs is documented. Your job is to find primary documentation of that resistance — not a summary of it, but the actual record.</p>
+        <ul class="prompt-list">
+          <li>Find the PSA advisory that addresses the bank refusal problem. What exactly does it say — who is it addressed to, what does it require, and what reason does it give?</li>
+          <li>Find at least one contemporaneous news report that names a specific bank or banking association that raised objections. What was their stated reason?</li>
+          <li>What does the resistance reveal about the gap between a technically sound system and an institutionally accepted one? This gap is the heart of the story.</li>
+        </ul>
+        <p style="margin-top:10px;"><strong>Reflection:</strong> The banks were not wrong to be cautious — they were operating on a different model of trust. The PSA was not wrong to push back — the system was cryptographically sound. How do you adjudicate between two institutions that are each right about different things?</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B1.6 — The living sources</div>
+      <div class="activity-title">Identify who you would interview — and how you would reach them</div>
+      <div class="activity-body">
+        <p>Unlike TradeNet, the people who built and fought over PhilSys are alive and in many cases still in their roles. This is what your own investigation will look like. Practice the source-identification process here.</p>
+        <ul class="prompt-list">
+          <li>Name three categories of people whose perspective on PhilSys would give you different parts of the story: a builder, a resister, and someone who was excluded from or underserved by the system.</li>
+          <li>For each category: where would you look to find a specific individual? (Congressional records, LinkedIn, university faculty pages, civil society organisations, community leaders?)</li>
+          <li>What is the single most important question you would ask each of them — and why that question, rather than a more general one?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">A note on current deployments and sensitivity</div>
+      <div class="warning-body">PhilSys is a live system affecting real people. Some aspects of its implementation — data security, vendor contracts, exclusion of marginalised communities — are politically sensitive in the Philippines. When investigating current deployments in your own region, be aware that sources may have institutional reasons to present a particular narrative. Seek multiple perspectives, especially from communities who experienced the system differently from its designers.</div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Lab 2 log — PhilSys</div>
+      <div class="log-field">
+        <label class="log-label" for="lab2-tech">In plain language: what the PhilID QR code does cryptographically</label>
+        <textarea class="log-area" id="lab2-tech" rows="2" placeholder="Your own explanation — not copied from a source"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="lab2-resist">The primary source you found documenting bank resistance</label>
+        <textarea class="log-area" id="lab2-resist" rows="2" placeholder="What it says, who produced it, and where you found it"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="lab2-gap">The gap between technical soundness and institutional acceptance — in one sentence</label>
+        <input class="log-line" type="text" id="lab2-gap" placeholder="Your own formulation">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="lab2-interview">The one person from this story you would most want to interview — and your opening question</label>
+        <textarea class="log-area" id="lab2-interview" rows="2" placeholder="Who, why, and what you would ask first"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="lab2-transfer">The most important thing this lab teaches you about your own investigation</label>
+        <input class="log-line" type="text" id="lab2-transfer" placeholder="One specific observation, not a general one">
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Your investigation -->
+  <div class="page" id="tab3">
+    <div class="section-label">Module B1 — Now it's yours</div>
+
+    <p class="serif-text">You have practiced the method. Now apply it to the story you are actually trying to find.</p>
+
+    <p class="body-text">Go back to your Module A bridge log. You identified a system, an institution, or a person as your starting point. That is the anchor of your investigation. The work here is to build your own source map — the equivalent of what you just worked through for TradeNet and PhilSys, but for your own community.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">Build your finding map</div>
+
+    <p class="body-text">A finding map is not a research plan — it is a living document of what you need to know, what kind of source would tell you, and where you might find it. It changes as you learn more. Start it now, even if most cells are empty. The empty cells are what drive the next stage of your investigation.</p>
+
+    <div class="finding-map">
+      <div class="finding-map-header">
+        <div class="finding-map-col">Question I need to answer</div>
+        <div class="finding-map-col">Source type</div>
+        <div class="finding-map-col">Where to look</div>
+      </div>
+      <div class="finding-map-row">
+        <div class="finding-map-question">Who made the decision to build or adopt this system?</div>
+        <div class="finding-map-type">Person / document</div>
+        <div class="finding-map-where">News archives, institutional records, government publications</div>
+      </div>
+      <div class="finding-map-row">
+        <div class="finding-map-question">When exactly did this happen, and what made the timing possible?</div>
+        <div class="finding-map-type">Document / person</div>
+        <div class="finding-map-where">Press coverage, annual reports, legislative records</div>
+      </div>
+      <div class="finding-map-row">
+        <div class="finding-map-question">What cryptographic standard or protocol did the system use?</div>
+        <div class="finding-map-type">Technical document / person</div>
+        <div class="finding-map-where">Technical specifications, academic papers, engineers who built it</div>
+      </div>
+      <div class="finding-map-row">
+        <div class="finding-map-question">Who was included — and who was left out at the start?</div>
+        <div class="finding-map-type">Person / community record</div>
+        <div class="finding-map-where">Civil society organisations, community leaders, contemporary reporting</div>
+      </div>
+      <div class="finding-map-row">
+        <div class="finding-map-question">What resistance did the system face, and from whom?</div>
+        <div class="finding-map-type">Press / person / institutional</div>
+        <div class="finding-map-where">News archives, parliamentary records, interviews</div>
+      </div>
+      <div class="finding-map-row">
+        <div class="finding-map-question">What is not in any public record — and who holds that knowledge?</div>
+        <div class="finding-map-type">Person</div>
+        <div class="finding-map-where">Direct interview — this is the irreplaceable part</div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — populate your own finding map</div>
+      <div class="activity-title">Map what you need, what kind of source holds it, and where you'll look</div>
+      <div class="activity-body">
+        <p>Using the framework above as a template, build your own finding map for your local investigation. Add rows for questions specific to your context. Be as specific as possible about where you will look — "the internet" is not an answer. "The National Archives of [country], the digital records section, 1990–2000" is.</p>
+        <ul class="prompt-list">
+          <li>Which questions on your map can be answered from existing public sources — and which require you to find a person?</li>
+          <li>For the questions that require a person: who specifically might hold that knowledge? An engineer, a regulator, a civil society worker, a community elder?</li>
+          <li>What is the one question on your map whose answer would most change your understanding of the story?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Log entry — your investigation, B1</div>
+      <div class="log-field">
+        <label class="log-label" for="inv-question">My current investigative question — specific enough to be answerable</label>
+        <textarea class="log-area" id="inv-question" rows="2" placeholder="The question that drives your fieldwork right now"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="inv-sources">The three most important sources I need to find</label>
+        <textarea class="log-area" id="inv-sources" rows="3" placeholder="Source 1 — what it is and where you'll look&#10;Source 2 — what it is and where you'll look&#10;Source 3 — what it is and where you'll look"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="inv-person">The one person I most need to find — and how I will locate them</label>
+        <textarea class="log-area" id="inv-person" rows="2" placeholder="Who they are, why them, and your plan for finding them"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="inv-obstacle">The biggest obstacle I anticipate — and my first attempt at getting around it</label>
+        <textarea class="log-area" id="inv-obstacle" rows="2" placeholder="Specific obstacle, specific response"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: When the trail goes cold -->
+  <div class="page" id="tab4">
+    <div class="section-label">Module B1 — When the standard toolkit doesn't work</div>
+
+    <p class="serif-text">Not every investigation happens in a place with well-funded archives, freedom of information laws, and sources who answer emails from strangers.</p>
+
+    <p class="body-text">The methods in Labs 1 and 2 assumed a certain infrastructure: digitised newspaper archives, institutional records online, named officials with public profiles. In many parts of the world — and for many of the most important stories in this investigation — that infrastructure doesn't exist. The trail doesn't go cold because the story isn't there. It goes cold because the story was never written down, or was written in a language that wasn't digitised, or was held in an institution that no longer exists, or by a person who doesn't know they hold it.</p>
+
+    <p class="body-text">This is not a deficit. It is a different kind of investigation — and in many ways a more important one, because these are exactly the stories that disappear if no one goes looking.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">Strategies for scarce-archive contexts</div>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Go outside government channels</div>
+          <div class="step-body">When formal archives are poorly funded, unindexed, or damaged, look for history in private hands: family records, institutional archives of religious organisations, colonial or trade enterprise records, NGO project documentation. The history of technology adoption often lives in the records of the organisations that funded or resisted it, not the ones that built it.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Treat oral sources as primary records</div>
+          <div class="step-body">In contexts where the paper trail is thin, community memory is not a supplement to the historical record — it is the historical record. An engineer who deployed the first banking encryption system in your country in 1997 holds primary evidence that exists nowhere else. Cross-reference multiple oral testimonies against each other the way you would cross-reference documents. Look for where they converge and where they diverge — both are informative.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Build trust before asking questions</div>
+          <div class="step-body">In communities where outside inquiry has historically been exploitative or politically dangerous, trust is not given — it is earned through presence and relationship. Don't arrive and expect honest answers. Arrive, be introduced through existing networks, explain your purpose clearly, and return. The best History Ambassador interviews will happen on a second or third visit, not the first.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Navigate the paywall problem</div>
+          <div class="step-body">Academic papers about your country's technology history may be locked behind expensive Western paywalls. Contact the authors directly — most academics will share their papers with someone doing legitimate research. Reach out to university libraries for interlibrary loans. Use open-access databases. The history of your community is not inaccessible — it is just not free.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Know when the absence is the story</div>
+          <div class="step-body">Sometimes the most important finding is that the record doesn't exist — that a decision was made but never documented, that a community was affected but never consulted, that a system was deployed without any public accountability trail. Documenting the absence, rigorously and specifically, is itself a contribution. "No record exists of X, despite Y and Z" is a finding.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">A note on digital security in your investigation</div>
+      <div class="callout-body">In some regions, investigating who controlled or restricted access to cryptographic tools — or who benefits from continued opacity about digital infrastructure — can attract unwanted attention. If your investigation touches on politically sensitive territory, there are resources specifically designed to help History Ambassadors work safely. Your regional coordinator can connect you with these materials.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection</div>
+      <div class="activity-title">Which of these strategies applies to your investigation?</div>
+      <div class="activity-body">
+        <p>Be honest about the specific obstacles your context presents. The ambassador in Lagos is not at a disadvantage compared to the ambassador in Singapore — they are investigating a different kind of story, with different methods. Both are necessary.</p>
+        <ul class="prompt-list">
+          <li>Which of the five strategies above is most relevant to your investigation right now?</li>
+          <li>What specific step will you take in the next two weeks to work around the most significant obstacle you face?</li>
+          <li>Is there a person — not a document — who holds the key piece of your local story? If so: who introduced you to them, or who could?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Log -->
+  <div class="page" id="tab5">
+    <div class="section-label">Module B1 — Running log</div>
+
+    <p class="body-text">Use this space for ongoing notes as your source-finding work develops. Return here after each significant search session, archival visit, or conversation.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Source finding — running record</div>
+      <div class="log-field">
+        <label class="log-label" for="run-date">Date of this entry</label>
+        <input class="log-line" type="text" id="run-date" placeholder="Date">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="run-found">What I found today</label>
+        <textarea class="log-area" id="run-found" rows="3" placeholder="Specific source, document, or person — and what it tells you"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="run-changed">How this changes or refines my investigative question</label>
+        <textarea class="log-area" id="run-changed" rows="2" placeholder="Did the question shift? Narrow? Open up a new thread?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="run-next">The next specific step</label>
+        <input class="log-line" type="text" id="run-next" placeholder="Not 'keep researching' — a specific action with a specific target">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="run-surprise">What surprised me</label>
+        <textarea class="log-area" id="run-surprise" rows="2" placeholder="What you didn't expect to find — or not find"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B1 complete</div>
+      <div class="completion-body">You have practiced source-finding on two real deployments and built your own finding map. Module B2 takes you deeper into the fieldwork: how to conduct an interview, what to do when sources contradict each other, and how to make sense of what you find.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Module B1 complete</div>
+        <div class="badge-pill">Labs completed</div>
+        <div class="badge-pill">Finding map built</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

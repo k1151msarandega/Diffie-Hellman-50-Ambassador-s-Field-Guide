@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 History Ambassador — Module B2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-soft: #7a7670;
+    --ink-faint: #b0ada6;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --rule: #e2ddd4;
+    --rule-soft: #ede9e0;
+    --accent: #8B4513;
+    --accent-light: #f0e6dc;
+    --accent-mid: #c4703a;
+    --teal: #2d6e6a;
+    --teal-light: #e0f0ef;
+    --teal-dark: #1a4a47;
+    --gold: #9a7b2e;
+    --gold-light: #f5edda;
+    --gold-dark: #7a6520;
+    --plum: #5a3d6b;
+    --plum-light: #ede5f5;
+    --slate: #3d5068;
+    --slate-light: #e5edf5;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; margin-bottom: 16px; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--teal); background: var(--teal-light); border: 1px solid #a8d4d1; border-radius: 20px; padding: 4px 12px; }
+
+  .tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .serif-text { font-family: var(--serif); font-size: 16px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 32px 0; }
+
+  /* Lab header */
+  .lab-header { background: var(--slate-light); border: 1px solid #b8c8da; border-radius: 12px; padding: 22px 24px; margin-bottom: 28px; }
+  .lab-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin-bottom: 8px; }
+  .lab-title { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
+  .lab-sub { font-size: 13px; color: var(--ink-soft); line-height: 1.55; font-weight: 300; }
+
+  /* Interview cards */
+  .interview-card { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 16px 0; background: var(--paper-card); }
+  .interview-card-header { padding: 16px 20px; border-bottom: 1px solid var(--rule-soft); display: flex; align-items: flex-start; gap: 16px; }
+  .interview-card-name { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--ink); margin-bottom: 3px; }
+  .interview-card-role { font-size: 12px; color: var(--ink-soft); font-weight: 300; }
+  .interview-card-body { padding: 16px 20px; }
+  .interview-source { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--rule-soft); }
+  .interview-source:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .interview-source-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+  .interview-source-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .interview-source-meta { font-size: 12px; color: var(--ink-soft); font-weight: 300; margin-bottom: 3px; }
+  .interview-source-url { font-size: 11px; color: var(--teal); word-break: break-all; }
+  .interview-source-note { font-size: 12px; color: var(--ink-mid); font-weight: 300; line-height: 1.5; margin-top: 5px; font-style: italic; }
+
+  /* Steps */
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; gap: 0; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #ddbfa0; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  /* Activity and log boxes */
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; font-family: var(--serif); }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); margin-top: 1px; }
+
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px; }
+  .log-field { margin-bottom: 18px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-line { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .gold-box { background: var(--gold-light); border: 1px solid #d4b870; border-radius: 10px; padding: 20px 22px; margin: 20px 0; }
+  .gold-box-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 8px; font-family: var(--serif); }
+  .gold-box-body { font-size: 13px; color: var(--gold-dark); line-height: 1.65; font-weight: 300; }
+  .gold-box-body p { margin-bottom: 10px; }
+  .gold-box-body p:last-child { margin-bottom: 0; }
+
+  /* Contrast box for two-column comparison */
+  .contrast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .contrast-cell { border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; background: var(--paper-card); }
+  .contrast-cell-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 8px; }
+  .contrast-cell-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Q submission box */
+  .submission-box { border: 2px solid var(--accent-mid); border-radius: 12px; padding: 24px; margin: 24px 0; background: var(--paper-card); }
+  .submission-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .submission-title { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+  .submission-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; margin-bottom: 16px; }
+  .submission-body p { margin-bottom: 8px; }
+
+  /* Badge / completion */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+  .badge-pill.special { background: var(--gold-light); color: var(--gold-dark); border-color: #d4b870; }
+  .completion-box { margin-top: 28px; padding: 20px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: var(--gold-dark); line-height: 1.6; font-weight: 300; }
+
+  @media (max-width: 480px) {
+    .header, .page { padding-left: 20px; padding-right: 20px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .header-title { font-size: 26px; }
+    .contrast-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · History Ambassador Field Guide</div>
+    <div class="header-title">Module B2 — Going Deeper</div>
+    <div class="header-subtitle">How to prepare for, conduct, and make sense of an interview with someone who was there.</div>
+    <div class="module-badge">Field module</div>
+  </div>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">Before you ask</button>
+    <button class="tab-btn" onclick="showTab(1)">Lab 3 — Study the interviews</button>
+    <button class="tab-btn" onclick="showTab(2)">Your question</button>
+    <button class="tab-btn" onclick="showTab(3)">In the room</button>
+    <button class="tab-btn" onclick="showTab(4)">Contradiction & sense-making</button>
+    <button class="tab-btn" onclick="showTab(5)">Ethics</button>
+    <button class="tab-btn" onclick="showTab(6)">Log</button>
+  </nav>
+
+  <!-- Tab 0: Before you ask -->
+  <div class="page active" id="tab0">
+    <div class="section-label">Module B2 — The discipline of preparation</div>
+
+    <p class="serif-text">The most important work of an interview happens before you sit down with anyone.</p>
+
+    <p class="body-text">A well-prepared interviewer knows what is already documented — which means they know what isn't. They don't ask a pioneer to explain things that are in every textbook. They ask about the moment before the breakthrough, the decision that almost didn't happen, the person who helped and was never credited, the thing they would do differently. Those questions can only come from someone who has done the reading.</p>
+
+    <div class="pull-quote">"The well-prepared interviewer will know what information is already in documents and will use the oral history interview to seek new information, clarification, or new interpretation of a historical event."<br><span style="font-size: 13px; font-style: normal; color: var(--ink-soft);">— Smithsonian Institution Archives, How to Do Oral History</span></div>
+
+    <p class="body-text">This is not just technique — it is respect. The people you will interview have told their surface-level story many times. What they haven't been asked are the questions that require someone to know them well enough to ask. That is the standard you are working toward.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">Preparation in five steps</div>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Map what's already documented</div>
+          <div class="step-body">Before you approach anyone, find out what they have already said publicly. Interviews, papers, public statements, oral histories. Read or watch as much as you can find. Make a list of topics they have addressed thoroughly — these are off your question list. What remains is your territory.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Identify the undocumented gaps</div>
+          <div class="step-body">As you read, note the moments where the account goes vague, where the timeline skips, where other people are mentioned but not quoted, where you sense something is being left out. These are your richest targets. Not because you are looking for secrets, but because oral history lives in the detail that never made it into the formal record.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Prepare specific questions, not topics</div>
+          <div class="step-body">"Tell me about your work in cryptography" is a topic. "You've described the moment you realised the key exchange problem was solvable — but I couldn't find anywhere that you described who you told first, and what their reaction was" is a question. Specific questions show preparation and earn specific answers.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Prepare your opening and your close</div>
+          <div class="step-body">The first question sets the tone. It should be open enough to let the person speak freely, but specific enough to show you're not starting from zero. The close should invite anything you haven't thought to ask: <strong>"Is there something about this story that you've never been asked, that you think matters?"</strong> That question often produces the most important answer in the interview.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Remember that people's views evolve</div>
+          <div class="step-body">What someone said in a 1991 interview is not necessarily what they believe in 2025. People revise their understanding of their own history as time passes, as new evidence emerges, as the stakes change. When you sit with someone, you are capturing how they understand their story <em>now</em> — which is itself historical data, distinct from what they said before. Both are true. Neither cancels the other.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The preparation rule for this handbook's work</div>
+      <div class="callout-body">Before you approach anyone in your local investigation, you must be able to answer: "What do I know about what this person has already said or written?" If the answer is "nothing," you are not ready to interview them. If the answer is "I've found everything I can and I know where the gaps are," you are.</div>
+    </div>
+  </div>
+
+  <!-- Tab 1: Lab 3 — Study the interviews -->
+  <div class="page" id="tab1">
+    <div class="lab-header">
+      <div class="lab-eyebrow">Lab 3 — Studying real interviews</div>
+      <div class="lab-title">Diffie, Hellman, and Merkle — in their own words</div>
+      <div class="lab-sub">Three pioneers. Multiple interviewers. Decades of public record. Your job is to read it, map what's there, and find what isn't.</div>
+    </div>
+
+    <p class="body-text">The three people at the center of this anniversary have given substantive recorded interviews across several decades. These are primary sources — not summaries, not Wikipedia entries, but the actual accounts in their own voices. They are also, collectively, a masterclass in what skilled and less-skilled interviewers produce.</p>
+
+    <p class="body-text">Study them as both content and method. What did the interviewers ask that produced something new? What questions were missed? Where does the account go thin — and what question might have opened it up?</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">The primary interview record — find these before you go further</div>
+
+    <div class="interview-card">
+      <div class="interview-card-header">
+        <div>
+          <div class="interview-card-name">Whitfield Diffie</div>
+          <div class="interview-card-role">Co-author, "New Directions in Cryptography" (1976)</div>
+        </div>
+      </div>
+      <div class="interview-card-body">
+        <div class="interview-source">
+          <div class="interview-source-label">Primary — most comprehensive</div>
+          <div class="interview-source-title">ACM Turing Award Oral History</div>
+          <div class="interview-source-meta">Interviewer: Hugh Williams · September 15, 2017 · Portola Valley, California</div>
+          <div class="interview-source-url">amturing.acm.org/pdf/DiffieTuringTranscript.pdf</div>
+          <div class="interview-source-note">58-page career-spanning transcript. Covers childhood interest in codes, the journey across the US visiting research centers, the Stanford AI Lab, the development of the key exchange idea, the collaboration with Hellman, and reflections on privacy and policy. Released for research use.</div>
+        </div>
+        <div class="interview-source">
+          <div class="interview-source-label">Shorter — accessible entry point</div>
+          <div class="interview-source-title">Computer History Museum Fellows Interview</div>
+          <div class="interview-source-meta">Interviewer: Jon Plutte · March 28, 2011 · Mountain View, California</div>
+          <div class="interview-source-url">archive.computerhistory.org/resources/access/text/2015/04/102743051-05-01-acc.pdf</div>
+          <div class="interview-source-note">Released under Copyleft by Diffie himself at the start of the interview — explicitly open for recording and reuse. A more focused account of the public-key cryptography work. Good starting point before the longer Turing transcript.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="interview-card">
+      <div class="interview-card-header">
+        <div>
+          <div class="interview-card-name">Martin Hellman</div>
+          <div class="interview-card-role">Co-author, "New Directions in Cryptography" (1976)</div>
+        </div>
+      </div>
+      <div class="interview-card-body">
+        <div class="interview-source">
+          <div class="interview-source-label">Primary — most comprehensive</div>
+          <div class="interview-source-title">Charles Babbage Institute Oral History</div>
+          <div class="interview-source-meta">Interviewer: Jeffrey R. Yost · November 22, 2004 · Palo Alto, California</div>
+          <div class="interview-source-url">hdl.handle.net/11299/107353</div>
+          <div class="interview-source-note">58-page transcript covering his developing interest in cryptography, the fundamental insights of public-key cryptography, the collaboration with Diffie and Merkle, subsequent work, and the NSA's opposition to their research. Described as the most comprehensive publicly available interview with Hellman.</div>
+        </div>
+        <div class="interview-source">
+          <div class="interview-source-label">Early record — historical context</div>
+          <div class="interview-source-title">IEEE History Center Oral History</div>
+          <div class="interview-source-meta">Interviewer: Andrew Goldstein · July 31, 1991 · Interview #121</div>
+          <div class="interview-source-url">ethw.org/Oral-History:Martin_Hellman</div>
+          <div class="interview-source-note">Conducted while the events were still relatively recent. Hellman describes the NSA opposition and the NSF research support. Compare this 1991 account against the 2004 one — how does his framing change across 13 years?</div>
+        </div>
+        <div class="interview-source">
+          <div class="interview-source-label">Stanford oral history</div>
+          <div class="interview-source-title">Stanford University Oral History Collection</div>
+          <div class="interview-source-url">exhibits.stanford.edu/oral-history/catalog/bs410jf2315</div>
+          <div class="interview-source-note">Covers his faculty career, relationship with Merkle, the Turing Award, and his later work on nuclear deterrence. The most personal of the three accounts.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="interview-card">
+      <div class="interview-card-header">
+        <div>
+          <div class="interview-card-name">Ralph Merkle</div>
+          <div class="interview-card-role">Independent inventor of public-key exchange concept; inventor of cryptographic hashing</div>
+        </div>
+      </div>
+      <div class="interview-card-body">
+        <div class="interview-source">
+          <div class="interview-source-label">Primary — the origin story</div>
+          <div class="interview-source-title">Computer History Museum Fellows Interview</div>
+          <div class="interview-source-meta">Interviewer: Jon Plutte · 2011 · Mountain View, California</div>
+          <div class="interview-source-url">computerhistory.org/collections/catalog/102743048</div>
+          <div class="interview-source-note">Covers his UC Berkeley work, the class project that was nearly rejected, Merkle's Puzzles, and how his work connected with Diffie and Hellman's. The most focused account of the independent discovery story.</div>
+        </div>
+        <div class="interview-source">
+          <div class="interview-source-label">Self-archived — direct primary source</div>
+          <div class="interview-source-title">Interview by Arnd Weber (2002) + original 1974 CS244 project proposal</div>
+          <div class="interview-source-url">ralphmerkle.com/merkleDir/papers.html</div>
+          <div class="interview-source-note">Merkle maintains his own website with the 2002 interview about the history of his 1975 paper, and — critically — the original 1974 CS244 project proposal: the first document in which public-key cryptography was described. This is a primary document of extraordinary historical significance. Read it.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="page-divider">
+
+    <div class="section-label">The lab — study the record before you question it</div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B2.1 — Map what's already there</div>
+      <div class="activity-title">Read at least one interview from each person — then build your coverage map</div>
+      <div class="activity-body">
+        <p>For each of the three figures, read at least one of the interviews listed above. As you read, track which topics are well-covered and which go thin. You are building a map of what the existing record contains — so you can see clearly what it doesn't.</p>
+        <ul class="prompt-list">
+          <li>What specific moments or decisions are described in detail across multiple interviews — things each person has clearly told many times?</li>
+          <li>Where does an account go vague, skip over time, or mention someone else without elaborating? These are the gaps.</li>
+          <li>Are there moments where Diffie, Hellman, and Merkle describe the same event differently? What does the difference reveal?</li>
+          <li>What does the interviewer's preparation level visibly affect? Where does a good question produce a rich answer — and where does a thin question produce a thin one?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B2.2 — Study the interviewer, not just the subject</div>
+      <div class="activity-title">What makes a question open something up?</div>
+      <div class="activity-body">
+        <p>Across these interviews, some questions produce remarkable answers and some produce nothing. Find one example of each from the transcripts you read.</p>
+
+        <div class="contrast-grid" style="margin: 16px 0;">
+          <div class="contrast-cell">
+            <div class="contrast-cell-label">A question that opened something up</div>
+            <div class="contrast-cell-body">What made it work? Was it specific? Did it show the interviewer knew something the subject didn't expect them to know? Did it ask about a person rather than a concept?</div>
+          </div>
+          <div class="contrast-cell">
+            <div class="contrast-cell-label">A question that produced little</div>
+            <div class="contrast-cell-body">Why did it fall flat? Was it too broad? Did it invite a well-rehearsed answer? Did it ask for a definition rather than an experience?</div>
+          </div>
+        </div>
+
+        <p>Write down both examples in your log. This is technique analysis — the kind that will directly improve your own interviews.</p>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity B2.3 — Compare accounts of the same moment</div>
+      <div class="activity-title">How Diffie and Hellman each remember the collaboration</div>
+      <div class="activity-body">
+        <p>Both Diffie and Hellman have described how they began working together and how the key exchange idea developed. Their accounts are not identical. This is not because one of them is wrong — it is because memory is subjective, and two people in the same room experience it differently.</p>
+        <ul class="prompt-list">
+          <li>Find a specific moment or claim that appears in both Diffie's and Hellman's accounts. Where do they agree? Where do they diverge?</li>
+          <li>How does Hellman describe Merkle's contribution in his 1991 interview versus his 2004 one? What changed in how he tells that story — and what might explain the shift?</li>
+          <li>What does Merkle say about the moment his professor rejected his class project? Does either Diffie or Hellman mention this in their accounts? What does the silence tell you?</li>
+        </ul>
+        <p style="margin-top: 10px;">Contradiction between sources is not a problem to resolve. It is information about how history is made and remembered. Document it carefully.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Your question -->
+  <div class="page" id="tab2">
+    <div class="section-label">Module B2 — The question only you can ask</div>
+
+    <p class="serif-text">You have now read what the existing record contains. You know what has been asked and answered. The question worth asking is the one that hasn't been.</p>
+
+    <p class="body-text">This is not a hypothetical exercise. Outstanding questions submitted through this handbook will be considered for a live Q&A session with Diffie, Hellman, and Merkle as part of the DH50 anniversary programme. The best questions — the ones that show genuine preparation and go somewhere the public record hasn't — may actually be asked.</p>
+
+    <div class="gold-box">
+      <div class="gold-box-title">What makes a question worth asking?</div>
+      <div class="gold-box-body">
+        <p>It is not answerable from existing interviews, papers, or public statements. If the answer is already in the Turing Award transcript, the question isn't ready.</p>
+        <p>It is specific enough to require a specific answer. "What did it feel like to change the world?" is not a question. "You've described the moment Merkle's puzzle idea reached you — but I couldn't find anywhere that you described what you were working on the day before, and whether that work influenced how you understood his idea" is a question.</p>
+        <p>It asks about a person's experience, not a concept. The concepts are documented. The experience of the person living through the moment is not.</p>
+        <p>It acknowledges that minds change. A question that references what someone said in 1991 and asks how they think about it now treats the source as a thinking person, not a fixed document.</p>
+      </div>
+    </div>
+
+    <div class="submission-box">
+      <div class="submission-eyebrow">Your submission — Lab 3 closing activity</div>
+      <div class="submission-title">Formulate the question you would ask</div>
+      <div class="submission-body">
+        <p>Choose one of the three — Diffie, Hellman, or Merkle. Based on your reading of the existing interview record, write the one question you would most want to ask them if you had fifteen minutes.</p>
+        <p>In your log entry below, write the question and explain: what preparation led you to it, what you already know they have said about related topics, and what specifically you think their answer would add to the record.</p>
+        <p>Outstanding questions submitted to your regional coordinator will be considered for the DH50 anniversary Q&A programme.</p>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Lab 3 log — your question</div>
+      <div class="log-field">
+        <label class="log-label" for="q-person">Who you would ask</label>
+        <input class="log-line" type="text" id="q-person" placeholder="Diffie, Hellman, or Merkle — and why them for this question">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="q-preparation">What you read that led to this question</label>
+        <textarea class="log-area" id="q-preparation" rows="2" placeholder="Specific source, specific passage — and the gap it revealed"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="q-question">The question itself</label>
+        <textarea class="log-area" id="q-question" rows="3" placeholder="Write it exactly as you would ask it — specific, prepared, not answerable from existing sources"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="q-adds">What their answer would add to the record</label>
+        <textarea class="log-area" id="q-adds" rows="2" placeholder="Why does this matter — what would we know that we don't know now?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="q-transfer">How preparing this question changes how you will interview your own local sources</label>
+        <input class="log-line" type="text" id="q-transfer" placeholder="One specific change to your approach">
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">A note on changing minds</div>
+      <div class="callout-body">The interviews in Lab 3 span more than three decades. Hellman's 1991 account of the NSA's opposition is not the same as his 2004 account. Merkle's framing of his contribution has shifted as the historical record around it has become clearer. When you ask your local sources about events from twenty or thirty years ago, you are capturing how they understand those events now — which is itself part of the history. Both what they remember and how they remember it are data.</div>
+    </div>
+  </div>
+
+  <!-- Tab 3: In the room -->
+  <div class="page" id="tab3">
+    <div class="section-label">Module B2 — The interview itself</div>
+
+    <p class="serif-text">You have done the preparation. Now you are sitting with someone who was there. Here is how to make the most of it.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Open with context, not flattery</div>
+          <div class="step-body">Tell them briefly who you are, what you are investigating, and why their perspective is specifically relevant. Not "you are so important to this history" but "I'm investigating how digital signatures first reached [country], and I understand you were involved in [specific thing]. I've been reading [specific sources] and I'm trying to understand [specific gap]." This tells them you have done the work — and earns a more substantive conversation.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Ask for the story, then ask about the story</div>
+          <div class="step-body">Let them tell the account in their own sequence first — even if you know parts of it already. Then go back with specifics: "You mentioned [X] — can you tell me more about who else was in the room for that decision?" Following up on what they just said is almost always more productive than moving to your next prepared question.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Sit with silence</div>
+          <div class="step-body">When someone stops speaking, wait. Don't fill the silence with the next question. People often say the most important thing in the pause after they think they've finished. Silence is uncomfortable — resist the urge to end it prematurely.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Ask about people, not concepts</div>
+          <div class="step-body">"Who did you call first?" produces more than "how did you feel?" Ask about specific people, specific days, specific conversations. "Walk me through the day you realised X" opens more than "tell me about X." Oral history lives in the concrete.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Close with the open door</div>
+          <div class="step-body">Always end with: "Is there something about this story that you've never been asked, that you think matters?" or "Is there someone else I should talk to who would give me a perspective I haven't heard?" The first question often produces the most important answer. The second builds your source network.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-title">Record with permission, note without it</div>
+          <div class="step-body">Always ask before recording. If they decline, take detailed notes immediately after the conversation — not during, if note-taking makes them uncomfortable. Write up everything you remember within an hour of the interview, while it is still fresh. Memory degrades faster than you expect.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection — before your first interview</div>
+      <div class="activity-title">Prepare your opening and your close for your local source</div>
+      <div class="activity-body">
+        <p>Write out exactly how you will open the conversation with the first person you plan to interview in your own investigation. Then write your closing question. Practice both until they feel natural — not scripted.</p>
+        <ul class="prompt-list">
+          <li>Your opening: two sentences that tell them who you are, what you're investigating, and why you specifically wanted to speak with them</li>
+          <li>Your first question: specific, shows preparation, invites them to tell the story in their own sequence</li>
+          <li>Your closing: the open-door question that invites what you haven't thought to ask</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Contradiction & sense-making -->
+  <div class="page" id="tab4">
+    <div class="section-label">Module B2 — When the story doesn't add up</div>
+
+    <p class="serif-text">Two sources, same event, different accounts. This is not a problem. It is the material.</p>
+
+    <p class="body-text">History is not a fixed record waiting to be retrieved. It is a collection of partial accounts, each shaped by the position, memory, and interests of the person giving it. When your sources contradict each other — and they will — you are not seeing an error. You are seeing how history actually works.</p>
+
+    <div class="pull-quote">"The disagreement between two honest accounts is not noise. It is signal about the event itself — about who saw what, from where, and what they chose to remember."</div>
+
+    <hr class="page-divider">
+
+    <div class="section-label">How to work with contradiction</div>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Document both accounts precisely</div>
+          <div class="step-body">Before you try to resolve anything, record exactly what each source says. Quote directly where possible. Don't paraphrase yet — paraphrase is interpretation, and interpretation comes later. Get the raw accounts first.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Identify what kind of contradiction it is</div>
+          <div class="step-body">Some contradictions are factual — two people disagree on a date, a name, a sequence of events. Others are interpretive — they agree on what happened but not on what it meant. Others are positional — each person can only have seen part of what happened from where they stood. Each type calls for different handling.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Look for corroborating evidence</div>
+          <div class="step-body">Can a document, a date, or a third account settle a factual dispute? If so, use it — and note that you did. If the documentary record agrees with one account, say so. If it doesn't resolve the dispute, say that too. The process of looking for corroboration is itself part of your methodology.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Present contradiction honestly</div>
+          <div class="step-body">You do not have to choose a winner. When two credible sources genuinely disagree and you cannot resolve it, your job is to present both accounts, explain why they might differ, and let the contradiction stand. "Source A says X. Source B says Y. The documentary record does not resolve this" is a legitimate historical finding.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Ask what the contradiction reveals</div>
+          <div class="step-body">Why might two people remember this differently? What does each account protect or promote? Whose interests does each version serve? These are not cynical questions — they are analytical ones. The disagreement often reveals something about the event itself that neither account captures alone.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — practice with the pioneer record</div>
+      <div class="activity-title">Find a contradiction in the Diffie-Hellman-Merkle interviews and work through it</div>
+      <div class="activity-body">
+        <p>Using the interviews from Lab 3, find a moment where two accounts of the same event don't fully align. Apply the five steps above to that contradiction.</p>
+        <ul class="prompt-list">
+          <li>Document both accounts precisely — what exactly does each person say?</li>
+          <li>What type of contradiction is it — factual, interpretive, or positional?</li>
+          <li>Is there a document or third account that corroborates one version over the other?</li>
+          <li>What does the contradiction reveal about how each person understood their role in the story?</li>
+        </ul>
+        <p style="margin-top: 10px;">Write this up in your log. You are practicing the analytical move that will be essential when your own sources contradict each other.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Ethics -->
+  <div class="page" id="tab5">
+    <div class="section-label">Module B2 — The ethics of the work</div>
+
+    <p class="serif-text">You are asking people to share things they may never have said publicly before. That comes with obligations.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Obtain informed consent</div>
+          <div class="step-body">Before any interview, explain clearly: who you are, what the interview is for, where it will be stored, who will have access to it, and whether it will be published or attributed. Ask explicitly whether they consent to being recorded, quoted, and named. Get this in writing if possible — at minimum, record verbal consent at the start of a recorded interview.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Honour agreed boundaries</div>
+          <div class="step-body">If someone says something is off the record, it is off the record — permanently, not just for now. If they ask to review their quotes before publication, agree to that, and follow through. The relationship of trust with your source is more important than any single piece of information.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Protect sources who didn't ask to be protected</div>
+          <div class="step-body">Sometimes a source shares something that could put them at risk — professionally, politically, personally — without realising it. You are responsible for thinking about that risk even when they haven't. If publishing or sharing an account could cause harm to the person who gave it, think carefully before you do. When in doubt, ask them.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Give credit accurately</div>
+          <div class="step-body">The history of cryptography is partly a story of misattributed and uncredited work. Don't replicate that in your own record. When something came from a specific person, name them. When you are uncertain of the source, say so. Precision about attribution is not just academic practice — it is respect for the people whose work you are documenting.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Remember whose story this is</div>
+          <div class="step-body">You are a historian, not a journalist looking for a story. Your job is to preserve and transmit — accurately, fairly, with the complexity intact. The people you interview are not sources to be used. They are participants in a history that belongs to them as much as to anyone.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">If your investigation touches sensitive territory</div>
+      <div class="callout-body">Some local histories of cryptographic control and access are politically sensitive. If your investigation raises safety concerns — for you or for your sources — connect with your regional coordinator before proceeding. There are resources specifically designed for this situation, separate from this handbook.</div>
+    </div>
+  </div>
+
+  <!-- Tab 6: Log -->
+  <div class="page" id="tab6">
+    <div class="section-label">Module B2 — Running log</div>
+
+    <p class="body-text">Use this space for notes after each interview or significant research session. Return here whenever something surprises you, contradicts something you thought you knew, or opens a new thread.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Interview record</div>
+      <div class="log-field">
+        <label class="log-label" for="int-date">Date and location</label>
+        <input class="log-line" type="text" id="int-date" placeholder="Date, city, context (in person / video call / phone)">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="int-who">Who I spoke with</label>
+        <input class="log-line" type="text" id="int-who" placeholder="Name, role — or description if anonymised">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="int-prepared">What I had prepared — and what it made possible</label>
+        <textarea class="log-area" id="int-prepared" rows="2" placeholder="What you'd read beforehand, and which question it enabled"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="int-finding">The most significant thing they said</label>
+        <textarea class="log-area" id="int-finding" rows="2" placeholder="A specific account, detail, or name — not 'it was interesting'"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="int-contradict">Anything that contradicts something I already had</label>
+        <textarea class="log-area" id="int-contradict" rows="2" placeholder="What they said, what it contradicts, and what type of contradiction it is"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="int-gap">The question I forgot to ask — or didn't get to</label>
+        <input class="log-line" type="text" id="int-gap" placeholder="Add it to your list for a follow-up">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="int-next">Who they suggested I speak with next</label>
+        <input class="log-line" type="text" id="int-next" placeholder="Name or role — and how they suggested you reach them">
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B2 complete</div>
+      <div class="completion-body">You have studied the public record of the pioneers, formulated a question that goes beyond it, practiced the craft of the interview, and learned to work with contradiction. You are ready to go into the field with your own investigation. Module C is where you bring something back.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Module B2 complete</div>
+        <div class="badge-pill">Pioneer record studied</div>
+        <div class="badge-pill special">Question submitted</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

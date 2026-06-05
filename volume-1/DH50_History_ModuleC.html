@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 History Ambassador — Module C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-soft: #7a7670;
+    --ink-faint: #b0ada6;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --rule: #e2ddd4;
+    --rule-soft: #ede9e0;
+    --accent: #8B4513;
+    --accent-light: #f0e6dc;
+    --accent-mid: #c4703a;
+    --teal: #2d6e6a;
+    --teal-light: #e0f0ef;
+    --teal-dark: #1a4a47;
+    --gold: #9a7b2e;
+    --gold-light: #f5edda;
+    --gold-dark: #7a6520;
+    --plum: #5a3d6b;
+    --plum-light: #ede5f5;
+    --slate: #3d5068;
+    --slate-light: #e5edf5;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; margin-bottom: 16px; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--teal); background: var(--teal-light); border: 1px solid #a8d4d1; border-radius: 20px; padding: 4px 12px; }
+
+  .tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .serif-text { font-family: var(--serif); font-size: 16px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 32px 0; }
+
+  /* Inventory grid */
+  .inventory-grid { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .inventory-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 0; border-bottom: 1px solid var(--rule-soft); }
+  .inventory-row:last-child { border-bottom: none; }
+  .inventory-header { background: var(--paper-warm); }
+  .inventory-cell { padding: 12px 16px; font-size: 13px; color: var(--ink-mid); font-weight: 300; line-height: 1.5; border-right: 1px solid var(--rule-soft); }
+  .inventory-cell:last-child { border-right: none; }
+  .inventory-header .inventory-cell { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+
+  /* Confidence spectrum */
+  .confidence-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .confidence-row { padding: 16px 20px; border-bottom: 1px solid var(--rule-soft); display: flex; gap: 16px; align-items: flex-start; }
+  .confidence-row:last-child { border-bottom: none; }
+  .confidence-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .confidence-dot.high { background: var(--teal); }
+  .confidence-dot.medium { background: var(--gold); }
+  .confidence-dot.low { background: var(--accent-mid); }
+  .confidence-dot.absent { background: var(--ink-faint); }
+  .confidence-label { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .confidence-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.55; font-weight: 300; }
+
+  /* Steps */
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; gap: 0; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #ddbfa0; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  /* Activity and log boxes */
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; font-family: var(--serif); }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); margin-top: 1px; }
+
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px; }
+  .log-field { margin-bottom: 18px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-line { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .gold-box { background: var(--gold-light); border: 1px solid #d4b870; border-radius: 10px; padding: 20px 22px; margin: 20px 0; }
+  .gold-box-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 8px; font-family: var(--serif); }
+  .gold-box-body { font-size: 13px; color: var(--gold-dark); line-height: 1.65; font-weight: 300; }
+  .gold-box-body p { margin-bottom: 10px; }
+  .gold-box-body p:last-child { margin-bottom: 0; }
+
+  /* Global connector */
+  .connector-card { border: 2px solid var(--teal); border-radius: 12px; padding: 24px; margin: 24px 0; background: var(--paper-card); }
+  .connector-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+  .connector-title { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+  .connector-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; margin-bottom: 16px; }
+  .connector-body p { margin-bottom: 8px; }
+
+  /* Finding template */
+  .finding-template { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .finding-template-header { background: var(--paper-warm); padding: 14px 18px; border-bottom: 1px solid var(--rule); }
+  .finding-template-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+  .finding-template-title { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .finding-template-body { padding: 16px 18px; }
+  .finding-field { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--rule-soft); }
+  .finding-field:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .finding-field-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 6px; display: block; }
+  .finding-field-hint { font-size: 12px; color: var(--ink-faint); font-weight: 300; margin-bottom: 6px; font-style: italic; }
+  .finding-input { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .finding-input:focus { border-bottom-color: var(--accent-mid); }
+  .finding-textarea { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .finding-textarea:focus { border-bottom-color: var(--accent-mid); }
+
+  /* Badge / completion */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+  .badge-pill.special { background: var(--gold-light); color: var(--gold-dark); border-color: #d4b870; }
+  .badge-pill.milestone { background: var(--teal-light); color: var(--teal-dark); border-color: #a8d4d1; }
+  .completion-box { margin-top: 28px; padding: 20px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: var(--gold-dark); line-height: 1.6; font-weight: 300; }
+
+  @media (max-width: 480px) {
+    .header, .page { padding-left: 20px; padding-right: 20px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .header-title { font-size: 26px; }
+    .inventory-row { grid-template-columns: 1fr; }
+    .inventory-header .inventory-cell:not(:first-child) { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · History Ambassador Field Guide</div>
+    <div class="header-title">Module C — Bringing Something Back</div>
+    <div class="header-subtitle">You've been in the field. Now make sense of what you found — and share it.</div>
+    <div class="module-badge">Field module</div>
+  </div>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">What you have</button>
+    <button class="tab-btn" onclick="showTab(1)">From material to finding</button>
+    <button class="tab-btn" onclick="showTab(2)">The local in the global</button>
+    <button class="tab-btn" onclick="showTab(3)">Your finding record</button>
+    <button class="tab-btn" onclick="showTab(4)">Global connector</button>
+    <button class="tab-btn" onclick="showTab(5)">Log</button>
+  </nav>
+
+  <!-- Tab 0: What you have -->
+  <div class="page active" id="tab0">
+    <div class="section-label">Module C — The analytical moment</div>
+
+    <p class="serif-text">You have been in the field. You have found things, missed things, been surprised, and hit walls. Now you sit with what you have — and this is where the real work begins.</p>
+
+    <p class="body-text">Raw material is not a finding. An interview transcript is not history. A document is not an argument. The move from material to meaning requires a specific analytical discipline — and it starts with an honest inventory of exactly what you have, sorted by how well you actually know it.</p>
+
+    <div class="pull-quote">"I don't know yet" is not a failure state. It is the most honest thing an investigator can say — and the engine that keeps the work moving forward."</div>
+
+    <p class="body-text">Outstanding History Ambassadors do not inflate what they have. They do not present speculation as finding, inference as evidence, or a single source as confirmation. They are precise about what they know, what they suspect, and what they cannot yet say. That precision is what makes their contribution credible — and lasting.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">Take inventory before you do anything else</div>
+
+    <p class="body-text">Before you try to write up a finding, before you share anything with other ambassadors, sit down and categorise everything you have gathered. Not by topic — by how well you know it.</p>
+
+    <div class="confidence-block">
+      <div class="confidence-row">
+        <div class="confidence-dot high"></div>
+        <div>
+          <div class="confidence-label">Confirmed — multiple independent sources agree</div>
+          <div class="confidence-desc">Two or more sources that don't share an origin point tell the same story. A document corroborates what a person said. This is your solid ground. You can assert these things directly.</div>
+        </div>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-dot medium"></div>
+        <div>
+          <div class="confidence-label">Supported — one good source, consistent with other evidence</div>
+          <div class="confidence-desc">A single credible primary source says something, and nothing you've found contradicts it. You can present this, but with attribution: "According to [source]..." rather than stating it as established fact.</div>
+        </div>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-dot low"></div>
+        <div>
+          <div class="confidence-label">Contested — sources disagree, or evidence is ambiguous</div>
+          <div class="confidence-desc">Two sources tell different stories, or a single source makes a claim that other evidence complicates. Present both sides. Do not resolve it artificially. "Source A says X. Source B says Y. The documentary record does not settle this" is a legitimate finding.</div>
+        </div>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-dot absent"></div>
+        <div>
+          <div class="confidence-label">Absent — you looked and didn't find it</div>
+          <div class="confidence-desc">You searched for something and it isn't in the record. This is not nothing — it is a finding about the record itself. Document what you looked for, where you looked, and what you found instead. Absence, rigorously documented, is evidence.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity C0 — Take your inventory</div>
+      <div class="activity-title">Sort everything you have gathered into the four categories</div>
+      <div class="activity-body">
+        <p>Go through your log entries from Modules B1 and B2. For each significant piece of information you gathered, assign it to one of the four confidence categories above. Be honest — this is for your own clarity, not for anyone else yet.</p>
+
+        <div class="inventory-grid" style="margin-top: 16px;">
+          <div class="inventory-row inventory-header">
+            <div class="inventory-cell">What I found or didn't find</div>
+            <div class="inventory-cell">Confidence level</div>
+            <div class="inventory-cell">Source(s)</div>
+          </div>
+          <div class="inventory-row">
+            <div class="inventory-cell" style="color: var(--ink-faint); font-style: italic;">Add your findings here as you work through your notes</div>
+            <div class="inventory-cell"></div>
+            <div class="inventory-cell"></div>
+          </div>
+          <div class="inventory-row">
+            <div class="inventory-cell" style="color: var(--ink-faint); font-style: italic;">What you couldn't find — and what that absence might mean</div>
+            <div class="inventory-cell" style="color: var(--ink-faint); font-size: 12px;">Absent</div>
+            <div class="inventory-cell" style="color: var(--ink-faint); font-size: 12px;">Where you looked</div>
+          </div>
+        </div>
+
+        <ul class="prompt-list" style="margin-top: 16px;">
+          <li>How much of what you have is confirmed versus supported versus contested versus absent?</li>
+          <li>What is the single strongest piece of evidence you have — the one thing you would stake your finding on?</li>
+          <li>What is the most significant gap — the thing you most needed and couldn't find?</li>
+          <li>Does the shape of your inventory change what you thought your finding was going to be?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The inventory is not a defeat</div>
+      <div class="callout-body">Many ambassadors arrive at this point expecting more confirmed findings than they have. The honest inventory often shows more "supported" and "absent" than expected. That is not a sign of poor fieldwork — it is a sign of rigorous thinking. A small, well-evidenced finding is worth more than a large, poorly-supported one. And a documented absence is a genuine contribution to the global record.</div>
+    </div>
+  </div>
+
+  <!-- Tab 1: From material to finding -->
+  <div class="page" id="tab1">
+    <div class="section-label">Module C — The analytical move</div>
+
+    <p class="serif-text">A finding is not what you found. It is what the evidence shows — stated as precisely as the evidence allows, no more and no less.</p>
+
+    <p class="body-text">This distinction matters enormously. "I found a 1994 document showing the Central Bank of [country] issued a directive about digital certificates" is what you found. "The Central Bank's 1994 directive was the first official recognition in [country] that cryptographic authentication had legal standing — predating the commercial deployment of SSL by a year" is a finding. It takes what you found and places it in a context that gives it meaning.</p>
+
+    <p class="body-text">The analytical move has three parts: what the evidence shows, what it means in context, and what you are not claiming.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">How to build a finding</div>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">State what the evidence actually shows</div>
+          <div class="step-body">Start with the most concrete thing your strongest evidence demonstrates. Not what you believe, not what would make sense — what the evidence directly supports. Use language that matches your confidence level: "confirms," "suggests," "indicates," "is consistent with." These are not the same word.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Situate it — what does this mean beyond itself?</div>
+          <div class="step-body">A finding isolated from context is a fact. A finding in context is history. Why does this matter? What does it reveal about how cryptographic trust arrived in your region — the timing, the actors, the decisions, the exclusions? How does it fit with or complicate what the global record already shows?</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">State explicitly what you are not claiming</div>
+          <div class="step-body">This is the step most investigators skip — and it is the most important one for credibility. "This finding does not establish X" or "I cannot determine from available evidence whether Y" is not weakness. It is precision. It tells the reader exactly where your finding ends and where further investigation is needed.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Name the gaps that remain</div>
+          <div class="step-body">Every finding leaves questions open. Name them. "To fully understand this, someone would need to find X" or "the missing piece is Y, which I could not locate because Z." This is not an apology — it is a gift to the next person who investigates this story. Your documented gaps become their starting points.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Test it against a sceptical reader</div>
+          <div class="step-body">Before you share any finding, ask: what would a careful, sceptical reader push back on? Where is the argument weakest? What alternative interpretation does your evidence allow? If you can answer those questions, your finding is ready. If you can't, it needs more work — or more careful framing.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity C1 — Write your finding</div>
+      <div class="activity-title">Draft a finding statement from your strongest evidence</div>
+      <div class="activity-body">
+        <p>Using the five steps above, write a finding statement from the strongest confirmed or well-supported item in your inventory. Keep it to a paragraph — precision matters more than length.</p>
+        <p>Your finding statement should answer four questions in sequence:</p>
+        <ul class="prompt-list">
+          <li>What does my strongest evidence directly show? (stated with appropriate confidence language)</li>
+          <li>What does this mean in the context of how cryptographic trust arrived in my region?</li>
+          <li>What am I explicitly not claiming from this evidence?</li>
+          <li>What gap does this finding reveal that someone else should investigate?</li>
+        </ul>
+        <p style="margin-top: 10px;">Write this in the finding record in the next tab. That record is the version that travels — into the global repository, to other ambassadors, into the permanent archive of this initiative.</p>
+      </div>
+    </div>
+
+    <div class="gold-box">
+      <div class="gold-box-title">On writing about uncertainty without undermining your finding</div>
+      <div class="gold-box-body">
+        <p>There is a difference between honest uncertainty and hedging that renders a finding meaningless. "It seems like possibly something might have happened" is not a finding. "The evidence strongly suggests X, though I could not independently verify Y" is.</p>
+        <p>Calibrated language — matching the strength of your claim to the strength of your evidence — is a skill. Practice it here, in this module, before your finding enters the permanent record. The goal is a finding that is as strong as your evidence allows, and no stronger.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: The local in the global -->
+  <div class="page" id="tab2">
+    <div class="section-label">Module C — Connecting your thread to the whole</div>
+
+    <p class="serif-text">Your finding is a piece of a worldwide picture. But a piece only contributes to the picture if it is connected to it explicitly.</p>
+
+    <p class="body-text">The global story of how cryptographic trust traveled from a Stanford lab in 1976 to the digital infrastructure of daily life is being assembled from thousands of local stories — each one partial, each one necessary. Yours is one of them. The work of this tab is to make that connection visible: to show how what you found in your community adds something to the global record that wasn't there before.</p>
+
+    <hr class="page-divider">
+
+    <div class="section-label">Three questions that connect the local to the global</div>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">What does your finding add that wasn't in the record?</div>
+          <div class="step-body">The global record of DHM's impact is heavily weighted toward the US, Europe, and a handful of well-documented Asian deployments. If your finding comes from anywhere else — or from an undocumented aspect of a known deployment — it is adding something genuinely new. State what that is explicitly. Don't assume the reader will see it without help.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Which thread from Module A does your finding connect to?</div>
+          <div class="step-body">Go back to the four discovery quests. Does your local story echo the Merkle pattern — independent work that arrived through the wrong channel? The GCHQ pattern — institutional secrecy that shaped what became public? The RSA pattern — a cascade of deployment following a foundational breakthrough? The export control pattern — access shaped by political decisions? Naming the connection makes your finding legible to the global picture.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">What does the global story look like differently because of what you found?</div>
+          <div class="step-body">This is the hardest question — and the most important one. Does your finding confirm the global pattern, or complicate it? Did cryptographic trust arrive in your region through a route the standard account doesn't describe? Did it arrive later, earlier, or more unevenly than the global narrative suggests? A finding that complicates the standard story is more valuable than one that confirms it.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity C2 — Make the connection explicit</div>
+      <div class="activity-title">Write the paragraph that places your local finding in the global story</div>
+      <div class="activity-body">
+        <p>This is a single paragraph — three to five sentences — that does the following:</p>
+        <ul class="prompt-list">
+          <li>States your finding in one sentence</li>
+          <li>Names which global thread it connects to and how</li>
+          <li>Says what the global story looks like differently because of what you found — confirmed, complicated, or extended</li>
+          <li>Names what question your finding opens for other ambassadors investigating similar stories elsewhere</li>
+        </ul>
+        <p style="margin-top: 10px;">This paragraph goes into the global repository as the "connector" statement for your finding. It is how ambassadors in other countries will understand what your local investigation contributes to the shared picture.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Your absence is also part of the global picture</div>
+      <div class="callout-body">If the most significant thing you found is that the record doesn't exist — that there is no documentation of how cryptographic trust arrived in your region, that the people who built it are unreachable or have died, that the institutional memory has been lost — that is itself a contribution. It tells the global picture where the gaps are. Document it as carefully as you would document a confirmed finding.</div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Your finding record -->
+  <div class="page" id="tab3">
+    <div class="section-label">Module C — The finding record</div>
+
+    <p class="body-text">This is the version of your work that travels. Fill it in carefully — it will be read by other ambassadors, by the coordinators assembling the global picture, and eventually by researchers who come after you.</p>
+
+    <p class="body-text">Write in plain language. Avoid jargon. Assume the reader knows the general DHM story but not your local context — explain what needs explaining without over-explaining.</p>
+
+    <div class="finding-template">
+      <div class="finding-template-header">
+        <div class="finding-template-label">DH50 History Ambassador — Finding Record</div>
+        <div class="finding-template-title">For submission to the global repository</div>
+      </div>
+      <div class="finding-template-body">
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-ambassador">Ambassador name and location</label>
+          <div class="finding-field-hint">Your name (or pseudonym if preferred), city, country</div>
+          <input class="finding-input" type="text" id="fr-ambassador" placeholder="Name · City, Country">
+        </div>
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-period">Investigation period</label>
+          <input class="finding-input" type="text" id="fr-period" placeholder="Month Year — Month Year">
+        </div>
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-question">The investigative question I pursued</label>
+          <div class="finding-field-hint">The specific local question from your Module B1 log — refined by what you found</div>
+          <textarea class="finding-textarea" id="fr-question" rows="2" placeholder="The question that drove your fieldwork"></textarea>
+        </div>
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-finding">The finding</label>
+          <div class="finding-field-hint">What the evidence shows — stated with calibrated confidence. No more than three sentences.</div>
+          <textarea class="finding-textarea" id="fr-finding" rows="4" placeholder="State what your strongest evidence directly shows, at the confidence level it warrants."></textarea>
+        </div>
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-sources">Primary sources this finding rests on</label>
+          <div class="finding-field-hint">Name each source specifically: who, what, when, where. Oral sources should be identified (with consent) or anonymised with description.</div>
+          <textarea class="finding-textarea" id="fr-sources" rows="3" placeholder="Source 1: &#10;Source 2: &#10;Source 3:"></textarea>
+        </div>
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-notclaiming">What this finding does not establish</label>
+          <div class="finding-field-hint">Be explicit about the limits of your evidence</div>
+          <textarea class="finding-textarea" id="fr-notclaiming" rows="2" placeholder="This finding does not establish..."></textarea>
+        </div>
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-global">Connection to the global story</label>
+          <div class="finding-field-hint">Which Module A thread does this connect to — and what does the global story look like differently because of what you found?</div>
+          <textarea class="finding-textarea" id="fr-global" rows="3" placeholder="The paragraph you wrote in Activity C2 goes here"></textarea>
+        </div>
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-gaps">Gaps this finding reveals</label>
+          <div class="finding-field-hint">What should the next investigator look for? Where did the trail run cold that someone else might be able to pick up?</div>
+          <textarea class="finding-textarea" id="fr-gaps" rows="2" placeholder="To fully understand this, someone would need to find..."></textarea>
+        </div>
+
+        <div class="finding-field">
+          <label class="finding-field-label" for="fr-ambassador-note">A note to other ambassadors</label>
+          <div class="finding-field-hint">One thing you learned about doing this kind of investigation in your context that others might find useful</div>
+          <textarea class="finding-textarea" id="fr-ambassador-note" rows="2" placeholder="Not a general observation — a specific thing that would have helped you if you'd known it at the start"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Global connector -->
+  <div class="page" id="tab4">
+    <div class="section-label">Module C — Learning from each other</div>
+
+    <p class="serif-text">You are not the only person doing this work. Across the world, ambassadors are investigating the same idea as it landed in different places, at different times, under different circumstances.</p>
+
+    <p class="body-text">The Global Connector exchange is where that network becomes active. You share what you found. You receive what someone investigating a different region found. You note what their finding reveals about yours — and what yours might reveal about theirs. Knowledge multiplied is the phrase used in the DH50 framework. This is what it looks like in practice.</p>
+
+    <hr class="page-divider">
+
+    <div class="connector-card">
+      <div class="connector-eyebrow">Global Connector Exchange</div>
+      <div class="connector-title">What you share — and what you receive</div>
+      <div class="connector-body">
+        <p>When you submit your finding record, you will be connected with one or two ambassadors investigating different regions whose work touches a similar thread. The exchange works in both directions: you receive their finding record, they receive yours. You each respond to the other's work with the questions below.</p>
+        <p>This is not peer review — it is cross-pollination. You are not judging each other's work. You are asking what each other's findings open up when seen from a different geography.</p>
+      </div>
+
+      <div class="activity-box" style="margin-bottom: 0;">
+        <div class="activity-label">When you receive another ambassador's finding</div>
+        <div class="activity-title">Four questions to ask of their work</div>
+        <div class="activity-body">
+          <ul class="prompt-list">
+            <li>Does their finding confirm, complicate, or extend something you found in your own investigation? How?</li>
+            <li>Is there a person, institution, or document in their finding that has a parallel in your region — someone you hadn't thought to look for?</li>
+            <li>What does their experience of doing this investigation — their note to other ambassadors — change about how you understand your own process?</li>
+            <li>What is the one question their finding opens that you would want them to pursue next?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Global connector log</div>
+      <div class="log-field">
+        <label class="log-label" for="gc-ambassador">Ambassador I exchanged with</label>
+        <input class="log-line" type="text" id="gc-ambassador" placeholder="Name or identifier · Region">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="gc-their-finding">The key finding from their record</label>
+        <textarea class="log-area" id="gc-their-finding" rows="2" placeholder="In your own words — what did they find?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="gc-connection">How their finding connects to or complicates yours</label>
+        <textarea class="log-area" id="gc-connection" rows="2" placeholder="Specific connection — not 'it was interesting'"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="gc-parallel">A parallel in your region their finding revealed</label>
+        <input class="log-line" type="text" id="gc-parallel" placeholder="Something you hadn't looked for until you read their work">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="gc-question">The question you sent back to them</label>
+        <textarea class="log-area" id="gc-question" rows="2" placeholder="The specific thing you want them to investigate next — and why"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="gc-changed">What this exchange changed about your own investigation</label>
+        <input class="log-line" type="text" id="gc-changed" placeholder="One specific thing — a new lead, a revised question, a gap you now want to fill">
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The exchange is ongoing — not a one-time event</div>
+      <div class="callout-body">The Global Connector exchange is not a single submission and response. As your investigation develops, your finding record updates — and so does what you can offer other ambassadors. Return to this tab whenever a significant new finding changes the picture. The network gets smarter as each of you goes deeper.</div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Log -->
+  <div class="page" id="tab5">
+    <div class="section-label">Module C — Running log</div>
+
+    <p class="body-text">Use this space as you work through the analytical and sharing stages of Module C. Return here when a new connection becomes clear, when another ambassador's work changes something you thought you understood, or when the shape of your finding shifts.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Module C — running record</div>
+      <div class="log-field">
+        <label class="log-label" for="c-date">Date of this entry</label>
+        <input class="log-line" type="text" id="c-date" placeholder="Date">
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="c-inventory">How my inventory surprised me</label>
+        <textarea class="log-area" id="c-inventory" rows="2" placeholder="What the honest accounting of your evidence revealed that you didn't expect"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="c-finding-shift">How my finding has shifted from what I thought it would be</label>
+        <textarea class="log-area" id="c-finding-shift" rows="2" placeholder="What you thought you'd find versus what the evidence actually shows"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="c-global-connect">The moment I saw my local story connect to the global one</label>
+        <textarea class="log-area" id="c-global-connect" rows="2" placeholder="What made the connection visible — a specific detail, a parallel, a contrast"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="c-undone">What remains undone — and whether I'll pursue it</label>
+        <textarea class="log-area" id="c-undone" rows="2" placeholder="The gaps still open — and your honest assessment of whether they're closeable"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label" for="c-learned">The most important thing I learned about doing this kind of work</label>
+        <textarea class="log-area" id="c-learned" rows="2" placeholder="For the ambassador who comes after you investigating the same region"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module C complete — and a milestone reached</div>
+      <div class="completion-body">You have taken your raw material, built an honest inventory, written a calibrated finding, connected it to the global story, and shared it with the network of ambassadors doing the same work in different places. The finding record you submitted is now part of the permanent DH50 repository. Module D is the record of your full year — the log that shows how your thinking developed, and what you leave for the investigation that comes after yours.</div>
+      <div class="badge-row">
+        <div class="badge-pill">Module C complete</div>
+        <div class="badge-pill special">Finding submitted</div>
+        <div class="badge-pill milestone">Global connector active</div>
+        <div class="badge-pill milestone">Repository contribution made</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
