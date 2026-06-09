@@ -350,7 +350,7 @@
   <header class="site-header">
     <a href="../index.html">Dynamic Knowledge Repository</a>
     <div class="sep"></div>
-    <span class="current">Volume 3</span>
+    <span class="current" id="header-slug">Volume 3 Directory</span>
   </header>
 
   <section class="hero">
@@ -447,6 +447,55 @@
   <script>
     function toggleB() {
       document.getElementById('moduleB').classList.toggle('open');
+    }
+
+    function switchVolume(targetKey) {
+      // Deactivate all volume display panels
+      document.querySelectorAll('.volume-panel').forEach(panel => {
+        panel.style.display = 'none';
+        panel.classList.remove('active');
+      });
+    
+      // Reset master navigation tab styles
+      document.querySelectorAll('.master-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+    
+      const targetSlug = document.getElementById('header-slug');
+    
+      // If clicking back to the Volume 3 dashboard home
+      if (targetKey === 'index') {
+        document.getElementById('vol-panel-index').style.display = 'block';
+        targetSlug.textContent = "Volume 3 Directory";
+        document.querySelector(`.master-tab-btn[onclick="switchVolume('index')"]`).classList.add('active');
+        return;
+      }
+    
+      // Hide directory home content when inside a dedicated module view
+      document.getElementById('vol-panel-index').style.display = 'none'; 
+      
+      const activePanel = document.getElementById(`vol-panel-${targetKey}`);
+      if (activePanel) {
+        activePanel.style.display = 'block';
+        activePanel.classList.add('active');
+      }
+    
+      // Synchronize the header descriptive tag mapping
+      const lookup = {
+        m0: "Orientation Workspace",
+        ma: "Foundations Base Stack",
+        mb1: "Scenario Track B1 (Quantum)",
+        mb2: "Scenario Track B2 (AI Governance)",
+        mb3: "Scenario Track B3 (Digital Sovereignty)",
+        mb4: "Scenario Track B4 (Digital Inclusion)",
+        mb5: "Scenario Track B5 (Custom Scaffolding)",
+        mc: "Module C Public Deployment",
+        md: "Module D Global Registry Integration"
+      };
+      targetSlug.textContent = lookup[targetKey] || "Ambassador Active Module";
+    
+      const triggerBtn = document.querySelector(`.master-tab-btn[onclick="switchVolume('${targetKey}')"]`);
+      if (triggerBtn) triggerBtn.classList.add('active');
     }
   </script>
 
