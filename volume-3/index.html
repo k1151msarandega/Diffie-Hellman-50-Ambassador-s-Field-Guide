@@ -361,8 +361,7 @@
 
   <div class="content">
 
-    <!-- Module 0 prelude -->
-    <a href="./module-0-welcome.html" class="module-prelude">
+    <a href="module-0-welcome.html" class="module-prelude">
       <div class="prelude-left">
         <div class="tag">Module 0 — Orientation</div>
         <div class="title">Welcome to the mission</div>
@@ -371,18 +370,16 @@
       <div class="prelude-cta">Open module</div>
     </a>
 
-    <!-- Modules A, C, D -->
     <div class="section-label">Core Modules</div>
     <div class="module-grid two-col" style="margin-bottom:16px">
-      <a href="./module-a-foundations.html" class="module-card">
+      <a href="module-a-foundations.html" class="module-card">
         <div class="mod-tag">Module A</div>
         <div class="mod-title">Foundations</div>
         <div class="mod-desc">You don't need to understand the math. You need to understand what the math makes possible.</div>
       </a>
-      <div></div><!-- spacer to keep A left-aligned in 2-col -->
+      <div></div>
     </div>
 
-    <!-- Module B expandable -->
     <div class="module-b-wrapper">
       <div class="module-b-parent" id="moduleB">
         <div class="module-b-header" onclick="toggleB()">
@@ -395,27 +392,27 @@
         </div>
         <div class="module-b-tracks">
           <div class="tracks-grid">
-            <a href="./module-b1-post-quantum.html" class="track-card">
+            <a href="module-b1-post-quantum.html" class="track-card">
               <div class="track-tag">Track B1</div>
               <div class="track-title">Post-Quantum Transition</div>
               <div class="track-desc">The mathematics beneath the internet will break. The question is whether we will be ready.</div>
             </a>
-            <a href="./module-b2-ai-governance.html" class="track-card">
+            <a href="module-b2-ai-governance.html" class="track-card">
               <div class="track-tag">Track B2</div>
               <div class="track-title">AI Governance &amp; Verifiable Trust</div>
               <div class="track-desc">AI can generate anything. Cryptography can prove what is real.</div>
             </a>
-            <a href="./module-b3-digital-sovereignty.html" class="track-card">
+            <a href="module-b3-digital-sovereignty.html" class="track-card">
               <div class="track-tag">Track B3</div>
               <div class="track-title">Digital Sovereignty &amp; DPI Models</div>
               <div class="track-desc">Four regions built the digital future differently. What can each learn from the others?</div>
             </a>
-            <a href="./module-b4-digital-inclusion.html" class="track-card">
+            <a href="module-b4-digital-inclusion.html" class="track-card">
               <div class="track-tag">Track B4</div>
               <div class="track-title">Digital Inclusion &amp; the Trust Gap</div>
               <div class="track-desc">Connectivity without trust is not enough. And trust without voice is not trust at all.</div>
             </a>
-            <a href="./module-b5-your-own-track.html" class="track-card">
+            <a href="module-b5-your-own-track.html" class="track-card">
               <div class="track-tag">Track B5</div>
               <div class="track-title">Your Own Track</div>
               <div class="track-desc">The question that would not fit anywhere else.</div>
@@ -426,12 +423,12 @@
     </div>
 
     <div class="module-grid two-col">
-      <a href="./module-c-going-public.html" class="module-card">
+      <a href="module-c-going-public.html" class="module-card">
         <div class="mod-tag">Module C</div>
         <div class="mod-title">Going Public</div>
         <div class="mod-desc">Private inquiry becomes public contribution the moment someone else can use it.</div>
       </a>
-      <a href="./module-d-log-global-connector.html" class="module-card">
+      <a href="module-d-log-global-connector.html" class="module-card">
         <div class="mod-tag">Module D</div>
         <div class="mod-title">Ambassador Log &amp; Global Connector</div>
         <div class="mod-desc">Everything you wrote in passing, gathered into something that lasts.</div>
@@ -446,56 +443,10 @@
 
   <script>
     function toggleB() {
-      document.getElementById('moduleB').classList.toggle('open');
-    }
-
-    function switchVolume(targetKey) {
-      // Deactivate all volume display panels
-      document.querySelectorAll('.volume-panel').forEach(panel => {
-        panel.style.display = 'none';
-        panel.classList.remove('active');
-      });
-    
-      // Reset master navigation tab styles
-      document.querySelectorAll('.master-tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-    
-      const targetSlug = document.getElementById('header-slug');
-    
-      // If clicking back to the Volume 3 dashboard home
-      if (targetKey === 'index') {
-        document.getElementById('vol-panel-index').style.display = 'block';
-        targetSlug.textContent = "Volume 3 Directory";
-        document.querySelector(`.master-tab-btn[onclick="switchVolume('index')"]`).classList.add('active');
-        return;
-      }
-    
-      // Hide directory home content when inside a dedicated module view
-      document.getElementById('vol-panel-index').style.display = 'none'; 
-      
-      const activePanel = document.getElementById(`vol-panel-${targetKey}`);
-      if (activePanel) {
-        activePanel.style.display = 'block';
-        activePanel.classList.add('active');
-      }
-    
-      // Synchronize the header descriptive tag mapping
-      const lookup = {
-        m0: "Orientation Workspace",
-        ma: "Foundations Base Stack",
-        mb1: "Scenario Track B1 (Quantum)",
-        mb2: "Scenario Track B2 (AI Governance)",
-        mb3: "Scenario Track B3 (Digital Sovereignty)",
-        mb4: "Scenario Track B4 (Digital Inclusion)",
-        mb5: "Scenario Track B5 (Custom Scaffolding)",
-        mc: "Module C Public Deployment",
-        md: "Module D Global Registry Integration"
-      };
-      targetSlug.textContent = lookup[targetKey] || "Ambassador Active Module";
-    
-      const triggerBtn = document.querySelector(`.master-tab-btn[onclick="switchVolume('${targetKey}')"]`);
-      if (triggerBtn) triggerBtn.classList.add('active');
+      const container = document.getElementById('moduleB');
+      const toggle = container.querySelector('.module-b-toggle');
+      container.classList.toggle('open');
+      toggle.textContent = container.classList.contains('open') ? '−' : '+';
     }
   </script>
 
