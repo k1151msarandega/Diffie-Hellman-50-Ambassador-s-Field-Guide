@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-soft: #7a7670;
+    --ink-faint: #b0ada6;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --rule: #e2ddd4;
+    --rule-soft: #ede9e0;
+    --accent: #1a5276;
+    --accent-light: #d6eaf8;
+    --accent-mid: #2e86c1;
+    --teal: #1e7a6e;
+    --teal-light: #d5f0eb;
+    --gold: #9a7b2e;
+    --gold-light: #f5edda;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  /* Header */
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  /* Tab nav */
+  .tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 16px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Pages */
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  /* Typography */
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .serif-text { font-family: var(--serif); font-size: 16px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+
+  /* Steps */
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 24px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  /* Activity box */
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 10px; font-family: var(--serif); }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); margin-top: 1px; }
+
+  /* Callout */
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: #1a5c52; line-height: 1.65; font-weight: 300; }
+
+  /* Warning callout */
+  .callout-warm { background: var(--gold-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; border: 1px solid #dfd0a0; }
+  .callout-warm-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .callout-warm-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  /* ─── DH Demo ─── */
+  .eq-container { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .eq-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .eq-subtitle { font-size: 13px; color: var(--ink-soft); margin-bottom: 24px; line-height: 1.5; font-weight: 300; }
+  .eq-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .eq-party { border: 1px solid var(--rule); border-radius: 8px; padding: 16px; background: var(--paper-warm); }
+  .eq-party-name { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+  .eq-value-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+  .eq-value-label { font-size: 12px; color: var(--ink-soft); font-weight: 300; flex-shrink: 0; }
+  .eq-value-num { font-size: 18px; font-weight: 500; color: var(--ink); min-width: 36px; text-align: right; }
+  .eq-value-num.private { color: var(--accent); }
+  .eq-value-num.shared { color: var(--teal); }
+  .eq-value-num.secret { color: var(--gold); font-size: 22px; }
+  .eq-slider { width: 100%; margin-top: 4px; accent-color: var(--accent); }
+  .eq-public-row { background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .eq-pub-label { font-size: 11px; color: var(--ink-faint); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+  .eq-pub-val { font-size: 20px; font-weight: 500; color: var(--ink); }
+  .eq-channel { text-align: center; padding: 12px; margin-bottom: 16px; position: relative; }
+  .eq-channel-line { height: 1px; background: var(--rule); position: absolute; top: 50%; left: 0; right: 0; }
+  .eq-channel-label { display: inline-block; background: var(--paper); padding: 4px 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); position: relative; z-index: 1; border: 1px solid var(--rule); border-radius: 20px; }
+  .eq-result { background: var(--paper-card); border: 2px solid var(--rule-soft); border-radius: 10px; padding: 18px 20px; text-align: center; transition: border-color 0.3s; }
+  .eq-result.match { border-color: var(--teal); background: var(--teal-light); }
+  .eq-result-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 8px; }
+  .eq-result.match .eq-result-label { color: var(--teal); }
+  .eq-result-nums { display: flex; align-items: center; justify-content: center; gap: 16px; font-size: 28px; font-weight: 500; }
+  .eq-result-sep { font-size: 14px; color: var(--ink-faint); font-weight: 300; }
+  .eq-result-msg { font-size: 13px; color: var(--ink-soft); margin-top: 8px; font-weight: 300; }
+  .eq-result.match .eq-result-msg { color: var(--teal); font-weight: 400; }
+  .eq-note { font-size: 12px; color: var(--ink-faint); line-height: 1.6; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--rule-soft); font-weight: 300; }
+  .legend-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-soft); font-weight: 300; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ─── Signature Demo ─── */
+  .sig-container { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .sig-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .sig-subtitle { font-size: 13px; color: var(--ink-soft); margin-bottom: 24px; line-height: 1.5; font-weight: 300; }
+  .sig-step { display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start; }
+  .sig-step-num { width: 26px; height: 26px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #a9cce3; margin-top: 2px; }
+  .sig-step-content { flex: 1; }
+  .sig-step-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .sig-step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .sig-panel { background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 8px; padding: 16px; margin: 10px 0; }
+  .sig-panel-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .sig-message-input { width: 100%; border: none; border-bottom: 1px solid var(--rule); background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 6px; outline: none; font-family: var(--sans); font-weight: 300; margin-bottom: 8px; }
+  .sig-message-input:focus { border-bottom-color: var(--accent-mid); }
+  .sig-value { font-family: 'Courier New', monospace; font-size: 12px; color: var(--ink-mid); word-break: break-all; line-height: 1.5; padding: 8px 10px; background: var(--paper-card); border-radius: 4px; border: 1px solid var(--rule-soft); min-height: 36px; }
+  .sig-value.highlight { color: var(--accent); border-color: #a9cce3; background: var(--accent-light); }
+  .sig-value.verified { color: var(--teal); border-color: var(--teal); background: var(--teal-light); }
+  .sig-value.failed { color: #922b21; border-color: #f1948a; background: #fdf2f2; }
+  .sig-value-label { font-size: 11px; color: var(--ink-faint); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .sig-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--paper-card); background: var(--accent); border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; margin-top: 10px; font-family: var(--sans); letter-spacing: 0.02em; transition: background 0.15s; }
+  .sig-btn:hover { background: #154360; }
+  .sig-btn.teal { background: var(--teal); }
+  .sig-btn.teal:hover { background: #155a50; }
+  .sig-btn.danger { background: #922b21; }
+  .sig-btn.danger:hover { background: #7b241c; }
+  .sig-tamper-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+  .sig-result-box { border-radius: 10px; padding: 18px 20px; text-align: center; margin-top: 16px; border: 2px solid var(--rule-soft); background: var(--paper-card); transition: all 0.3s; }
+  .sig-result-box.verified { border-color: var(--teal); background: var(--teal-light); }
+  .sig-result-box.failed { border-color: #e74c3c; background: #fdf2f2; }
+  .sig-result-icon { font-size: 28px; margin-bottom: 6px; }
+  .sig-result-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .sig-result-body { font-size: 13px; color: var(--ink-soft); line-height: 1.55; font-weight: 300; }
+  .sig-result-box.verified .sig-result-title { color: var(--teal); }
+  .sig-result-box.failed .sig-result-title { color: #922b21; }
+  .sig-result-box.verified .sig-result-body { color: #1a5c52; }
+  .sig-result-box.failed .sig-result-body { color: #7b241c; }
+
+  /* Branch callout */
+  .branch-block { border-left: 3px solid var(--accent-mid); background: var(--accent-light); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0; }
+  .branch-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 6px; }
+  .branch-title { font-size: 14px; font-weight: 500; color: var(--accent); margin-bottom: 6px; font-family: var(--serif); }
+  .branch-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log box */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-line { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  /* Completion */
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 32px 0; }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .eq-parties { grid-template-columns: 1fr; }
+    .header-title { font-size: 26px; }
+    .sig-tamper-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide</div>
+    <div class="header-title">Module A — The Founding Insight</div>
+    <div class="header-subtitle">The trunk of the tree. Everything else grew from here.</div>
+    <div class="module-badge">Foundation</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">The impossible problem</button>
+    <button class="tab-btn" onclick="showTab(1)">The 1976 breakthrough</button>
+    <button class="tab-btn" onclick="showTab(2)">The first branch</button>
+    <button class="tab-btn" onclick="showTab(3)">What this opens</button>
+    <button class="tab-btn" onclick="showTab(4)">Log entry</button>
+  </div>
+
+  <!-- Tab 0: The impossible problem -->
+  <div class="page active">
+    <div class="section-label">Module A.0 — Before 1976</div>
+
+    <p class="body-text">For most of human history, secure communication required something that sounds trivially obvious: if you wanted to send a private message, you and the recipient had to share a secret first. A codebook, a key, a prior meeting in a private place. Kings used couriers. Armies used physical codebooks distributed in person before battle. Banks used dedicated secure lines. The military had elaborate key distribution networks.</p>
+
+    <p class="body-text">This was not merely inconvenient. It was a hard structural limit on who could communicate privately. You could only have a confidential exchange with someone you had already met — or someone connected to you through a chain of trusted intermediaries. Strangers could not share secrets over open channels. That was simply not possible.</p>
+
+    <div class="pull-quote">
+      "The problem was not that ciphers were weak. The problem was more fundamental: any cipher strong enough to be useful required sharing a key — and sharing a key over an open channel defeated the purpose."
+    </div>
+
+    <p class="body-text">Think about what this meant in practice. If a bank in London wanted to communicate securely with a correspondent bank in Singapore, someone had to physically carry a key between them first. If a company wanted to open a secure communication channel with a new supplier, they had to establish trust through a chain of physical contact before a single encrypted message could be sent.</p>
+
+    <p class="body-text">The entire structure of secure communication was built on the assumption that private exchange required prior physical contact. For five thousand years, from Egyptian scribes to Second World War cipher machines, this assumption held. Nobody seriously believed it could be otherwise.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">The key distribution problem</div>
+          <div class="step-body">To encrypt a message, sender and receiver need to agree on the same key. But if you send the key over an open channel, anyone intercepting it can read all future messages. So the key has to travel securely — which requires another secure channel — which requires another key. The problem recurses infinitely.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Why this mattered for scale</div>
+          <div class="step-body">For small, closed systems — a military unit, a diplomatic corps — physical key distribution was expensive but workable. For open, global communication between strangers, it was impossible. The commercial internet, as we know it, could not have been built on symmetric cryptography alone.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">What a solution would have to do</div>
+          <div class="step-body">It would have to allow two parties who had <strong>never met</strong> — who shared <strong>no prior secret</strong> — to establish a shared secret <strong>over a channel that anyone could listen to</strong>. To most cryptographers in 1975, this sounded like a contradiction in terms.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Why this matters for your community engagement</div>
+      <div class="callout-body">The weight of the problem is what makes the solution astonishing. Before you explain what Diffie and Hellman did, make sure your audience feels what had seemed impossible. A solution that arrives without a sense of the problem it solved will feel like a neat trick rather than a genuine breakthrough. The "impossible problem" is your opening — the thing that makes the room lean in.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 15 minutes</div>
+      <div class="activity-title">Find your version of the problem</div>
+      <div class="activity-body">
+        <p>Before you can explain the breakthrough to your community, you need a version of the problem that lands for them. The key distribution problem is real — but it may not be the most vivid entry point for every audience.</p>
+        <ul class="prompt-list">
+          <li>Think of a moment when someone in your community needed to trust a stranger digitally — a payment, a login, a document — without any prior physical contact. What made that possible? What would have happened if it weren't possible?</li>
+          <li>What would your community lose if every secure digital interaction required a prior physical meeting to establish trust?</li>
+          <li>Write one sentence that captures the impossible problem in terms your specific community would immediately recognise.</li>
+        </ul>
+        <p>Keep that sentence. It is the opening of your community engagement.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 1: The 1976 breakthrough -->
+  <div class="page">
+    <div class="section-label">Module A.1 — New Directions in Cryptography, 1976</div>
+
+    <div class="callout-warm">
+      <div class="callout-warm-title">A note on the anniversary</div>
+      <div class="callout-warm-body">The DH50 celebration marks the publication of <em>New Directions in Cryptography</em> by Whitfield Diffie and Martin Hellman in the IEEE Transactions on Information Theory, November 1976. That paper — eleven pages, modestly titled — is what this anniversary commemorates. Ralph Merkle's contribution to the ideas that preceded it was real and significant, and we acknowledge it in the genealogy. But the 1976 IEEE paper is Diffie and Hellman's. When you represent this anniversary, that distinction matters.</div>
+    </div>
+
+    <p class="body-text">In November 1976, Whitfield Diffie and Martin Hellman published a paper that dissolved the key distribution problem entirely — not by making key transport more secure, but by making it unnecessary.</p>
+
+    <p class="body-text">Their insight, which Diffie later described as arriving in a single evening of thought, was this: what if a key didn't have to be the same thing for locking and unlocking? What if you could separate those two functions — so that one key, shared openly with the world, could lock a message, while only a different, private key could unlock it?</p>
+
+    <p class="body-text">This was the concept of <strong>public-key cryptography</strong>. And it rested on something that seems almost paradoxical: two parties who have never met can establish a shared secret over a completely open channel — with an eavesdropper listening to every word — and the eavesdropper still cannot reconstruct the secret.</p>
+
+    <p class="body-text">The mechanism that makes this possible — the Diffie-Hellman key exchange — relies on a beautiful mathematical asymmetry. Certain operations are easy to perform in one direction and practically impossible to reverse. Multiplying two large prime numbers together is fast. Factoring the result back into those primes is, for large enough numbers, computationally infeasible. This asymmetry is the lock — and it requires no physical key to be transported anywhere.</p>
+
+    <p class="body-text">Here is exactly how it works. Work through the four steps, then try the interactive demonstration below.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Public setup — agreed by everyone, in the open</div>
+          <div class="step-body">Alice and Bob agree on two public numbers that anyone can know: a large prime number <strong>p</strong> and a base generator <strong>g</strong>. In the demo below, p&nbsp;=&nbsp;23 and g&nbsp;=&nbsp;5. In real systems, p has hundreds of digits. An eavesdropper can see both numbers — that's fine.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Private keys — chosen secretly, never shared</div>
+          <div class="step-body">Alice secretly picks a private number <strong>a</strong>. Bob secretly picks a private number <strong>b</strong>. Neither tells the other. These numbers never leave their hands.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Public exchange — sent openly, revealing nothing</div>
+          <div class="step-body">Alice computes <strong>A = g<sup>a</sup> mod p</strong> and sends A to Bob — openly, over the public channel. Bob computes <strong>B = g<sup>b</sup> mod p</strong> and sends B to Alice. An eavesdropper sees both A and B. That's fine — knowing A and B is not enough to reconstruct the private numbers.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Shared secret — arrived at independently, by both</div>
+          <div class="step-body">Alice takes Bob's public value and computes <strong>s = B<sup>a</sup> mod p</strong>. Bob takes Alice's public value and computes <strong>s = A<sup>b</sup> mod p</strong>. Because of the commutative property of modular arithmetic, both calculations produce the same number — the shared secret. Neither sent it. The eavesdropper cannot derive it from A and B alone.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DH Interactive Demo -->
+    <div class="eq-container">
+      <div class="eq-title">Try it yourself — the Diffie-Hellman exchange</div>
+      <div class="eq-subtitle">Adjust Alice's and Bob's private numbers using the sliders. Watch the shared secret emerge — identical on both sides, never sent across the channel.</div>
+
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background: var(--accent)"></div> Private (known only to them)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--teal)"></div> Public (visible to anyone)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--gold)"></div> Shared secret</div>
+      </div>
+
+      <div class="eq-public-row">
+        <div>
+          <div class="eq-pub-label">Public base (g)</div>
+          <div class="eq-pub-val">5</div>
+        </div>
+        <div>
+          <div class="eq-pub-label">Public modulus (p)</div>
+          <div class="eq-pub-val">23</div>
+        </div>
+        <div style="flex:1; display:flex; align-items:flex-end; justify-content:flex-end;">
+          <span style="font-size:11px; color:var(--ink-faint); font-weight:300;">Known to everyone — including eavesdroppers</span>
+        </div>
+      </div>
+
+      <div class="eq-parties">
+        <div class="eq-party">
+          <div class="eq-party-name">Alice</div>
+          <div class="eq-value-row">
+            <span class="eq-value-label">Private number (a)</span>
+            <span class="eq-value-num private" id="alice-private">4</span>
+          </div>
+          <input type="range" class="eq-slider" id="alice-slider" min="2" max="11" value="4" oninput="updateDH()">
+          <div class="eq-value-row" style="margin-top:14px;">
+            <span class="eq-value-label">Sends publicly (g<sup>a</sup> mod p)</span>
+            <span class="eq-value-num shared" id="alice-public">4</span>
+          </div>
+        </div>
+        <div class="eq-party">
+          <div class="eq-party-name">Bob</div>
+          <div class="eq-value-row">
+            <span class="eq-value-label">Private number (b)</span>
+            <span class="eq-value-num private" id="bob-private">3</span>
+          </div>
+          <input type="range" class="eq-slider" id="bob-slider" min="2" max="11" value="3" oninput="updateDH()">
+          <div class="eq-value-row" style="margin-top:14px;">
+            <span class="eq-value-label">Sends publicly (g<sup>b</sup> mod p)</span>
+            <span class="eq-value-num shared" id="bob-public">10</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-channel">
+        <div class="eq-channel-line"></div>
+        <span class="eq-channel-label">Open channel — eavesdroppers see A and B, not the private numbers</span>
+      </div>
+
+      <div class="eq-result" id="dh-result">
+        <div class="eq-result-label">Shared secret independently computed</div>
+        <div class="eq-result-nums">
+          <span id="alice-secret" style="color:var(--gold)">—</span>
+          <span class="eq-result-sep">Alice · Bob</span>
+          <span id="bob-secret" style="color:var(--gold)">—</span>
+        </div>
+        <div class="eq-result-msg" id="dh-msg">Move the sliders to see the exchange</div>
+      </div>
+
+      <div class="eq-note">The eavesdropper sees g, p, A, and B — all four public values. To find the shared secret, they would need to solve the discrete logarithm problem: given A = g<sup>a</sup> mod p, find a. For the small numbers here, trial and error works. For numbers with hundreds of digits, no computer built or conceivable can do it in any practical timeframe. That gap between easy and impossible is what Diffie and Hellman harnessed.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection — 10 minutes</div>
+      <div class="activity-title">What just happened?</div>
+      <div class="activity-body">
+        <p>Try several different combinations of private numbers. Notice that the shared secret always matches — and that the public values alone don't reveal it.</p>
+        <ul class="prompt-list">
+          <li>What would an eavesdropper need in order to crack this — and what makes that hard with large numbers?</li>
+          <li>The security of this system rests on a mathematical problem being hard to reverse. What does it mean for billions of people's security to rest on a mathematical assumption? What if that assumption turned out to be wrong?</li>
+          <li>When you explain this to your community, what analogy will you use? Test one now — write it out in a sentence.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: The first branch — Digital Signatures -->
+  <div class="page">
+    <div class="section-label">Module A.2 — The first branch: Digital Signatures</div>
+
+    <p class="body-text">Diffie and Hellman's 1976 paper did something that the best scientific papers do: it solved one problem so cleanly that it immediately revealed the next one. They had shown how two strangers could establish a shared secret. But the paper went further — it sketched a possibility that even Diffie and Hellman hadn't fully solved yet: <strong>digital signatures</strong>.</p>
+
+    <p class="body-text">A shared secret lets two parties communicate privately. But what about a different problem: how do you prove that a message came from who it claims to come from — and hasn't been altered since? In the physical world, we use handwritten signatures and notaries. These work because a signature is hard to forge and easy to verify by someone who knows your handwriting. Could mathematics do the same thing?</p>
+
+    <p class="body-text">Within a year of the 1976 paper, three mathematicians at MIT — Ron Rivest, Adi Shamir, and Len Adleman — used the public-key framework Diffie and Hellman had opened to build exactly that. RSA, published in 1977, gave the world its first practical digital signature scheme. The logic inverts the key exchange: instead of using a public key to lock a message that only a private key can unlock, a digital signature uses a <strong>private key to sign</strong> a message that anyone with the corresponding <strong>public key can verify</strong>.</p>
+
+    <div class="pull-quote">
+      "The key exchange said: we can share a secret without meeting. The digital signature said: I can prove this came from me — mathematically, verifiably, without a notary's office anywhere in sight."
+    </div>
+
+    <p class="body-text">This was the first branch growing from the trunk. And it was generative in its own right: digital signatures eventually became the foundation of digital certificates, certificate authorities, code signing, legally binding electronic documents, land registries, and the entire infrastructure of institutional trust online.</p>
+
+    <p class="body-text">The demonstration below shows how digital signatures work — and lets you experience the moment where tampered content is caught. This is the genealogy in miniature: watch the idea extend from key exchange into something new.</p>
+
+    <!-- Digital Signature Interactive Demo -->
+    <div class="sig-container">
+      <div class="sig-title">Try it yourself — Digital Signatures</div>
+      <div class="sig-subtitle">Alice signs a message with her private key. Anyone with her public key can verify it. Watch what happens when the message is tampered with after signing.</div>
+
+      <div class="sig-step">
+        <div class="sig-step-num">1</div>
+        <div class="sig-step-content">
+          <div class="sig-step-title">Alice writes and signs a message</div>
+          <div class="sig-step-body">Edit the message below, then click Sign. Alice's private key generates a unique signature that is mathematically tied to both her identity and the exact content of the message.</div>
+          <div class="sig-panel">
+            <div class="sig-panel-label">Alice's message</div>
+            <input class="sig-message-input" id="sig-message" type="text" value="I authorise the transfer of 500 USD to account 8842." placeholder="Type a message...">
+            <button class="sig-btn" onclick="signMessage()">✦ Sign with Alice's private key</button>
+          </div>
+          <div id="sig-output-area" style="display:none; margin-top:12px;">
+            <div class="sig-value-label">Signature (sent openly alongside the message)</div>
+            <div class="sig-value highlight" id="sig-display">—</div>
+            <div style="font-size:12px; color:var(--ink-faint); margin-top:6px; font-weight:300;">This signature is unique to this exact message and Alice's private key. Change one character of the message and the signature becomes invalid.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig-step" id="sig-step2" style="opacity:0.4; pointer-events:none;">
+        <div class="sig-step-num">2</div>
+        <div class="sig-step-content">
+          <div class="sig-step-title">Bob verifies — or a tamper is attempted</div>
+          <div class="sig-step-body">Bob receives the message and signature. He uses Alice's public key to verify that the signature matches the message. Or — try tampering with the message first, to see what happens.</div>
+          <div class="sig-tamper-row">
+            <button class="sig-btn teal" onclick="verifyMessage(false)">✓ Verify with Alice's public key</button>
+            <button class="sig-btn danger" onclick="tamperAndVerify()">⚡ Tamper with message, then verify</button>
+          </div>
+          <div class="sig-result-box" id="sig-result" style="display:none;">
+            <div class="sig-result-icon" id="sig-result-icon">—</div>
+            <div class="sig-result-title" id="sig-result-title">—</div>
+            <div class="sig-result-body" id="sig-result-body">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-note" style="margin-top:16px;">In a real system, Alice's public key is distributed openly — published in a certificate, embedded in a browser, stored in a registry. Anyone can verify her signature without contacting her, without trusting an intermediary, and without any physical meeting ever having taken place. The verification is mathematical. It cannot be bribed, and it does not require trust in the verifier's judgement — only trust in the mathematics.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection — 10 minutes</div>
+      <div class="activity-title">One idea, two applications</div>
+      <div class="activity-body">
+        <p>You've now seen both branches of the founding insight at work. The key exchange established a shared secret. The digital signature proved identity and integrity.</p>
+        <ul class="prompt-list">
+          <li>What do these two capabilities have in common — and what does each one make possible that the other doesn't?</li>
+          <li>Where in your community's daily life does each one show up — even invisibly? Name a specific example for each.</li>
+          <li>Digital signatures are now legally binding in most of the world. What had to change — technically, legally, institutionally — for that to happen? What does that tell you about how the genealogy works?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: What this opens -->
+  <div class="page">
+    <div class="section-label">Module A.3 — The genealogy begins</div>
+
+    <p class="body-text">You have now seen the trunk of the tree and its first branch. But look at what those two ideas — key exchange and digital signatures — made possible together. They gave the world a way to communicate privately with strangers, and a way to prove the origin and integrity of any digital object. That combination is the foundation on which nearly everything else in the digital economy was built.</p>
+
+    <p class="body-text">This is what we mean by the genealogy. Not a linear history — a branching tree, where each new application grew from the same root logic, shaped by the specific pressures and needs of its moment. TLS and HTTPS grew from the need to secure web traffic at scale. Digital certificates grew from the need to verify identity across the open internet. Payment rails grew from the need to move money between strangers without physical contact. National identity systems grew from the need to prove who you are to a government system that has never met you.</p>
+
+    <p class="body-text">Each branch is still growing. Post-quantum cryptography is the response to the threat that quantum computers pose to the mathematics the whole tree depends on. AI content provenance is the newest branch — the attempt to apply cryptographic trust to a world where any piece of content can be generated at negligible cost.</p>
+
+    <div class="pull-quote">
+      "The 1976 paper didn't just solve a problem. It opened a territory. Fifty years later, we are still mapping it."
+    </div>
+
+    <p class="body-text">The Present Ambassador's job is to understand that territory well enough to navigate it in real time — to walk into any community and find the branch that is most alive and relevant for the people in the room. Not always the most obvious branch. Often the most surprising one.</p>
+
+    <div class="branch-block">
+      <div class="branch-label">The branches — explored in Module B</div>
+      <div class="branch-title">Six tracks, one genealogy</div>
+      <div class="branch-body">Module B traces six major branches from the founding insight: securing the web (TLS and HTTPS), identity and authentication, payments and financial infrastructure, digital signatures and legal validity, post-quantum pressures, and AI and verifiable content. Each track builds the genealogical fluency you need to engage your specific community — and each ends with the question that connects it to the present moment in your region.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 20 minutes</div>
+      <div class="activity-title">Sketch your genealogy instinct</div>
+      <div class="activity-body">
+        <p>Before you move into Module B, spend twenty minutes with the following. This is not a test — it is a calibration. You will return to it after completing Module B to see how your understanding deepened.</p>
+        <ul class="prompt-list">
+          <li>Draw a rough tree — on paper, in a notes app, however suits you. Put the 1976 DH paper at the root. Add every branch you can already name. Label each one with one word describing the pressure that drove it: a technical need, a deployment constraint, a human reality, a policy demand.</li>
+          <li>Which branch is most present in your community's daily life — and which is most invisible?</li>
+          <li>Which branch do you understand least well — and which feels most important to understand before you engage your community?</li>
+        </ul>
+        <p>Keep the sketch. Module B will fill it in.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The genealogy habit</div>
+      <div class="callout-body">From this point forward, whenever you encounter a piece of cryptographic infrastructure — a padlock in your browser, a payment confirmation, a digital identity check, a signed document — ask: which branch is this? What pressure shaped it? What does it make possible that wasn't possible before? What problem does it still not solve? This habit is what separates genuine fluency from surface familiarity.</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Log entry -->
+  <div class="page">
+    <div class="section-label">Module A — Log Entry</div>
+
+    <p class="body-text">You've seen the founding insight, worked through both demonstrations, and sketched your first instinct at the genealogy. Before you move into Module B, record where you are.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 2 — The founding insight</div>
+
+      <div class="log-field">
+        <label class="log-label">The analogy you'll use to explain the key exchange to your community</label>
+        <textarea class="log-area" rows="2" placeholder="One sentence. Something drawn from their world, not yours."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Where digital signatures show up in your community — specifically</label>
+        <textarea class="log-area" rows="2" placeholder="Not 'in banking' — which bank, which transaction, which moment?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The branch of the genealogy you most want to understand before engaging your community</label>
+        <textarea class="log-area" rows="2" placeholder="And why that one?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The question Module A left you with</label>
+        <textarea class="log-area" rows="2" placeholder="The thing you don't yet know how to answer."></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module A complete</div>
+      <div class="completion-body">You understand the founding insight — not just what it solved, but why it was a genuine opening, and how its first branch grew from it. You have the trunk of the tree. Module B traces the branches — six tracks, each covering a major evolution of the original insight, each ending with the question that connects it to your community today.</div>
+      <div class="badge-row">
+        <span class="badge-pill">Founding insight — understood</span>
+        <span class="badge-pill">Genealogy sketch — started</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+/* ── DH Demo ── */
+function modpow(base, exp, mod) {
+  let result = 1;
+  base = base % mod;
+  while (exp > 0) {
+    if (exp % 2 === 1) result = (result * base) % mod;
+    exp = Math.floor(exp / 2);
+    base = (base * base) % mod;
+  }
+  return result;
+}
+
+function updateDH() {
+  const g = 5, p = 23;
+  const a = parseInt(document.getElementById('alice-slider').value);
+  const b = parseInt(document.getElementById('bob-slider').value);
+  const A = modpow(g, a, p);
+  const B = modpow(g, b, p);
+  const aliceSecret = modpow(B, a, p);
+  const bobSecret   = modpow(A, b, p);
+
+  document.getElementById('alice-private').textContent = a;
+  document.getElementById('bob-private').textContent   = b;
+  document.getElementById('alice-public').textContent  = A;
+  document.getElementById('bob-public').textContent    = B;
+  document.getElementById('alice-secret').textContent  = aliceSecret;
+  document.getElementById('bob-secret').textContent    = bobSecret;
+
+  const result = document.getElementById('dh-result');
+  const msg    = document.getElementById('dh-msg');
+  if (aliceSecret === bobSecret) {
+    result.className = 'eq-result match';
+    msg.textContent  = 'They agree — the shared secret is ' + aliceSecret + '. Neither sent it. Anyone listening heard only ' + A + ' and ' + B + '.';
+  } else {
+    result.className = 'eq-result';
+    msg.textContent  = 'Computing…';
+  }
+}
+updateDH();
+
+/* ── Digital Signature Demo ──
+   Simulated using a simple polynomial hash + RSA-like toy arithmetic.
+   The numbers are not cryptographically meaningful — the logic is.
+*/
+
+// Toy RSA-like parameters (small, illustrative only)
+// p=61, q=53 → n=3233, φ=3120, e=17, d=2753
+const SIG_N = 3233;
+const SIG_E = 17;   // public exponent
+const SIG_D = 2753; // private exponent
+
+function toyHash(str) {
+  // Simple polynomial hash mapped into [1, SIG_N-1]
+  let h = 7;
+  for (let i = 0; i < str.length; i++) {
+    h = (h * 31 + str.charCodeAt(i)) % (SIG_N - 1);
+  }
+  return h === 0 ? 1 : h;
+}
+
+function toyModpow(base, exp, mod) {
+  let result = 1n;
+  let b = BigInt(base) % BigInt(mod);
+  let e = BigInt(exp);
+  const m = BigInt(mod);
+  while (e > 0n) {
+    if (e % 2n === 1n) result = (result * b) % m;
+    e = e / 2n;
+    b = (b * b) % m;
+  }
+  return Number(result);
+}
+
+let currentSignature = null;
+let signedMessage = null;
+
+function signMessage() {
+  const msg = document.getElementById('sig-message').value.trim();
+  if (!msg) return;
+
+  const hash = toyHash(msg);
+  // Sign: signature = hash^d mod n  (private key operation)
+  const sig = toyModpow(hash, SIG_D, SIG_N);
+
+  currentSignature = sig;
+  signedMessage = msg;
+
+  // Display
+  const sigHex = sig.toString(16).toUpperCase().padStart(6, '0');
+  document.getElementById('sig-display').textContent = `SIG-${sigHex} (hash=${hash}, s=${sig} mod ${SIG_N})`;
+  document.getElementById('sig-output-area').style.display = 'block';
+
+  // Enable step 2
+  const step2 = document.getElementById('sig-step2');
+  step2.style.opacity = '1';
+  step2.style.pointerEvents = 'auto';
+  document.getElementById('sig-result').style.display = 'none';
+}
+
+function verifyMessage(tampered) {
+  if (currentSignature === null) return;
+
+  let messageToVerify = tampered
+    ? document.getElementById('sig-message').value.trim() + ' [TAMPERED]'
+    : document.getElementById('sig-message').value.trim();
+
+  const hash = toyHash(messageToVerify);
+  // Verify: recovered = signature^e mod n  (public key operation)
+  const recovered = toyModpow(currentSignature, SIG_E, SIG_N);
+  const valid = (recovered === hash) && !tampered;
+
+  const box   = document.getElementById('sig-result');
+  const icon  = document.getElementById('sig-result-icon');
+  const title = document.getElementById('sig-result-title');
+  const body  = document.getElementById('sig-result-body');
+
+  box.style.display = 'block';
+
+  if (valid) {
+    box.className = 'sig-result-box verified';
+    icon.textContent = '✓';
+    title.textContent = 'Signature verified';
+    body.textContent = `The message is authentic and unaltered. Alice's public key confirms the signature matches — hash ${hash} recovered correctly. This message came from Alice and has not been changed since she signed it.`;
+  } else {
+    box.className = 'sig-result-box failed';
+    icon.textContent = '✗';
+    title.textContent = 'Signature invalid — tampering detected';
+    body.textContent = `The message has been altered. Alice's public key recovers hash ${recovered}, but the message now hashes to ${hash}. They don't match. The signature is invalid — and anyone verifying it knows the message was changed after signing.`;
+  }
+}
+
+function tamperAndVerify() {
+  verifyMessage(true);
+}
+</script>
+</body>
+</html>

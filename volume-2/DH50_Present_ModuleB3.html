@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module B3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --green: #1a7a3a; --green-light: #e8f8ee;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  .incident-box { background: var(--red-light); border: 1px solid #f1948a; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .incident-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .incident-title { font-size: 14px; font-weight: 500; color: var(--red); margin-bottom: 8px; font-family: var(--serif); }
+  .incident-body { font-size: 13px; color: #6e2018; line-height: 1.65; font-weight: 300; }
+
+  /* Payment flow demo */
+  .flow-container { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .flow-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .flow-subtitle { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; margin-bottom: 22px; }
+  .flow-tabs { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+  .flow-tab { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--rule); background: var(--paper-warm); color: var(--ink-soft); cursor: pointer; transition: all 0.15s; font-family: var(--sans); }
+  .flow-tab:hover { color: var(--ink); }
+  .flow-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .flow-panel { display: none; }
+  .flow-panel.active { display: block; }
+  .flow-era { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 5px; }
+  .flow-name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; font-family: var(--serif); }
+  .flow-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; margin-bottom: 14px; }
+  .flow-crypto-note { background: var(--accent-light); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--accent); line-height: 1.6; font-weight: 400; }
+  .flow-crypto-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 4px; }
+
+  /* Remittance calculator */
+  .remit-container { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .remit-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .remit-subtitle { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; margin-bottom: 22px; }
+  .remit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .remit-field { }
+  .remit-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; display: block; }
+  .remit-input { width: 100%; border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; font-size: 15px; font-weight: 500; color: var(--ink); background: var(--paper-warm); font-family: var(--sans); outline: none; }
+  .remit-input:focus { border-color: var(--accent-mid); }
+  .remit-select { width: 100%; border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; font-size: 13px; color: var(--ink); background: var(--paper-warm); font-family: var(--sans); outline: none; cursor: pointer; }
+  .remit-results { margin-top: 8px; }
+  .remit-result-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--rule-soft); }
+  .remit-result-row:last-child { border-bottom: none; }
+  .remit-result-label { font-size: 13px; color: var(--ink-mid); font-weight: 300; }
+  .remit-result-label.bold { font-weight: 500; color: var(--ink); }
+  .remit-result-val { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .remit-result-val.cost { color: var(--red); }
+  .remit-result-val.received { color: var(--green); }
+  .remit-result-val.ideal { color: var(--teal); }
+  .remit-divider { height: 1px; background: var(--rule); margin: 8px 0; }
+  .remit-note { font-size: 12px; color: var(--ink-faint); line-height: 1.6; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--rule-soft); font-weight: 300; }
+
+  /* Payments model comparison */
+  .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .model-card { border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; background: var(--paper-card); }
+  .model-flag { font-size: 22px; margin-bottom: 8px; }
+  .model-name { font-size: 13px; font-weight: 500; color: var(--accent); margin-bottom: 2px; }
+  .model-type { font-size: 11px; color: var(--ink-faint); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .model-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .model-stat { display: inline-block; font-size: 12px; font-weight: 500; color: var(--teal); background: var(--teal-light); border-radius: 4px; padding: 2px 8px; margin-top: 8px; }
+
+  /* Timeline */
+  .timeline { margin: 24px 0; }
+  .tl-item { display: flex; gap: 16px; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -4px; width: 1px; background: var(--rule); }
+  .tl-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 4px; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-mid); border: 2px solid var(--accent-light); flex-shrink: 0; }
+  .tl-content { padding-bottom: 24px; flex: 1; }
+  .tl-year { font-size: 11px; font-weight: 500; color: var(--accent-mid); letter-spacing: 0.08em; margin-bottom: 3px; }
+  .tl-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .remit-row { grid-template-columns: 1fr; }
+    .model-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide · Module B</div>
+    <div class="header-title">B3 — Payments and Financial Infrastructure</div>
+    <div class="header-subtitle">How cryptographic trust moves money between strangers — and why the rails matter as much as the money.</div>
+    <div class="module-badge">Track 3 of 6</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">The trust problem in payments</button>
+    <button class="tab-btn" onclick="showTab(1)">How payments evolved</button>
+    <button class="tab-btn" onclick="showTab(2)">Public rails</button>
+    <button class="tab-btn" onclick="showTab(3)">Remittances</button>
+    <button class="tab-btn" onclick="showTab(4)">Stress points</button>
+    <button class="tab-btn" onclick="showTab(5)">Your community</button>
+    <button class="tab-btn" onclick="showTab(6)">Log entry</button>
+  </div>
+
+  <!-- Tab 0: The trust problem in payments -->
+  <div class="page active">
+    <div class="section-label">B3.0 — Money is a trust problem</div>
+
+    <p class="body-text">Money has always been a trust problem. A coin works because people trust the authority that minted it. A banknote works because people trust the institution that issued it. A cheque works because a recipient trusts that the sender's bank will honour it. Every form of payment in human history has been, at its core, a mechanism for establishing trust between parties who may have no prior relationship.</p>
+
+    <p class="body-text">For most of that history, trust was institutionalised: banks, clearinghouses, correspondent networks, central banks. These intermediaries sat between every transaction, vouching for the parties, settling the obligations, and taking a fee for the service. The system worked — for those who could access it. For those who couldn't — the unbanked, the migrant worker without documentation, the small business in a market outside the correspondent banking network — the cost was exclusion from the formal economy.</p>
+
+    <p class="body-text">What cryptographic trust changed — not immediately, not completely, but fundamentally — was the possibility of reducing dependence on institutional intermediaries. If mathematics can verify identity, authenticate a transaction, and guarantee that a message has not been tampered with, then the case for a human institution sitting in the middle of every exchange becomes weaker. Not eliminated — the institutional layer carries functions that cryptography alone cannot replace — but weaker.</p>
+
+    <div class="pull-quote">
+      "The question payments infrastructure asks of cryptography is not 'can you make this private?' It is 'can you make this trustworthy — without requiring me to trust a middleman I cannot afford, cannot access, or cannot afford to trust?'"
+    </div>
+
+    <p class="body-text">That question has been answered differently in different contexts, at different scales, under different political pressures. The result is a genealogy of payment infrastructure that is among the most consequential — and most unequal — in the story of cryptographic trust.</p>
+
+    <div class="activity-box">
+      <div class="activity-label">Opening reflection — 5 minutes</div>
+      <div class="activity-title">Trace the trust in your last payment</div>
+      <div class="activity-body">
+        <p>Think about the last payment you made — any payment, digital or physical. Before you read further, trace the chain of trust it required:</p>
+        <ul class="prompt-list">
+          <li>How many institutions sat between you and the recipient? Who were they, and what did each one verify?</li>
+          <li>How much did each step cost — in fees, in time, in friction? Who bore that cost?</li>
+          <li>What would have happened if one institution in the chain had failed, refused, or been unavailable to you?</li>
+        </ul>
+        <p>Keep this chain in mind as you move through the module. By the end, you will be able to name exactly where cryptographic trust enters it — and where it still doesn't.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 1: How payments evolved -->
+  <div class="page">
+    <div class="section-label">B3.1 — The payments genealogy</div>
+
+    <p class="body-text">The genealogy of cryptographic trust in payments follows the same pattern as the other branches — practical need drove deployment, deployment revealed new vulnerabilities, and each response created the conditions for the next evolution. But payments have a distinctive character: the pressure in this branch has always been simultaneously technical, commercial, and deeply political.</p>
+
+    <div class="flow-container">
+      <div class="flow-title">Five generations of payment trust</div>
+      <div class="flow-subtitle">Select a generation to understand the cryptographic mechanism underneath it — and the pressure that drove the evolution to the next.</div>
+
+      <div class="flow-tabs">
+        <button class="flow-tab active" onclick="showFlow(0)">Magnetic stripe</button>
+        <button class="flow-tab" onclick="showFlow(1)">EMV chip</button>
+        <button class="flow-tab" onclick="showFlow(2)">Online payments</button>
+        <button class="flow-tab" onclick="showFlow(3)">Mobile money</button>
+        <button class="flow-tab" onclick="showFlow(4)">Real-time rails</button>
+      </div>
+
+      <div class="flow-panel active" id="flow-0">
+        <div class="flow-era">1960s — 1990s</div>
+        <div class="flow-name">Magnetic stripe cards — trust through physical possession</div>
+        <div class="flow-body">The magnetic stripe card encoded account information on a physical medium that required physical presence to use. Security relied on possession of the card and, optionally, knowledge of a PIN. There was no cryptography in the transaction itself — the stripe contained static data that could be read, copied, and replayed by anyone with a card reader.<br><br>The result was predictable: card skimming fraud grew alongside card adoption. By the late 1990s, counterfeit card fraud was costing the payments industry billions annually. The magnetic stripe was not a cryptographic system — it was a physical access control system, and physical access controls have a fundamental weakness: the data they protect can be copied.</div>
+        <div class="flow-crypto-note">
+          <div class="flow-crypto-label">Cryptographic trust level</div>
+          None in the transaction itself. Security depended entirely on physical possession and the card network's fraud detection systems — pattern matching after the fact rather than cryptographic verification at the point of transaction.
+        </div>
+      </div>
+
+      <div class="flow-panel" id="flow-1">
+        <div class="flow-era">1994 — present</div>
+        <div class="flow-name">EMV chip — cryptographic authentication at point of sale</div>
+        <div class="flow-body">EMV (Europay, Mastercard, Visa) replaced the static magnetic stripe with a microprocessor chip that performs a cryptographic challenge-response at the point of sale. The terminal sends a challenge; the chip signs it with a private key stored in tamper-resistant hardware that never leaves the card. The payment network verifies the response. Each transaction produces a unique cryptographic proof that cannot be replayed — even if an attacker captures the transaction data, it is useless for a subsequent fraudulent transaction.<br><br>The genealogy connection is direct: EMV uses asymmetric cryptography derived from the same public-key principles that DHM and RSA established. The card's chip holds a private key. The payment network holds the corresponding public key. The authentication is a digital signature on the transaction data — the same mechanism that Module A demonstrated with Alice's message.<br><br>The shift to EMV in Europe (mandated from 2005) dramatically reduced card-present fraud. The US delayed adoption until 2015 — a commercial and political decision, not a technical one — and continued to experience fraud rates significantly higher than European markets during that decade.</div>
+        <div class="flow-crypto-note">
+          <div class="flow-crypto-label">Cryptographic trust level</div>
+          High for card-present transactions. The chip's private key cannot be extracted; each transaction is cryptographically unique. Fraud shifted to card-not-present (online) transactions where the chip cannot participate.
+        </div>
+      </div>
+
+      <div class="flow-panel" id="flow-2">
+        <div class="flow-era">1994 — present</div>
+        <div class="flow-name">Online payments — TLS as the payment channel</div>
+        <div class="flow-body">When commerce moved online, the payment problem became a channel problem: how do you transmit card details securely over the internet? The answer was TLS — the same branch of the genealogy covered in Module B1. SSL, developed by Netscape in 1994 partly in response to the need for secure online commerce, enabled the first encrypted payment transactions over the web.<br><br>But TLS solves the channel problem, not the card-not-present authentication problem. Your card details travel encrypted — but the merchant has no way to verify that the person entering the card number is its legitimate holder. This gap produced card-not-present fraud, which grew as EMV reduced card-present fraud. The response was 3D Secure — an additional authentication layer that redirects the cardholder to their bank for a second factor during the payment. 3D Secure 2.0, released in 2019, uses risk-based authentication and device fingerprinting to make the process less disruptive while maintaining security.<br><br>The genealogy compounds: online payment security requires TLS for the channel, EMV-derived cryptography for the card credential, and additional authentication layers for identity verification. Each branch weaves into the others.</div>
+        <div class="flow-crypto-note">
+          <div class="flow-crypto-label">Cryptographic trust level</div>
+          Channel security is strong (TLS). Cardholder authentication remains a layered problem — strong with 3DS2, weaker without. The fundamental issue is that card numbers are static credentials not bound to a specific device or person.
+        </div>
+      </div>
+
+      <div class="flow-panel" id="flow-3">
+        <div class="flow-era">2007 — present</div>
+        <div class="flow-name">Mobile money — reaching beyond the banking system</div>
+        <div class="flow-body">M-Pesa launched in Kenya in 2007 as a mobile money transfer service built on the existing mobile telephone network — reaching people who had never held a bank account. By 2012 it was processing more transactions in Kenya than the entire formal banking system. By 2023 it had expanded across sub-Saharan Africa, South Asia, and Eastern Europe, serving over 50 million customers.<br><br>M-Pesa's cryptographic architecture uses SIM-based authentication — the SIM card acts as a secure credential store, and transactions are authenticated through the mobile network's own cryptographic protocols (A3/A8 algorithms in GSM; KASUMI and SNOW in 3G/4G). The trust anchor is the telecom operator rather than a bank. This was a radical reorientation of the payments genealogy: instead of extending banking infrastructure to the unbanked, M-Pesa built a parallel infrastructure on top of telecommunications infrastructure that already reached them.<br><br>The lesson that reverberated around the world: the choice of trust anchor — who vouches for the transaction — is a political and commercial decision, not a technical one. Different anchors produce different inclusion and exclusion profiles.</div>
+        <div class="flow-crypto-note">
+          <div class="flow-crypto-label">Cryptographic trust level</div>
+          Moderate. SIM-based authentication is robust but not phishing-resistant. The trust anchor (telecom operator) is a single point of control with both commercial and regulatory dependencies. SIM swap fraud — where an attacker convinces a telecom to reassign a victim's number — has become the primary attack vector.
+        </div>
+      </div>
+
+      <div class="flow-panel" id="flow-4">
+        <div class="flow-era">2010 — present</div>
+        <div class="flow-name">Real-time payment rails — public infrastructure for money movement</div>
+        <div class="flow-body">The most consequential recent development in payments infrastructure is the emergence of real-time payment rails — government or quasi-government systems that allow instant, low-cost transfers between any bank account, accessible to any participant. India's UPI (Unified Payments Interface), launched in 2016, processes over 10 billion transactions monthly across more than 300 participating banks. Brazil's Pix, launched in 2020, became the country's most-used payment method within two years. The UK's Faster Payments, the EU's SEPA Instant, Singapore's PayNow — the same model, different implementations.<br><br>The cryptographic architecture of these systems is sophisticated: digital signatures authenticate every transaction instruction; public-key infrastructure verifies participating institutions; end-to-end encryption protects transaction data; and in UPI's case, a tokenisation layer means that users share a virtual payment address rather than their actual bank account details.<br><br>The political significance is as important as the technical architecture. By building payment rails as public infrastructure — like roads or electricity grids — these systems enable competition on top of the rails rather than competition for control of the rails. Any app can access UPI; any bank can participate in Pix. The trust infrastructure is a public good. The services on top of it can be commercial.</div>
+        <div class="flow-crypto-note">
+          <div class="flow-crypto-label">Cryptographic trust level</div>
+          High. Real-time rails use layered cryptographic authentication, tokenisation, and end-to-end encryption. The primary risk is not cryptographic weakness but social engineering — phishing and authorised push payment fraud, where victims are tricked into initiating legitimate-looking transactions to fraudulent recipients.
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Genealogy check — 10 minutes</div>
+      <div class="activity-title">Update your tree</div>
+      <div class="activity-body">
+        <p>The payments branch of the genealogy is unusually wide — it touches TLS (B1), authentication (B2), and has its own internal evolution from magnetic stripe to real-time rails.</p>
+        <ul class="prompt-list">
+          <li>What was the specific failure mode that drove each evolution? Magnetic stripe → EMV. Online card → 3DS. Card-based systems → mobile money. Each transition was forced by a cost that became too high to ignore. Name each one.</li>
+          <li>Which of the five generations is most present in your community's daily life? Which is absent — and what does that absence reveal about the infrastructure available to your community?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Public rails -->
+  <div class="page">
+    <div class="section-label">B3.2 — When payment infrastructure becomes a public good</div>
+
+    <p class="body-text">The emergence of real-time public payment rails is one of the most significant developments in the recent history of financial infrastructure — and one of the least understood by the communities that use them. The choice to build payment infrastructure as a public good, rather than leaving it to private networks, is a political choice with profound consequences for competition, inclusion, and sovereignty.</p>
+
+    <div class="model-grid">
+      <div class="model-card">
+        <div class="model-flag">🇮🇳</div>
+        <div class="model-name">UPI — Unified Payments Interface</div>
+        <div class="model-type">India · Public infrastructure · 2016</div>
+        <div class="model-body">Built by the National Payments Corporation of India as open, interoperable infrastructure. Any bank, any payment app can participate. Transactions are free to consumers. The system uses tokenised virtual payment addresses — no bank account number is ever shared in a transaction. UPI became the world's largest real-time payment system by volume, surpassing Visa and Mastercard combined in transaction count by 2022.</div>
+        <div class="model-stat">14 billion transactions/month (2024)</div>
+      </div>
+      <div class="model-card">
+        <div class="model-flag">🇧🇷</div>
+        <div class="model-name">Pix</div>
+        <div class="model-type">Brazil · Central bank mandate · 2020</div>
+        <div class="model-body">Mandated by Brazil's central bank and made available 24/7, Pix reached 150 million users within 18 months of launch — making it the fastest adoption of any payment system in history. Participation was mandatory for financial institutions above a threshold size. Its success accelerated financial inclusion in a country where millions had been excluded from the formal banking system by fees and friction.</div>
+        <div class="model-stat">150M+ registered users</div>
+      </div>
+      <div class="model-card">
+        <div class="model-flag">🇸🇬</div>
+        <div class="model-name">PayNow / Project Nexus</div>
+        <div class="model-type">Singapore · Cross-border extension</div>
+        <div class="model-body">Singapore's PayNow was notable not just domestically but as the anchor for Project Nexus — a BIS Innovation Hub initiative to link the real-time payment systems of multiple countries into a single interoperable network. Nexus uses a standardised cryptographic messaging format and routing layer that allows a UPI transaction in India to settle directly into a PayNow account in Singapore without correspondent banking intermediaries.</div>
+        <div class="model-stat">Connected to India, Malaysia, Thailand</div>
+      </div>
+      <div class="model-card">
+        <div class="model-flag">🌍</div>
+        <div class="model-name">Gaps in the map</div>
+        <div class="model-type">Where public rails don't reach</div>
+        <div class="model-body">Much of sub-Saharan Africa, the Middle East, and parts of Latin America and Southeast Asia lack interoperable public payment rails. Where they exist, they are often fragmented by national boundaries. The result is that the communities who most need low-cost, accessible payment infrastructure are often the least served by it — and most dependent on private networks that extract the highest fees.</div>
+        <div class="model-stat" style="background:var(--red-light); color:var(--red);">Infrastructure gap</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The rails are the point</div>
+      <div class="callout-body">When presenting payments to a community, the temptation is to focus on the apps — GPay, PhonePe, PayPal, M-Pesa. These are visible and familiar. But the apps are the surface. The rails are the infrastructure that determines what the apps can do, who can build them, how much they can charge, and who gets included or excluded. A community that understands the difference between competing on rails and competing for control of rails is a community that can ask better questions about the payment infrastructure being built in their name.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Research task — 20 minutes</div>
+      <div class="activity-title">Map the rails in your region</div>
+      <div class="activity-body">
+        <p>Before your community engagement on payments, answer the following:</p>
+        <ul class="prompt-list">
+          <li>Does your country have a real-time payment rail? Who built it, who operates it, and who has access to it? Is it public infrastructure or privately controlled?</li>
+          <li>What is the most-used payment method in your community — and what is the trust architecture underneath it? Who is the trust anchor?</li>
+          <li>Are there communities in your region that are excluded from the dominant payment infrastructure — and what do they use instead?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Remittances -->
+  <div class="page">
+    <div class="section-label">B3.3 — The remittance gap: where the rails run out</div>
+
+    <p class="body-text">Remittances — money sent by migrants to their families in their home countries — represent one of the most important financial flows in the global economy. In 2023, officially recorded remittance flows to low- and middle-income countries exceeded $650 billion — more than three times the total of global foreign aid. For countries like Tonga, Samoa, and Tajikistan, remittances represent more than a third of GDP. For tens of millions of families, they are the difference between poverty and survival.</p>
+
+    <p class="body-text">They are also, systematically, among the most expensive financial transactions in the world.</p>
+
+    <p class="body-text">The global average cost of sending $200 in remittances stands at around 6% of the transaction value. In some corridors — particularly to sub-Saharan Africa — the cost exceeds 8% or 9%. The G20 committed in 2011 to reducing the global average to 5%, and in 2015 the UN Sustainable Development Goals set a target of 3% by 2030. Neither target has been met. Neither is on track.</p>
+
+    <p class="body-text">This gap — between what the mathematics makes possible and what the institutional layer delivers — is one of the sharpest illustrations in the entire genealogy of cryptographic trust of how the human and political layer can negate technical capability.</p>
+
+    <!-- Remittance Calculator -->
+    <div class="remit-container">
+      <div class="remit-title">The cost of sending money home</div>
+      <div class="remit-subtitle">Adjust the amount and corridor to see what a migrant worker pays to send money to their family — and what could be saved if the G20 target were met.</div>
+
+      <div class="remit-row">
+        <div class="remit-field">
+          <label class="remit-label">Amount sent (USD)</label>
+          <input class="remit-input" type="number" id="remit-amount" value="200" min="10" max="10000" oninput="calcRemit()">
+        </div>
+        <div class="remit-field">
+          <label class="remit-label">Sending corridor</label>
+          <select class="remit-select" id="remit-corridor" onchange="calcRemit()">
+            <option value="8.9">US → Sub-Saharan Africa (avg. 8.9%)</option>
+            <option value="6.1" selected>US → Latin America (avg. 6.1%)</option>
+            <option value="5.4">US → South Asia (avg. 5.4%)</option>
+            <option value="4.8">Europe → North Africa (avg. 4.8%)</option>
+            <option value="3.8">Europe → South Asia (avg. 3.8%)</option>
+            <option value="6.8">GCC → South/Southeast Asia (avg. 6.8%)</option>
+            <option value="9.4">South Africa → SADC region (avg. 9.4%)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="remit-results" id="remit-results">
+        <div class="remit-result-row">
+          <span class="remit-result-label">Amount sent</span>
+          <span class="remit-result-val" id="r-sent">$200.00</span>
+        </div>
+        <div class="remit-result-row">
+          <span class="remit-result-label">Transfer fee (current corridor avg.)</span>
+          <span class="remit-result-val cost" id="r-fee">$12.20</span>
+        </div>
+        <div class="remit-result-row">
+          <span class="remit-result-label bold">Amount received by family</span>
+          <span class="remit-result-val received" id="r-received">$187.80</span>
+        </div>
+        <div class="remit-divider"></div>
+        <div class="remit-result-row">
+          <span class="remit-result-label">Fee at G20 target (3%)</span>
+          <span class="remit-result-val ideal" id="r-target-fee">$6.00</span>
+        </div>
+        <div class="remit-result-row">
+          <span class="remit-result-label">Extra cost above G20 target</span>
+          <span class="remit-result-val cost" id="r-extra">$6.20</span>
+        </div>
+        <div class="remit-result-row">
+          <span class="remit-result-label">Annual extra cost (monthly sender)</span>
+          <span class="remit-result-val cost" id="r-annual">$74.40</span>
+        </div>
+      </div>
+      <div class="remit-note" id="remit-note">At this corridor's average cost, a migrant worker sending $200 home every month pays approximately $74.40 more per year than they would if the G20's own target were met. That is money taken from families who need it — not by mathematical necessity, but by institutional design.</div>
+    </div>
+
+    <p class="body-text">Why is the cost so high, given that the cryptographic infrastructure to move money globally is well-established and cheap to operate? The answer is not technical. It is structural.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Correspondent banking — the cost of the chain</div>
+          <div class="step-body">Most cross-border transfers still flow through a chain of correspondent banks — each adding fees and delays. A transfer from a migrant worker in the UAE to a family member in the Philippines may pass through three or four institutions. Each charges. Each introduces settlement delay. The chain exists because no single institution has relationships everywhere — but the cost of the chain falls on the sender.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">De-risking and KYC — the cost of compliance</div>
+          <div class="step-body">Since the 2008 financial crisis, banks have faced increasing regulatory pressure around Know Your Customer (KYC) and Anti-Money Laundering (AML) compliance. The response — known as de-risking — has been to close accounts and correspondent relationships in high-risk regions, particularly sub-Saharan Africa and parts of the Middle East. The result is that remittance corridors to the regions where families most need the money have become the most expensive and least accessible. Compliance costs are real — but the burden falls disproportionately on the poorest senders and recipients.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Market concentration — when competition doesn't solve the problem</div>
+          <div class="step-body">In many corridors, two or three large money transfer operators — Western Union, MoneyGram, and a small number of regional players — hold dominant positions maintained by exclusive agency agreements with local cash payout networks. A sender may have no practical alternative, regardless of price. Digital remittance services (Wise, Remitly, WorldRemit) have reduced costs significantly in corridors where they operate — but their reach is uneven, and last-mile cash availability remains a constraint in many receiving communities.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">What linked payment rails could change</div>
+          <div class="step-body">Project Nexus — the BIS initiative to link national real-time payment systems — and bilateral linkages like the India-Singapore UPI-PayNow corridor represent the most credible current path to reducing remittance costs structurally. When a UPI transaction can settle directly into a PayNow or PromptPay account, the correspondent banking chain collapses to a single interoperability layer. Early data shows bilateral linked corridors achieving costs below 1%. The technology is available. The political and regulatory will to extend it to the corridors that need it most remains the binding constraint.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="incident-box">
+      <div class="incident-label">Human cost — for community engagement</div>
+      <div class="incident-title">The tax on loyalty</div>
+      <div class="incident-body">A Filipina nurse working in Riyadh sends 60% of her monthly salary home to support her parents and her children's school fees. Each transfer costs her 6–7% in fees. Over a 10-year working period, she will pay approximately $4,000–5,000 in transfer fees alone — money that could have paid two years of her children's university tuition. She has no practical alternative: her family lives in a province where the only cash payout agent is affiliated with a single operator. The infrastructure that should serve her instead extracts from her, month after month, with mathematical consistency. This is not a story about technology failing. It is a story about technology that works perfectly — in the sense that it reliably transfers wealth from people who cannot afford it to institutions that do not need it. The question for your community is not whether this should change. It is who has the power to change it, and what it would take.</div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Why remittances belong in this handbook</div>
+      <div class="callout-body">The remittance story is the genealogy at its most politically legible. It shows a community — migrant workers and their families — that is directly, measurably harmed by a gap between what cryptographic infrastructure makes possible and what institutional infrastructure delivers. It is a story with a clear villain (structural rent extraction), a clear alternative (linked public rails), and a clear question for any community: who in your network sends or receives remittances, how much does it cost them, and do they know why?</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Stress points -->
+  <div class="page">
+    <div class="section-label">B3.4 — Where the branch has been stressed</div>
+
+    <p class="body-text">Payments infrastructure is among the most attacked surfaces in the digital economy — not because the cryptography is weak, but because the value flowing through it makes every vulnerability worth exploiting. The stress points in this branch reveal the same pattern seen in B1 and B2: technical failures are rarely the primary cause. The human and institutional layer is where the real vulnerabilities live.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2016</div>
+          <div class="tl-title">The Bangladesh Bank heist — $81 million through SWIFT</div>
+          <div class="tl-body">Attackers compromised the Bangladesh Bank's SWIFT terminal — the system used to send interbank transfer instructions — and submitted fraudulent transfer instructions that routed $81 million through correspondent banks to accounts in the Philippines before the fraud was detected. The cryptographic integrity of SWIFT messages was intact; the attack bypassed it entirely by compromising the terminal that submitted the messages. The lesson: a cryptographically secure messaging system provides no protection against an attacker who controls the endpoint. Infrastructure security is only as strong as its weakest operational link.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2018–present</div>
+          <div class="tl-title">Authorised push payment fraud — the social engineering epidemic</div>
+          <div class="tl-body">As real-time payment rails have made instant transfers the norm, authorised push payment (APP) fraud has become the dominant fraud vector in markets with advanced payment infrastructure. The victim is convinced — through an impersonation of their bank, a government agency, or a known contact — to initiate a legitimate transfer to a fraudulent account. The transfer is cryptographically valid; the authentication is genuine; the victim authorised it. The UK's Faster Payments system, despite strong cryptographic security, lost over £485 million to APP fraud in 2022 alone. Real-time, irrevocable payments are a feature for legitimate users and an attack surface for social engineers.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2020–present</div>
+          <div class="tl-title">CBDCs — when the state enters the payment rails</div>
+          <div class="tl-body">Central Bank Digital Currencies — government-issued digital money — represent the most contested current development in the payments genealogy. Over 130 countries are exploring CBDCs; China's e-CNY has reached over 260 million wallets. Proponents argue that CBDCs can reduce payment costs, improve financial inclusion, and give central banks new monetary policy tools. Critics raise concerns about financial surveillance, programmable money that can be restricted or expired, and the elimination of cash as an anonymous payment option. The cryptographic architecture of CBDCs — how privacy is preserved, how transactions are verified, and who has access to the audit trail — is not a technical question. It is a constitutional one.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--accent-mid);"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">Now</div>
+          <div class="tl-title">Sanctions, fragmentation, and the geopolitics of payment rails</div>
+          <div class="tl-body">The use of payment infrastructure as a geopolitical instrument — excluding countries from SWIFT, imposing secondary sanctions on correspondent banks, fragmenting the global payment system into competing blocs — has accelerated sharply since 2022. Russia's exclusion from SWIFT following the invasion of Ukraine demonstrated the coercive power of payment infrastructure control. It also accelerated development of alternative rails (SPFS, CIPS) that reduce dependence on Western-controlled infrastructure. The payment system is becoming a front in a broader contest over who controls the infrastructure of the global economy.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">The pattern across all payment stress points</div>
+      <div class="warning-body">Look at the failures above. The Bangladesh heist: endpoint compromise, not cryptographic failure. APP fraud: social engineering, not protocol weakness. CBDCs: political design choices, not technical problems. Sanctions: geopolitical weaponisation of institutional infrastructure. In every case, the cryptographic layer performed as designed. The failures occurred at the human, institutional, and political layers that sit on top of it. For a Present Ambassador, this pattern is the most important thing to communicate: cryptographic trust is a necessary condition for secure payments, but it is not a sufficient one. The institutions that deploy it, the regulations that govern it, and the power that controls it determine whether the mathematics serve everyone or only some.</div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Your community -->
+  <div class="page">
+    <div class="section-label">B3.5 — Payments in your community</div>
+
+    <p class="body-text">Every community has a payments reality that is specific, uneven, and often invisible to the people living inside it. The migrant worker who sends money home every month and pays 8% to do it. The small business owner who cannot access the payment infrastructure that their larger competitors use. The elderly person who relies on cash because every digital payment system requires a smartphone they do not have. The rural household that receives remittances through a single agent in a town two hours away.</p>
+
+    <p class="body-text">These experiences are the entry points for community engagement on payments. They connect the cryptographic genealogy to the lived reality of the people in the room — and they surface the questions that matter: who decides how payment infrastructure is designed? Who bears the cost when it excludes people? And what would it take to build it differently?</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Map the payment infrastructure in your community</div>
+          <div class="step-body">What payment systems do people in your community use for daily transactions? For cross-border transfers? For receiving government benefits? For accessing credit? For each one: who is the trust anchor? What does participation require — a bank account, a smartphone, a national ID, a minimum income? Who is excluded by those requirements?</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Find the remittance stories</div>
+          <div class="step-body">Almost every community has people who send or receive cross-border remittances. Find them — they may be migrants, diaspora members, seasonal workers, or families of people working abroad. Ask them: how much does it cost? What service do they use? Do they have alternatives? What would they do with the money saved if the cost were lower? These stories are the most direct illustration of the gap between what the infrastructure could deliver and what it currently does.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Identify the entry point for your specific audience</div>
+          <div class="step-body">For a general public audience: the payment they made this morning, and the chain of institutions underneath it. For a policy audience: the cost of payment exclusion in your region — in economic output, in welfare delivery efficiency, in financial inclusion metrics. For a technical audience: the cryptographic architecture of your country's payment infrastructure and its readiness for post-quantum transition. For a community with significant migrant connections: the remittance calculator, and the question of who benefits from the gap.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Connect to the open questions</div>
+          <div class="step-body">Is your country exploring a CBDC — and if so, what privacy protections are built into its design? Is your country's payment infrastructure linked to any cross-border real-time systems? Who in your government or central bank is responsible for the post-quantum readiness of payment infrastructure? These are questions that communities rarely think to ask — and that the people responsible for the answers are rarely asked to answer in public. That gap is exactly where a Present Ambassador belongs.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The question that opens every payments conversation</div>
+      <div class="callout-body">"How much did your last payment cost you — including all the fees, the exchange rate margin, and the time it took?" Most people have never calculated this. The answer, when they do, is almost always surprising. That surprise is the entry point — not into a lecture about cryptography, but into a conversation about whose interests the payment infrastructure in their community actually serves.</div>
+    </div>
+  </div>
+
+  <!-- Tab 6: Log entry -->
+  <div class="page">
+    <div class="section-label">Module B3 — Log Entry</div>
+
+    <p class="body-text">You've traced the payments genealogy from magnetic stripe to real-time rails, understood why remittances remain expensive despite available technology, and mapped the stress points that reveal the gap between what cryptography makes possible and what institutions deliver. Before moving to B4, record where you are.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 5 — Payments and financial infrastructure</div>
+      <div class="log-field">
+        <label class="log-label">The payment infrastructure most present in your community — and what cryptography underlies it</label>
+        <textarea class="log-area" rows="2" placeholder="Be specific. Not 'mobile payments' — which system, which trust anchor, which cryptographic mechanism?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The remittance story from your community</label>
+        <textarea class="log-area" rows="2" placeholder="Who sends or receives remittances? What does it cost them? What corridor?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The payment stress point most relevant to your region</label>
+        <textarea class="log-area" rows="2" placeholder="APP fraud? Correspondent banking gaps? A CBDC under development? Something else?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The entry point you'll use with your specific community</label>
+        <textarea class="log-area" rows="2" placeholder="The question, the story, or the calculation that will open the room."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Update to your genealogy sketch</label>
+        <textarea class="log-area" rows="2" placeholder="Payments branches from TLS and authentication both. What did you add? What pressures labelled each step?"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B3 complete</div>
+      <div class="completion-body">You understand how cryptographic trust moves money — from EMV chips to real-time public rails — and why the institutional layer determines whether that trust serves everyone or only some. You have the remittance story, which connects the genealogy to one of the most direct human costs of institutional failure in the payments space. Next: Module B4 — Digital Signatures and Legal Validity, where the question shifts from moving money to binding commitments — how a mathematical operation became legally enforceable in most of the world.</div>
+      <div class="badge-row">
+        <span class="badge-pill">Payments genealogy — traced</span>
+        <span class="badge-pill">Public rails — mapped</span>
+        <span class="badge-pill">Remittance gap — understood</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showFlow(n) {
+  document.querySelectorAll('.flow-panel').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.flow-tab').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function calcRemit() {
+  const amount = parseFloat(document.getElementById('remit-amount').value) || 0;
+  const rate   = parseFloat(document.getElementById('remit-corridor').value) / 100;
+  const fee    = amount * rate;
+  const received = amount - fee;
+  const targetFee = amount * 0.03;
+  const extra  = fee - targetFee;
+  const annual = extra * 12;
+
+  document.getElementById('r-sent').textContent     = '$' + amount.toFixed(2);
+  document.getElementById('r-fee').textContent      = '$' + fee.toFixed(2);
+  document.getElementById('r-received').textContent = '$' + received.toFixed(2);
+  document.getElementById('r-target-fee').textContent = '$' + targetFee.toFixed(2);
+  document.getElementById('r-extra').textContent    = extra > 0 ? '$' + extra.toFixed(2) : '$0.00';
+  document.getElementById('r-annual').textContent   = extra > 0 ? '$' + annual.toFixed(2) : '$0.00';
+
+  const pct = (rate * 100).toFixed(1);
+  const extraPct = Math.max(0, rate * 100 - 3).toFixed(1);
+  document.getElementById('remit-note').textContent =
+    `At this corridor's average cost of ${pct}%, a migrant worker sending $${amount.toFixed(0)} home every month pays approximately $${annual.toFixed(2)} more per year than they would if the G20's own 3% target were met. That is $${annual.toFixed(2)} taken from families who need it — not by mathematical necessity, but by institutional design.`;
+}
+
+calcRemit();
+</script>
+</body>
+</html>

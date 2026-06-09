@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module B1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --slate: #3d5068; --slate-light: #e5edf5;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  .incident-box { background: var(--red-light); border: 1px solid #f1948a; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .incident-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .incident-title { font-size: 14px; font-weight: 500; color: var(--red); margin-bottom: 8px; font-family: var(--serif); }
+  .incident-body { font-size: 13px; color: #6e2018; line-height: 1.65; font-weight: 300; }
+
+  /* Timeline */
+  .timeline { margin: 24px 0; }
+  .tl-item { display: flex; gap: 16px; margin-bottom: 0; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -4px; width: 1px; background: var(--rule); }
+  .tl-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 4px; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-mid); border: 2px solid var(--accent-light); flex-shrink: 0; }
+  .tl-content { padding-bottom: 24px; flex: 1; }
+  .tl-year { font-size: 11px; font-weight: 500; color: var(--accent-mid); letter-spacing: 0.08em; margin-bottom: 3px; }
+  .tl-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* TLS handshake demo */
+  .hs-container { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .hs-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .hs-subtitle { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; margin-bottom: 24px; }
+  .hs-stage-row { display: flex; gap: 0; margin-bottom: 8px; align-items: stretch; }
+  .hs-actor { width: 70px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 4px; }
+  .hs-actor-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); text-align: center; }
+  .hs-actor-icon { font-size: 20px; }
+  .hs-arrow-col { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 44px; }
+  .hs-arrow { display: flex; align-items: center; width: 100%; position: relative; }
+  .hs-arrow-line { flex: 1; height: 1px; background: var(--rule); }
+  .hs-arrow-head { font-size: 14px; color: var(--ink-faint); flex-shrink: 0; }
+  .hs-arrow.right .hs-arrow-head { margin-left: -2px; }
+  .hs-arrow.left .hs-arrow-head { margin-right: -2px; order: -1; transform: rotate(180deg); }
+  .hs-msg { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; font-weight: 500; color: var(--accent); background: var(--paper); padding: 1px 6px; border: 1px solid var(--accent-light); border-radius: 4px; }
+  .hs-msg.cert { color: var(--teal); border-color: var(--teal-light); background: var(--teal-light); }
+  .hs-msg.key { color: var(--gold); border-color: #dfd0a0; background: var(--gold-light); }
+  .hs-msg.done { color: #1a7a3a; border-color: #a9dbb8; background: #e8f8ee; }
+  .hs-note { font-size: 11px; color: var(--ink-faint); text-align: center; padding: 6px 0 2px; font-weight: 300; }
+  .hs-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--paper-card); background: var(--accent); border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-family: var(--sans); transition: background 0.15s; margin-top: 16px; }
+  .hs-btn:hover { background: #154360; }
+  .hs-step-display { margin-top: 16px; background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 18px; min-height: 70px; }
+  .hs-step-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .hs-step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .hs-step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .hs-progress { display: flex; gap: 4px; margin-top: 14px; }
+  .hs-pip { flex: 1; height: 3px; border-radius: 2px; background: var(--rule); transition: background 0.3s; }
+  .hs-pip.active { background: var(--accent-mid); }
+  .hs-pip.done { background: var(--teal); }
+
+  /* Trust chain */
+  .trust-chain { margin: 20px 0; }
+  .tc-row { display: flex; gap: 12px; align-items: center; margin-bottom: 6px; }
+  .tc-box { flex: 1; border: 1px solid var(--rule); border-radius: 8px; padding: 12px 16px; background: var(--paper-card); }
+  .tc-box.root { background: var(--accent-light); border-color: #a9cce3; }
+  .tc-box.inter { background: var(--paper-warm); }
+  .tc-box.leaf { background: var(--teal-light); border-color: #8eccc5; }
+  .tc-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 3px; }
+  .tc-label.root { color: var(--accent); }
+  .tc-label.leaf { color: var(--teal); }
+  .tc-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .tc-body { font-size: 12px; color: var(--ink-soft); margin-top: 3px; font-weight: 300; }
+  .tc-arrow { font-size: 18px; color: var(--ink-faint); flex-shrink: 0; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .hs-actor { width: 50px; }
+    .hs-actor-label { font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide · Module B</div>
+    <div class="header-title">B1 — Securing the Web</div>
+    <div class="header-subtitle">How a mathematical idea became the padlock in your browser — and why that padlock is more complicated than it looks.</div>
+    <div class="module-badge">Track 1 of 6</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">The open web</button>
+    <button class="tab-btn" onclick="showTab(1)">How TLS works</button>
+    <button class="tab-btn" onclick="showTab(2)">The trust chain</button>
+    <button class="tab-btn" onclick="showTab(3)">Stress points</button>
+    <button class="tab-btn" onclick="showTab(4)">Your community</button>
+    <button class="tab-btn" onclick="showTab(5)">Log entry</button>
+  </div>
+
+  <!-- Tab 0: The open web -->
+  <div class="page active">
+    <div class="section-label">B1.0 — Before the padlock</div>
+
+    <p class="body-text">The web was born open. When Tim Berners-Lee proposed the World Wide Web at CERN in 1989 and the first web browser appeared in 1991, the protocol that carried web traffic — HTTP — was designed for the sharing of scientific documents between researchers who trusted each other. Every packet of data it carried was readable by anyone on the path between sender and receiver: network administrators, internet service providers, anyone positioned to intercept traffic.</p>
+
+    <p class="body-text">For sharing physics papers, that was fine. But by the mid-1990s, something nobody had anticipated was happening: ordinary people were beginning to use the web. For email. For news. For shopping. For banking. The infrastructure of the open internet was being asked to carry intimate and financially sensitive transactions — and it had no mechanism at all for protecting them.</p>
+
+    <p class="body-text">What did this mean in practice? If you submitted a credit card number to an early e-commerce site over HTTP, that number travelled in plaintext through every router and network node between you and the server. Anyone with access to any of those nodes — and there were many — could read it. The same was true of passwords, medical records, and private messages. The web was a public square, and everything said in it could be overheard.</p>
+
+    <div class="pull-quote">
+      "The early web was a glass house. Everything inside was visible to everyone outside. Commerce, healthcare, governance — none of it could happen at scale until that changed."
+    </div>
+
+    <p class="body-text">The people who saw this problem clearly also saw what a solution would require: exactly what Diffie and Hellman had described in 1976. A way for a browser and a server — two parties who had never met, with no shared secret — to establish an encrypted channel over a completely open network. The key exchange problem, applied to the web at the scale of millions of simultaneous connections.</p>
+
+    <p class="body-text">Netscape Communications, building the first commercial web browser in 1994, assigned a young engineer named Taher Elgamal to solve it. The result was SSL — the Secure Sockets Layer — the direct ancestor of TLS, which is what the padlock in your browser represents today. In the genealogy of cryptographic trust, TLS is the branch that made the commercial internet possible.</p>
+
+    <div class="activity-box">
+      <div class="activity-label">Genealogy check — 5 minutes</div>
+      <div class="activity-title">Trace the branch before you go further</div>
+      <div class="activity-body">
+        <p>Return to the genealogy sketch you started in Module A. Before you read how TLS works, add this branch — and label it with the pressure that drove it.</p>
+        <ul class="prompt-list">
+          <li>What was the specific need that forced TLS into existence? (It wasn't security in the abstract — it was something more concrete.)</li>
+          <li>What would not exist today if this branch had never grown? Name three things in your own community's daily life.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">For your community engagement</div>
+      <div class="callout-body">The "glass house" image is one of the most effective opening moves for a non-technical audience. Most people have never thought about what happens to their data between their device and a server. Ask your audience: "What did you do online this morning? Now imagine everything you typed was readable by anyone between you and the website." That is the world that existed before TLS — and the world that still exists for any connection that isn't encrypted.</div>
+    </div>
+  </div>
+
+  <!-- Tab 1: How TLS works -->
+  <div class="page">
+    <div class="section-label">B1.1 — The TLS handshake</div>
+
+    <p class="body-text">TLS — Transport Layer Security, the successor to SSL — works by combining the two capabilities that Module A introduced. The Diffie-Hellman key exchange establishes a shared secret between browser and server. Digital certificates, built on public-key signatures, verify that the server is who it claims to be. Neither capability alone would be sufficient. Together, they create a channel that is both private and authenticated.</p>
+
+    <p class="body-text">Every time you visit a website beginning with <strong>https://</strong>, a TLS handshake takes place in milliseconds before a single byte of your request is sent. Walk through the steps below — then use the interactive demonstration to experience the sequence yourself.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Client Hello — the browser introduces itself</div>
+          <div class="step-body">Your browser sends a message to the server announcing which versions of TLS it supports, which cipher suites it can use, and a random number it has generated. This message is sent in plaintext — the channel is not yet secure. The random number will matter later.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Server Hello — the server responds and presents its certificate</div>
+          <div class="step-body">The server chooses a cipher suite from the browser's list, generates its own random number, and — critically — sends its <strong>digital certificate</strong>. This certificate contains the server's public key and is signed by a trusted Certificate Authority (CA). It is the server's proof of identity.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Certificate verification — the browser checks the server's identity</div>
+          <div class="step-body">The browser verifies the server's certificate against its built-in list of trusted CAs. If the signature chain checks out, the browser knows it is talking to the genuine server — not an impostor. This is digital signatures from Module A doing real work: the CA's private key signed the certificate; the browser verifies it with the CA's public key.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Key exchange — a shared secret is established</div>
+          <div class="step-body">Using the server's public key and a variant of the Diffie-Hellman exchange, browser and server independently compute the same shared secret. An eavesdropper watching the entire handshake cannot derive this secret. This is DHM from the 1976 paper, running in your browser, right now.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div>
+          <div class="step-title">Session keys — the shared secret becomes encryption keys</div>
+          <div class="step-body">The shared secret, combined with the random numbers both sides generated earlier, is used to derive symmetric session keys. From this point forward, all communication is encrypted with these keys — fast, efficient symmetric encryption, made possible by the asymmetric key exchange that preceded it.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">6</div>
+        <div>
+          <div class="step-title">Finished — the padlock lights up</div>
+          <div class="step-body">Both sides confirm the handshake is complete. The channel is now encrypted and authenticated. The padlock appears. None of this took more than a few milliseconds. Your browser performs this sequence thousands of times a day.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TLS Handshake Interactive -->
+    <div class="hs-container">
+      <div class="hs-title">Walk through a TLS handshake</div>
+      <div class="hs-subtitle">Press Next Step to advance through the handshake sequence. Watch what flows between browser and server — and when the channel becomes secure.</div>
+
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px; padding: 0 4px;">
+        <div style="text-align:center;">
+          <div style="font-size:28px;">🖥️</div>
+          <div style="font-size:10px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); margin-top:4px;">Your browser</div>
+        </div>
+        <div id="hs-arrow-display" style="flex:1; text-align:center; position:relative; padding:0 16px;">
+          <div id="hs-arrow-line" style="height:1px; background:var(--rule); margin:14px 0;"></div>
+          <div id="hs-arrow-msg" style="font-size:12px; font-weight:500; color:var(--ink-faint); margin-top:6px;">Waiting to begin</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:28px;">🌐</div>
+          <div style="font-size:10px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); margin-top:4px;">The server</div>
+        </div>
+      </div>
+
+      <div class="hs-progress" id="hs-progress">
+        <div class="hs-pip"></div>
+        <div class="hs-pip"></div>
+        <div class="hs-pip"></div>
+        <div class="hs-pip"></div>
+        <div class="hs-pip"></div>
+        <div class="hs-pip"></div>
+      </div>
+
+      <div class="hs-step-display">
+        <div class="hs-step-label">Current step</div>
+        <div class="hs-step-title" id="hs-step-title">Press Next Step to begin</div>
+        <div class="hs-step-body" id="hs-step-body">The handshake takes place in milliseconds before any of your data is sent. Every https:// connection starts here.</div>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:14px; align-items:center;">
+        <button class="hs-btn" onclick="hsNext()">Next step →</button>
+        <button class="hs-btn" style="background:var(--ink-soft);" onclick="hsReset()">↺ Reset</button>
+        <span id="hs-counter" style="font-size:12px; color:var(--ink-faint); font-weight:300; margin-left:4px;"></span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The genealogy compounding</div>
+      <div class="callout-body">Notice what TLS requires: the key exchange from DHM's 1976 paper, <em>and</em> the digital signatures that RSA developed a year later, <em>and</em> an institutional infrastructure of Certificate Authorities that didn't exist in 1976 and had to be built from scratch. The genealogy doesn't just branch — the branches weave together. A Present Ambassador who can show their community how these pieces fit is showing them something most technology journalists never explain.</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: The trust chain -->
+  <div class="page">
+    <div class="section-label">B1.2 — The certificate authority system</div>
+
+    <p class="body-text">TLS solves the problem of private communication. But it creates a new one: how does your browser know the server's certificate is genuine? A malicious server could generate its own certificate and claim to be your bank. The encryption would work perfectly — but you'd be talking to an imposter in complete privacy.</p>
+
+    <p class="body-text">The answer is the Certificate Authority system — and it is one of the most important, least understood pieces of digital infrastructure on earth. A Certificate Authority (CA) is an organisation that verifies the identity of websites and signs their certificates with its own private key. Your browser comes pre-installed with a list of trusted CAs — currently around 150 root CAs globally, maintained by browser vendors and operating system makers. When your browser receives a certificate, it traces the signature chain back to one of these roots. If the chain is intact, it trusts the certificate.</p>
+
+    <div class="trust-chain">
+      <div class="tc-row">
+        <div class="tc-box root">
+          <div class="tc-label root">Root CA</div>
+          <div class="tc-name">DigiCert Global Root CA</div>
+          <div class="tc-body">Pre-installed in your browser. Its public key is trusted unconditionally. Its private key is kept offline, in a physical vault, used only to sign intermediate CAs.</div>
+        </div>
+      </div>
+      <div style="text-align:center; padding:4px 0; font-size:18px; color:var(--ink-faint);">↓ signs</div>
+      <div class="tc-row">
+        <div class="tc-box inter">
+          <div class="tc-label">Intermediate CA</div>
+          <div class="tc-name">DigiCert TLS RSA SHA256 2020 CA1</div>
+          <div class="tc-body">Issued by the root. Used for day-to-day certificate signing. If compromised, can be revoked without touching the root.</div>
+        </div>
+      </div>
+      <div style="text-align:center; padding:4px 0; font-size:18px; color:var(--ink-faint);">↓ signs</div>
+      <div class="tc-row">
+        <div class="tc-box leaf">
+          <div class="tc-label leaf">Website Certificate</div>
+          <div class="tc-name">yourbank.com</div>
+          <div class="tc-body">Issued to a specific domain. Your browser verifies this chain all the way to the root — in milliseconds, every time you connect.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">This chain of trust is elegant, but it concentrates enormous power in a small number of organisations. A CA that issues a fraudulent certificate — whether through compromise, coercion, or error — can undermine the security of any website. Your browser trusts the certificate because the CA signed it. If the CA cannot be trusted, the entire chain collapses.</p>
+
+    <p class="body-text">This is not a theoretical concern. It has happened. And it reveals something important about the genealogy: as cryptographic trust scales from mathematics to global infrastructure, it accumulates human and institutional dependencies that the original mathematics never anticipated.</p>
+
+    <div class="warning-box">
+      <div class="warning-title">A structural tension worth understanding</div>
+      <div class="warning-body">The CA system is a centralised trust hierarchy sitting on top of decentralised mathematics. The maths of TLS are sound. But the institutions that make TLS work in practice — the CAs, the browser vendors who maintain root stores, the standards bodies — introduce points of failure, politics, and power. This tension between mathematical rigour and institutional reality runs through the entire genealogy. A Present Ambassador who understands it can help their community ask better questions about who, ultimately, controls the infrastructure they depend on.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 10 minutes</div>
+      <div class="activity-title">Inspect a certificate yourself</div>
+      <div class="activity-body">
+        <p>On any computer with a browser, visit any https:// website. Click the padlock icon in the address bar. Find the certificate details. Work through the following:</p>
+        <ul class="prompt-list">
+          <li>Who is the CA that issued this certificate? Is it a name you recognise? What does it mean that your browser trusted this organisation before you ever visited this site?</li>
+          <li>When does the certificate expire? What happens if the website operator forgets to renew it?</li>
+          <li>Try this on a website your community uses daily — a government portal, a bank, a payments platform. Who vouches for its identity? Is that organisation based in your country?</li>
+        </ul>
+        <p>Add what you find to your genealogy sketch. The CA system is a branch that grew from the digital signature branch — label it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Stress points -->
+  <div class="page">
+    <div class="section-label">B1.3 — Where the branch has been stressed</div>
+
+    <p class="body-text">The genealogy is not just a story of progress. Every branch carries the marks of the pressures that shaped it — including the moments where it bent, cracked, or had to be rebuilt. A Present Ambassador who only knows the success story of TLS is not fluent. Fluency means knowing where it has been stressed, and what those stress points reveal about the infrastructure your community depends on.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">1995</div>
+          <div class="tl-title">SSL 2.0 — the first version, broken within months</div>
+          <div class="tl-body">Netscape's SSL 2.0 had serious design flaws. A cryptographer at Netscape, Paul Kocher, helped design SSL 3.0 as a replacement. The lesson: cryptographic protocols are hard to get right the first time, and the pressure to ship often outpaces the pressure to verify.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2001–2011</div>
+          <div class="tl-title">The CA trust problem emerges — DigiNotar, Comodo</div>
+          <div class="tl-body">Several Certificate Authorities were compromised, allowing attackers to issue fraudulent certificates for major websites including Google, Yahoo, and CIA.gov. The 2011 DigiNotar breach — used to spy on Iranian dissidents — was particularly severe. DigiNotar was removed from browser trust stores and went bankrupt within weeks. The entire CA system was suddenly seen as a single point of failure for global web security.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2014</div>
+          <div class="tl-title">Heartbleed — a bug in the most trusted library on the internet</div>
+          <div class="tl-body">A single coding error in OpenSSL — the open-source library that handled TLS for roughly two-thirds of all web servers — allowed attackers to read arbitrary memory from servers, including private keys and passwords. The vulnerability had been present for two years before discovery. It affected hundreds of thousands of servers globally and required one of the largest coordinated emergency patch operations in internet history. The lesson: the security of cryptographic infrastructure depends on the quality of its implementation, not just the soundness of its mathematics.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2013–present</div>
+          <div class="tl-title">Mass surveillance and the limits of TLS</div>
+          <div class="tl-body">The Snowden revelations of 2013 showed that TLS, while protecting against passive eavesdropping, did not protect against a surveillance apparatus that could compel CAs to issue fraudulent certificates or access plaintext at the endpoints. The response included Certificate Transparency — a public log of all issued certificates that makes fraudulent issuance detectable — and widespread adoption of Perfect Forward Secrecy, which ensures that the compromise of a private key does not retroactively expose past communications.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2018</div>
+          <div class="tl-title">TLS 1.3 — a decade of accumulated fixes becomes a new standard</div>
+          <div class="tl-body">TLS 1.3 removed a decade's worth of deprecated cipher suites, mandated forward secrecy, and reduced the handshake to a single round trip — faster and more secure. But adoption was slow: corporate network inspection devices that relied on decrypting TLS traffic resisted the change. Security and surveillance exist in permanent tension inside this branch of the genealogy.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--accent-mid);"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">Now</div>
+          <div class="tl-title">The post-quantum transition — TLS faces its biggest challenge yet</div>
+          <div class="tl-body">The mathematical problems that TLS relies on — discrete logarithms and integer factorisation — are vulnerable to quantum computers running Shor's algorithm. NIST finalised its first post-quantum cryptography standards in 2024. The transition of TLS to quantum-resistant algorithms is underway — but it is the largest coordinated upgrade in the history of internet cryptography. Module B5 covers this in depth.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="incident-box">
+      <div class="incident-label">Case study — for community engagement</div>
+      <div class="incident-title">DigiNotar and the cost of misplaced trust</div>
+      <div class="incident-body">In 2011, a Dutch Certificate Authority named DigiNotar was silently compromised by Iranian state-linked hackers. For weeks, fraudulent certificates for Google, Microsoft, and intelligence agencies were used to intercept communications of Iranian citizens — dissidents, journalists, activists — who believed their connections to Gmail were secure. The padlock was present. The security was not. When the compromise was discovered, every major browser removed DigiNotar from its trust store within days. DigiNotar ceased to exist within weeks. The infrastructure of Dutch government websites — which relied on DigiNotar certificates — had to be migrated in an emergency. This case is worth telling in detail to any community that believes the padlock is a guarantee. It is a very strong indicator of security. It is not a guarantee.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection — 15 minutes</div>
+      <div class="activity-title">What do these stress points have in common?</div>
+      <div class="activity-body">
+        <p>Look across the timeline above and notice the pattern. The mathematics of TLS has been sound. Almost every major failure has been at the human and institutional layer: a flawed implementation, a compromised CA, a government demanding access, an organisation slow to adopt better practices.</p>
+        <ul class="prompt-list">
+          <li>What does this pattern suggest about where the real vulnerabilities in cryptographic infrastructure lie? And what does it mean for the communities that depend on it?</li>
+          <li>Is there a CA based in your country or region? Who audits it? What would happen to your community's digital infrastructure if it were compromised?</li>
+          <li>The Snowden revelations changed how many experts thought about what TLS protects and what it doesn't. Has your community had a comparable moment — a breach, a scandal, an outage — that changed how people thought about digital trust? What did they actually understand about what happened?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Your community -->
+  <div class="page">
+    <div class="section-label">B1.4 — TLS in your community</div>
+
+    <p class="body-text">The genealogy of TLS does not end at a standards document or a browser release. It ends in your community — in the specific services and platforms and government portals that your audience uses, trusts, and sometimes loses faith in. The Present Ambassador's job is to complete the branch: to connect everything in this module to the specific, local, human reality of how cryptographic trust is deployed, experienced, and sometimes failed in the community you're engaging.</p>
+
+    <p class="body-text">That connection is what makes the padlock legible to someone who has never thought about it. Not "here is how TLS works" but "here is the thing that protected your payment this morning — and here is what happened two years ago when the equivalent system in this country failed, and who it hurt."</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Map the TLS landscape in your region</div>
+          <div class="step-body">Which major websites and services in your community use TLS correctly? Which use it poorly — expired certificates, weak cipher suites, HTTP rather than HTTPS? Government portals are a particularly revealing place to look. Use a tool like SSL Labs' Server Test (ssllabs.com/ssltest) to grade the TLS implementation of services your community depends on.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Find the failures your community has experienced</div>
+          <div class="step-body">Has there been a significant certificate failure, data breach, or man-in-the-middle attack affecting services in your country or region? How was it reported? What did the public actually understand about what happened? The gap between what occurred technically and what the public believed occurred is often the most revealing thing you can share.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Find the entry point for your specific audience</div>
+          <div class="step-body">A high school maths class needs a different entry point than a council of local government officials. For students: the padlock, the glass house metaphor, a demonstration on their phones. For officials: the liability question — what is your organisation's legal and practical exposure if the services you run are not properly secured? For a general public audience: the specific local service they use most, and what its TLS grade actually is.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Connect to the post-quantum transition</div>
+          <div class="step-body">The TLS story is not finished. The transition to post-quantum cipher suites is happening now — but most organisations in most countries are not aware of it, let alone prepared for it. Is your government's digital infrastructure on a post-quantum transition roadmap? Does anyone in your community's leadership know that this question needs to be asked? This is the open branch — the place where the present connects directly to what comes next.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The question that opens a room</div>
+      <div class="callout-body">For almost any community, this question works: "How many of you checked whether a website was secure before entering your password or payment details this morning?" Some hands go up. "How many of you knew what you were actually checking for — what the padlock means, who put it there, and what it doesn't protect you from?" Almost no hands. That gap — between the behaviour and the understanding — is exactly why you are in the room.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Research task — 1 to 2 hours</div>
+      <div class="activity-title">Build your TLS community brief</div>
+      <div class="activity-body">
+        <p>Before your first engagement on this topic, produce a short brief — for your own use — that answers the following:</p>
+        <ul class="prompt-list">
+          <li>Name the three digital services most used by your community. What is the TLS grade of each? Who issued their certificates?</li>
+          <li>Has there been a significant security incident affecting web services in your country in the last five years? What actually happened — technically — and how was it reported publicly?</li>
+          <li>Is your country's government on a post-quantum transition roadmap? Who is responsible for it?</li>
+          <li>What is the single most surprising thing you found in this research — the fact that most surprised you, or that you think would most surprise your audience?</li>
+        </ul>
+        <p>That last question is your opening.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Log entry -->
+  <div class="page">
+    <div class="section-label">Module B1 — Log Entry</div>
+
+    <p class="body-text">You've traced the TLS branch from the open web of 1994 through to the post-quantum transition underway now. Before you move to B2, record where you are.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 3 — Securing the web</div>
+      <div class="log-field">
+        <label class="log-label">The thing about TLS that most surprised you</label>
+        <textarea class="log-area" rows="2" placeholder="Not the most technically interesting — the most surprising."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The entry point you'll use for your specific community</label>
+        <textarea class="log-area" rows="2" placeholder="The glass house? A specific local incident? The padlock inspection? What fits your room?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The stress point most relevant to your region</label>
+        <textarea class="log-area" rows="2" placeholder="Which failure in the timeline — or one you found in your own research — is most useful for your audience to understand?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The open question B1 left you with</label>
+        <textarea class="log-area" rows="2" placeholder="The thing you now know you don't yet fully understand."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Update to your genealogy sketch</label>
+        <textarea class="log-area" rows="2" placeholder="What did you add? What new branches are you now aware of that you hadn't labelled before?"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B1 complete</div>
+      <div class="completion-body">You understand the TLS branch — its origin in the needs of the commercial web, its mechanism, the trust chain that makes it work in practice, and the stress points that reveal where the human and institutional layer is as important as the mathematics. Next: Module B2 — Identity and Authentication, where the question shifts from "is this channel secure?" to "is this person who they claim to be?"</div>
+      <div class="badge-row">
+        <span class="badge-pill">TLS branch — traced</span>
+        <span class="badge-pill">Trust chain — understood</span>
+        <span class="badge-pill">Genealogy sketch — updated</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+/* TLS Handshake Walkthrough */
+const hsSteps = [
+  {
+    title: "Step 1 — Client Hello",
+    body: "Your browser sends a greeting: the TLS versions it supports, the cipher suites it can use, and a freshly generated random number. Everything is in plaintext — the secure channel doesn't exist yet.",
+    msg: "→ Client Hello + random number",
+    msgClass: "",
+    direction: "right"
+  },
+  {
+    title: "Step 2 — Server Hello + Certificate",
+    body: "The server responds with its chosen cipher suite, its own random number, and most importantly: its digital certificate. The certificate contains the server's public key, signed by a Certificate Authority your browser already trusts.",
+    msg: "← Server Hello + certificate",
+    msgClass: "cert",
+    direction: "left"
+  },
+  {
+    title: "Step 3 — Certificate Verification",
+    body: "Your browser verifies the server's certificate by checking the signature chain back to a trusted root CA. This is digital signatures from Module A doing real work. If the chain is valid, the browser knows it's talking to the genuine server.",
+    msg: "🔍 Verifying certificate chain...",
+    msgClass: "",
+    direction: "none"
+  },
+  {
+    title: "Step 4 — Key Exchange",
+    body: "Using the server's public key and a Diffie-Hellman variant, browser and server independently derive the same shared secret. An eavesdropper watching every message cannot compute this secret. This is the 1976 paper, running in your browser.",
+    msg: "⇄ DH key exchange",
+    msgClass: "key",
+    direction: "both"
+  },
+  {
+    title: "Step 5 — Session Keys Derived",
+    body: "The shared secret, combined with both random numbers, generates symmetric session keys. These fast, symmetric keys will encrypt all subsequent communication. Asymmetric cryptography bootstrapped symmetric cryptography — and now steps aside.",
+    msg: "🔑 Session keys derived",
+    msgClass: "key",
+    direction: "none"
+  },
+  {
+    title: "Step 6 — Handshake Complete",
+    body: "Both sides confirm the handshake. The channel is now encrypted and authenticated. The padlock appears. This entire sequence — certificate verification, key exchange, key derivation — took under 100 milliseconds. Your browser does this thousands of times a day.",
+    msg: "✓ Encrypted channel established",
+    msgClass: "done",
+    direction: "both"
+  }
+];
+
+let hsCurrentStep = -1;
+
+function hsNext() {
+  hsCurrentStep = Math.min(hsCurrentStep + 1, hsSteps.length - 1);
+  const step = hsSteps[hsCurrentStep];
+
+  document.getElementById('hs-step-title').textContent = step.title;
+  document.getElementById('hs-step-body').textContent  = step.body;
+
+  const msgEl = document.getElementById('hs-arrow-msg');
+  msgEl.textContent  = step.msg;
+  msgEl.className    = '';
+  if (step.msgClass) msgEl.style.color = step.msgClass === 'cert' ? 'var(--teal)' : step.msgClass === 'key' ? 'var(--gold)' : step.msgClass === 'done' ? '#1a7a3a' : 'var(--accent)';
+  else msgEl.style.color = 'var(--ink-mid)';
+
+  const pips = document.querySelectorAll('.hs-pip');
+  pips.forEach((p, i) => {
+    p.className = 'hs-pip' + (i < hsCurrentStep ? ' done' : i === hsCurrentStep ? ' active' : '');
+  });
+
+  document.getElementById('hs-counter').textContent = `${hsCurrentStep + 1} of ${hsSteps.length}`;
+
+  if (hsCurrentStep === hsSteps.length - 1) {
+    document.querySelector('.hs-btn').textContent = '✓ Complete';
+    document.querySelector('.hs-btn').style.background = 'var(--teal)';
+  }
+}
+
+function hsReset() {
+  hsCurrentStep = -1;
+  document.getElementById('hs-step-title').textContent = 'Press Next Step to begin';
+  document.getElementById('hs-step-body').textContent  = 'The handshake takes place in milliseconds before any of your data is sent. Every https:// connection starts here.';
+  document.getElementById('hs-arrow-msg').textContent  = 'Waiting to begin';
+  document.getElementById('hs-arrow-msg').style.color  = 'var(--ink-faint)';
+  document.getElementById('hs-counter').textContent    = '';
+  document.querySelectorAll('.hs-pip').forEach(p => p.className = 'hs-pip');
+  const btn = document.querySelector('.hs-btn');
+  btn.textContent = 'Next step →';
+  btn.style.background = 'var(--accent)';
+}
+</script>
+</body>
+</html>

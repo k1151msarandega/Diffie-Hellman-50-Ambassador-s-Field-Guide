@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module B2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --plum: #5a3d6b; --plum-light: #ede5f5;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  .incident-box { background: var(--red-light); border: 1px solid #f1948a; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .incident-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .incident-title { font-size: 14px; font-weight: 500; color: var(--red); margin-bottom: 8px; font-family: var(--serif); }
+  .incident-body { font-size: 13px; color: #6e2018; line-height: 1.65; font-weight: 300; }
+
+  /* Identity system comparison cards */
+  .id-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .id-card { border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; background: var(--paper-card); }
+  .id-card-flag { font-size: 22px; margin-bottom: 8px; }
+  .id-card-name { font-size: 13px; font-weight: 500; color: var(--accent); margin-bottom: 2px; letter-spacing: 0.02em; }
+  .id-card-country { font-size: 11px; color: var(--ink-faint); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .id-card-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .id-card-stat { display: inline-block; font-size: 12px; font-weight: 500; color: var(--teal); background: var(--teal-light); border-radius: 4px; padding: 2px 8px; margin-top: 8px; }
+
+  /* Authentication evolution demo */
+  .auth-demo { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .auth-demo-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .auth-demo-subtitle { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; margin-bottom: 24px; }
+  .auth-tabs { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+  .auth-tab { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--rule); background: var(--paper-warm); color: var(--ink-soft); cursor: pointer; transition: all 0.15s; font-family: var(--sans); }
+  .auth-tab:hover { color: var(--ink); }
+  .auth-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .auth-panel { display: none; }
+  .auth-panel.active { display: block; }
+  .auth-panel-era { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .auth-panel-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; font-family: var(--serif); }
+  .auth-panel-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; margin-bottom: 14px; }
+  .auth-strength-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .auth-strength-item { flex: 1; min-width: 120px; }
+  .auth-strength-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 5px; }
+  .auth-strength-bar-wrap { height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; }
+  .auth-strength-bar { height: 100%; border-radius: 3px; transition: width 0.4s; }
+  .auth-strength-bar.low { background: #e74c3c; }
+  .auth-strength-bar.mid { background: var(--gold); }
+  .auth-strength-bar.high { background: var(--teal); }
+
+  /* Timeline */
+  .timeline { margin: 24px 0; }
+  .tl-item { display: flex; gap: 16px; margin-bottom: 0; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -4px; width: 1px; background: var(--rule); }
+  .tl-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 4px; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-mid); border: 2px solid var(--accent-light); flex-shrink: 0; }
+  .tl-content { padding-bottom: 24px; flex: 1; }
+  .tl-year { font-size: 11px; font-weight: 500; color: var(--accent-mid); letter-spacing: 0.08em; margin-bottom: 3px; }
+  .tl-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Tension table */
+  .tension-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .tension-head { display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--paper-warm); border-bottom: 1px solid var(--rule); }
+  .tension-head-cell { padding: 10px 14px; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); border-right: 1px solid var(--rule); }
+  .tension-head-cell:last-child { border-right: none; }
+  .tension-row { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid var(--rule-soft); }
+  .tension-row:last-child { border-bottom: none; }
+  .tension-cell { padding: 13px 14px; font-size: 13px; color: var(--ink-mid); line-height: 1.55; font-weight: 300; border-right: 1px solid var(--rule-soft); }
+  .tension-cell:last-child { border-right: none; }
+  .tension-cell.label { font-weight: 500; color: var(--ink); font-size: 13px; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .id-grid { grid-template-columns: 1fr; }
+    .tension-head { grid-template-columns: 1fr; }
+    .tension-row { grid-template-columns: 1fr; }
+    .tension-head-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .tension-cell { border-right: none; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide · Module B</div>
+    <div class="header-title">B2 — Identity and Authentication</div>
+    <div class="header-subtitle">A secure channel tells you nobody is listening. It says nothing about who is speaking.</div>
+    <div class="module-badge">Track 2 of 6</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">Two different problems</button>
+    <button class="tab-btn" onclick="showTab(1)">How authentication evolved</button>
+    <button class="tab-btn" onclick="showTab(2)">Identity at national scale</button>
+    <button class="tab-btn" onclick="showTab(3)">The tensions</button>
+    <button class="tab-btn" onclick="showTab(4)">Your community</button>
+    <button class="tab-btn" onclick="showTab(5)">Log entry</button>
+  </div>
+
+  <!-- Tab 0: Two different problems -->
+  <div class="page active">
+    <div class="section-label">B2.0 — Confidentiality is not identity</div>
+
+    <p class="body-text">Module B1 showed how TLS creates a private, encrypted channel between your browser and a server. That channel is real and it matters. But it solves a different problem from the one this module addresses — and confusing the two is one of the most consequential misunderstandings in popular thinking about digital security.</p>
+
+    <p class="body-text">TLS tells you: <em>the pipe is private</em>. It does not tell you: <em>the person on the other end is who they claim to be</em>. A perfectly encrypted channel to a fraudulent server is still a channel to a fraudster. A private message to the wrong person is still a message to the wrong person.</p>
+
+    <p class="body-text">Authentication is the problem of identity — of verifying, with confidence, that a claim about who someone is corresponds to reality. It is older than digital cryptography. For most of human history it was solved through physical presence, through social networks, through institutional records. You proved you were you by being recognisable, by producing documents, by having someone who knew you vouch for you.</p>
+
+    <div class="pull-quote">
+      "On the internet, nobody knows you're a dog. That observation, made in a 1993 cartoon, captured something real: digital communication stripped away the physical cues that authentication had always relied on. Cryptography had to rebuild them from mathematics."
+    </div>
+
+    <p class="body-text">The digital authentication problem has three distinct layers, and understanding all three is essential for the Present Ambassador — because different communities experience failures at different layers, and engagement that conflates them produces confusion rather than understanding.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Something you know — the password layer</div>
+          <div class="step-body">The oldest form of digital authentication. A shared secret — the password — proves that you are who you claim to be because only you should know it. The problem: passwords can be guessed, stolen, reused, phished, or leaked in bulk. The entire security of the system rests on a human memory being both reliable and secret. Neither assumption holds well at scale.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Something you have — the possession layer</div>
+          <div class="step-body">A physical or cryptographic token that you possess proves something about your identity. A phone that receives an SMS code. A hardware key that generates a one-time code. A cryptographic device — like a FIDO2 key — that performs a public-key authentication challenge. The security of this layer depends on the physical security of the token and, critically, on whether the authentication is phishing-resistant.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Something you are — the biometric layer</div>
+          <div class="step-body">A fingerprint, a face, an iris scan. Biometric authentication binds identity to a physical characteristic that is hard to replicate. Its genealogy in cryptographic trust is complex: biometrics are typically used to unlock a cryptographic key stored on a device, rather than being transmitted or stored centrally. The distinction matters enormously — a stolen password can be changed; a stolen biometric cannot.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">Modern authentication systems layer these three factors. Multi-factor authentication — requiring something you know <em>and</em> something you have — is significantly more resistant to attack than either alone. But the combination of factors is only part of the story. What changed the genealogy fundamentally was the shift from authentication as a shared secret to authentication as a mathematical proof — and that shift came directly from the public-key framework Diffie and Hellman opened.</p>
+
+    <div class="callout">
+      <div class="callout-title">For your community engagement</div>
+      <div class="callout-body">The distinction between confidentiality and authentication is one of the most clarifying things you can offer a non-technical audience. "The padlock means your connection is private. It doesn't mean you're talking to who you think you're talking to." Ask your audience: have they ever received a message that appeared to come from someone they trusted — a bank, a government agency, a friend — that turned out to be fraudulent? That experience is the authentication problem, lived. Start there.</div>
+    </div>
+  </div>
+
+  <!-- Tab 1: How authentication evolved -->
+  <div class="page">
+    <div class="section-label">B2.1 — From passwords to passkeys</div>
+
+    <p class="body-text">The evolution of digital authentication is a direct branch of the DHM genealogy — and it follows the same pattern as the other branches: a practical need created pressure, that pressure drove a cryptographic response, and the response created new capabilities and new vulnerabilities of its own.</p>
+
+    <!-- Auth Evolution Demo -->
+    <div class="auth-demo">
+      <div class="auth-demo-title">The authentication genealogy</div>
+      <div class="auth-demo-subtitle">Select an era to understand its mechanism, what it made possible, and what it left unsolved.</div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="showAuth(0)">Passwords</button>
+        <button class="auth-tab" onclick="showAuth(1)">One-time codes</button>
+        <button class="auth-tab" onclick="showAuth(2)">Public-key auth</button>
+        <button class="auth-tab" onclick="showAuth(3)">Passkeys</button>
+      </div>
+
+      <div class="auth-panel active" id="auth-0">
+        <div class="auth-panel-era">1960s — present</div>
+        <div class="auth-panel-title">Passwords — the shared secret</div>
+        <div class="auth-panel-body">The password is a shared secret between user and system. You prove you are who you claim to be by demonstrating knowledge of something only you should know. The mechanism is simple and universal — which is exactly why it persisted for sixty years despite its well-documented fragility.<br><br>The problems are structural, not incidental. Passwords must be remembered, which means people reuse them. They must be stored, which means databases of stolen credentials are routinely sold on criminal markets. They can be guessed — most people's passwords are drawn from a small space of common patterns. And they can be phished: if you can be convinced to type your password into a convincing imitation of a legitimate site, no amount of complexity helps.<br><br>The password has no cryptographic proof attached to it. It is a secret that can be copied, stolen, and replayed by anyone who obtains it.</div>
+        <div class="auth-strength-row">
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Phishing resistance</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar low" style="width:10%"></div></div>
+          </div>
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Scalability</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar high" style="width:95%"></div></div>
+          </div>
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Security strength</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar low" style="width:20%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-panel" id="auth-1">
+        <div class="auth-panel-era">1980s — present</div>
+        <div class="auth-panel-title">One-time codes — something you have</div>
+        <div class="auth-panel-body">The one-time password (OTP) added a second factor to authentication: something you possess. A hardware token — and later, a phone — generates a short numeric code that changes every 30 seconds, derived from a shared secret seed and the current time. Even if an attacker steals your password, the OTP makes it insufficient alone.<br><br>SMS-based OTPs extended this to anyone with a mobile phone, making two-factor authentication accessible at scale. The approach powered the rapid growth of mobile banking in markets like sub-Saharan Africa and South and Southeast Asia, where phone penetration reached people who had never had a bank account.<br><br>The limitation is that OTPs are still phishable: a convincing fake site can prompt you for your OTP in real time and relay it to the genuine site before it expires. The second factor adds friction, but it is not cryptographically bound to the site you're authenticating to. That binding is what public-key authentication provides.</div>
+        <div class="auth-strength-row">
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Phishing resistance</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar mid" style="width:40%"></div></div>
+          </div>
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Scalability</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar high" style="width:85%"></div></div>
+          </div>
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Security strength</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar mid" style="width:55%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-panel" id="auth-2">
+        <div class="auth-panel-era">1990s — present</div>
+        <div class="auth-panel-title">Public-key authentication — proof without secrets</div>
+        <div class="auth-panel-body">Public-key authentication eliminates the shared secret entirely. Instead of proving identity by demonstrating knowledge of a password, you prove it by performing a cryptographic operation that only the holder of a specific private key can perform.<br><br>The mechanism: the server issues a challenge — a random string. Your device signs that challenge with its private key. The server verifies the signature with your public key. No password is ever transmitted. No shared secret exists to be stolen. The private key never leaves your device.<br><br>This is the DHM genealogy running directly through authentication. SSH, which uses public-key authentication to secure connections between servers, has operated on this principle since 1995. FIDO2 hardware security keys — the physical USB or NFC devices used by high-security organisations — extend it to web authentication. The cryptographic binding to a specific website means that even if you are on a convincing phishing site, the authentication challenge will fail because the site's identity does not match the key's binding. This is what "phishing-resistant" authentication actually means.</div>
+        <div class="auth-strength-row">
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Phishing resistance</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar high" style="width:95%"></div></div>
+          </div>
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Scalability</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar mid" style="width:50%"></div></div>
+          </div>
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Security strength</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar high" style="width:92%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-panel" id="auth-3">
+        <div class="auth-panel-era">2022 — present</div>
+        <div class="auth-panel-title">Passkeys — public-key authentication for everyone</div>
+        <div class="auth-panel-body">Passkeys are the attempt to bring public-key authentication to the scale and simplicity of passwords. Developed under the FIDO2/WebAuthn standard and deployed by Apple, Google, and Microsoft from 2022, a passkey is a cryptographic key pair stored on your device — protected by biometrics or a PIN — that authenticates you to a specific website without ever transmitting a password.<br><br>The mechanism is identical to hardware security keys: challenge, sign, verify. The difference is that the private key lives in your phone's secure enclave rather than a separate physical token, and the user experience is a fingerprint or face scan rather than a key insertion. Biometrics unlock the key; they are not the key.<br><br>Passkeys are backed up and synced across devices through cloud services — which introduces a new trust dependency that public-key purists note carefully. But for the vast majority of users, passkeys represent a meaningful security improvement over passwords with comparable or better usability. The genealogy has, for once, moved toward both more security and more accessibility simultaneously.</div>
+        <div class="auth-strength-row">
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Phishing resistance</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar high" style="width:95%"></div></div>
+          </div>
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Scalability</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar high" style="width:88%"></div></div>
+          </div>
+          <div class="auth-strength-item">
+            <div class="auth-strength-label">Security strength</div>
+            <div class="auth-strength-bar-wrap"><div class="auth-strength-bar high" style="width:90%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Genealogy check — 10 minutes</div>
+      <div class="activity-title">Trace the authentication branch</div>
+      <div class="activity-body">
+        <p>Return to your genealogy sketch. Authentication is a branch that grew from digital signatures — which grew from DHM. Add it, and label each step with the pressure that drove the evolution.</p>
+        <ul class="prompt-list">
+          <li>What pressure drove the move from passwords to OTPs? (It wasn't a technical insight — it was a specific failure mode becoming too costly to ignore.)</li>
+          <li>What pressure drove the move from OTPs to public-key authentication? What did OTPs still leave unsolved?</li>
+          <li>Passkeys are a recent development. Which services in your community already support them? Which don't — and why might adoption be slow?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Identity at national scale -->
+  <div class="page">
+    <div class="section-label">B2.2 — When authentication becomes infrastructure</div>
+
+    <p class="body-text">Authentication between individuals and websites is one branch of the genealogy. Authentication between individuals and governments — the question of legal digital identity — is another, and it is where cryptographic trust has had its most consequential, most contested, and most unequal deployments.</p>
+
+    <p class="body-text">A national digital identity system is the attempt to answer, at the scale of an entire population, the question: how does a government service know you are who you claim to be, without requiring physical presence? The answer requires cryptography — but it also requires political choices about centralisation, about who is included and excluded, about what data is collected and by whom, and about what happens to people the system cannot recognise.</p>
+
+    <p class="body-text">Four systems, in particular, represent the range of approaches the world has taken to this problem. Each reflects different political contexts, different infrastructure assumptions, and different choices about the trade-off between efficiency and rights.</p>
+
+    <div class="id-grid">
+      <div class="id-card">
+        <div class="id-card-flag">🇮🇳</div>
+        <div class="id-card-name">Aadhaar</div>
+        <div class="id-card-country">India · launched 2009</div>
+        <div class="id-card-body">A biometric identity system linking fingerprints and iris scans to a 12-digit number for every resident of India. Designed to deliver welfare benefits to people who previously had no official identity. Built on cryptographic authentication — Aadhaar-based verification uses a challenge-response protocol where the Unique Identification Authority of India confirms identity without transmitting biometric data to the requesting service.</div>
+        <div class="id-card-stat">1.4 billion enrolled</div>
+      </div>
+      <div class="id-card">
+        <div class="id-card-flag">🇸🇬</div>
+        <div class="id-card-name">Singpass</div>
+        <div class="id-card-country">Singapore · launched 2003</div>
+        <div class="id-card-body">A federated digital identity system that gives Singapore residents a single authenticated login for over 2,000 government and private sector services. Singpass uses public-key cryptography and biometric device authentication. It has become a model for how a small, high-trust state can consolidate identity infrastructure without the scale challenges that affect larger nations. Its extension to the private sector — banks, healthcare, insurance — makes it one of the most comprehensively integrated identity systems in the world.</div>
+        <div class="id-card-stat">97% adult population</div>
+      </div>
+      <div class="id-card">
+        <div class="id-card-flag">🇪🇺</div>
+        <div class="id-card-name">eIDAS / EU Digital Identity</div>
+        <div class="id-card-country">European Union · 2014, revised 2024</div>
+        <div class="id-card-body">A framework — not a single system — that enables EU member states to recognise each other's national digital identity schemes. eIDAS 2.0, adopted in 2024, mandates that all member states provide citizens with a Digital Identity Wallet — a personal store of verifiable credentials that the citizen controls. It is the most ambitious attempt yet to build digital identity infrastructure that is both interoperable across borders and privacy-preserving by design, with selective disclosure of credentials baked into the standard.</div>
+        <div class="id-card-stat">450 million citizens</div>
+      </div>
+      <div class="id-card">
+        <div class="id-card-flag">🇸🇪</div>
+        <div class="id-card-name">BankID</div>
+        <div class="id-card-country">Scandinavia · launched 2003</div>
+        <div class="id-card-body">Uniquely, Scandinavia's dominant digital identity infrastructure is bank-issued, not government-issued. BankID — used in Sweden, Norway, and Denmark — authenticates individuals using certificates issued by their banks, which serve as proxies for government identity. Used for everything from tax returns to medical records to contract signing, it shows that digital identity infrastructure can emerge from the private sector and achieve near-universal adoption — but also that it concentrates identity infrastructure in financial institutions, creating dependencies and exclusions for people without banking relationships.</div>
+        <div class="id-card-stat">8+ million daily authentications</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2009</div>
+          <div class="tl-title">Aadhaar launches — identity for the previously invisible</div>
+          <div class="tl-body">Aadhaar's founding logic was inclusion: millions of Indians had no official identity documents and therefore no access to welfare, banking, or formal employment. Biometric identity, linked to a cryptographic number, would give them a verifiable identity that could not be lost, stolen, or forged. By 2016 it was the largest biometric database in history.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2017–2018</div>
+          <div class="tl-title">Aadhaar exclusions — the cost of mandatory infrastructure</div>
+          <div class="tl-body">As Aadhaar became mandatory for welfare, banking, and mobile SIM cards, reports emerged of people being denied food rations, pensions, and medical services because authentication failed — fingerprints degraded by manual labour, connectivity failures in rural areas, or simple database errors. The system designed for inclusion was, in practice, excluding the most vulnerable. The Supreme Court of India ruled in 2018 that mandatory use of Aadhaar for private services was unconstitutional.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2018</div>
+          <div class="tl-title">GDPR and the identity rights question in Europe</div>
+          <div class="tl-body">The EU's General Data Protection Regulation introduced the right to be forgotten, data minimisation requirements, and purpose limitation — all of which have direct implications for digital identity systems. The tension between GDPR's privacy principles and the operational needs of identity infrastructure shaped the design of eIDAS 2.0 and pushed the EU toward selective disclosure and citizen-controlled wallets.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--accent-mid);"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2024</div>
+          <div class="tl-title">eIDAS 2.0 — the wallet model emerges</div>
+          <div class="tl-body">The EU Digital Identity Wallet, mandated to be available to all EU citizens by 2026, represents a shift from centralised identity verification to a model where citizens hold their own verifiable credentials — driving licence, degree, professional qualification — and share only what is necessary for a specific transaction. Selective disclosure, built on zero-knowledge proof techniques, allows someone to prove they are over 18 without revealing their date of birth. The genealogy is reaching toward privacy-preserving identity at continental scale.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The genealogy lesson from national identity systems</div>
+      <div class="callout-body">Every national identity system embeds political choices in cryptographic infrastructure. Who is enrolled and who is left out. Whether the system is centralised or federated. Whether data is held by the state, by banks, or by citizens themselves. Whether authentication failures are treated as edge cases or as a structural problem. A Present Ambassador who understands these choices — and can name them clearly for a community that uses the system without seeing them — is doing something that policy documents rarely do: making the infrastructure legible to the people it governs.</div>
+    </div>
+  </div>
+
+  <!-- Tab 3: The tensions -->
+  <div class="page">
+    <div class="section-label">B2.3 — The tensions that define the field</div>
+
+    <p class="body-text">Digital identity is where cryptographic trust meets politics most directly. The mathematics of authentication are sound. The choices about how to deploy authentication infrastructure — at what scale, under whose control, with what safeguards — are political. And those choices produce tensions that are not resolvable by technical means alone. A Present Ambassador needs to be able to name these tensions clearly, without false resolution, because they are the tensions that communities are being asked to navigate right now.</p>
+
+    <div class="tension-block">
+      <div class="tension-head">
+        <div class="tension-head-cell">The tension</div>
+        <div class="tension-head-cell">What each side argues</div>
+        <div class="tension-head-cell">Where it shows up</div>
+      </div>
+      <div class="tension-row">
+        <div class="tension-cell label">Inclusion vs. exclusion risk</div>
+        <div class="tension-cell">A universal identity system can reach people who were previously invisible to services. But mandatory systems exclude those who cannot enrol — the elderly, the disabled, the undocumented, those in areas with poor connectivity.</div>
+        <div class="tension-cell">Aadhaar welfare denials. BankID exclusion of the unbanked. Any system where authentication failure means service denial.</div>
+      </div>
+      <div class="tension-row">
+        <div class="tension-cell label">Centralisation vs. resilience</div>
+        <div class="tension-cell">A centralised identity system is efficient and interoperable. It is also a single point of failure — technical, political, and adversarial. A federated or distributed system is more resilient but harder to standardise.</div>
+        <div class="tension-cell">Estonia's X-Road (federated) vs. Aadhaar (centralised). Ukraine's digital identity surviving Russian infrastructure attacks because it was distributed.</div>
+      </div>
+      <div class="tension-row">
+        <div class="tension-cell label">Convenience vs. privacy</div>
+        <div class="tension-cell">A single sign-on identity that works everywhere is enormously convenient — and it enables comprehensive tracking of everything a citizen does across every service. Selective disclosure and zero-knowledge proofs reduce this risk, but add complexity.</div>
+        <div class="tension-cell">eIDAS 2.0's wallet model vs. China's integrated social credit infrastructure. The EU's choice to mandate selective disclosure is a political choice about values, not just a technical one.</div>
+      </div>
+      <div class="tension-row">
+        <div class="tension-cell label">State authority vs. individual rights</div>
+        <div class="tension-cell">Governments have a legitimate interest in being able to verify identity for law enforcement and national security. Individuals have a legitimate interest in not being tracked by their government through the infrastructure of daily life.</div>
+        <div class="tension-cell">The Aadhaar Supreme Court ruling. GDPR. Debates in Australia, UK, and US about national digital identity legislation. Every system that requires identity verification for access to essential services.</div>
+      </div>
+    </div>
+
+    <div class="incident-box">
+      <div class="incident-label">Case study — for community engagement</div>
+      <div class="incident-title">When the system cannot see you</div>
+      <div class="incident-body">In 2017 and 2018, Indian welfare recipients began reporting that they were being denied food rations — food they were legally entitled to — because the point-of-sale biometric device at their ration shop could not read their fingerprints. Labourers whose fingertips had been worn smooth by years of physical work. Elderly people whose prints had faded. People in areas where intermittent connectivity meant the authentication server was unreachable. In each case, the system's failure mode was the same: no authentication, no food. The system had no fallback. A technical failure became a humanitarian one. This case is not an argument against digital identity systems. It is an argument for designing them with explicit fallback mechanisms, for treating authentication failure as a foreseeable condition rather than an edge case, and for asking, before deployment, who will be systematically excluded — and what will happen to them when they are.</div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">The question of who controls the infrastructure</div>
+      <div class="warning-body">Every digital identity system concentrates power somewhere. In Aadhaar, it is the Indian state. In BankID, it is the banking sector. In China's integrated platforms, it is a combination of technology companies and the state. In eIDAS 2.0, the explicit design goal is to distribute that power toward citizens themselves. As a Present Ambassador, you can help your community ask: in the identity infrastructure we use or are being asked to adopt, where is the power concentrated? Who makes decisions about enrolment, authentication failure, data retention, and access? And what recourse does an individual have when the system makes a mistake about them?</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection — 15 minutes</div>
+      <div class="activity-title">Map the tensions in your region</div>
+      <div class="activity-body">
+        <p>Every country or region that has deployed digital identity infrastructure has navigated these tensions in its own way — or failed to navigate them, and experienced the consequences.</p>
+        <ul class="prompt-list">
+          <li>What digital identity infrastructure exists in your country or region? Is it government-issued, bank-issued, or private platform-based? Who controls the enrolment process?</li>
+          <li>Which of the four tensions in the table above is most acute in your context — and where has it produced visible friction, failure, or public controversy?</li>
+          <li>Who in your community is most at risk of being excluded by the identity systems that are currently being deployed or mandated? Do they have advocates?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Your community -->
+  <div class="page">
+    <div class="section-label">B2.4 — Identity in your community</div>
+
+    <p class="body-text">Authentication and identity are not abstract problems for the communities Present Ambassadors work with. They are daily realities — and often daily frustrations. The person who cannot access their pension because a biometric scan fails. The student who cannot sit an online exam because their national identity document is not recognised by the platform. The migrant worker whose mobile money account is suspended because their identity verification has expired. These are experiences of the authentication layer that most communities have in abundance — and rarely connect to the cryptographic infrastructure underneath.</p>
+
+    <p class="body-text">Your job in this module's community work is to surface those experiences and connect them to the system that produced them — not to assign blame, but to build understanding of what the system is, how it works, and what it requires to work for everyone.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Map the identity infrastructure your community uses</div>
+          <div class="step-body">What digital identity systems does your community interact with regularly? Government portals, banking apps, healthcare systems, social benefit platforms. For each one: what authentication mechanism does it use? Who issues and controls the identity credential? What happens when authentication fails?</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Find the exclusion stories</div>
+          <div class="step-body">In almost every community that has deployed digital identity infrastructure, there are people who have been excluded — temporarily or permanently — by failures of the system. These stories are rarely in official reports. They are in community organisations, social workers' case files, local journalism, and people's direct experience. Find them. They are the most powerful material you have for making the tensions in Tab 3 legible to a real audience.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Find the entry point for your specific audience</div>
+          <div class="step-body">For a general public audience: "When did a digital system fail to recognise you — or someone you know?" For a policy audience: "What fallback mechanisms exist in your identity infrastructure for when authentication fails — and have they been tested?" For a technical audience: "How does your system handle the trade-off between centralisation and resilience — and what is the recovery path if the central authority is compromised or unavailable?"</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Connect to what's coming</div>
+          <div class="step-body">The identity landscape is changing. The EU Digital Identity Wallet is arriving. Verifiable credentials — portable, privacy-preserving, citizen-held — are moving from standard to deployment. Post-quantum threats affect identity systems as much as TLS. Is your community's identity infrastructure on a roadmap for these changes? Does anyone responsible for it know they need one?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The question that lands in every room</div>
+      <div class="callout-body">For almost any community: "Has a digital system ever told you that it couldn't verify who you are — even though you knew exactly who you were?" The experience is nearly universal. The frustration it produces is the entry point. The question that follows is: why did that happen, and who decided the system would work that way? That question leads directly to the political choices embedded in cryptographic infrastructure — and to the fact that those choices can be made differently.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Research task — 1 to 2 hours</div>
+      <div class="activity-title">Build your identity community brief</div>
+      <div class="activity-body">
+        <p>Before your first engagement on this topic, answer the following for your specific context:</p>
+        <ul class="prompt-list">
+          <li>What is the primary digital identity system used in your country for accessing government services? Who built it, who operates it, and who is excluded by it?</li>
+          <li>Has there been a significant failure, controversy, or legal challenge related to digital identity in your country in the last five years? What actually happened — and what did the public understand about it?</li>
+          <li>Is your country's identity infrastructure moving toward verifiable credentials, citizen-held wallets, or zero-knowledge proofs? Or is it moving in a different direction — and what does that direction reveal about the political choices being made?</li>
+          <li>Who in your community has the most to gain from better digital identity infrastructure — and who has the most to lose from poorly designed deployment?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Log entry -->
+  <div class="page">
+    <div class="section-label">Module B2 — Log Entry</div>
+
+    <p class="body-text">You've traced authentication from passwords to passkeys, and identity from local authentication to national infrastructure at billion-person scale. Before moving to B3, record where you are.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 4 — Identity and authentication</div>
+      <div class="log-field">
+        <label class="log-label">The distinction that most clarified your thinking</label>
+        <textarea class="log-area" rows="2" placeholder="Confidentiality vs. authentication? Centralisation vs. resilience? Something else?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The identity system most relevant to your community — and its most significant flaw</label>
+        <textarea class="log-area" rows="2" placeholder="Be specific. Not 'it has privacy issues' — which privacy issue, affecting whom, in what way?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The exclusion story from your region you want to understand better</label>
+        <textarea class="log-area" rows="2" placeholder="Who has been excluded by digital identity infrastructure in your context — and what happened to them?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The entry point you'll use with your specific community</label>
+        <textarea class="log-area" rows="2" placeholder="The question, the story, or the experience that will open the room."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Update to your genealogy sketch</label>
+        <textarea class="log-area" rows="2" placeholder="Authentication is a branch from digital signatures, which grew from DHM. What sub-branches did you add? What pressures labelled them?"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B2 complete</div>
+      <div class="completion-body">You understand authentication's evolution from passwords to passkeys, and digital identity's deployment at national scale — including the political tensions that no cryptographic standard can resolve. Next: Module B3 — Payments and Financial Infrastructure, where the question becomes: how does cryptographic trust move money between strangers, at the scale of a billion transactions a day?</div>
+      <div class="badge-row">
+        <span class="badge-pill">Authentication genealogy — traced</span>
+        <span class="badge-pill">National identity systems — mapped</span>
+        <span class="badge-pill">Tensions — named</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showAuth(n) {
+  document.querySelectorAll('.auth-panel').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.auth-tab').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+</script>
+</body>
+</html>

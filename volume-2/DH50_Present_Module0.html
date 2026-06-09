@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module 0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-soft: #7a7670;
+    --ink-faint: #b0ada6;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --rule: #e2ddd4;
+    --rule-soft: #ede9e0;
+    --accent: #1a5276;
+    --accent-light: #d6eaf8;
+    --accent-mid: #2e86c1;
+    --teal: #1e7a6e;
+    --teal-light: #d5f0eb;
+    --gold: #9a7b2e;
+    --gold-light: #f5edda;
+    --serif: 'Lora', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .handbook {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 0 80px;
+  }
+
+  /* Header */
+  .header {
+    padding: 40px 32px 32px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .header-eyebrow {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .header-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .header-subtitle {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .module-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: var(--accent-light);
+    border: 1px solid #a9cce3;
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-top: 16px;
+  }
+
+  /* Tab nav */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 0 32px;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 14px 16px 12px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* Page content */
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  /* Typography */
+  .body-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-family: var(--sans);
+    font-weight: 300;
+  }
+  .body-text strong { font-weight: 500; }
+
+  .serif-text {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .pull-quote {
+    border-left: 3px solid var(--accent-mid);
+    margin: 28px 0;
+    padding: 14px 20px;
+    font-family: var(--serif);
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    background: var(--accent-light);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+
+  /* Activity box */
+  .activity-box {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin: 24px 0;
+    background: var(--paper-card);
+  }
+  .activity-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .activity-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-family: var(--serif);
+  }
+  .activity-body {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-mid);
+    margin-bottom: 9px;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); margin-top: 1px; }
+
+  /* Log box */
+  .log-box {
+    border: 1px dashed #c8c3ba;
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin: 24px 0;
+    background: var(--paper-warm);
+  }
+  .log-entry-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 20px;
+  }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin-bottom: 7px;
+    display: block;
+  }
+  .log-line {
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    width: 100%;
+    background: transparent;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 4px 0 7px;
+    outline: none;
+    font-family: var(--sans);
+    font-weight: 300;
+  }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+  .log-area {
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    width: 100%;
+    background: transparent;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 4px 0 7px;
+    outline: none;
+    resize: none;
+    font-family: var(--sans);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  /* Callout */
+  .callout {
+    background: var(--teal-light);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 20px 0;
+  }
+  .callout-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .callout-body {
+    font-size: 13px;
+    color: #1a5c52;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* Profile cards */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .profile-card {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 18px 20px;
+    background: var(--paper-card);
+  }
+  .profile-role {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: 6px;
+  }
+  .profile-name {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .profile-body {
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* Steps */
+  .steps-block {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 24px 0;
+    background: var(--paper-card);
+  }
+  .step-row {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--rule-soft);
+    padding: 18px 20px;
+    align-items: flex-start;
+  }
+  .step-row:last-child { border-bottom: none; }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 16px;
+    margin-top: 1px;
+    border: 1px solid #a9cce3;
+  }
+  .step-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .step-body {
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  /* Comparison row — three ambassadors */
+  .trio-block {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 24px 0;
+  }
+  .trio-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--rule);
+  }
+  .trio-head-cell {
+    padding: 10px 16px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-right: 1px solid var(--rule);
+  }
+  .trio-head-cell:last-child { border-right: none; }
+  .trio-head-cell.active-col { color: var(--accent); }
+  .trio-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .trio-row:last-child { border-bottom: none; }
+  .trio-cell {
+    padding: 13px 16px;
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+    font-weight: 300;
+    border-right: 1px solid var(--rule-soft);
+  }
+  .trio-cell:last-child { border-right: none; }
+  .trio-cell.active-col {
+    background: var(--accent-light);
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .trio-row-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Badge / completion */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--paper-warm);
+    color: var(--ink-mid);
+    border: 1px solid var(--rule);
+  }
+  .completion-box {
+    margin-top: 28px;
+    padding: 18px 22px;
+    border-radius: 10px;
+    background: var(--gold-light);
+    border: 1px solid #dfd0a0;
+  }
+  .completion-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .completion-body {
+    font-size: 13px;
+    color: #7a6520;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* Divider */
+  .page-divider {
+    border: none;
+    border-top: 1px solid var(--rule-soft);
+    margin: 32px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .profile-grid { grid-template-columns: 1fr; }
+    .trio-head { grid-template-columns: 1fr; }
+    .trio-row { grid-template-columns: 1fr; }
+    .trio-head-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .trio-cell { border-right: none; border-bottom: 1px solid var(--rule-soft); }
+    .header-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide</div>
+    <div class="header-title">Module 0 — Orientation</div>
+    <div class="header-subtitle">Before you walk into the room, you need to know what you're carrying.</div>
+    <div class="module-badge">Always included</div>
+  </div>
+
+  <!-- Tab nav -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">The mission</button>
+    <button class="tab-btn" onclick="showTab(1)">Who is here</button>
+    <button class="tab-btn" onclick="showTab(2)">Your place in the trio</button>
+    <button class="tab-btn" onclick="showTab(3)">First log entry</button>
+  </div>
+
+  <!-- Tab 0: The mission -->
+  <div class="page active">
+    <div class="section-label">Module 0.0 — Why you're here</div>
+
+    <p class="body-text">This is not a communications manual. It is a field guide for someone who has decided to do something genuinely difficult: to help people see what they use every day without seeing it.</p>
+
+    <p class="body-text">Right now, as you read this, cryptographic trust is running underneath almost everything around you. The message that arrived on your phone. The payment you made this morning. The login that confirmed you are who you say you are. The document that carries legal weight because a signature verified it. None of this announced itself. It simply worked — or if it didn't work, something failed in ways most people couldn't name.</p>
+
+    <p class="body-text">That invisibility is not an accident. It is, in a sense, the system's greatest achievement. But it is also the thing that makes it fragile in ways that matter. Infrastructure that nobody understands is infrastructure that nobody can defend, improve, or shape. Decisions about the next fifty years of cryptographic trust are being made right now — in standards bodies, in government ministries, in the architecture choices of platforms used by billions of people. Those decisions will affect everyone. Almost no one outside a small technical and policy community knows they are being made.</p>
+
+    <div class="pull-quote">
+      "Your job is not to explain technology. It is to help people see what's already in their lives — and to realise they have a stake in where it goes next."
+    </div>
+
+    <p class="body-text">That is what makes the Present Ambassador's work distinct. The History Ambassador follows a thread backwards through time — recovering stories before they are lost. The Future Ambassador projects forward — imagining what the next fifty years could hold. You inhabit the present. Not as a stepping stone to somewhere else, but as the destination itself. The living, moving, unfinished present — where an idea born in a Stanford lab in 1976 is still branching, still adapting, still reaching into corners of daily life that its inventors could not have anticipated.</p>
+
+    <p class="body-text">To do this work well, you need two things that are both harder than they sound.</p>
+
+    <p class="body-text">The first is <strong>genuine fluency</strong>. Not the ability to recite facts about encryption, but the ability to trace the genealogy of cryptographic trust — to see how DHM's founding insight branched into TLS, digital signatures, identity systems, payment rails, post-quantum standards, and the emerging question of verifiable AI content. To understand not just what these systems are, but why they evolved the way they did — what pressures shaped them, what trade-offs they made, what they still haven't solved. This fluency is what lets you walk into any room and find the application or use case that is most alive and relevant for the people in front of you. Anyone can mention secure messaging. The Present Ambassador finds the thing that makes this specific room sit up.</p>
+
+    <p class="body-text">The second is <strong>genuine attention to your community</strong>. The field, however rich, is only the beginning. The real work is translation — finding the entry point that connects what you know to what the people in the room already care about, already use, already depend on or distrust. That translation cannot be done in advance. It requires knowing your audience before you know your material.</p>
+
+    <div class="callout">
+      <div class="callout-title">Before you go further</div>
+      <div class="callout-body">Three questions worth sitting with — not to answer now, but to keep close as you work through this handbook.<br><br>
+      What is the digital infrastructure your community uses most — and understands least?<br><br>
+      When did someone in your community last experience what happens when that infrastructure fails? What did they call it — a glitch, a hack, an outage, a breach? Did they know what actually happened?<br><br>
+      Who in your community has a stake in the next fifty years of cryptographic trust — and doesn't know it yet?</div>
+    </div>
+
+    <p class="body-text">This field guide will walk with you through both. It begins with the founding insight — the logic of what DHM made possible. It traces the genealogy of how that insight evolved. It asks you to map the living landscape of your own region. It helps you learn your community and find their entry point. And it prepares you for the room — with frameworks, formats, and the one irreplaceable thing no template can provide: a deep enough understanding that you can go off-script when the room needs you to.</p>
+
+    <p class="body-text" style="font-size:13px; color: var(--ink-faint); margin-top: 32px;">This field guide was created as part of the Diffie-Hellman 50th Anniversary Initiative — a global project by IEEE societies and partners to document the past, engage communities today, and imagine the next fifty years of cryptographic trust.</p>
+  </div>
+
+  <!-- Tab 1: Who is here -->
+  <div class="page">
+    <div class="section-label">Module 0.1 — The cohort</div>
+
+    <p class="body-text">Present Ambassadors do not come from one place. They come from anywhere that has a community that needs to understand what cryptographic trust is, how it arrived in their lives, and why what happens next matters. That breadth is not a complication — it is the point.</p>
+
+    <p class="body-text">Look at who is in this cohort. An IEEE student branch leader in Nairobi, preparing to run a workshop for undergraduates. A GovStack alumna in Estonia, presenting to a regional council on digital identity. A DPI practitioner in Indonesia, briefing a payments working group on post-quantum readiness. A secondary school mathematics teacher in São Paulo, building a lesson around the padlock idea. A policy analyst in Brussels, explaining C2PA to a parliamentary committee that has never heard of it.</p>
+
+    <p class="body-text">Different rooms. Different entry points. The same underlying work: making the invisible visible, for people who have a stake in where it goes next.</p>
+
+    <div class="pull-quote">
+      "The community is a high school mathematics club. The community is a local council meeting. The community is a fintech conference. Your handbook travels with you to all of them."
+    </div>
+
+    <p class="body-text">What unites this cohort is not background or expertise. It is a willingness to develop genuine fluency — to go deeper than the obvious examples — and to bring that fluency into contact with a specific community they know and care about. The work looks different in every room. The preparation is the same.</p>
+
+    <p class="body-text">A note on what this handbook assumes: it does not assume a technical background. It does assume curiosity, patience with complexity, and a genuine relationship with a community you want to reach. If you have those things, everything else this handbook asks of you is learnable.</p>
+
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="profile-role">The educator</div>
+        <div class="profile-name">Teaching the next generation</div>
+        <div class="profile-body">You work with students — secondary, undergraduate, or community learners. Your community is curious but needs the concepts grounded in something concrete. You're looking for the right metaphor, the right demonstration, the moment where mathematics becomes meaningful.</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-role">The practitioner</div>
+        <div class="profile-name">Inside the infrastructure</div>
+        <div class="profile-body">You work in digital identity, payments, policy, or security. You understand the systems from the inside. Your challenge is not fluency — it is translation. How do you make what you know legible to people who don't share your vocabulary?</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-role">The community organiser</div>
+        <div class="profile-name">Meeting people where they are</div>
+        <div class="profile-body">You have relationships with a community that doesn't spend its time thinking about digital infrastructure — but is shaped by it. You know how to hold a room. You need the substance to match the skill.</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-role">The communicator</div>
+        <div class="profile-name">Making complexity land</div>
+        <div class="profile-body">You write, speak, broadcast, or publish. You can explain almost anything once you understand it. Your job is to develop the understanding first — then bring your craft to bear on material most communicators don't know well enough to get right.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">You may be more than one of these</div>
+      <div class="callout-body">Most Present Ambassadors span more than one profile — and the community they're working with may span several too. What matters is not the category but the question it points to: what does your specific community need from you, and what do you need to develop to give them that?</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Your place in the trio -->
+  <div class="page">
+    <div class="section-label">Module 0.2 — Three ambassadors, one story</div>
+
+    <p class="body-text">The DH50 initiative enlists three kinds of ambassador. Understanding how they relate — and what is distinctly yours — matters, because the Present Ambassador's work is sometimes the hardest to explain.</p>
+
+    <p class="body-text">History Ambassadors follow the journey of an idea backwards through time. They find the engineers, administrators, and policymakers who were there when cryptographic trust arrived in a community — and they recover stories that exist nowhere except in memory. Their posture is that of the careful witness: recovering what is fading before it is lost entirely.</p>
+
+    <p class="body-text">Future Ambassadors project forward. They investigate where the next fifty years of cryptographic trust might lead — in a specific domain, a specific region, a specific dimension of the field. Their posture is that of the rigorous imaginer: scenario planning, policy analysis, speculation grounded in evidence.</p>
+
+    <p class="body-text">Present Ambassadors do something that is, in its own way, stranger than either. They stay. They inhabit the moving present — where cryptographic trust is not a completed story or a not-yet-arrived future, but an active, branching, still-unfinished reality. Their work is to trace the genealogy of that reality clearly enough to make it visible to people who are living inside it without seeing it.</p>
+
+    <div class="trio-block">
+      <div class="trio-head">
+        <div class="trio-head-cell">History Ambassador</div>
+        <div class="trio-head-cell active-col">Present Ambassador</div>
+        <div class="trio-head-cell">Future Ambassador</div>
+      </div>
+      <div class="trio-row">
+        <div class="trio-cell"><span class="trio-row-label">Direction</span>Follows an idea backwards through time</div>
+        <div class="trio-cell active-col"><span class="trio-row-label">Direction</span>Inhabits the living, moving present</div>
+        <div class="trio-cell"><span class="trio-row-label">Direction</span>Projects forward into possible futures</div>
+      </div>
+      <div class="trio-row">
+        <div class="trio-cell"><span class="trio-row-label">Core question</span>How did this idea travel here — and who carried it?</div>
+        <div class="trio-cell active-col"><span class="trio-row-label">Core question</span>What is this idea doing right now — and does anyone know?</div>
+        <div class="trio-cell"><span class="trio-row-label">Core question</span>Where could this idea lead — and who gets to decide?</div>
+      </div>
+      <div class="trio-row">
+        <div class="trio-cell"><span class="trio-row-label">Primary output</span>Interviews, timelines, documented local history</div>
+        <div class="trio-cell active-col"><span class="trio-row-label">Primary output</span>Community engagements, workshops, current-state reports</div>
+        <div class="trio-cell"><span class="trio-row-label">Primary output</span>Scenario papers, policy briefs, public presentations</div>
+      </div>
+      <div class="trio-row">
+        <div class="trio-cell"><span class="trio-row-label">Unique contribution</span>What only someone with their language, relationships, and access can recover</div>
+        <div class="trio-cell active-col"><span class="trio-row-label">Unique contribution</span>What only someone who knows this community can make visible — and relevant — to it</div>
+        <div class="trio-cell"><span class="trio-row-label">Unique contribution</span>What only someone embedded in this region or sector can imagine concretely</div>
+      </div>
+    </div>
+
+    <p class="body-text">Notice something about that table. Each ambassador's unique contribution is defined not by what they know, but by <strong>who they are in relation to a specific community</strong>. The History Ambassador's local relationships are irreplaceable. The Future Ambassador's regional embeddedness is irreplaceable. And the Present Ambassador's proximity to a living community — their knowledge of what that community trusts, fears, uses, and misunderstands — is equally irreplaceable.</p>
+
+    <p class="body-text">There is also a throughline. The History Ambassador traces how cryptographic trust arrived where it is. The Future Ambassador imagines where it might go. But both of them use the present as a launchpad. The Present Ambassador is the one who stays long enough to see it clearly — and who helps others see it too.</p>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection — 10 minutes</div>
+      <div class="activity-title">Where do you stand?</div>
+      <div class="activity-body">
+        <p>Before you go further, write a short answer to each of the following. Don't polish it — just write what's true.</p>
+        <ul class="prompt-list">
+          <li>Which of the four profiles in the previous tab fits you best — and what does that suggest about the community you'll be working with?</li>
+          <li>What is the piece of cryptographic infrastructure most present in your community's daily life — whether they know it or not?</li>
+          <li>What do you most need to develop — fluency in the field, or skill at translation — to do this work well?</li>
+        </ul>
+        <p style="margin-top: 12px;">Keep these answers. You'll return to them at the end of the handbook and see how much has changed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: First log entry -->
+  <div class="page">
+    <div class="section-label">Module 0.3 — Your ambassador log</div>
+
+    <p class="body-text">Every field guide needs a record. Not a report — a thinking tool. Your log is where you write what surprised you, what you're not sure about, who you need to talk to, and what you're starting to understand that you didn't before.</p>
+
+    <p class="body-text">You'll return to it after every significant piece of work. After you map the genealogy. After you research your region. After your first engagement. After the conversation that changed how you thought about your own community. By the end of the year, your log will be a record of how your thinking developed — and that record matters. Not just for you, but for the ambassadors who come after you, working in different places with the same questions.</p>
+
+    <p class="body-text">Nothing in your log needs to be polished. Write what you actually think, not what sounds right.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 1 — Arrival</div>
+
+      <div class="log-field">
+        <label class="log-label">Date</label>
+        <input class="log-line" type="text" placeholder="Today's date">
+      </div>
+      <div class="log-field">
+        <label class="log-label">Location</label>
+        <input class="log-line" type="text" placeholder="Where you are">
+      </div>
+      <div class="log-field">
+        <label class="log-label">What brought you here?</label>
+        <textarea class="log-area" rows="3" placeholder="Not the official answer — the real one."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The community you're thinking about</label>
+        <textarea class="log-area" rows="2" placeholder="Who are the people you most want to reach with this work?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The piece of the field you most want to understand</label>
+        <textarea class="log-area" rows="2" placeholder="Which branch of the genealogy feels most alive to you right now?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">One person you'll tell about this — and why them</label>
+        <textarea class="log-area" rows="2" placeholder="Not your most technically fluent contact. The person who most needs to understand this."></textarea>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">This log travels with you</div>
+      <div class="callout-body">Each section of this field guide ends with a log prompt. Some are short — a sentence or two. Some ask you to reflect after a workshop that didn't go as planned. Over time, they will show you how the work changed you — and that record is part of what you contribute to the global ambassador network. Nothing needs to be rewritten from scratch when you reach Module G. Your log is already most of the story.</div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module 0 complete</div>
+      <div class="completion-body">You have the mission, a sense of the cohort, your place in the ambassador trio, and your first log entry. You're ready to begin. Next: Module A — The Founding Insight, where the genealogy begins at the moment that made everything possible.</div>
+      <div class="badge-row">
+        <span class="badge-pill">Field log opened</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => {
+    p.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === n);
+  });
+}
+</script>
+</body>
+</html>
