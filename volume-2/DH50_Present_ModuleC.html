@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  /* Landscape map grid */
+  .map-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 20px 0; }
+  .map-cell { border: 1px solid var(--rule); border-radius: 8px; padding: 12px 10px; background: var(--paper-card); text-align: center; cursor: pointer; transition: all 0.15s; }
+  .map-cell:hover { border-color: var(--accent-mid); }
+  .map-cell.active { border-color: var(--accent-mid); background: var(--accent-light); }
+  .map-cell-icon { font-size: 18px; margin-bottom: 4px; }
+  .map-cell-name { font-size: 11px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+  .map-detail { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; margin-top: 4px; display: none; }
+  .map-detail.active { display: block; }
+  .map-detail-title { font-family: var(--serif); font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .map-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .map-q { background: var(--paper-warm); border-radius: 6px; padding: 10px 12px; font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .map-q-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 4px; }
+
+  /* Status legend */
+  .status-legend { display: flex; gap: 14px; flex-wrap: wrap; margin: 16px 0; padding: 14px 16px; background: var(--paper-warm); border-radius: 8px; border: 1px solid var(--rule); }
+  .status-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-mid); font-weight: 300; }
+  .status-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot-deployed { background: var(--teal); }
+  .dot-partial { background: var(--gold); }
+  .dot-absent { background: var(--red); }
+  .dot-unknown { background: var(--ink-faint); }
+
+  /* Method steps */
+  .method-block { margin: 24px 0; }
+  .method-step { display: flex; gap: 14px; margin-bottom: 0; position: relative; }
+  .method-step:not(:last-child)::before { content: ''; position: absolute; left: 17px; top: 40px; bottom: -8px; width: 1px; background: var(--rule); }
+  .method-num { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: white; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; font-family: var(--serif); }
+  .method-content { padding-bottom: 22px; flex: 1; }
+  .method-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .method-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+
+  /* Brief template */
+  .doc-template { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .doc-section { padding: 16px 20px; border-bottom: 1px solid var(--rule-soft); }
+  .doc-section:last-child { border-bottom: none; }
+  .doc-section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .doc-section-prompt { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .map-grid { grid-template-columns: 1fr 1fr; }
+    .map-detail-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide</div>
+    <div class="header-title">Module C — The Living Landscape</div>
+    <div class="header-subtitle">You've traced the genealogy of the world. Now map the terrain you actually stand on.</div>
+    <div class="module-badge">Foundation → Field</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">From genealogy to terrain</button>
+    <button class="tab-btn" onclick="showTab(1)">The mapping framework</button>
+    <button class="tab-btn" onclick="showTab(2)">Researching your terrain</button>
+    <button class="tab-btn" onclick="showTab(3)">The landscape brief</button>
+    <button class="tab-btn" onclick="showTab(4)">Log entry</button>
+  </div>
+
+  <!-- Tab 0: From genealogy to terrain -->
+  <div class="page active">
+    <div class="section-label">C.0 — A different kind of question</div>
+
+    <p class="body-text">Module B asked: how does this branch of the genealogy work, in general — what pressures shaped it, what does it make possible, where has it been stressed? Those are questions about the world. Module C asks a different kind of question: what does this branch actually look like, right now, in the specific place where you will be standing when you walk into a room?</p>
+
+    <p class="body-text">The difference matters. "TLS secures the web" is true everywhere. "The three government services my community uses most have TLS grades of B, C, and F, and the F is the one that handles tax filings" is true only here — and it is the kind of fact that changes a conversation. Module B gave you the vocabulary and the genealogical fluency. Module C is where you turn that fluency into a map of one specific terrain: yours.</p>
+
+    <div class="pull-quote">
+      "The genealogy tells you what is possible. The landscape tells you what is actually here. A Present Ambassador needs both — but a community only experiences the second."
+    </div>
+
+    <p class="body-text">This module produces a single deliverable: a Living Landscape Brief — a survey of cryptographic trust as it currently stands in your region, organised around the branches you've already traced. It is not exhaustive. It is not a formal audit. It is the picture that lets you walk into any room in your community and answer, with specifics, the question: "what does this actually look like here?"</p>
+
+    <div class="callout">
+      <div class="callout-title">This feeds the global picture too</div>
+      <div class="callout-body">The "current state of DPI" reports mentioned in the DH50 Present Ambassador brief — country and regional surveys of digital public infrastructure — are exactly what a completed Living Landscape Brief contributes to. Your brief, alongside those of ambassadors in other regions, becomes part of a global picture of where cryptographic trust infrastructure stands in 2026: what's deployed, what's working, what's missing, and where the gaps are sharpest.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Opening reflection — 5 minutes</div>
+      <div class="activity-title">What do you already know?</div>
+      <div class="activity-body">
+        <p>Before starting the formal mapping process, take stock of what you already gathered without realising it. Across Modules A through B7, you were repeatedly asked to connect each track to your community.</p>
+        <ul class="prompt-list">
+          <li>Look back through your log entries. How many of the questions in Tab 1 (next) can you already partially answer, just from what you've written so far?</li>
+          <li>Where are the biggest gaps — the branches where you genuinely don't know the current state in your region?</li>
+        </ul>
+        <p>Those gaps are your research priorities for this module.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 1: The mapping framework -->
+  <div class="page">
+    <div class="section-label">C.1 — Seven branches, one terrain</div>
+
+    <p class="body-text">The Living Landscape Brief is organised around the same branches you traced in Module B — plus your own branch from B7. For each one, the question is the same: what is the current state, here, now? Select each branch below to see the specific questions your brief should answer for it.</p>
+
+    <div class="status-legend">
+      <div class="status-legend-item"><div class="status-dot dot-deployed"></div> Deployed and functioning</div>
+      <div class="status-legend-item"><div class="status-dot dot-partial"></div> Partial / uneven</div>
+      <div class="status-legend-item"><div class="status-dot dot-absent"></div> Largely absent</div>
+      <div class="status-legend-item"><div class="status-dot dot-unknown"></div> Unknown — research gap</div>
+    </div>
+
+    <div class="map-grid">
+      <div class="map-cell active" onclick="showMap(0)" id="mc-0">
+        <div class="map-cell-icon">🔒</div>
+        <div class="map-cell-name">TLS & web security</div>
+      </div>
+      <div class="map-cell" onclick="showMap(1)" id="mc-1">
+        <div class="map-cell-icon">🪪</div>
+        <div class="map-cell-name">Identity & authentication</div>
+      </div>
+      <div class="map-cell" onclick="showMap(2)" id="mc-2">
+        <div class="map-cell-icon">💳</div>
+        <div class="map-cell-name">Payments</div>
+      </div>
+      <div class="map-cell" onclick="showMap(3)" id="mc-3">
+        <div class="map-cell-icon">✍️</div>
+        <div class="map-cell-name">Digital signatures</div>
+      </div>
+      <div class="map-cell" onclick="showMap(4)" id="mc-4">
+        <div class="map-cell-icon">⚛️</div>
+        <div class="map-cell-name">Post-quantum readiness</div>
+      </div>
+      <div class="map-cell" onclick="showMap(5)" id="mc-5">
+        <div class="map-cell-icon">🤖</div>
+        <div class="map-cell-name">AI & content provenance</div>
+      </div>
+      <div class="map-cell" onclick="showMap(6)" id="mc-6">
+        <div class="map-cell-icon">🌱</div>
+        <div class="map-cell-name">Your own branch (B7)</div>
+      </div>
+    </div>
+
+    <div class="map-detail active" id="md-0">
+      <div class="map-detail-title">TLS and web security — current state</div>
+      <div class="map-detail-grid">
+        <div class="map-q"><div class="map-q-label">Deployed</div>Which government and major services use HTTPS correctly, with valid, properly configured certificates?</div>
+        <div class="map-q"><div class="map-q-label">Partial / uneven</div>Which services have HTTPS but with weak configurations, expired or self-signed certificates, or mixed content warnings?</div>
+        <div class="map-q"><div class="map-q-label">Absent</div>Which essential services your community uses still operate over plain HTTP?</div>
+        <div class="map-q"><div class="map-q-label">Contested / notable</div>Has there been a TLS-related incident, breach, or controversy in your region in recent years? Who issues the certificates your community's key services rely on?</div>
+      </div>
+    </div>
+
+    <div class="map-detail" id="md-1">
+      <div class="map-detail-title">Identity and authentication — current state</div>
+      <div class="map-detail-grid">
+        <div class="map-q"><div class="map-q-label">Deployed</div>What is the primary digital identity system in your country? What authentication mechanisms (password, OTP, biometric, public-key) are in active use for major services?</div>
+        <div class="map-q"><div class="map-q-label">Partial / uneven</div>Which services or population groups have inconsistent access to digital identity verification?</div>
+        <div class="map-q"><div class="map-q-label">Absent</div>What forms of authentication described in B2 (passkeys, hardware security keys) are essentially unavailable in your context?</div>
+        <div class="map-q"><div class="map-q-label">Contested / notable</div>Has there been a significant exclusion case, legal challenge, or controversy related to digital identity in your country?</div>
+      </div>
+    </div>
+
+    <div class="map-detail" id="md-2">
+      <div class="map-detail-title">Payments — current state</div>
+      <div class="map-detail-grid">
+        <div class="map-q"><div class="map-q-label">Deployed</div>Does your country have a real-time payment rail (like UPI, Pix, or equivalent)? Is it public infrastructure or privately controlled? What's the dominant payment method?</div>
+        <div class="map-q"><div class="map-q-label">Partial / uneven</div>Which population groups or regions have limited access to the dominant payment infrastructure?</div>
+        <div class="map-q"><div class="map-q-label">Absent</div>What payment capabilities described in B3 (linked cross-border rails, low-cost remittances) are unavailable to your community?</div>
+        <div class="map-q"><div class="map-q-label">Contested / notable</div>What is the average remittance cost for corridors relevant to your community? Is your country exploring a CBDC?</div>
+      </div>
+    </div>
+
+    <div class="map-detail" id="md-3">
+      <div class="map-detail-title">Digital signatures — current state</div>
+      <div class="map-detail-grid">
+        <div class="map-q"><div class="map-q-label">Deployed</div>What is your country's electronic signature legal framework? Which sectors (land, courts, healthcare, trade) use digitally signed documents in practice?</div>
+        <div class="map-q"><div class="map-q-label">Partial / uneven</div>Where do "simple" e-signatures (typed names, scanned images) operate where a higher tier would be more appropriate?</div>
+        <div class="map-q"><div class="map-q-label">Absent</div>Which document types from B4's nine sectors remain entirely paper-based in your context?</div>
+        <div class="map-q"><div class="map-q-label">Contested / notable</div>Are there cross-border recognition gaps that affect your community? Any disputes involving digital signature validity?</div>
+      </div>
+    </div>
+
+    <div class="map-detail" id="md-4">
+      <div class="map-detail-title">Post-quantum readiness — current state</div>
+      <div class="map-detail-grid">
+        <div class="map-q"><div class="map-q-label">Deployed</div>Has your government or central bank published any post-quantum migration guidance or timeline?</div>
+        <div class="map-q"><div class="map-q-label">Partial / uneven</div>Are any major institutions (banks, telecoms) known to be assessing or piloting post-quantum cryptography?</div>
+        <div class="map-q"><div class="map-q-label">Absent</div>Is post-quantum migration on the agenda for the institutions responsible for your community's critical infrastructure at all?</div>
+        <div class="map-q"><div class="map-q-label">Contested / notable</div>Which standards framework is your country aligned with — NIST, or an alternative? Who would even be responsible for this decision?</div>
+      </div>
+    </div>
+
+    <div class="map-detail" id="md-5">
+      <div class="map-detail-title">AI and content provenance — current state</div>
+      <div class="map-detail-grid">
+        <div class="map-q"><div class="map-q-label">Deployed</div>Do any media organisations or government information sources in your region use C2PA or Content Credentials?</div>
+        <div class="map-q"><div class="map-q-label">Partial / uneven</div>Are there platform-level AI content labelling requirements that apply in your jurisdiction?</div>
+        <div class="map-q"><div class="map-q-label">Absent</div>Is there any provenance infrastructure at all for the content sources your community most relies on?</div>
+        <div class="map-q"><div class="map-q-label">Contested / notable</div>Has your community experienced a notable AI-generated content incident — political, financial, or social? How was it handled?</div>
+      </div>
+    </div>
+
+    <div class="map-detail" id="md-6">
+      <div class="map-detail-title">Your own branch (B7) — current state</div>
+      <div class="map-detail-grid">
+        <div class="map-q"><div class="map-q-label">Deployed</div>Building on your B7 documentation — what is the current operational status of the branch you found?</div>
+        <div class="map-q"><div class="map-q-label">Partial / uneven</div>Where does it work well, and where does it fall short, for different parts of your community?</div>
+        <div class="map-q"><div class="map-q-label">Absent</div>What would the "complete" version of this branch look like — and how far is the current reality from that?</div>
+        <div class="map-q"><div class="map-q-label">Contested / notable</div>Anything from your B7 research that revealed a tension, gap, or controversy worth carrying into the brief?</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">You don't need green across the board</div>
+      <div class="callout-body">A landscape with gaps, absences, and "unknowns" is not a failed brief — it is an honest one, and often more useful than a brief that found everything. The gaps themselves are information: they show you, and your community, where the genealogy hasn't reached yet, and they're often exactly where the most productive conversations happen.</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Researching your terrain -->
+  <div class="page">
+    <div class="section-label">C.2 — How to fill the map</div>
+
+    <p class="body-text">The research approach here builds directly on what B7 already taught you about working in environments where documentation is uneven. The difference is scope: B7 asked you to go deep on one branch. C asks you to go wide across seven — which means triage, prioritisation, and accepting that some cells of your map will be thinner than others.</p>
+
+    <div class="method-block">
+      <div class="method-step">
+        <div class="method-num">1</div>
+        <div class="method-content">
+          <div class="method-title">Start from what you already have</div>
+          <div class="method-body">Your log entries from Modules A through B7 already contain partial answers to many of the Tab 1 questions. Pull them together first. This gives you a baseline and shows you immediately where the real gaps are — which is where your research time should go.</div>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">2</div>
+        <div class="method-content">
+          <div class="method-title">Use the tools named across B1–B6</div>
+          <div class="method-body">Several modules pointed to specific tools: SSL Labs' Server Test for TLS grading (B1), official government digital strategy publications (B2, B5), central bank and payment regulator websites (B3), national electronic signature registries (B4). Revisit these — they're directly applicable here, now applied systematically across your priority services rather than one example.</div>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">3</div>
+        <div class="method-content">
+          <div class="method-title">Prioritise the services your community actually uses</div>
+          <div class="method-body">You don't need to map every system in your country — you need to map the systems that matter to the people you'll be engaging. If your audience is a local council, prioritise municipal services. If it's a university community, prioritise education and research infrastructure. The map should be wide enough to be honest, but focused enough to be useful.</div>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">4</div>
+        <div class="method-content">
+          <div class="method-title">Treat silence as data — but verify it's real silence</div>
+          <div class="method-body">As B7 noted, the absence of information can itself be informative. But before marking a cell "unknown," make sure you've checked the obvious places: has anyone published a national digital strategy, a central bank fintech roadmap, an e-government progress report? International bodies (World Bank, ITU, GSMA) often publish country-level digital infrastructure assessments that cover gaps national sources don't.</div>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">5</div>
+        <div class="method-content">
+          <div class="method-title">Look for the surprises</div>
+          <div class="method-body">As you fill in the map, watch for the cells that surprise you — a branch that's far more advanced than you expected, or far less. Surprises are often the strongest material for community engagement, because they're surprising to your audience too. A government tax portal with an F-grade TLS configuration is a more compelling opening than a general statement about cybersecurity.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">This is a living document, deliberately</div>
+      <div class="warning-body">"The Living Landscape" is named that way for a reason — the picture you build now will be out of date within months in some areas (a new payment rail launches, a post-quantum policy is announced) and stable for years in others. Treat the brief as a snapshot you can update, not a final report. Note the date you researched each section, so future updates — by you or by another ambassador — know what's current and what needs revisiting.</div>
+    </div>
+  </div>
+
+  <!-- Tab 3: The landscape brief -->
+  <div class="page">
+    <div class="section-label">C.3 — Building your brief</div>
+
+    <p class="body-text">The template below mirrors the seven branches from Tab 1. For each, capture what you found across the four categories — deployed, partial, absent, contested/notable — in your own words. Where you genuinely don't know, write "unknown" rather than guessing. An honest "unknown" is more valuable to you and to anyone reading this brief later than a confident-sounding guess.</p>
+
+    <div class="doc-template">
+      <div class="doc-section">
+        <div class="doc-section-label">Region / community covered</div>
+        <div class="doc-section-prompt">Be specific — a country, a city, a sector, a community within a larger region. The brief should match the scope of your community engagement.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">1. TLS & web security</div>
+        <div class="doc-section-prompt">Deployed / Partial / Absent / Contested — for the services that matter to your audience.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">2. Identity & authentication</div>
+        <div class="doc-section-prompt">Deployed / Partial / Absent / Contested.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">3. Payments</div>
+        <div class="doc-section-prompt">Deployed / Partial / Absent / Contested.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">4. Digital signatures</div>
+        <div class="doc-section-prompt">Deployed / Partial / Absent / Contested.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">5. Post-quantum readiness</div>
+        <div class="doc-section-prompt">Deployed / Partial / Absent / Contested.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">6. AI & content provenance</div>
+        <div class="doc-section-prompt">Deployed / Partial / Absent / Contested.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">7. Your own branch (from B7)</div>
+        <div class="doc-section-prompt">Current status, building on your B7 documentation.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">The biggest surprise</div>
+        <div class="doc-section-prompt">Across all seven branches, what surprised you most — positively or negatively?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">The entry point</div>
+        <div class="doc-section-prompt">Which finding from this brief will you lead with in your community engagement?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Date researched</div>
+        <div class="doc-section-prompt">For your own future reference, and for anyone updating this brief later.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">From map to engagement</div>
+      <div class="callout-body">This brief is the bridge between everything you've learned (Modules A–B7) and the work ahead (Modules D–G). Module D asks you to know your community — and this brief is part of how you'll do that, by showing you where the infrastructure your community depends on is strong, weak, or invisible. Keep it close. You'll return to it repeatedly.</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Log entry -->
+  <div class="page">
+    <div class="section-label">Module C — Log Entry</div>
+
+    <p class="body-text">You've turned six tracks of genealogical fluency plus your own discovered branch into a map of your specific terrain. Before moving to Module D, record where you are.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 10 — The living landscape</div>
+      <div class="log-field">
+        <label class="log-label">The branch where your region is furthest ahead of what you expected</label>
+        <textarea class="log-area" rows="2" placeholder="Where did you find more than you expected — and what does that tell you?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The branch where your region is furthest behind</label>
+        <textarea class="log-area" rows="2" placeholder="Where is the gap starkest — and who is most affected by it?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The cell you marked "unknown" that bothers you most</label>
+        <textarea class="log-area" rows="2" placeholder="Is there a gap in your map that you suspect matters but couldn't fill? What would it take to fill it?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The entry point you've chosen for your community engagement</label>
+        <textarea class="log-area" rows="2" placeholder="The single finding from your brief most likely to make a room sit up."></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module C complete</div>
+      <div class="completion-body">You hold a Living Landscape Brief — a picture of cryptographic trust as it actually stands in your region, built from genuine research and honest about its gaps. This is your terrain. Next: Module D — Know Your Community, where the focus shifts from the infrastructure itself to the people you'll be sharing it with.</div>
+      <div class="badge-row">
+        <span class="badge-pill">Landscape brief — drafted</span>
+        <span class="badge-pill">Entry point — identified</span>
+        <span class="badge-pill">Research gaps — named</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showMap(n) {
+  document.querySelectorAll('.map-cell').forEach((c, i) => c.classList.toggle('active', i === n));
+  document.querySelectorAll('.map-detail').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+</script>
+</body>
+</html>
