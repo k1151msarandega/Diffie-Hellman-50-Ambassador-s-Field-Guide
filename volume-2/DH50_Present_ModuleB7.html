@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module B7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --plum: #5a3d6b; --plum-light: #ede5f5;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  .frontier-box { background: var(--plum-light); border: 1px solid #c8b8d8; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .frontier-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--plum); margin-bottom: 6px; }
+  .frontier-title { font-size: 14px; font-weight: 500; color: var(--plum); margin-bottom: 8px; font-family: var(--serif); }
+  .frontier-body { font-size: 13px; color: #3d2850; line-height: 1.65; font-weight: 300; }
+
+  /* Sector prompt grid */
+  .prompt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .prompt-tile { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: var(--paper-card); cursor: pointer; transition: all 0.15s; }
+  .prompt-tile:hover { border-color: var(--accent-mid); }
+  .prompt-tile.active { border-color: var(--accent-mid); background: var(--accent-light); }
+  .prompt-icon { font-size: 20px; margin-bottom: 6px; }
+  .prompt-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .prompt-tagline { font-size: 11px; color: var(--ink-faint); font-weight: 300; line-height: 1.4; }
+  .prompt-detail { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; margin-top: 4px; display: none; }
+  .prompt-detail.active { display: block; }
+  .prompt-detail-title { font-family: var(--serif); font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .prompt-detail-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .prompt-detail-body p { margin-bottom: 8px; }
+  .prompt-detail-body p:last-child { margin-bottom: 0; }
+
+  /* Method steps - genealogy research framework */
+  .method-block { margin: 24px 0; }
+  .method-step { display: flex; gap: 14px; margin-bottom: 0; position: relative; }
+  .method-step:not(:last-child)::before { content: ''; position: absolute; left: 17px; top: 40px; bottom: -8px; width: 1px; background: var(--rule); }
+  .method-num { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: white; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; font-family: var(--serif); }
+  .method-content { padding-bottom: 22px; flex: 1; }
+  .method-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .method-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .method-question { font-size: 12px; color: var(--accent); font-style: italic; font-family: var(--serif); margin-top: 6px; }
+
+  /* Stuck / unstuck cards */
+  .stuck-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 20px 0; }
+  .stuck-card { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: var(--paper-card); display: flex; gap: 14px; align-items: flex-start; }
+  .stuck-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .stuck-content { flex: 1; }
+  .stuck-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .stuck-body { font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Documentation template */
+  .doc-template { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .doc-section { padding: 16px 20px; border-bottom: 1px solid var(--rule-soft); }
+  .doc-section:last-child { border-bottom: none; }
+  .doc-section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .doc-section-prompt { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+  .log-line { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; font-family: var(--sans); font-weight: 300; }
+  .log-line:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .prompt-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide · Module B</div>
+    <div class="header-title">B7 — Your Own Branch</div>
+    <div class="header-subtitle">Six tracks were mapped for you. This one, you map yourself.</div>
+    <div class="module-badge">Track 7 of 7 — Open track</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">Why this track exists</button>
+    <button class="tab-btn" onclick="showTab(1)">Finding your branch</button>
+    <button class="tab-btn" onclick="showTab(2)">The research method</button>
+    <button class="tab-btn" onclick="showTab(3)">Document and log</button>
+  </div>
+
+  <!-- Tab 0: Why this track exists -->
+  <div class="page active">
+    <div class="section-label">B7.0 — The genealogy is not finished</div>
+
+    <p class="body-text">Six tracks. TLS, identity, payments, digital signatures, post-quantum, AI and verifiable content. Each one was mapped before you arrived — researched, structured, and handed to you as a guided tour of a major branch of the genealogy that began in 1976.</p>
+
+    <p class="body-text">But the genealogy is not a museum. It is alive, and it is branching in places that no handbook author anticipated — often in exactly the places that matter most to the specific community you're preparing to engage. A regional payments innovation that doesn't fit neatly into B3. A sector-specific deployment — agriculture, telecoms, logistics, energy — where cryptographic trust is doing something genuinely novel. A local identity initiative that predates or diverges from the national systems covered in B2. An application of digital signatures to a problem unique to your region's economy.</p>
+
+    <p class="body-text">B7 is where you find that branch, trace its genealogy using the same habits you've built across B1 through B6, and document it — for your own community engagement, and as a contribution to the global record this handbook is part of.</p>
+
+    <div class="pull-quote">
+      "You have spent six tracks learning to ask: which branch is this, what pressure shaped it, what did it make possible, and where is it stressed? Now point that question at something nobody has asked it about yet."
+    </div>
+
+    <p class="body-text">This is also, in a real sense, the bridge to the work of the Future Ambassadors. Tracing how a branch of the genealogy formed — under what pressures, with what trade-offs, reaching what people and excluding which others — is the same intellectual movement as asking where a branch might go next. You are not doing the Future Ambassador's work. But the muscle you build here is the same muscle that lets anyone think rigorously about what comes next, grounded in how things actually came to be.</p>
+
+    <div class="callout">
+      <div class="callout-title">What "your own branch" is not</div>
+      <div class="callout-body">It does not need to be globally significant. It does not need to be unprecedented. It does not need to be a success story — a branch that failed, stalled, or was abandoned is just as informative, often more so. What it needs to be is <strong>genuinely under-documented</strong> — something that matters to your community, that connects to the genealogy you've traced, and that nobody has written down in the way you're about to.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Opening reflection — 10 minutes</div>
+      <div class="activity-title">What have you been noticing?</div>
+      <div class="activity-body">
+        <p>Across Modules A and B1–B6, you were asked repeatedly to connect each track to your own community. Look back at your log entries from those modules.</p>
+        <ul class="prompt-list">
+          <li>Did anything come up — a system, a deployment, a story — that didn't quite fit the track you were working on at the time? Something you set aside because it was "off topic"?</li>
+          <li>Is there a sector in your community's economy — agriculture, logistics, energy, tourism, informal trade — that you haven't yet connected to any of the six tracks, but where you suspect cryptographic trust is quietly doing something important?</li>
+          <li>Is there a system your community uses that you've never seen written about — not in news coverage, not in policy documents, not in academic research?</li>
+        </ul>
+        <p>Any of these could be the seed of your branch. Keep them in mind as you move to Tab 1.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 1: Finding your branch -->
+  <div class="page">
+    <div class="section-label">B7.1 — Where to look</div>
+
+    <p class="body-text">If nothing came to mind in the opening reflection, that's normal — the branches that matter most are often the ones hiding in plain sight precisely because they're embedded in everyday activity rather than presented as "technology." The prompts below are starting points, organised by where unexpected branches tend to hide. Select any that resonate — you may find your branch in the first one, or only after combining ideas from several.</p>
+
+    <div class="prompt-grid">
+      <div class="prompt-tile active" onclick="showPrompt(0)" id="pt-0">
+        <div class="prompt-icon">🌾</div>
+        <div class="prompt-name">Agriculture and supply chains</div>
+        <div class="prompt-tagline">Provenance, certification, cooperatives</div>
+      </div>
+      <div class="prompt-tile" onclick="showPrompt(1)" id="pt-1">
+        <div class="prompt-icon">📱</div>
+        <div class="prompt-name">Telecoms and connectivity</div>
+        <div class="prompt-tagline">SIM infrastructure, eSIM, rural connectivity</div>
+      </div>
+      <div class="prompt-tile" onclick="showPrompt(2)" id="pt-2">
+        <div class="prompt-icon">🏥</div>
+        <div class="prompt-name">Health systems</div>
+        <div class="prompt-tagline">Records, vaccination credentials, telemedicine</div>
+      </div>
+      <div class="prompt-tile" onclick="showPrompt(3)" id="pt-3">
+        <div class="prompt-icon">🏘️</div>
+        <div class="prompt-name">Informal and local economies</div>
+        <div class="prompt-tagline">Cooperatives, savings groups, informal trade</div>
+      </div>
+      <div class="prompt-tile" onclick="showPrompt(4)" id="pt-4">
+        <div class="prompt-icon">🗳️</div>
+        <div class="prompt-name">Civic and electoral systems</div>
+        <div class="prompt-tagline">Voter registration, e-governance, public records</div>
+      </div>
+      <div class="prompt-tile" onclick="showPrompt(5)" id="pt-5">
+        <div class="prompt-icon">🛂</div>
+        <div class="prompt-name">Migration and mobility</div>
+        <div class="prompt-tagline">Cross-border credentials, refugee documentation</div>
+      </div>
+      <div class="prompt-tile" onclick="showPrompt(6)" id="pt-6">
+        <div class="prompt-icon">⚡</div>
+        <div class="prompt-name">Energy and utilities</div>
+        <div class="prompt-tagline">Smart meters, prepaid systems, grid security</div>
+      </div>
+      <div class="prompt-tile" onclick="showPrompt(7)" id="pt-7">
+        <div class="prompt-icon">🕊️</div>
+        <div class="prompt-name">A branch that didn't survive</div>
+        <div class="prompt-tagline">Abandoned, stalled, or failed deployments</div>
+      </div>
+    </div>
+
+    <div class="prompt-detail active" id="pd-0">
+      <div class="prompt-detail-title">Agriculture and supply chains</div>
+      <div class="prompt-detail-body">
+        <p>If your community includes agricultural producers — smallholder farmers, fishing cooperatives, livestock producers — there may be cryptographic provenance or certification systems operating that connect directly to B4's supply chain thread, but at a scale and in a context the handbook didn't cover. Mobile-based certification for organic or fair-trade status. Blockchain-anchored provenance for export crops — coffee, cocoa, cut flowers — that determines whether a cooperative receives a price premium. Digital cooperative membership and payment systems that connect to B3's payment rails in informal or semi-formal contexts.</p>
+        <p>The genealogy question: what pressure created this system — a buyer requirement, a certification body, a government export regulation? Who benefits from the cryptographic trust it provides, and who bears the cost of participating in it — registration fees, smartphone requirements, literacy barriers?</p>
+      </div>
+    </div>
+
+    <div class="prompt-detail" id="pd-1">
+      <div class="prompt-detail-title">Telecoms and connectivity</div>
+      <div class="prompt-detail-body">
+        <p>B3 touched on SIM-based authentication for mobile money, but telecoms infrastructure carries cryptographic trust in many other ways that vary enormously by region. eSIM deployment and what it means for device authentication and SIM-swap fraud. Rural connectivity initiatives — satellite internet, community networks — and how they handle authentication and encryption with intermittent connectivity. National SIM registration requirements and their relationship to digital identity (connecting to B2).</p>
+        <p>The genealogy question: how does the cryptographic trust model of your region's telecoms infrastructure differ from the assumptions in B1–B3 — which were largely written from the perspective of always-connected, smartphone-saturated environments? What happens to "standard" cryptographic trust models when connectivity is intermittent or bandwidth is constrained?</p>
+      </div>
+    </div>
+
+    <div class="prompt-detail" id="pd-2">
+      <div class="prompt-detail-title">Health systems</div>
+      <div class="prompt-detail-body">
+        <p>B4 covered digital signatures in healthcare in general terms. Your region may have specific deployments worth tracing in depth: digital vaccination certificates and their cross-border recognition (or lack of it). Telemedicine platforms and how they authenticate both patients and practitioners — particularly relevant in regions with practitioner shortages where telemedicine spans borders. Health insurance verification systems and the tension between verification and access.</p>
+        <p>The genealogy question: was this system built in response to a specific crisis (a pandemic, an outbreak, a fraud scandal)? What did it make possible that wasn't possible before — and for whom? Where does it fail, and who is affected when it does?</p>
+      </div>
+    </div>
+
+    <div class="prompt-detail" id="pd-3">
+      <div class="prompt-detail-title">Informal and local economies</div>
+      <div class="prompt-detail-body">
+        <p>This is one of the richest and least documented territories. Savings and credit cooperatives (susu, chama, tandas, and their many regional names) increasingly use digital platforms with their own trust mechanisms — sometimes formal cryptography, sometimes social trust mechanisms that digital tools are now mediating. Informal trade networks — cross-border traders, market vendors — adopting mobile payment and record-keeping systems. Microfinance institutions building credit history from mobile money transaction records, using cryptographic verification to make informal economic activity legible to formal financial systems for the first time.</p>
+        <p>The genealogy question: this is often where the gap between B3's "public rails" story and lived reality is widest. What cryptographic trust mechanisms — formal or informal — actually operate in these spaces? Where does the formal genealogy (TLS, signatures, payment rails) meet, extend, or fail to reach the informal economy your community depends on?</p>
+      </div>
+    </div>
+
+    <div class="prompt-detail" id="pd-4">
+      <div class="prompt-detail-title">Civic and electoral systems</div>
+      <div class="prompt-detail-body">
+        <p>Digital voter registration systems and their relationship to national identity infrastructure (B2). E-governance portals for civic participation — public consultations, petitions, local council services — and their authentication models. Public records digitisation — birth and death registration, civil status records — and the digital signature infrastructure (B4) underlying them.</p>
+        <p>The genealogy question: civic and electoral systems are where the tensions from B2 — inclusion vs. exclusion, centralisation vs. resilience, state authority vs. individual rights — become most politically visible. What does your region's approach reveal about how those tensions have been resolved, or left unresolved?</p>
+      </div>
+    </div>
+
+    <div class="prompt-detail" id="pd-5">
+      <div class="prompt-detail-title">Migration and mobility</div>
+      <div class="prompt-detail-body">
+        <p>For communities with significant migration — emigration, immigration, or transit — there are cryptographic trust systems specific to mobility that none of the six tracks addressed directly. Digital identity for refugees and displaced persons, including UNHCR's biometric registration systems and the tensions between protection and surveillance. Cross-border recognition of digital credentials — does a digital diploma (B4) or digital identity (B2) issued in one country have any standing in another? Digital remittance corridors (B3) and the identity verification requirements that determine who can send and receive.</p>
+        <p>The genealogy question: mobility exposes every gap in the genealogy simultaneously — identity systems that don't recognise each other, signatures that aren't cross-border valid, payment rails that don't connect. What does your community's experience of mobility reveal about where the genealogy's branches stop at borders?</p>
+      </div>
+    </div>
+
+    <div class="prompt-detail" id="pd-6">
+      <div class="prompt-detail-title">Energy and utilities</div>
+      <div class="prompt-detail-body">
+        <p>Smart meter deployments and the cryptographic authentication between meters and utility systems — an extension of B1's TLS and B2's authentication concepts into operational technology. Prepaid electricity and water systems, common across much of the developing world, which use cryptographic tokens for prepayment — a payment system (B3) operating in a context most payments literature doesn't cover. Grid security more broadly, where the post-quantum concerns of B5 apply to critical infrastructure with extremely long replacement cycles.</p>
+        <p>The genealogy question: utility infrastructure often has the longest deployment cycles of any system in the genealogy — meters and grid equipment installed today may operate for thirty years. How does your region's utility infrastructure connect to the migration timeline concerns raised in B5?</p>
+      </div>
+    </div>
+
+    <div class="prompt-detail" id="pd-7">
+      <div class="prompt-detail-title">A branch that didn't survive</div>
+      <div class="prompt-detail-body">
+        <p>Not every branch of the genealogy succeeded — and the abandoned, stalled, or failed branches are often more informative than the successful ones, because they reveal what conditions a successful deployment actually requires. A national digital identity initiative that was announced, piloted, and then quietly discontinued. A payment platform that launched with significant investment and failed to gain adoption. A digital signature mandate that was legislated but never meaningfully implemented.</p>
+        <p>The genealogy question: why did this branch not take? Was it a technical failure, an institutional failure, a failure of trust, a failure of access? What would it have taken to succeed — and is anyone trying again? A documented failure is a contribution to the genealogy precisely because failures are systematically under-documented compared to successes.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">You don't need to choose now</div>
+      <div class="callout-body">These prompts are starting points for the research process in Tab 2 — not a menu you must commit to immediately. It's common to start investigating one prompt and discover that the genuinely interesting branch is adjacent to it, or a combination of two. The research method in Tab 2 is designed to help that discovery happen.</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: The research method -->
+  <div class="page">
+    <div class="section-label">B7.2 — A genealogy research framework</div>
+
+    <p class="body-text">Documenting a branch of the genealogy that nobody has mapped before requires a method — not because the method is complicated, but because without one it's easy to either give up too early or produce something too shallow to be useful. The framework below is the same genealogy habit from Module A, formalised into a repeatable process.</p>
+
+    <div class="method-block">
+      <div class="method-step">
+        <div class="method-num">1</div>
+        <div class="method-content">
+          <div class="method-title">Name the artifact</div>
+          <div class="method-body">Start concretely. Not "digital identity in agriculture" — name the specific system, platform, card, app, or process. If you don't know its name yet, describe it precisely enough that someone else could identify it: "the system that lets cocoa cooperatives in [region] verify export certification."</div>
+          <div class="method-question">What, exactly, am I looking at?</div>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">2</div>
+        <div class="method-content">
+          <div class="method-title">Find the pressure</div>
+          <div class="method-body">Every branch in B1–B6 was driven by a specific pressure — technical, deployment, human, or policy. Apply the same lens. What problem existed before this system, that this system was built to solve? Who was experiencing that problem most acutely?</div>
+          <div class="method-question">What couldn't happen before this existed — and for whom?</div>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">3</div>
+        <div class="method-content">
+          <div class="method-title">Trace the cryptographic mechanism — as far as you can</div>
+          <div class="method-body">What is the actual trust mechanism? Is it a digital signature, a key exchange, an authentication protocol, a payment rail? You may not always be able to find detailed technical documentation — and that's addressed in the section below. Trace as far as the available information allows, and be honest about where the trail goes cold.</div>
+          <div class="method-question">What is actually doing the cryptographic work here — and how far can I see into it?</div>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">4</div>
+        <div class="method-content">
+          <div class="method-title">Connect it to a track</div>
+          <div class="method-body">Almost every branch connects to at least one of B1–B6, even if the handbook didn't cover this specific application. A regional payment platform connects to B3. A certification system uses digital signatures from B4. Naming the connection situates your branch within the genealogy rather than leaving it isolated — and it's often where the most interesting insight appears, because the connection may be one nobody has made explicitly before.</div>
+          <div class="method-question">Which branch does this grow from — and how does it extend or diverge from what that branch usually looks like?</div>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">5</div>
+        <div class="method-content">
+          <div class="method-title">Find who it serves — and who it doesn't</div>
+          <div class="method-body">Every system in the genealogy has a distribution of benefit and exclusion. Who has access to this system? Who is required to use it? Who is excluded by cost, literacy, connectivity, documentation requirements, or geography? This is often the most locally specific and most valuable part of the documentation — the part that a global standards document would never capture.</div>
+          <div class="method-question">If I asked ten different people in my community about this system, would they describe the same thing?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-divider"></div>
+
+    <p class="body-text">Following this method will sometimes work smoothly. Often it won't. Research into systems that operate in under-documented contexts — which is precisely where the most valuable branches often are — runs into real obstacles. The section below addresses what to do when that happens.</p>
+
+    <div class="warning-box">
+      <div class="warning-title">When information is hard to find — especially in under-documented regions</div>
+      <div class="warning-body">The History Ambassador handbook acknowledges a reality that applies here too: information about how systems actually work, who built them, and how they're experienced is unevenly distributed around the world. Well-resourced markets produce abundant documentation, academic research, and journalism. Many regions — often the ones where the most interesting branches of the genealogy are growing — do not. This is not a failure on your part, and it is not a sign that you've chosen the wrong branch. It is itself a feature of the landscape, and how you respond to it is part of the work.</div>
+    </div>
+
+    <div class="stuck-grid">
+      <div class="stuck-card">
+        <div class="stuck-icon">🔍</div>
+        <div class="stuck-content">
+          <div class="stuck-title">Official documentation doesn't exist or isn't public</div>
+          <div class="stuck-body">Look for secondary signals: app store listings and their permissions, terms of service, regulatory filings, procurement notices, tender documents, vendor press releases (even if the deploying organisation says nothing), and conference presentations by people involved in building the system. Vendors often document publicly what operators don't.</div>
+        </div>
+      </div>
+      <div class="stuck-card">
+        <div class="stuck-icon">🗣️</div>
+        <div class="stuck-content">
+          <div class="stuck-title">No one will talk about it on the record</div>
+          <div class="stuck-body">This is common with systems that touch government, security, or sensitive commercial interests. Talk to people who use the system rather than people who built it — their experience is valid documentation even without technical detail, and is often more relevant to your community engagement anyway. Anonymise where needed. The lived experience of using a system is itself a primary source.</div>
+        </div>
+      </div>
+      <div class="stuck-card">
+        <div class="stuck-icon">🌐</div>
+        <div class="stuck-content">
+          <div class="stuck-title">Everything you find is in a language you don't read fluently</div>
+          <div class="stuck-body">This is itself informative — it may indicate that documentation exists but was never intended for an international or English-speaking audience, which tells you something about who the system was built for and by whom. Use translation tools for a first pass, and where possible, ask a community member who reads the language to verify key details rather than relying on machine translation alone for anything you'll publish.</div>
+        </div>
+      </div>
+      <div class="stuck-card">
+        <div class="stuck-icon">🕳️</div>
+        <div class="stuck-content">
+          <div class="stuck-title">The trail goes cold — and you're not sure if that means anything</div>
+          <div class="stuck-body">Sometimes it means you've reached the genuine edge of available information. Sometimes the silence itself is the finding. A system with no public documentation, no audit history, and no accountability mechanism is not "incompletely researched" — it may be exactly as opaque as your research suggests, and that opacity is a legitimate and important thing to document. Don't manufacture certainty where none exists. "I could not determine X, and the absence of available information about X is itself notable" is a valid and valuable research outcome.</div>
+        </div>
+      </div>
+      <div class="stuck-card">
+        <div class="stuck-icon">🔄</div>
+        <div class="stuck-content">
+          <div class="stuck-title">What you're finding doesn't match what you expected</div>
+          <div class="stuck-body">Good — this usually means you're finding something real rather than something you assumed. The genealogy framework from B1–B6 was built from examples that are, by necessity, among the best-documented in the world. Your branch may not follow the same patterns, may combine elements from multiple tracks in unexpected ways, or may reveal that a "standard" pattern doesn't actually hold in your context. Document the divergence — it's often the most valuable part of what you've found.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="frontier-box">
+      <div class="frontier-label">A note on time</div>
+      <div class="frontier-title">This is genuinely open-ended — budget accordingly</div>
+      <div class="frontier-body">Unlike B1–B6, where the research had already been done for you, B7 involves real investigation, and real investigation takes unpredictable amounts of time. Some ambassadors will find a well-documented branch quickly. Others will spend several sessions following leads that don't pan out before finding the right thread. Both are normal. If you find yourself several hours in with nothing to show, that's a signal to either pivot to a different prompt from Tab 1, or to treat the difficulty of finding information as itself part of what you document — not a sign to abandon the track entirely.</div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Document and log -->
+  <div class="page">
+    <div class="section-label">B7.3 — Documenting your branch</div>
+
+    <p class="body-text">What follows is a lightweight template — not a rigid form. Use it as a checklist for what your documentation should cover, in whatever format suits the material you found. Some branches will warrant a page; others, a few paragraphs. The goal is that someone else — another ambassador, an IEEE researcher, a future Present Ambassador in your region — could read it and understand what you found, why it matters, and where the gaps are.</p>
+
+    <div class="doc-template">
+      <div class="doc-section">
+        <div class="doc-section-label">1. The branch</div>
+        <div class="doc-section-prompt">Name the system, platform, or process. Where and when did it emerge? Who operates it?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">2. The pressure</div>
+        <div class="doc-section-prompt">What problem was this built to solve? What couldn't happen before it existed?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">3. The mechanism — as far as known</div>
+        <div class="doc-section-prompt">What is the cryptographic trust mechanism, to the extent you could trace it? Where did the trail go cold, and what does that tell you?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">4. The genealogy connection</div>
+        <div class="doc-section-prompt">Which of B1–B6 does this branch grow from or relate to? How does it extend, combine, or diverge from the patterns described there?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">5. Who it serves, who it doesn't</div>
+        <div class="doc-section-prompt">Access, exclusion, cost, requirements. Whose experience did you draw on for this section?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">6. Why this matters for your community engagement</div>
+        <div class="doc-section-prompt">How does this branch help you make the invisible visible for your specific audience? Is it the entry point, a supporting example, or background you now hold but may not present directly?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">7. Open questions</div>
+        <div class="doc-section-prompt">What didn't you find out? What would you want a future ambassador, researcher, or journalist to follow up on?</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">This becomes part of the global record</div>
+      <div class="callout-body">Like the History Ambassadors' interviews and timelines, your documented branch is a contribution to the IEEE repository this initiative is building — a piece of the genealogy that, before your research, existed only in scattered fragments or in the lived experience of people who use the system daily. It does not need to be polished. It needs to be honest, specific, and traceable back to what you actually found.</div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 9 — Your own branch</div>
+      <div class="log-field">
+        <label class="log-label">The branch you chose — and why</label>
+        <textarea class="log-area" rows="2" placeholder="What is it, and what drew you to it?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The pressure that created it</label>
+        <textarea class="log-area" rows="2" placeholder="What problem existed before this system — and for whom?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Where the trail went cold — and what that told you</label>
+        <textarea class="log-area" rows="2" placeholder="If you hit a wall, what was it, and did the silence itself turn out to be informative?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The genealogy connection</label>
+        <textarea class="log-area" rows="2" placeholder="Which track (B1–B6) does this branch grow from — and how does it diverge from what that track describes?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">How this branch will show up in your community engagement</label>
+        <textarea class="log-area" rows="2" placeholder="Entry point, supporting example, or background context?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Open questions for future ambassadors or researchers</label>
+        <textarea class="log-area" rows="2" placeholder="What would you want someone else to follow up on?"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B7 complete — and Module B finished in full</div>
+      <div class="completion-body">You have done what no track in this handbook could do for you: found, traced, and documented a branch of the genealogy that exists specifically in your community's terrain. Combined with B1–B6, you now hold genealogical fluency across the major branches of cryptographic trust and at least one branch that is yours alone. Next: Module C — The Living Landscape, where you step back from individual branches and map the full picture of cryptographic trust as it currently stands in your region.</div>
+      <div class="badge-row">
+        <span class="badge-pill">Own branch — documented</span>
+        <span class="badge-pill">Research method — applied</span>
+        <span class="badge-pill">Module B — complete</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showPrompt(n) {
+  document.querySelectorAll('.prompt-tile').forEach((t, i) => t.classList.toggle('active', i === n));
+  document.querySelectorAll('.prompt-detail').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+</script>
+</body>
+</html>
