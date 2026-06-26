@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module B5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --plum: #5a3d6b; --plum-light: #ede5f5;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  .incident-box { background: var(--red-light); border: 1px solid #f1948a; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .incident-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .incident-title { font-size: 14px; font-weight: 500; color: var(--red); margin-bottom: 8px; font-family: var(--serif); }
+  .incident-body { font-size: 13px; color: #6e2018; line-height: 1.65; font-weight: 300; }
+
+  /* Threat precision slider */
+  .threat-container { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .threat-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .threat-subtitle { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; margin-bottom: 22px; }
+  .threat-claim { background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; margin-bottom: 14px; cursor: pointer; transition: all 0.15s; }
+  .threat-claim:hover { border-color: var(--accent-mid); }
+  .threat-claim.selected { border-color: var(--accent-mid); background: var(--accent-light); }
+  .threat-claim-text { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; font-family: var(--serif); font-style: italic; }
+  .threat-claim-tag { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 6px; }
+  .tag-panic { background: var(--red-light); color: var(--red); }
+  .tag-dismiss { background: var(--gold-light); color: var(--gold); }
+  .tag-precise { background: var(--teal-light); color: var(--teal); }
+  .threat-detail { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; display: none; margin-top: 8px; }
+  .threat-detail.active { display: block; }
+
+  /* Security confidence spectrum */
+  .confidence-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .confidence-head { display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--paper-warm); border-bottom: 1px solid var(--rule); }
+  .confidence-head-cell { padding: 10px 14px; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border-right: 1px solid var(--rule); }
+  .confidence-head-cell:last-child { border-right: none; }
+  .confidence-head-cell.broken { color: var(--red); }
+  .confidence-head-cell.conjectured { color: var(--gold); }
+  .confidence-head-cell.proven { color: var(--teal); }
+  .confidence-row { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid var(--rule-soft); }
+  .confidence-row:last-child { border-bottom: none; }
+  .confidence-cell { padding: 12px 14px; font-size: 12px; color: var(--ink-mid); line-height: 1.55; font-weight: 300; border-right: 1px solid var(--rule-soft); }
+  .confidence-cell:last-child { border-right: none; }
+  .confidence-cell.label { font-weight: 500; color: var(--ink); }
+  .confidence-cell.broken-col { background: var(--red-light); }
+  .confidence-cell.conjectured-col { background: var(--gold-light); }
+  .confidence-cell.proven-col { background: var(--teal-light); }
+
+  /* Migration scale visualisation */
+  .migration-container { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .migration-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .migration-subtitle { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; margin-bottom: 22px; }
+  .migration-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+  .migration-label { font-size: 12px; font-weight: 500; color: var(--ink-mid); width: 140px; flex-shrink: 0; line-height: 1.4; }
+  .migration-bar-wrap { flex: 1; height: 28px; background: var(--paper-warm); border-radius: 4px; overflow: hidden; border: 1px solid var(--rule); position: relative; }
+  .migration-bar { height: 100%; border-radius: 3px; display: flex; align-items: center; padding: 0 8px; transition: width 0.6s ease; }
+  .migration-bar-label { font-size: 10px; font-weight: 500; color: white; white-space: nowrap; }
+  .migration-status { font-size: 11px; font-weight: 500; width: 70px; flex-shrink: 0; text-align: right; }
+  .status-urgent { color: var(--red); }
+  .status-active { color: var(--gold); }
+  .status-started { color: var(--accent-mid); }
+  .status-planned { color: var(--ink-faint); }
+  .migration-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--rule-soft); }
+  .migration-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-soft); }
+  .migration-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* NIST candidates timeline */
+  .candidate-block { margin: 20px 0; }
+  .candidate-row { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+  .candidate-status { width: 80px; flex-shrink: 0; }
+  .candidate-status-pill { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 10px; text-align: center; display: block; }
+  .pill-standard { background: var(--teal-light); color: var(--teal); }
+  .pill-broken { background: var(--red-light); color: var(--red); }
+  .pill-backup { background: var(--accent-light); color: var(--accent); }
+  .pill-watch { background: var(--gold-light); color: var(--gold); }
+  .candidate-content { flex: 1; border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; background: var(--paper-card); }
+  .candidate-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .candidate-type { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .candidate-body { font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Timeline */
+  .timeline { margin: 24px 0; }
+  .tl-item { display: flex; gap: 16px; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -4px; width: 1px; background: var(--rule); }
+  .tl-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 4px; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-mid); border: 2px solid var(--accent-light); flex-shrink: 0; }
+  .tl-content { padding-bottom: 24px; flex: 1; }
+  .tl-year { font-size: 11px; font-weight: 500; color: var(--accent-mid); letter-spacing: 0.08em; margin-bottom: 3px; }
+  .tl-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .confidence-head { grid-template-columns: 1fr; }
+    .confidence-row { grid-template-columns: 1fr; }
+    .confidence-head-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .confidence-cell { border-right: none; }
+    .migration-label { width: 100px; font-size: 11px; }
+    .migration-status { width: 55px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide · Module B</div>
+    <div class="header-title">B5 — Post-Quantum Pressures</div>
+    <div class="header-subtitle">The threat that is reshaping everything — and why "harvest now, decrypt later" means it is already here.</div>
+    <div class="module-badge">Track 5 of 6</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">The precise threat</button>
+    <button class="tab-btn" onclick="showTab(1)">Provable vs. conjectured</button>
+    <button class="tab-btn" onclick="showTab(2)">The new standards</button>
+    <button class="tab-btn" onclick="showTab(3)">The scale of migration</button>
+    <button class="tab-btn" onclick="showTab(4)">Stress points</button>
+    <button class="tab-btn" onclick="showTab(5)">Your community</button>
+    <button class="tab-btn" onclick="showTab(6)">Log entry</button>
+  </div>
+
+  <!-- Tab 0: The precise threat -->
+  <div class="page active">
+    <div class="section-label">B5.0 — Getting the threat right</div>
+
+    <p class="body-text">Post-quantum cryptography is a subject where imprecision causes real damage. Overstate the threat and audiences dismiss it as science fiction. Understate it and organisations fail to act in time. A Present Ambassador's first obligation in this module is to be precise — which means starting with the most common misstatements and correcting them before going further.</p>
+
+    <!-- Threat precision interactive -->
+    <div class="threat-container">
+      <div class="threat-title">Three versions of the threat — only one is useful</div>
+      <div class="threat-subtitle">Select each claim to understand why it helps or hinders the conversation you need to have with your community.</div>
+
+      <div class="threat-claim" onclick="selectThreat(0)" id="tc-0">
+        <div class="threat-claim-tag tag-panic">Produces panic</div>
+        <div class="threat-claim-text">"Quantum computers will break all encryption."</div>
+        <div class="threat-detail" id="td-0">This statement is too broad to be useful — and technically wrong. Quantum computers threaten specific public-key algorithms that rely on two mathematical problems: integer factorisation (RSA) and discrete logarithms (Diffie-Hellman, elliptic curve). Symmetric encryption — AES, ChaCha20 — is much less affected: Grover's algorithm provides a quadratic speedup against symmetric ciphers, which is addressed by doubling key lengths rather than replacing algorithms entirely. Hash functions are similarly resilient with modest parameter increases. Saying "all encryption" produces either panic or, when the audience discovers the nuance, dismissal of the entire warning.</div>
+      </div>
+
+      <div class="threat-claim" onclick="selectThreat(1)" id="tc-1">
+        <div class="threat-claim-tag tag-dismiss">Produces dismissal</div>
+        <div class="threat-claim-text">"Quantum computers powerful enough to break encryption don't exist yet, so we have time."</div>
+        <div class="threat-detail" id="td-1">This framing misses the most important present-tense dimension of the threat: harvest now, decrypt later. Nation-state adversaries are intercepting and archiving encrypted communications today — TLS traffic, encrypted email, VPN tunnels — with the intention of decrypting them when a cryptographically relevant quantum computer becomes available. Anything encrypted today that needs to remain confidential for ten or more years is potentially at risk. Government communications. Medical records. Legal proceedings. Long-term commercial contracts. Trade secrets. The threat is not future — it is present. The question is not "when will quantum computers arrive?" but "what are you encrypting today that you cannot afford to have decrypted in fifteen years?"</div>
+      </div>
+
+      <div class="threat-claim selected" onclick="selectThreat(2)" id="tc-2">
+        <div class="threat-claim-tag tag-precise">Precise and actionable</div>
+        <div class="threat-claim-text">"A sufficiently large fault-tolerant quantum computer running Shor's algorithm could break the specific mathematical problems that underlie RSA, Diffie-Hellman, and elliptic curve cryptography — and adversaries are harvesting encrypted data now to decrypt later."</div>
+        <div class="threat-detail active" id="td-2">This version is precise enough to act on. It names the algorithm (Shor's), the target (RSA, DH, ECC — the public-key layer), and the present-tense dimension (harvest now, decrypt later). It leaves symmetric encryption and hash functions in their appropriate position: affected, but addressable through parameter increases rather than algorithm replacement. And it creates the right urgency: not "panic because quantum computers exist" but "act now because what you encrypt today may be decrypted in the future, and migration timelines are long." This is the version a Present Ambassador carries into every room.</div>
+      </div>
+    </div>
+
+    <p class="body-text">With that precision established, here is the technical core. In 1994, mathematician Peter Shor published an algorithm showing that a quantum computer — one exploiting the quantum mechanical properties of superposition and entanglement — could solve both integer factorisation and the discrete logarithm problem in polynomial time. These are the two problems that the entire public-key layer of the genealogy rests on. RSA's security depends on factorisation being hard. Diffie-Hellman's security depends on discrete logarithm being hard. Elliptic curve cryptography's security depends on the elliptic curve discrete logarithm being hard.</p>
+
+    <p class="body-text">A classical computer would need billions of years to factor a 2048-bit RSA key. A sufficiently large fault-tolerant quantum computer running Shor's algorithm could do it in hours. The mathematics is not in dispute. What is disputed is the timeline — when, if ever, a quantum computer large and reliable enough to run Shor's algorithm at that scale will exist.</p>
+
+    <div class="pull-quote">
+      "The question is not whether Shor's algorithm works. It does. The question is whether the device it requires will exist in time to matter — and whether we will have finished migrating our infrastructure by then."
+    </div>
+
+    <p class="body-text">Current estimates from credible sources — NIST, NSA, NCSC, ENISA — suggest a cryptographically relevant quantum computer is unlikely before 2030 and possibly not before 2040. But these estimates carry enormous uncertainty, and the harvest-now-decrypt-later strategy means organisations cannot wait for certainty. The NSA began advising US national security systems to start post-quantum migration in 2015. NIST published its first post-quantum standards in 2024. The transition is underway — but for most organisations worldwide, it has not begun.</p>
+
+    <div class="callout">
+      <div class="callout-title">The harvest now, decrypt later problem — made concrete</div>
+      <div class="callout-body">Ask your community: what information are you protecting today that needs to remain confidential for more than ten years? A government's diplomatic communications. A hospital's patient records. A company's long-term research and development data. A law firm's privileged client communications. A country's critical infrastructure specifications. Any of these, if encrypted today with RSA or Diffie-Hellman and harvested by a nation-state adversary, could potentially be decrypted in the future. The timeline uncertainty doesn't help — it means the safe assumption is to act as if the threat is real and plan accordingly.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Opening reflection — 10 minutes</div>
+      <div class="activity-title">What does your community encrypt today that needs to last?</div>
+      <div class="activity-body">
+        <p>Before going further, apply the harvest-now-decrypt-later question to your specific community context.</p>
+        <ul class="prompt-list">
+          <li>What categories of information in your community's digital infrastructure — government, health, commercial, legal — need to remain confidential for ten years or more?</li>
+          <li>Is the organisation responsible for protecting that information aware that the encryption protecting it today may not be adequate in fifteen years?</li>
+          <li>What would it cost — in money, in trust, in operational disruption — if that information were decrypted and disclosed?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 1: Provable vs. conjectured security -->
+  <div class="page">
+    <div class="section-label">B5.1 — The difference between "unbroken" and "secure"</div>
+
+    <p class="body-text">One of the most important distinctions in post-quantum cryptography — and one that is almost never explained to non-specialist audiences — is the difference between an algorithm that is <strong>conjectured to be quantum-resistant</strong> and one that has a <strong>provable security reduction</strong>. These are not the same thing, and the difference matters enormously for how much confidence we can place in any given algorithm.</p>
+
+    <p class="body-text">A <strong>provable security reduction</strong> means that breaking the cryptographic algorithm can be mathematically proven to require solving a specific hard problem — one that has been studied for decades and for which no efficient algorithm (classical or quantum) is known. The security of the scheme is formally tied to the hardness of an underlying problem. If someone finds an efficient algorithm for that problem, the proof tells us exactly what breaks — and why. The reduction is a mathematical guarantee, not a guess.</p>
+
+    <p class="body-text">A <strong>conjectured security</strong> means that no attack is currently known — classical or quantum — but no formal proof exists that one cannot be found. The algorithm has survived scrutiny, which is evidence of security, but it is not proof. History suggests this distinction matters: cryptographic algorithms have been broken after years of scrutiny with no prior warning. The absence of a known attack is not the same as the presence of a proof.</p>
+
+    <div class="pull-quote">
+      "No one has proved it vulnerable. That is not the same as: it has been proved secure. The distance between those two statements is where cryptographic surprises live."
+    </div>
+
+    <div class="confidence-block">
+      <div class="confidence-head">
+        <div class="confidence-head-cell broken">Broken (classical attack found)</div>
+        <div class="confidence-head-cell conjectured">Conjectured secure</div>
+        <div class="confidence-head-cell proven">Provably secure (reduction exists)</div>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-cell label">What it means</div>
+        <div class="confidence-cell broken-col">An efficient attack has been found — classical or quantum. The algorithm should not be used.</div>
+        <div class="confidence-cell conjectured-col">No known efficient attack exists, but no formal proof ties security to a hard problem. Security rests on the failure of cryptanalysts to find an attack so far.</div>
+        <div class="confidence-cell proven-col">Breaking the algorithm is mathematically equivalent to solving a specific hard problem. Security is formally reduced to the hardness of that problem.</div>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-cell label">Example</div>
+        <div class="confidence-cell broken-col">SIKE — broken in 2022 by a classical attack. RSA-512 — factored in 1999. MD5 — collision attacks found 2004.</div>
+        <div class="confidence-cell conjectured-col">CRYSTALS-Kyber, CRYSTALS-Dilithium — the new NIST standards. AES — no proof, but extraordinary scrutiny over 25 years.</div>
+        <div class="confidence-cell proven-col">Lattice-based schemes have security reductions to problems like Learning With Errors (LWE), which has strong hardness evidence. Hash-based signatures have reductions to properties of the hash function.</div>
+      </div>
+      <div class="confidence-row">
+        <div class="confidence-cell label">Appropriate response</div>
+        <div class="confidence-cell broken-col">Discontinue use immediately. Migrate to a secure alternative.</div>
+        <div class="confidence-cell conjectured-col">Use with awareness of the limitation. Prefer algorithms with stronger reductions where available. Monitor the cryptanalysis literature.</div>
+        <div class="confidence-cell proven-col">Highest confidence level available — though the proof is only as strong as the hardness assumption underlying it.</div>
+      </div>
+    </div>
+
+    <div class="incident-box">
+      <div class="incident-label">The SIKE lesson — for community engagement</div>
+      <div class="incident-title">Broken by a PhD student in an hour</div>
+      <div class="incident-body">SIKE — Supersingular Isogeny Key Encapsulation — was one of the most promising candidates in NIST's post-quantum standardisation process. It had survived years of international cryptanalytic scrutiny. It had advanced to the fourth round of evaluation. In July 2022, a PhD student at KU Leuven named Wouter Castryck and his colleague Thomas Decru published a paper showing that SIKE could be broken — not by a quantum computer, but by a classical algorithm running on a standard laptop. The attack took approximately one hour. NIST withdrew SIKE from consideration immediately.<br><br>SIKE's security was conjectured, not provable. No formal reduction existed tying its security to a well-studied hard problem. The attack exploited a structural property of the isogeny graph that nobody had previously identified as vulnerable — which is precisely the risk that conjectured security cannot rule out. The lesson is not that post-quantum cryptography is unreliable. It is that the distinction between conjectured and provable security is real, consequential, and worth understanding before trusting an algorithm with infrastructure that needs to last decades.</div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Why this distinction matters for your community</div>
+      <div class="callout-body">When your community's IT leadership, policymakers, or procurement officers ask "is this algorithm safe to use?" the honest answer has two parts: what attacks are currently known, and how confident are we that no attack exists? The NIST standards — CRYSTALS-Kyber and CRYSTALS-Dilithium — are the best available options, with the strongest combination of scrutiny and security reductions currently available. But a Present Ambassador who understands the provable/conjectured distinction can help their community ask better questions than "is it NIST-approved?" — and understand why NIST recommends using multiple algorithms where feasible, so that a future break of one does not compromise everything.</div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Reflection — 10 minutes</div>
+      <div class="activity-title">Apply the distinction to your own context</div>
+      <div class="activity-body">
+        <ul class="prompt-list">
+          <li>The algorithms currently protecting your community's digital infrastructure — TLS, document signing, payment authentication — have conjectured security against classical attacks, backed by decades of scrutiny. How does the SIKE story change how you think about that confidence?</li>
+          <li>If you were advising an organisation making a ten-year infrastructure investment that includes cryptographic components, what questions would you now ask about the security basis of the algorithms being proposed?</li>
+          <li>How would you explain the provable/conjectured distinction to a non-technical policymaker who needs to make a procurement decision about post-quantum infrastructure?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: The new standards -->
+  <div class="page">
+    <div class="section-label">B5.2 — NIST's post-quantum standardisation process</div>
+
+    <p class="body-text">In 2016, the US National Institute of Standards and Technology launched a global competition to identify and standardise post-quantum cryptographic algorithms — the most consequential cryptographic standards effort since the original public-key breakthroughs of the 1970s. Eighty-two initial submissions from research teams around the world were evaluated over eight years through multiple rounds of public cryptanalysis. The process was explicitly designed to surface the SIKE problem — to stress-test candidates against the best global cryptanalytic effort before standardisation, rather than after deployment.</p>
+
+    <p class="body-text">In August 2024, NIST published its first three post-quantum standards. Understanding what they are, why they were chosen, and what the choice of lattice-based cryptography means for the genealogy is essential background for any Present Ambassador engaging communities on this topic.</p>
+
+    <div class="candidate-block">
+      <div class="candidate-row">
+        <div class="candidate-status"><span class="candidate-status-pill pill-standard">Standard</span></div>
+        <div class="candidate-content">
+          <div class="candidate-name">CRYSTALS-Kyber (ML-KEM / FIPS 203)</div>
+          <div class="candidate-type">Key encapsulation — replaces Diffie-Hellman key exchange</div>
+          <div class="candidate-body">Kyber replaces the Diffie-Hellman key exchange in protocols like TLS. It is based on the hardness of the Module Learning With Errors (MLWE) problem — a lattice problem for which strong hardness evidence exists and which is believed to be resistant to both classical and quantum attacks. Its security has a formal reduction to MLWE, meaning breaking Kyber requires solving a problem that has been studied intensively with no known efficient algorithm. Kyber is faster than RSA at comparable security levels and produces smaller keys and ciphertexts — making it practical for real-world deployment in TLS and other protocols.</div>
+        </div>
+      </div>
+      <div class="candidate-row">
+        <div class="candidate-status"><span class="candidate-status-pill pill-standard">Standard</span></div>
+        <div class="candidate-content">
+          <div class="candidate-name">CRYSTALS-Dilithium (ML-DSA / FIPS 204)</div>
+          <div class="candidate-type">Digital signatures — replaces RSA and ECDSA</div>
+          <div class="candidate-body">Dilithium replaces RSA and elliptic curve digital signatures. Also based on lattice problems (Module LWE and Module SIS), it provides the same three properties — authentication, integrity, non-repudiation — that Module B4 described, but with security reductions to problems believed to be quantum-resistant. Its security basis is the strongest available for a post-quantum signature scheme. It will replace the signatures used in TLS certificates, code signing, document signing, and every other context where the genealogy currently depends on RSA or ECDSA.</div>
+        </div>
+      </div>
+      <div class="candidate-row">
+        <div class="candidate-status"><span class="candidate-status-pill pill-standard">Standard</span></div>
+        <div class="candidate-content">
+          <div class="candidate-name">SPHINCS+ (SLH-DSA / FIPS 205)</div>
+          <div class="candidate-type">Hash-based signatures — conservative backup</div>
+          <div class="candidate-body">SPHINCS+ is a hash-based signature scheme whose security reduces entirely to the security of the underlying hash function — specifically, its collision resistance and preimage resistance. Hash functions are believed to be quantum-resistant with parameter increases, making SPHINCS+ the most conservatively grounded of the three standards. It is significantly larger and slower than Dilithium, making it impractical for high-volume use, but it is the recommended backup for contexts where the highest possible security assurance is required, or where long-term confidence in lattice-based schemes is insufficient.</div>
+        </div>
+      </div>
+      <div class="candidate-row">
+        <div class="candidate-status"><span class="candidate-status-pill pill-broken">Broken</span></div>
+        <div class="candidate-content">
+          <div class="candidate-name">SIKE — Supersingular Isogeny Key Encapsulation</div>
+          <div class="candidate-type">Key encapsulation — fourth-round candidate, withdrawn 2022</div>
+          <div class="candidate-body">SIKE was based on the hardness of computing isogenies between supersingular elliptic curves — a problem from a branch of mathematics relatively new to cryptography. Its security was conjectured rather than reduced to a well-studied hard problem. In July 2022, a classical polynomial-time attack was found, breaking SIKE entirely. NIST withdrew it immediately. SIKE's collapse is the most important illustration of the provable/conjectured distinction in the post-quantum canon — and the reason NIST's process explicitly sought diversity of mathematical foundations in its final standards.</div>
+        </div>
+      </div>
+      <div class="candidate-row">
+        <div class="candidate-status"><span class="candidate-status-pill pill-backup">Backup</span></div>
+        <div class="candidate-content">
+          <div class="candidate-name">FALCON (FN-DSA / FIPS 206)</div>
+          <div class="candidate-type">Digital signatures — compact lattice-based alternative</div>
+          <div class="candidate-body">FALCON is a second lattice-based signature scheme, based on NTRU lattices, standardised as a complement to Dilithium. It produces significantly smaller signatures — useful for bandwidth-constrained environments — but has more complex implementation requirements. Its security is also lattice-based, providing diversity from Dilithium's Module LWE basis. Having two lattice-based signature standards reduces the risk that a future break of one lattice assumption compromises all post-quantum signature infrastructure simultaneously.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">Why lattice problems — and what the choice means</div>
+      <div class="warning-body">The dominant post-quantum standards are lattice-based — they rely on the hardness of problems like Learning With Errors (LWE), which involves finding a hidden linear structure in a system of approximate equations over a high-dimensional lattice. These problems have been studied intensively since the 1990s and have strong hardness evidence, including security reductions that connect them to worst-case lattice problems believed to be fundamentally hard. NIST's choice of lattice-based algorithms reflects the best available combination of performance, security evidence, and scrutiny. But it also means that if a breakthrough in lattice algorithms were found — classical or quantum — multiple standards would be affected simultaneously. This is why SPHINCS+ (hash-based, entirely independent mathematical foundation) was standardised alongside the lattice-based schemes: mathematical diversity is a hedge against a category break.</div>
+    </div>
+  </div>
+
+  <!-- Tab 3: The scale of migration -->
+  <div class="page">
+    <div class="section-label">B5.3 — The largest infrastructure migration in internet history</div>
+
+    <p class="body-text">Understanding the new algorithms is only the beginning. The harder problem — the one that keeps cryptographic engineers awake — is migration. Every piece of infrastructure traced in B1 through B4 must be updated to support post-quantum algorithms. TLS handshakes. Certificate authority hierarchies. Payment authentication systems. Digital signature frameworks. Code signing infrastructure. Identity systems. The interdependencies are vast, the stakeholders are numerous, and the timelines are long.</p>
+
+    <p class="body-text">This is not a software update. It is a coordinated replacement of the mathematical foundations of the internet — while the internet continues to operate. The analogy that engineers use is replacing the engine of an aircraft in flight.</p>
+
+    <!-- Migration scale visualisation -->
+    <div class="migration-container">
+      <div class="migration-title">Where post-quantum migration stands — by infrastructure layer</div>
+      <div class="migration-subtitle">Approximate readiness of major infrastructure categories as of 2025. Migration progress varies significantly by organisation, jurisdiction, and sector.</div>
+
+      <div class="migration-row">
+        <div class="migration-label">TLS 1.3 / Web security</div>
+        <div class="migration-bar-wrap">
+          <div class="migration-bar" style="width:55%; background: var(--accent-mid);">
+            <span class="migration-bar-label">Hybrid deployment begun</span>
+          </div>
+        </div>
+        <div class="migration-status status-active">Active</div>
+      </div>
+      <div class="migration-row">
+        <div class="migration-label">Certificate authorities</div>
+        <div class="migration-bar-wrap">
+          <div class="migration-bar" style="width:35%; background: var(--gold);">
+            <span class="migration-bar-label">Standards being updated</span>
+          </div>
+        </div>
+        <div class="migration-status status-active">In progress</div>
+      </div>
+      <div class="migration-row">
+        <div class="migration-label">Payment infrastructure</div>
+        <div class="migration-bar-wrap">
+          <div class="migration-bar" style="width:20%; background: var(--gold);">
+            <span class="migration-bar-label">Assessment phase</span>
+          </div>
+        </div>
+        <div class="migration-status status-active">Early</div>
+      </div>
+      <div class="migration-row">
+        <div class="migration-label">Digital signatures / PKI</div>
+        <div class="migration-bar-wrap">
+          <div class="migration-bar" style="width:25%; background: var(--gold);">
+            <span class="migration-bar-label">Standards ready, deployment early</span>
+          </div>
+        </div>
+        <div class="migration-status status-active">Early</div>
+      </div>
+      <div class="migration-row">
+        <div class="migration-label">National identity systems</div>
+        <div class="migration-bar-wrap">
+          <div class="migration-bar" style="width:15%; background: var(--red);">
+            <span class="migration-bar-label">Mostly unstarted</span>
+          </div>
+        </div>
+        <div class="migration-status status-urgent">Urgent</div>
+      </div>
+      <div class="migration-row">
+        <div class="migration-label">Critical infrastructure (energy, water, transport)</div>
+        <div class="migration-bar-wrap">
+          <div class="migration-bar" style="width:10%; background: var(--red);">
+            <span class="migration-bar-label">Largely unaddressed</span>
+          </div>
+        </div>
+        <div class="migration-status status-urgent">Urgent</div>
+      </div>
+      <div class="migration-row">
+        <div class="migration-label">IoT and embedded systems</div>
+        <div class="migration-bar-wrap">
+          <div class="migration-bar" style="width:8%; background: var(--red);">
+            <span class="migration-bar-label">Major challenge</span>
+          </div>
+        </div>
+        <div class="migration-status status-urgent">Critical</div>
+      </div>
+      <div class="migration-row">
+        <div class="migration-label">Long-term archived data</div>
+        <div class="migration-bar-wrap">
+          <div class="migration-bar" style="width:5%; background: var(--red);">
+            <span class="migration-bar-label">Almost no action taken</span>
+          </div>
+        </div>
+        <div class="migration-status status-urgent">Critical</div>
+      </div>
+
+      <div class="migration-legend">
+        <div class="migration-legend-item"><div class="migration-legend-dot" style="background:var(--accent-mid)"></div> Active deployment</div>
+        <div class="migration-legend-item"><div class="migration-legend-dot" style="background:var(--gold)"></div> In progress / early</div>
+        <div class="migration-legend-item"><div class="migration-legend-dot" style="background:var(--red)"></div> Urgent / critical gap</div>
+      </div>
+    </div>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Why migration is hard — the cryptographic agility problem</div>
+          <div class="step-body">Many systems were not designed with algorithm replacement in mind. Hardcoded algorithm identifiers, firmware that cannot be updated, hardware security modules that cannot accept new algorithm implementations, and protocol specifications that assumed specific key sizes all create migration barriers that are partly technical and partly organisational. The degree to which a system is "cryptographically agile" — able to negotiate and use new algorithms without requiring hardware replacement — varies enormously across the infrastructure landscape.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">The hybrid approach — running both old and new simultaneously</div>
+          <div class="step-body">The recommended migration path for most protocols is hybrid cryptography: running both a classical algorithm (e.g. ECDH) and a post-quantum algorithm (e.g. Kyber) simultaneously, combining their outputs so that security requires breaking both. A hybrid scheme is secure if either algorithm is secure — providing protection against a classical attack on the post-quantum algorithm (the SIKE scenario) while also providing protection against a quantum attack on the classical algorithm. TLS 1.3 hybrid deployments are already in production at major cloud providers and browsers.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">The IoT problem — infrastructure that cannot be updated</div>
+          <div class="step-body">Billions of Internet of Things devices — industrial sensors, medical devices, smart meters, automotive systems — run on hardware with limited processing power and no practical path to firmware updates. Many of these devices use hard-coded RSA or ECDSA with no mechanism for algorithm replacement. Devices with expected lifespans of ten to twenty years, deployed today, may still be in service when a cryptographically relevant quantum computer arrives. This is the migration problem in its hardest form: the transition requires not just software updates but hardware replacement cycles measured in decades.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">The geopolitical dimension — whose standards?</div>
+          <div class="step-body">NIST's post-quantum standards are the dominant international reference. But they are not universal. China's State Cryptography Administration has published its own post-quantum standards (SM series extensions). Russia has its own cryptographic standards framework. The fragmentation of cryptographic standards along geopolitical lines — already visible in some payment and identity infrastructure — is extending into post-quantum cryptography. For communities in regions where alignment with NIST standards is not a given, the migration question includes the political question of which standards framework to adopt.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The migration timeline problem</div>
+      <div class="callout-body">The US government's timeline for migrating national security systems to post-quantum algorithms runs to 2035. Major financial infrastructure migration is expected to take a decade. Critical infrastructure longer. These timelines are consistent with estimates that a cryptographically relevant quantum computer may arrive between 2030 and 2040 — meaning the migration needs to be essentially complete before the threat fully materialises, and it needs to start now to have any chance of meeting that window. Organisations that have not yet begun assessing their cryptographic inventory are already behind.</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Stress points -->
+  <div class="page">
+    <div class="section-label">B5.4 — Where the transition is already under stress</div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2015</div>
+          <div class="tl-title">NSA advisory — the first official acknowledgement</div>
+          <div class="tl-body">The US National Security Agency published an advisory recommending that national security system operators begin planning for post-quantum migration, explicitly stating that NSA believed quantum computing posed a real threat to public-key cryptography within the relevant planning horizon. This was the first official acknowledgement from a major intelligence agency that the transition was not hypothetical. Most organisations outside the national security community did not read it.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2016–2022</div>
+          <div class="tl-title">NIST competition — eight years of global cryptanalysis</div>
+          <div class="tl-body">NIST's post-quantum standardisation process ran for eight years, involved cryptanalysts from dozens of countries, and resulted in the elimination of multiple candidates — including SIKE — before standardisation. The process was designed to be transparent and adversarial: every candidate was publicly documented and subjected to the best available cryptanalytic attack. This is the most rigorous public evaluation process in the history of cryptographic standards — and the reason the resulting standards carry more confidence than algorithms evaluated through closed processes.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2022</div>
+          <div class="tl-title">SIKE broken — the warning nobody expected</div>
+          <div class="tl-body">SIKE's collapse in July 2022 was a significant event in the post-quantum transition — not because SIKE was standardised (it wasn't) but because it demonstrated that a candidate that had survived years of expert scrutiny could be broken by a classical attack that nobody had found. The attack was elegant and efficient. Its discovery came from a new mathematical connection that the isogeny community had not previously explored. The lesson reinforced the importance of mathematical diversity in standards and the distinction between conjectured and provable security.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2024</div>
+          <div class="tl-title">NIST standards published — and the real work begins</div>
+          <div class="tl-body">FIPS 203 (ML-KEM/Kyber), FIPS 204 (ML-DSA/Dilithium), and FIPS 205 (SLH-DSA/SPHINCS+) were published in August 2024. The standards exist. The algorithms are implemented in major cryptographic libraries. TLS 1.3 hybrid deployments are in production. But for most of the world's organisations — government agencies, banks, hospitals, utilities, universities — the migration has not started. The gap between having standards and having migrated infrastructure will define the security posture of the internet for the next decade.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--accent-mid);"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">Now</div>
+          <div class="tl-title">Harvest now, decrypt later — the present-tense threat</div>
+          <div class="tl-body">Intelligence assessments from multiple Western agencies have confirmed that nation-state actors are conducting large-scale collection of encrypted data for future decryption. The exact scope is classified, but the strategy is publicly acknowledged. Encrypted government communications, intellectual property, health records, legal proceedings, and financial data being transmitted today over RSA and Diffie-Hellman protected channels are potentially being archived by adversaries who are betting on a quantum future. For any organisation that transmits information today that needs to remain confidential for more than a decade, this is an active operational risk — not a theoretical future concern.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">The developing world migration gap</div>
+      <div class="warning-body">Post-quantum migration requires cryptographic expertise, updated software libraries, revised procurement standards, and organisational awareness that is concentrated in a small number of wealthy countries and large technology companies. Countries and organisations that are still in the process of deploying basic cryptographic infrastructure — implementing TLS across government services, deploying digital identity systems, building payment rails — face a compounded challenge: they must build infrastructure that is both adequate for present needs and ready for post-quantum migration. Without deliberate support from international bodies and development organisations, the post-quantum transition risks deepening the existing cryptographic inequality between well-resourced and under-resourced digital environments.</div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Your community -->
+  <div class="page">
+    <div class="section-label">B5.5 — Post-quantum in your community</div>
+
+    <p class="body-text">Post-quantum cryptography is the module where the gap between the technical community's awareness and the general public's awareness is widest. Almost nobody outside cryptography and national security circles knows that the mathematical foundations of the internet are being replaced — that the algorithms that protected every transaction, every identity verification, every signed document for the past forty years are being retired and replaced by a new generation of mathematics. That gap is precisely where a Present Ambassador can make a difference.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Assess your community's exposure</div>
+          <div class="step-body">Which organisations in your community hold information that needs to remain confidential for ten years or more? Government agencies. Hospitals and health systems. Legal institutions. Universities and research organisations. Financial institutions. Critical infrastructure operators. For each: are they aware of the harvest-now-decrypt-later threat? Have they begun a cryptographic inventory — identifying which systems use RSA, Diffie-Hellman, or ECDSA and therefore need migration?</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Find your country's migration posture</div>
+          <div class="step-body">Has your government published a post-quantum migration strategy or timeline? Has your national cybersecurity agency issued guidance? Are public procurement standards being updated to require post-quantum readiness? The answers to these questions reveal how seriously the institutions responsible for your community's digital infrastructure are taking the transition — and where the gaps in awareness and action lie.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Find the entry point for your specific audience</div>
+          <div class="step-body">For a general public audience: the harvest-now-decrypt-later question applied to something they care about — their medical records, their financial history, their private communications. For a policy audience: the migration timeline problem — if national infrastructure takes ten years to migrate and a quantum computer may arrive in fifteen, when does the work need to start? For a technical audience: the cryptographic agility assessment — which systems in your organisation are hardcoded to RSA or ECDSA, and what is the plan for migrating them? For a business audience: the insurance and liability question — what is your organisation's exposure if archived encrypted data is decrypted and disclosed?</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Connect to the broader genealogy</div>
+          <div class="step-body">Post-quantum is not a separate story — it is the current chapter of the genealogy that began with the 1976 paper. Diffie and Hellman's insight rested on the hardness of discrete logarithms. That hardness assumption is now being challenged by a new form of computation. The response — new mathematics, new standards, a global migration effort — is the same kind of "new directions" moment that the 1976 paper itself represented. The genealogy is still growing. The Present Ambassador who can show their community that they are living inside that ongoing story — not watching it from the outside — is doing the work this handbook was built for.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The question that opens this conversation in any room</div>
+      <div class="callout-body">"Is there anything you sent digitally in the last year that you would not want read in fifteen years?" Pause. Let that land. The answer, for almost everyone, is yes. That answer is the entry point — not into a lecture about lattice cryptography, but into a conversation about the fact that the mathematical foundation of the privacy they assumed is being replaced right now, and whether the organisations responsible for their digital infrastructure know it and are acting on it.</div>
+    </div>
+  </div>
+
+  <!-- Tab 6: Log entry -->
+  <div class="page">
+    <div class="section-label">Module B5 — Log Entry</div>
+
+    <p class="body-text">You've understood the precise nature of the quantum threat, the critical distinction between provable and conjectured security, the new standards that replace fifty years of public-key infrastructure, the scale of the migration challenge, and the stress points that reveal where the transition is already under pressure. Before moving to B6, record where you are.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 7 — Post-quantum pressures</div>
+      <div class="log-field">
+        <label class="log-label">The precise statement of the threat you will carry into your community</label>
+        <textarea class="log-area" rows="2" placeholder="Not 'quantum computers will break encryption' — the precise version that names the algorithm, the target, and the harvest-now-decrypt-later dimension."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The organisations in your community most exposed to harvest-now-decrypt-later</label>
+        <textarea class="log-area" rows="2" placeholder="Who holds long-lived secrets? Do they know?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Your country's post-quantum migration posture</label>
+        <textarea class="log-area" rows="2" placeholder="Has your government published guidance? Are procurement standards being updated? Is there a timeline?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The entry point you'll use with your specific community</label>
+        <textarea class="log-area" rows="2" placeholder="The question or scenario that will make the threat present rather than theoretical for the people in your room."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Update to your genealogy sketch</label>
+        <textarea class="log-area" rows="2" placeholder="Post-quantum is the branch that challenges the trunk itself. How did you update your sketch to show the relationship between the 1976 paper's mathematical foundations and their replacement?"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B5 complete</div>
+      <div class="completion-body">You understand the quantum threat with the precision it demands — not as science fiction, not as a distant future problem, but as an active operational challenge requiring present action. You know the new standards, why they were chosen, and what the distinction between provable and conjectured security means for how much confidence to place in them. Next: Module B6 — AI and Verifiable Content, where the newest branch of the genealogy asks: when anything can be generated, how does cryptographic trust tell us what is real?</div>
+      <div class="badge-row">
+        <span class="badge-pill">Threat — precisely stated</span>
+        <span class="badge-pill">Provable vs. conjectured — understood</span>
+        <span class="badge-pill">NIST standards — mapped</span>
+        <span class="badge-pill">Migration scale — assessed</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function selectThreat(n) {
+  document.querySelectorAll('.threat-claim').forEach((c, i) => c.classList.toggle('selected', i === n));
+  document.querySelectorAll('.threat-detail').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+</script>
+</body>
+</html>
