@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module B6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --plum: #5a3d6b; --plum-light: #ede5f5;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  .incident-box { background: var(--red-light); border: 1px solid #f1948a; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .incident-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .incident-title { font-size: 14px; font-weight: 500; color: var(--red); margin-bottom: 8px; font-family: var(--serif); }
+  .incident-body { font-size: 13px; color: #6e2018; line-height: 1.65; font-weight: 300; }
+
+  .frontier-box { background: var(--plum-light); border: 1px solid #c8b8d8; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .frontier-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--plum); margin-bottom: 6px; }
+  .frontier-title { font-size: 14px; font-weight: 500; color: var(--plum); margin-bottom: 8px; font-family: var(--serif); }
+  .frontier-body { font-size: 13px; color: #3d2850; line-height: 1.65; font-weight: 300; }
+
+  /* Two faces diagram */
+  .two-faces { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+  .face-card { border-radius: 10px; padding: 22px 20px; }
+  .face-card.generator { background: var(--accent-light); border: 1px solid #a9cce3; }
+  .face-card.attacker { background: var(--red-light); border: 1px solid #f1948a; }
+  .face-icon { font-size: 28px; margin-bottom: 10px; }
+  .face-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+  .face-label.gen { color: var(--accent); }
+  .face-label.att { color: var(--red); }
+  .face-title { font-size: 15px; font-weight: 500; font-family: var(--serif); margin-bottom: 8px; color: var(--ink); }
+  .face-body { font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .face-connector { display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--ink-faint); font-weight: 300; font-style: italic; padding: 8px 0; text-align: center; grid-column: 1 / -1; }
+
+  /* C2PA chain */
+  .c2pa-chain { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .c2pa-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .c2pa-subtitle { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; margin-bottom: 22px; }
+  .c2pa-step { display: flex; gap: 14px; margin-bottom: 0; position: relative; }
+  .c2pa-step:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 36px; bottom: -8px; width: 1px; background: var(--accent-light); }
+  .c2pa-dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; border: 2px solid var(--accent-light); background: var(--accent-light); margin-top: 2px; }
+  .c2pa-content { padding-bottom: 20px; flex: 1; }
+  .c2pa-step-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .c2pa-step-body { font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .c2pa-sig-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 500; color: var(--teal); background: var(--teal-light); border-radius: 4px; padding: 2px 8px; margin-top: 6px; }
+
+  /* Attack vector cards */
+  .attack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .attack-card { border: 1px solid var(--rule); border-radius: 10px; padding: 18px 18px; background: var(--paper-card); cursor: pointer; transition: all 0.15s; }
+  .attack-card:hover { border-color: var(--red); }
+  .attack-card.active { border-color: var(--red); background: var(--red-light); }
+  .attack-icon { font-size: 20px; margin-bottom: 8px; }
+  .attack-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .attack-tagline { font-size: 11px; color: var(--ink-faint); font-weight: 300; line-height: 1.4; }
+  .attack-detail { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin-top: 4px; display: none; }
+  .attack-detail.active { display: block; }
+  .attack-detail-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--red); margin-bottom: 10px; }
+  .attack-detail-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .attack-detail-body p { margin-bottom: 10px; }
+  .attack-detail-body p:last-child { margin-bottom: 0; }
+  .attack-status { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 10px; margin-top: 8px; }
+  .status-active-threat { background: var(--red-light); color: var(--red); }
+  .status-emerging { background: var(--gold-light); color: var(--gold); }
+  .status-frontier { background: var(--plum-light); color: var(--plum); }
+
+  /* Watermark vs signature comparison */
+  .compare-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .compare-head { display: grid; grid-template-columns: 140px 1fr 1fr; background: var(--paper-warm); border-bottom: 1px solid var(--rule); }
+  .compare-head-cell { padding: 10px 14px; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border-right: 1px solid var(--rule); color: var(--ink-faint); }
+  .compare-head-cell:last-child { border-right: none; }
+  .compare-head-cell.wm { color: var(--gold); }
+  .compare-head-cell.cs { color: var(--teal); }
+  .compare-row { display: grid; grid-template-columns: 140px 1fr 1fr; border-bottom: 1px solid var(--rule-soft); }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-cell { padding: 12px 14px; font-size: 12px; color: var(--ink-mid); line-height: 1.55; font-weight: 300; border-right: 1px solid var(--rule-soft); }
+  .compare-cell:last-child { border-right: none; }
+  .compare-cell.label { font-weight: 500; color: var(--ink); font-size: 12px; }
+  .compare-cell.wm-col { background: var(--gold-light); }
+  .compare-cell.cs-col { background: var(--teal-light); }
+
+  /* Timeline */
+  .timeline { margin: 24px 0; }
+  .tl-item { display: flex; gap: 16px; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -4px; width: 1px; background: var(--rule); }
+  .tl-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 4px; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-mid); border: 2px solid var(--accent-light); flex-shrink: 0; }
+  .tl-content { padding-bottom: 24px; flex: 1; }
+  .tl-year { font-size: 11px; font-weight: 500; color: var(--accent-mid); letter-spacing: 0.08em; margin-bottom: 3px; }
+  .tl-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .two-faces { grid-template-columns: 1fr; }
+    .face-connector { grid-column: 1; }
+    .attack-grid { grid-template-columns: 1fr; }
+    .compare-head { grid-template-columns: 100px 1fr 1fr; }
+    .compare-row { grid-template-columns: 100px 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide · Module B</div>
+    <div class="header-title">B6 — AI and Verifiable Content</div>
+    <div class="header-subtitle">Two threats, one genealogy. AI generates content that cryptographic trust must verify. AI attacks the infrastructure that cryptographic trust depends on.</div>
+    <div class="module-badge">Track 6 of 6</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">Two faces of one threat</button>
+    <button class="tab-btn" onclick="showTab(1)">The content crisis</button>
+    <button class="tab-btn" onclick="showTab(2)">C2PA and provenance</button>
+    <button class="tab-btn" onclick="showTab(3)">AI as attacker</button>
+    <button class="tab-btn" onclick="showTab(4)">The frontier</button>
+    <button class="tab-btn" onclick="showTab(5)">Your community</button>
+    <button class="tab-btn" onclick="showTab(6)">Log entry</button>
+  </div>
+
+  <!-- Tab 0: Two faces of one threat -->
+  <div class="page active">
+    <div class="section-label">B6.0 — The newest branch, and the hardest</div>
+
+    <p class="body-text">Every branch of the genealogy traced in this handbook was shaped by a specific pressure — a new need, a new threat, a new deployment context — that forced cryptographic trust to evolve. TLS was forced by the open web. Identity was forced by digital scale. Payments were forced by the need to reach the unbanked. Digital signatures were forced by the migration of legal documents. Post-quantum was forced by a new form of computation.</p>
+
+    <p class="body-text">AI is forcing two pressures simultaneously — and they are different enough that they need to be understood separately before they can be understood together.</p>
+
+    <div class="two-faces">
+      <div class="face-card generator">
+        <div class="face-icon">🎭</div>
+        <div class="face-label gen">Face one</div>
+        <div class="face-title">AI as content generator</div>
+        <div class="face-body">When anything can be synthesised convincingly — images, video, audio, text, documents — the assumption that an artifact is evidence of something that happened collapses. The burden of proof inverts: you must prove content is real, not assume it is. Cryptographic provenance is the response: signing content at the point of creation so its origin and integrity can be verified.</div>
+      </div>
+      <div class="face-card attacker">
+        <div class="face-icon">⚔️</div>
+        <div class="face-label att">Face two</div>
+        <div class="face-title">AI as infrastructure attacker</div>
+        <div class="face-body">AI doesn't just generate content — it attacks the systems that cryptographic trust depends on. Side-channel attacks amplified by machine learning. Social engineering at industrial scale. Biometric spoofing that defeats authentication. Vulnerability discovery accelerated by AI reasoning. And at the frontier: the possibility that sufficiently capable models find cryptographic weaknesses that human analysts have missed.</div>
+      </div>
+      <div class="face-connector">Both faces challenge the same thing: the infrastructure of trust that fifty years of cryptographic development built.</div>
+    </div>
+
+    <p class="body-text">The distinction matters for how a Present Ambassador frames this with a community. The content generation threat is immediately legible to almost any audience — they have seen deepfakes, received AI-generated phishing emails, or encountered fabricated social media content. The infrastructure attack threat requires more careful framing — it is less visible but potentially more consequential, because it threatens the substrate that all the other protections rest on.</p>
+
+    <p class="body-text">Together, they represent the most acute current challenge to the genealogy. Unlike quantum computing, which requires exotic hardware and carries substantial timeline uncertainty, both AI threats are present, accelerating, and require no technology that doesn't already exist commercially. A laptop, an API key, and sufficient motivation is all it takes.</p>
+
+    <div class="pull-quote">
+      "Quantum computing is the threat on the horizon. AI is the threat under our feet. The infrastructure it is destabilising is the same infrastructure that was supposed to protect us from it."
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Opening reflection — 10 minutes</div>
+      <div class="activity-title">Which face has your community already encountered?</div>
+      <div class="activity-body">
+        <p>Before going further, apply both faces to your specific community context.</p>
+        <ul class="prompt-list">
+          <li>Has your community experienced AI-generated content that was mistaken for real — a deepfake, a synthetic voice, a fabricated document or image? What was the consequence?</li>
+          <li>Has your community experienced an attack on its digital infrastructure that used AI-assisted techniques — more convincing phishing, automated credential stuffing, AI-generated fraud? Did the people affected know what had happened?</li>
+          <li>Which face of the threat is more legible to your audience — and which is more dangerous in your specific context?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 1: The content crisis -->
+  <div class="page">
+    <div class="section-label">B6.1 — When the assumption of authenticity fails</div>
+
+    <p class="body-text">For most of human history, a photograph was evidence. Not perfect evidence — photographs could be staged, cropped, or manipulated with effort — but evidence in a meaningful sense: something had to have happened in front of a camera for an image to exist. The same was true of audio recordings, video footage, and written documents. The cost of fabrication was high enough that the presumption of authenticity was reasonable as a default.</p>
+
+    <p class="body-text">That presumption is gone. Generative AI has reduced the cost of producing a convincing synthetic image, audio clip, or video to approximately zero. A realistic photograph of an event that never happened, a voice recording of someone saying words they never spoke, a video of a public figure doing something they never did — all of these can be produced in minutes by anyone with access to consumer tools. The technology has crossed a threshold that cannot be uncrossed.</p>
+
+    <p class="body-text">This is not primarily a technical problem. It is an epistemic one. Legal systems, financial markets, democratic institutions, journalism, and scientific practice all depend on the assumption that evidence corresponds to reality. When that assumption fails — when it becomes rational to doubt any digital artifact — the infrastructure of institutional trust begins to crack.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2017</div>
+          <div class="tl-title">Deepfakes emerge — face synthesis becomes accessible</div>
+          <div class="tl-body">A Reddit user publishes a technique for swapping faces in video using a deep learning model, making convincing face synthesis accessible to anyone with a consumer GPU. Within months, the technique is used for non-consensual intimate imagery at scale — one of the earliest and most harmful applications of generative synthesis. The term "deepfake" enters the vocabulary. What had required a Hollywood effects studio now requires a laptop.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2019</div>
+          <div class="tl-title">Voice cloning fraud — $243,000 stolen using AI audio</div>
+          <div class="tl-body">A UK energy company executive transfers €220,000 to a fraudulent account after receiving a phone call from a voice he believed to be his German CEO — a voice synthesised by AI. The fraud is among the first documented cases of AI voice cloning used for financial crime. The authentication system — the human ability to recognise a familiar voice — had been comprehensively defeated. This is not a future risk. It happened. It has since been replicated thousands of times at smaller scales.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2022–2023</div>
+          <div class="tl-title">Text generation reaches mass deployment — the document crisis</div>
+          <div class="tl-body">The deployment of large language models at consumer scale produces a new dimension of the content crisis: synthetic text that is indistinguishable from human writing. Fabricated news articles, synthetic academic papers, AI-generated legal documents, fraudulent financial reports, fake government communications. The volume of potentially synthetic text in circulation begins to outpace the capacity of detection systems. Courts begin encountering AI-generated evidence submitted as genuine.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2024</div>
+          <div class="tl-title">Video synthesis at scale — the final threshold</div>
+          <div class="tl-body">Real-time video synthesis — the ability to generate convincing video of a person saying or doing anything, in real time, from a webcam feed — becomes commercially available. Video calls, identity verification sessions, remote depositions, parliamentary proceedings — any context where a remote video feed is taken as evidence of a person's presence and identity is now potentially vulnerable. The authentication systems that assumed a live video feed was authentic have no technical basis for that assumption.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--accent-mid);"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">Now</div>
+          <div class="tl-title">The liar's dividend — doubt as a weapon</div>
+          <div class="tl-body">The most insidious consequence of the content generation crisis is not that fabricated content is believed. It is that genuine content can now be credibly denied. A politician caught on genuine video doing something damaging can claim it is a deepfake. An authentic recording of a crime can be challenged in court as potentially synthetic. A real document can be dismissed as AI-generated. The existence of sophisticated synthesis tools creates what researchers call the "liar's dividend" — the ability to weaponise doubt against genuine evidence. This is the epistemic crisis that cryptographic provenance infrastructure is being built to address.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">For your community engagement</div>
+      <div class="callout-body">The liar's dividend is the most important concept to convey from this section — because it reframes the content crisis from "fake things will be believed" (which audiences often dismiss as a media literacy problem) to "real things can now be denied" (which affects everyone with a stake in evidence, accountability, and truth). A Present Ambassador who can explain the liar's dividend clearly has given their community a new frame for understanding why cryptographic provenance infrastructure is a public good, not a niche technical concern.</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: C2PA and provenance -->
+  <div class="page">
+    <div class="section-label">B6.2 — The cryptographic response: provenance infrastructure</div>
+
+    <p class="body-text">The response to the content generation crisis that has gained the most institutional traction is cryptographic provenance — signing content at the point of creation so that its origin and any subsequent transformations can be verified. The leading standard is C2PA: the Coalition for Content Provenance and Authenticity, a cross-industry initiative whose membership includes Adobe, Microsoft, Google, Sony, Nikon, Canon, the BBC, Reuters, Associated Press, and dozens of other organisations.</p>
+
+    <p class="body-text">C2PA's architecture is a direct application of the digital signature branch of the genealogy. A camera, AI system, or publishing platform signs a piece of content — an image, a video, an audio file, a document — using a private key, creating a Content Credential: a signed record of who created the content, when, with what tool, and what transformations have been applied to it. The credential travels with the content and can be verified by anyone with access to the corresponding public key.</p>
+
+    <!-- C2PA Chain -->
+    <div class="c2pa-chain">
+      <div class="c2pa-title">How a Content Credential is created and verified</div>
+      <div class="c2pa-subtitle">The same digital signature logic from Module A, applied to the provenance of content rather than the content of a message.</div>
+
+      <div class="c2pa-step">
+        <div class="c2pa-dot">📷</div>
+        <div class="c2pa-content">
+          <div class="c2pa-step-title">1 — Capture: the camera signs at the moment of creation</div>
+          <div class="c2pa-step-body">A C2PA-enabled camera — Sony Alpha series, Leica M11-P, Nikon Z9 — cryptographically signs the image at the moment of capture. The signature includes a hash of the raw image file, metadata about the device, GPS coordinates if available, and a timestamp. The private key is embedded in the camera's secure enclave. The camera manufacturer's CA vouches for the key through a certificate chain.</div>
+          <div class="c2pa-sig-badge">✦ Camera private key signs image hash + metadata</div>
+        </div>
+      </div>
+
+      <div class="c2pa-step">
+        <div class="c2pa-dot">✂️</div>
+        <div class="c2pa-content">
+          <div class="c2pa-step-title">2 — Edit: transformations are recorded and re-signed</div>
+          <div class="c2pa-step-body">When the image is edited in Adobe Photoshop or Lightroom, the editing software adds a new assertion to the Content Credential — recording what was changed, by whom, and with what tool. The original signature is preserved. Each transformation adds a new signed layer. The result is a verifiable chain of custody from capture through to publication, showing every step the content has taken.</div>
+          <div class="c2pa-sig-badge">✦ Adobe signs transformation record, preserving original signature</div>
+        </div>
+      </div>
+
+      <div class="c2pa-step">
+        <div class="c2pa-dot">📰</div>
+        <div class="c2pa-content">
+          <div class="c2pa-step-title">3 — Publish: the news organisation adds its assertion</div>
+          <div class="c2pa-step-body">When the BBC or Reuters publishes the image, their content management system adds a final assertion — signing the publication record with the organisation's certificate. The Content Credential now carries the full provenance chain: camera, editor, publisher. Each link is cryptographically verifiable. Each party is accountable for their link in the chain.</div>
+          <div class="c2pa-sig-badge">✦ Publisher signs publication assertion</div>
+        </div>
+      </div>
+
+      <div class="c2pa-step">
+        <div class="c2pa-dot">🔍</div>
+        <div class="c2pa-content">
+          <div class="c2pa-step-title">4 — Verify: anyone can inspect the full provenance chain</div>
+          <div class="c2pa-step-body">A reader, platform, or verification service can inspect the Content Credential — available through the "cr" icon in Adobe-compatible viewers or through contentcredentials.org — and verify the full chain: the camera's signature, the editing history, the publisher's assertion. Any break in the chain — any step where the content was modified outside a signed assertion — is visible. The credential cannot prove the content is "true" — but it can prove who created it, what they did to it, and whether it has been tampered with since.</div>
+          <div class="c2pa-sig-badge">✦ Public key verification — anyone can check, nobody needs to trust an intermediary</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">C2PA also defines how AI-generated content should be labelled. An AI system that is C2PA-compliant — currently including Adobe Firefly, Microsoft's Designer, and others — signs its outputs with an assertion identifying the content as AI-generated. The genealogy is doing exactly what it has always done: providing a mathematical basis for a claim that the human and institutional layer cannot make on its own.</p>
+
+    <div class="compare-block">
+      <div class="compare-head">
+        <div class="compare-head-cell">Dimension</div>
+        <div class="compare-head-cell wm">Watermarking</div>
+        <div class="compare-head-cell cs">Cryptographic signatures (C2PA)</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">How it works</div>
+        <div class="compare-cell wm-col">Embeds an imperceptible signal in the content itself — pixels, audio frequencies — that can be detected by a matching algorithm.</div>
+        <div class="compare-cell cs-col">Attaches a signed credential to the content's metadata, verifiable against the signer's public key. The signature is separate from the content.</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Survives editing?</div>
+        <div class="compare-cell wm-col">Partially — robust watermarks survive moderate editing but can be degraded or removed by aggressive processing, format conversion, or adversarial attack.</div>
+        <div class="compare-cell cs-col">The original signature is preserved in the credential chain even after edits — but edits outside the C2PA framework break the chain's integrity at that point.</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Adversarial removal</div>
+        <div class="compare-cell wm-col">Research has demonstrated that many watermarks can be removed or forged by adversarial ML models with access to the watermarking algorithm. The arms race between watermarking and removal is active and unresolved.</div>
+        <div class="compare-cell cs-col">The signature cannot be removed without invalidating the credential. But stripping the metadata entirely — removing the credential rather than forging it — is trivially easy with standard image processing tools.</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">What it proves</div>
+        <div class="compare-cell wm-col">That the content passed through a specific system — useful for detecting AI-generated content at platform scale. Does not prove origin or chain of custody.</div>
+        <div class="compare-cell cs-col">Who created the content, when, with what tool, and what transformations have been applied. Does not prove the content is "true" — only that its provenance is as claimed.</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell label">Current deployment</div>
+        <div class="compare-cell wm-col">Google DeepMind's SynthID, Meta's invisible watermarking, various platform-level detection systems. Primarily used for AI-generated content identification at scale.</div>
+        <div class="compare-cell cs-col">C2PA-enabled cameras (Sony, Nikon, Leica), Adobe Creative Cloud, Microsoft, BBC, Reuters, AP. Growing but far from universal. The coverage gap is the binding constraint.</div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">The coverage gap — the binding constraint</div>
+      <div class="warning-body">C2PA works when content is signed. Most content is not signed. The vast majority of images, videos, and documents in circulation have no Content Credential and never will — they were created before C2PA existed, or by tools that have not implemented it, or by people who have no reason to. This means C2PA can provide strong provenance guarantees for content created within the C2PA ecosystem — primarily professional journalism and corporate communications — while providing no signal at all for the vast ocean of unverified content where most disinformation actually travels. The absence of a credential does not prove content is fake. It proves nothing. This asymmetry — strong proof where it exists, no signal where it doesn't — is the current limitation of provenance infrastructure.</div>
+    </div>
+  </div>
+
+  <!-- Tab 3: AI as attacker -->
+  <div class="page">
+    <div class="section-label">B6.3 — AI attacking the infrastructure of trust</div>
+
+    <p class="body-text">The second face of the AI threat is less visible but in many ways more structurally dangerous. AI is not just generating content that cryptographic trust must verify — it is actively attacking the systems that cryptographic trust depends on. These attacks do not require breaking the mathematics. They target the human, institutional, and implementation layers where the genealogy has always been most vulnerable.</p>
+
+    <p class="body-text">Select each attack vector below to understand the mechanism, the current state of deployment, and what it means for the infrastructure your community depends on.</p>
+
+    <div class="attack-grid">
+      <div class="attack-card active" onclick="showAttack(0)" id="ac-0">
+        <div class="attack-icon">🎣</div>
+        <div class="attack-name">AI-powered social engineering</div>
+        <div class="attack-tagline">Phishing, vishing, and identity fraud at industrial scale</div>
+      </div>
+      <div class="attack-card" onclick="showAttack(1)" id="ac-1">
+        <div class="attack-icon">🔊</div>
+        <div class="attack-name">Biometric spoofing</div>
+        <div class="attack-tagline">Defeating face, voice, and liveness authentication</div>
+      </div>
+      <div class="attack-card" onclick="showAttack(2)" id="ac-2">
+        <div class="attack-icon">⚡</div>
+        <div class="attack-name">AI-accelerated side-channel attacks</div>
+        <div class="attack-tagline">Extracting keys from physical implementation signals</div>
+      </div>
+      <div class="attack-card" onclick="showAttack(3)" id="ac-3">
+        <div class="attack-icon">🐛</div>
+        <div class="attack-name">Vulnerability discovery at scale</div>
+        <div class="attack-tagline">Finding implementation flaws faster than defenders can patch</div>
+      </div>
+      <div class="attack-card" onclick="showAttack(4)" id="ac-4">
+        <div class="attack-icon">🧬</div>
+        <div class="attack-name">AI-generated malicious code</div>
+        <div class="attack-tagline">Subtly flawed cryptographic implementations</div>
+      </div>
+      <div class="attack-card" onclick="showAttack(5)" id="ac-5">
+        <div class="attack-icon">🤖</div>
+        <div class="attack-name">Automated credential stuffing</div>
+        <div class="attack-tagline">Authentication attacks at machine speed and scale</div>
+      </div>
+    </div>
+
+    <div class="attack-detail active" id="ad-0">
+      <div class="attack-detail-title">AI-powered social engineering — the human layer, industrialised</div>
+      <div class="attack-detail-body">
+        <p>Social engineering — manipulating people rather than breaking cryptography — has always been the most effective attack vector against cryptographic infrastructure. A private key that has never left its hardware enclave can still be compromised if the person who holds it is tricked into using it on behalf of an attacker. AI has transformed social engineering from a skilled, labour-intensive activity into an industrialisable one.</p>
+        <p>AI-generated phishing emails are now indistinguishable from legitimate correspondence — personalised with scraped information about the target, written in their language and register, timed to their working patterns. Voice cloning allows attackers to impersonate known and trusted individuals in phone calls. Video synthesis enables real-time impersonation in video calls. Large language models can maintain a coherent fraudulent persona across extended email exchanges — something that previously required a skilled human social engineer.</p>
+        <p>The cryptographic infrastructure is intact. The authentication passed. The attack succeeded by circumventing the human who controls the keys — not by breaking the keys themselves. This is the pattern that will define AI-assisted attacks on cryptographic infrastructure for the foreseeable future: not defeating the mathematics, but defeating the humans and institutions around it.</p>
+        <div><span class="attack-status status-active-threat">Active threat — deployed at scale</span></div>
+      </div>
+    </div>
+
+    <div class="attack-detail" id="ad-1">
+      <div class="attack-detail-title">Biometric spoofing — when your face is no longer your password</div>
+      <div class="attack-detail-body">
+        <p>Biometric authentication — face recognition, voice recognition, liveness detection — is increasingly used as the authentication layer in national identity systems, banking apps, border control, and device unlock. The security model assumes that a biometric cannot be replicated without physical presence. AI has substantially undermined that assumption.</p>
+        <p>Face synthesis systems can generate photorealistic images and video of a person from a small number of reference photographs — all publicly available from social media. Liveness detection systems — designed to distinguish a live person from a photograph — have been defeated by 3D-printed masks, high-resolution video loops, and adversarial perturbations that fool the detection model while remaining imperceptible to humans. Voice cloning requires as little as three seconds of audio to produce a convincing replica. Remote identity verification sessions — used for KYC in banking, for university examinations, for benefits claims — are increasingly vulnerable to real-time video synthesis that substitutes a synthetic face for the genuine applicant.</p>
+        <p>The response is an arms race between increasingly sophisticated liveness detection and increasingly sophisticated spoofing — a race that the authentication systems are currently losing in several deployment contexts. Cryptographic alternatives — hardware security keys, passkeys, device-bound credentials — are phishing-resistant and spoof-resistant because they do not rely on a biological signal that can be replicated. The trajectory favors moving authentication from "something you are" toward "something you have" that is cryptographically bound to a specific device.</p>
+        <div><span class="attack-status status-active-threat">Active threat — documented in production systems</span></div>
+      </div>
+    </div>
+
+    <div class="attack-detail" id="ad-2">
+      <div class="attack-detail-title">AI-accelerated side-channel attacks — reading secrets from physical signals</div>
+      <div class="attack-detail-body">
+        <p>Side-channel attacks exploit information leaked by the physical implementation of a cryptographic algorithm — power consumption, electromagnetic emissions, timing variations, acoustic signals — rather than the algorithm's mathematics. A device performing a cryptographic operation emits physical signals that, with sufficient measurement and analysis, can be used to reconstruct the secret key. These attacks are real, documented, and have been used against smartcards, HSMs, and embedded cryptographic devices.</p>
+        <p>What AI has changed is the analysis layer. Classical side-channel attacks require significant expertise to extract a key from noisy physical measurements. Machine learning models — specifically deep learning applied to power traces or electromagnetic measurements — can learn to extract key material from signals that would be too noisy for classical analysis. Research groups have demonstrated AI-accelerated side-channel attacks that reduce the number of measurements required by an order of magnitude compared to classical approaches, making attacks practical against devices and in environments that were previously too difficult to exploit.</p>
+        <p>The implication is that hardware security devices — smartcards, HSMs, secure enclaves — that were designed with classical side-channel countermeasures may need reassessment against AI-assisted analysis. This is a significant concern for the payment terminals, identity documents, and signing tokens that underlie much of the infrastructure traced in B2, B3, and B4.</p>
+        <div><span class="attack-status status-emerging">Emerging threat — demonstrated in research, increasingly practical</span></div>
+      </div>
+    </div>
+
+    <div class="attack-detail" id="ad-3">
+      <div class="attack-detail-title">Vulnerability discovery at scale — finding what humans missed</div>
+      <div class="attack-detail-body">
+        <p>Cryptographic security in practice depends not just on sound algorithms but on correct implementations. A correctly designed protocol implemented with a subtle coding error can be catastrophically broken — Heartbleed being the most prominent example. Finding these implementation vulnerabilities has historically required skilled human security researchers working manually through millions of lines of code.</p>
+        <p>AI-assisted vulnerability discovery — using large language models and specialised code analysis tools to identify security-relevant patterns in code — has demonstrably accelerated the rate at which vulnerabilities are found. In 2024, Google's Project Zero documented several cases where AI-assisted analysis identified memory safety vulnerabilities in critical infrastructure code that had been present for years without detection. The same capability that helps defenders find and patch vulnerabilities can be used by attackers to find and exploit them — and the attacker needs only find one; the defender must patch all of them.</p>
+        <p>For cryptographic infrastructure specifically, this means that the large corpus of legacy code underlying TLS implementations, certificate management systems, cryptographic libraries, and hardware drivers is now being analysed at a rate and scale that human researchers alone could not achieve. The vulnerability surface has not changed — but the speed at which it can be surveyed has.</p>
+        <div><span class="attack-status status-emerging">Emerging threat — accelerating rapidly</span></div>
+      </div>
+    </div>
+
+    <div class="attack-detail" id="ad-4">
+      <div class="attack-detail-title">AI-generated malicious code — the subtle implementation problem</div>
+      <div class="attack-detail-body">
+        <p>AI code generation tools are increasingly used in software development — including, inevitably, in the development of security-critical code. The concern is not primarily that AI will write overtly malicious code — that is detectable. The concern is that AI tools may introduce subtle implementation errors in cryptographic code that create exploitable vulnerabilities while passing code review and automated testing.</p>
+        <p>Research has demonstrated that current large language models, when asked to implement cryptographic primitives, produce code with security-relevant errors at a higher rate than experienced human cryptographic engineers — including errors in random number generation, timing-safe comparison, padding handling, and key management that are precisely the class of mistakes that have historically produced exploitable vulnerabilities. As AI-generated code becomes more prevalent in the software supply chain, and as that code is less carefully reviewed than code written by specialists, the probability of subtle cryptographic implementation errors reaching production increases.</p>
+        <p>The code signing infrastructure from B4 — software supply chain security — is directly relevant here: a signed software package is authentic. It may still be subtly broken. Provenance and correctness are different guarantees, and AI-generated code that passes automated tests and code review may satisfy the former while failing the latter in ways that are not immediately apparent.</p>
+        <div><span class="attack-status status-emerging">Emerging threat — increasingly documented</span></div>
+      </div>
+    </div>
+
+    <div class="attack-detail" id="ad-5">
+      <div class="attack-detail-title">Automated credential stuffing — authentication at machine scale</div>
+      <div class="attack-detail-body">
+        <p>Credential stuffing — using stolen username and password combinations from one breach to attack other services — is among the most prevalent and damaging attacks on authentication infrastructure. It relies on the fact that people reuse passwords across services. Its effectiveness has always been limited by the rate at which an automated system can attempt logins before triggering rate limiting or detection.</p>
+        <p>AI has substantially raised the ceiling on what automated attacks can achieve. Machine learning models trained on CAPTCHA-solving, behavioural mimicry, and account takeover patterns can defeat the friction-based defences that most services deploy — passing bot detection, mimicking human browsing patterns, solving visual challenges, and adapting to defensive measures in near-real time. AI-powered credential stuffing operations now operate at the scale of millions of attempts per hour across distributed infrastructure, with automated adaptation to defensive countermeasures.</p>
+        <p>The cryptographic response — phishing-resistant authentication through passkeys and hardware security keys — is the only reliable defence, because it replaces the shared secret (the password that can be stuffed) with a cryptographic proof that is bound to a specific device. Platforms that have deployed passkeys see credential stuffing attacks drop to near zero for enrolled users. The genealogy provides the solution — but only where it has been deployed.</p>
+        <div><span class="attack-status status-active-threat">Active threat — operating at industrial scale</span></div>
+      </div>
+    </div>
+
+    <div class="incident-box">
+      <div class="incident-label">Case study — for community engagement</div>
+      <div class="incident-title">The £25 million video call</div>
+      <div class="incident-body">In January 2024, a finance worker at a multinational company in Hong Kong transferred HK$200 million — approximately £25 million — to fraudulent accounts after attending a video call in which every other participant, including a person he believed to be the company's CFO, was a deepfake. The worker had initially been suspicious of a phishing email requesting the transfer, but his doubts were allayed by the video call, in which the synthesised participants appeared entirely convincing. He made fifteen transactions before the fraud was discovered. No cryptographic authentication was broken. The attack defeated the human's judgement entirely through the synthesis of convincing video. This case is not an outlier — it is a demonstration of a class of attack that is now well within the capability of moderately resourced criminal organisations, and that will become more accessible as real-time synthesis tools improve. For any community that conducts significant financial or legal business over video calls, the question is not whether this could happen but what authentication infrastructure exists that would detect it.</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: The frontier -->
+  <div class="page">
+    <div class="section-label">B6.4 — At the edge of what we know</div>
+
+    <p class="body-text">The attack vectors in Tab 3 are documented, active, and addressable with known countermeasures. This tab addresses something different: the frontier — the questions about AI and cryptographic trust that the field is genuinely uncertain about, where the honest answer requires holding the uncertainty rather than resolving it prematurely.</p>
+
+    <p class="body-text">A Present Ambassador who reaches the frontier in a community conversation should do so with intellectual honesty: these are not settled questions, the expert community is actively debating them, and the uncertainty itself is information worth sharing.</p>
+
+    <div class="frontier-box">
+      <div class="frontier-label">Frontier question 1</div>
+      <div class="frontier-title">Can sufficiently capable AI models discover new cryptographic attacks?</div>
+      <div class="frontier-body">This is the question that the Mythos reference points toward. A sufficiently capable model — trained on the full corpus of cryptographic literature, capable of novel mathematical reasoning, able to explore large search spaces faster than human researchers — might find attack vectors that human cryptanalysts have missed. This is not idle speculation: SIKE was broken by human insight that its designers did not anticipate. The question is whether AI-assisted mathematical reasoning could find a comparable insight in a currently trusted algorithm faster than the human community would find it through conventional research.<br><br>The honest answer is: we don't know. The cryptographic community has not reached consensus on how to assess this risk, how to test for it, or how to incorporate it into security assumptions. What can be said is that the assumption "no attack is currently known, therefore no attack exists" becomes less reliable as the capability of AI reasoning tools increases. This is the provable/conjectured distinction from B5, applied to AI rather than quantum computers — and it is the reason that responsible cryptographic governance is moving toward mathematical diversity and formal verification rather than relying solely on the absence of known attacks.</div>
+    </div>
+
+    <div class="frontier-box">
+      <div class="frontier-label">Frontier question 2</div>
+      <div class="frontier-title">What does AI-assisted cryptanalysis mean for the post-quantum transition?</div>
+      <div class="frontier-body">The NIST post-quantum standards were evaluated by human cryptanalysts over eight years. The security confidence placed in CRYSTALS-Kyber and CRYSTALS-Dilithium rests on the failure of that community to find efficient attacks. But the evaluation was conducted in a world before highly capable AI reasoning tools were widely available. The question now being asked by some researchers is whether the standards should be re-evaluated — not by human cryptanalysts alone, but with AI-assisted analysis — before critical infrastructure is migrated to them.<br><br>This is not a mainstream position, and most cryptographers consider the lattice-based standards to be well-founded. But it is a live research question, and it represents the intersection of two of the most significant challenges in the field: post-quantum migration and AI capability. A Present Ambassador should be aware that these two branches of the genealogy are not independent — they interact in ways that the field is still working to understand.</div>
+    </div>
+
+    <div class="frontier-box">
+      <div class="frontier-label">Frontier question 3</div>
+      <div class="frontier-title">Who governs AI-assisted provenance infrastructure?</div>
+      <div class="frontier-body">C2PA provides a technical standard for content provenance. But the trust infrastructure that gives C2PA its meaning — the Certificate Authorities that vouch for camera manufacturers and publishing organisations, the platforms that display Content Credentials, the regulators that may eventually require them — is governed by a small number of large technology companies and standards bodies. The question of who controls the provenance infrastructure of global media is not a technical question. It is a political one.<br><br>In contexts where the state controls the Certificate Authorities that vouch for content provenance, C2PA could become a mechanism for state authentication of approved content — inverting its purpose entirely. In contexts where platform companies control the display of Content Credentials, the decision of whose credentials to display and whose to suppress becomes a form of editorial power. The genealogy has always been subject to this dynamic: mathematical trust is only as good as the institutions that administer it. Content provenance infrastructure inherits that limitation.</div>
+    </div>
+
+    <div class="frontier-box">
+      <div class="frontier-label">Frontier question 4</div>
+      <div class="frontier-title">Can we build AI systems that are cryptographically accountable?</div>
+      <div class="frontier-body">The deepest long-term question at the intersection of AI and cryptographic trust is whether the outputs of AI systems can be made verifiably accountable — not just labelled, but cryptographically provable as to their origin, the model that generated them, the training data they reflect, and the constraints they were operating under. This is the research agenda of fields including zero-knowledge proofs applied to machine learning, verifiable computation, and model transparency.<br><br>It is technically demanding and not yet practically deployable at scale. But it represents the most ambitious application of the genealogy to the AI problem: not just signing content after the fact, but building AI systems whose operation is cryptographically auditable from the inside. If the genealogy continues its pattern of expanding to meet each new trust challenge, this is where it leads next.</div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">How to hold the frontier in a community conversation</div>
+      <div class="callout-body">The frontier questions do not have answers to deliver. What a Present Ambassador can offer is something more valuable: the frame. "Here is what is known. Here is what is uncertain. Here is why the uncertainty matters, and who is working on it." A community that learns to hold that frame — rather than demanding false certainty in either direction — is better equipped to engage with the decisions being made about their digital infrastructure than one that receives a simplified narrative of threats and solutions. The genealogy is not finished. It is being written right now, in part by the people in the room.</div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Your community -->
+  <div class="page">
+    <div class="section-label">B6.5 — AI and trust in your community</div>
+
+    <p class="body-text">Every community is already inside the AI and cryptographic trust story — most without knowing it. The question for a Present Ambassador is where the story is most present, most consequential, and most in need of the understanding that only someone who has traced the genealogy can provide.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Find where the content crisis has already arrived</div>
+          <div class="step-body">In almost every community, AI-generated content has already caused confusion, damage, or both. Election-related deepfakes. Synthetic voice fraud. AI-generated news in local media. Fabricated evidence submitted in legal proceedings. Fake credentials or academic work. Find the specific instance in your community — not a global example, but a local one. The specificity is what makes the problem real rather than theoretical for the people in the room.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Map the attack surface in your community's infrastructure</div>
+          <div class="step-body">Which organisations in your community are most exposed to the AI attack vectors in Tab 3? Financial institutions and payment operators: credential stuffing, voice fraud, video call fraud. Identity verification services: biometric spoofing. Government agencies: AI-assisted social engineering of staff with privileged access. Healthcare: synthetic patient records and fraudulent insurance claims. Legal institutions: AI-generated evidence. Map the exposure — then ask whether the organisations responsible know they are exposed.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Identify where C2PA or equivalent provenance infrastructure is deployed — or missing</div>
+          <div class="step-body">Which media organisations, government agencies, or official information sources in your community have deployed C2PA or Content Credentials? The answer in most communities outside major Western news organisations is: none. That gap is informative — and it is the entry point for a conversation about what it would take to build provenance infrastructure for content that your community depends on for democratic, legal, or economic purposes.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Find the entry point for your specific audience</div>
+          <div class="step-body">For a general public audience: the liar's dividend — the fact that authentic content can now be credibly denied. For a media and journalism audience: C2PA adoption and the coverage gap, and what a commitment to signed content would mean for their credibility. For a legal or policy audience: the implications of AI-generated evidence and deepfake denial for evidentiary standards. For a security and technology audience: the AI attack vectors against authentication infrastructure and the case for phishing-resistant cryptographic authentication. For any audience: the Hong Kong video call fraud — a single case study that makes both the content generation threat and the AI attacker threat vivid simultaneously.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The question that closes the genealogy</div>
+      <div class="callout-body">You began this handbook with a paper published in 1976 that solved the key distribution problem and opened a new territory. You have traced how that territory has been mapped, branch by branch, over fifty years — securing the web, authenticating identity, moving money, binding legal commitments, facing a quantum threat, and now confronting an AI-driven crisis of trust that challenges both what we can verify and the infrastructure we use to verify it. The question to leave your community with is the same question that Diffie and Hellman left with theirs: what is the problem that currently seems impossible — and what kind of mathematics might dissolve it? The genealogy is still being written. They are part of it.</div>
+    </div>
+  </div>
+
+  <!-- Tab 6: Log entry -->
+  <div class="page">
+    <div class="section-label">Module B6 — Log Entry</div>
+
+    <p class="body-text">You have traced the newest and most active branch of the genealogy — AI as both content generator and infrastructure attacker — and stood at the frontier of questions the field has not yet resolved. Before moving to Module C, record where you are.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 8 — AI and verifiable content</div>
+      <div class="log-field">
+        <label class="log-label">The AI and trust incident most relevant to your community</label>
+        <textarea class="log-area" rows="2" placeholder="Not a global example — a specific local one. Where has this branch already arrived in your community's experience?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The attack vector most exposed in your community's infrastructure</label>
+        <textarea class="log-area" rows="2" placeholder="Social engineering? Biometric spoofing? Credential stuffing? Which organisations are most exposed — and do they know it?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Your assessment of the C2PA coverage gap in your community</label>
+        <textarea class="log-area" rows="2" placeholder="Which content sources your community depends on are signed? Which aren't? What would it take to change that?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The frontier question you want to think about more</label>
+        <textarea class="log-area" rows="2" placeholder="Which of the four frontier questions feels most important for your community's context — and why?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Final genealogy sketch update</label>
+        <textarea class="log-area" rows="3" placeholder="You have now traced all six branches. Update your sketch to show the complete tree — from the 1976 trunk through TLS, identity, payments, digital signatures, post-quantum, and AI. Label each branch with the pressure that drove it. This sketch is yours to keep — and to share."></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B complete — all six tracks</div>
+      <div class="completion-body">You have traced the full genealogy of cryptographic trust from the 1976 founding paper through six branches that shape the digital world your community lives in. TLS secured the web. Authentication bound identity to mathematics. Payment rails moved money beyond the reach of intermediaries. Digital signatures made commitments legally binding. Post-quantum cryptography is replacing the mathematical foundations under pressure from a new form of computation. And AI is both generating content that cryptographic trust must verify and attacking the infrastructure that makes verification possible. The genealogy is alive, branching, and unfinished. You are ready to bring it to your community. Next: Module C — The Living Landscape, where you map this genealogy in the specific terrain of your own region.</div>
+      <div class="badge-row">
+        <span class="badge-pill">Content crisis — understood</span>
+        <span class="badge-pill">C2PA provenance — traced</span>
+        <span class="badge-pill">AI attack vectors — mapped</span>
+        <span class="badge-pill">Frontier — held honestly</span>
+        <span class="badge-pill">Full genealogy — complete</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showAttack(n) {
+  document.querySelectorAll('.attack-card').forEach((c, i) => c.classList.toggle('active', i === n));
+  document.querySelectorAll('.attack-detail').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+
+function selectThreat(n) {
+  document.querySelectorAll('.threat-claim').forEach((c, i) => c.classList.toggle('selected', i === n));
+  document.querySelectorAll('.threat-detail').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+</script>
+</body>
+</html>
