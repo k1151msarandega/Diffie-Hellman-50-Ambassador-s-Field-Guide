@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module E</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  /* Recognition arc */
+  .arc-block { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 24px; margin: 20px 0; }
+  .arc-title { font-family: var(--serif); font-size: 16px; font-weight: 400; color: var(--ink); margin-bottom: 18px; }
+  .arc-steps { display: flex; flex-direction: column; gap: 0; }
+  .arc-step { display: flex; gap: 14px; position: relative; }
+  .arc-step:not(:last-child)::before { content: ''; position: absolute; left: 17px; top: 38px; bottom: -6px; width: 1px; background: linear-gradient(to bottom, var(--accent-mid), var(--teal)); }
+  .arc-dot { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; flex-shrink: 0; margin-top: 2px; border: 2px solid; }
+  .arc-dot.recognition { background: var(--paper-warm); border-color: var(--accent-mid); color: var(--accent); }
+  .arc-dot.curiosity { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
+  .arc-dot.fluency { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .arc-dot.empathy { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
+  .arc-dot.agency { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
+  .arc-content { padding-bottom: 20px; flex: 1; }
+  .arc-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 3px; }
+  .arc-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .arc-body { font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+  .arc-craft { font-size: 11px; font-style: italic; color: var(--accent); margin-top: 5px; font-family: var(--serif); }
+
+  /* Format toolkit */
+  .format-tabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+  .format-tab { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--rule); background: var(--paper-warm); color: var(--ink-soft); cursor: pointer; transition: all 0.15s; font-family: var(--sans); }
+  .format-tab:hover { color: var(--ink); }
+  .format-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .format-panel { display: none; }
+  .format-panel.active { display: block; }
+  .format-panel-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .format-panel-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; margin-bottom: 14px; }
+  .format-when { background: var(--teal-light); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--teal-dark); line-height: 1.6; font-weight: 300; margin-bottom: 10px; }
+  .format-when-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 4px; }
+  .format-from-handbook { background: var(--accent-light); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--accent); line-height: 1.6; font-weight: 300; }
+  .format-from-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 4px; }
+
+  /* Room handling scenarios */
+  .scenario-block { margin: 20px 0; }
+  .scenario { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-bottom: 10px; background: var(--paper-card); }
+  .scenario-header { display: flex; gap: 12px; align-items: center; padding: 14px 18px; cursor: pointer; }
+  .scenario-icon { font-size: 18px; flex-shrink: 0; }
+  .scenario-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .scenario-body { display: none; padding: 0 18px 16px; font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; border-top: 1px solid var(--rule-soft); padding-top: 14px; margin-top: 0; }
+  .scenario-body.open { display: block; }
+
+  /* Engagement plan template */
+  .plan-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .plan-section { padding: 16px 20px; border-bottom: 1px solid var(--rule-soft); }
+  .plan-section:last-child { border-bottom: none; }
+  .plan-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .plan-prompt { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide</div>
+    <div class="header-title">Module E — The Craft of Engagement</div>
+    <div class="header-subtitle">You have the field, the terrain, and the room. Now build what happens when you walk in.</div>
+    <div class="module-badge">Design → Practice</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">The design principle</button>
+    <button class="tab-btn" onclick="showTab(1)">Engineering recognition</button>
+    <button class="tab-btn" onclick="showTab(2)">The formats toolkit</button>
+    <button class="tab-btn" onclick="showTab(3)">Handling the room</button>
+    <button class="tab-btn" onclick="showTab(4)">Your engagement plan</button>
+  </div>
+
+  <!-- Tab 0: The design principle -->
+  <div class="page active">
+    <div class="section-label">E.0 — Structure follows content</div>
+
+    <p class="body-text">This handbook was built on a principle stated at its very beginning: structure follows content, not the other way around. That principle applies here with particular force, because Module E is where the temptation to reach for a template is strongest — to find a format and pour the content into it.</p>
+
+    <p class="body-text">Resist that. The Present Ambassador cohort is a DPI practitioner briefing a payments working group, a secondary school maths teacher running a lesson, a community organiser hosting a neighbourhood meeting, a journalist convening a panel discussion. These are not the same engagement. They do not need the same structure. What they share is the same underlying design process — and that is what this module teaches.</p>
+
+    <div class="pull-quote">
+      "The format should emerge from what you have to say and who you're saying it to. Start from your entry point, not from a slide count."
+    </div>
+
+    <p class="body-text">The design process has four questions, answered in order. Each one constrains the next — which means the answers compound toward a structure that fits, rather than a generic one borrowed from somewhere else.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">What is the one thing I want this community to see differently when they leave?</div>
+          <div class="step-body">Not a list of things. One thing. The moment of recognition identified in Module D. If you can state it in a single sentence — "I want this council to understand that the digital identity system they're about to mandate has no fallback for the people it can't recognise" — you have the compass for everything else. If you can't state it in a sentence, you're not ready to design the engagement yet. Go back to Module D.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">What is the minimum material needed to make that happen?</div>
+          <div class="step-body">This is where most engagements go wrong. Armed with a full genealogy and a Living Landscape Brief, the temptation is to share all of it. The question is not "what do I know?" but "what does this audience need to know in order to have the recognition I'm aiming for?" The answer is almost always much less than you think. Two well-chosen examples beat six comprehensive ones. One interactive demonstration beats three explanatory slides.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">What format serves that minimum material for this audience?</div>
+          <div class="step-body">Format flows from content and audience, not from habit or convention. A workshop works when the recognition requires the audience to experience something rather than hear about it. A talk works when a clear narrative arc can carry the audience from their current understanding to the new one. A "Tell Your Story" session works when the recognition emerges from the community's own experiences, surfaced and connected rather than delivered. Tab 2 gives you the full toolkit — but you choose after answering questions 1 and 2, not before.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">What does "done" look like for this community?</div>
+          <div class="step-body">What should someone be able to do — say, ask, understand, question, decide — after this engagement that they couldn't before? This is the "agency" stage of the arc from Module 0, and it should be designed in advance, not left to improvisation. A council meeting should end with a specific question someone knows to ask at the next planning meeting. A maths class should end with students able to explain the padlock to someone at home. A practitioner briefing should end with a concrete action item. Knowing where you're landing shapes how you begin.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">What this process produces</div>
+      <div class="callout-body">Not a slide deck. Not a workshop outline in the abstract. A design decision: the one thing, the minimum material, the format that serves it, and the landing point. Those four decisions are what the Engagement Plan template in Tab 4 captures — and what Module F (Go Do It) builds from.</div>
+    </div>
+  </div>
+
+  <!-- Tab 1: Engineering recognition -->
+  <div class="page">
+    <div class="section-label">E.1 — The shape of a reveal</div>
+
+    <p class="body-text">Module 0 named the emotional arc of the handbook: Recognition → Curiosity → Fluency → Empathy → Agency. Every engagement the Present Ambassador delivers is a compressed version of that arc — moving an audience from where they start to somewhere genuinely different in the time available, which might be twenty minutes or two hours.</p>
+
+    <p class="body-text">The arc cannot be rushed, but it can be engineered. What follows is how each stage works in practice — and what specific craft choices produce it.</p>
+
+    <div class="arc-block">
+      <div class="arc-title">Engineering the arc — stage by stage</div>
+      <div class="arc-steps">
+
+        <div class="arc-step">
+          <div class="arc-dot recognition">1</div>
+          <div class="arc-content">
+            <div class="arc-label">Stage 1</div>
+            <div class="arc-name">Recognition — start inside their world</div>
+            <div class="arc-body">The opening must be anchored in something the audience already knows, uses, or has experienced — not as a warm-up, but as the actual beginning of the argument. The entry point you identified in Module D is your opening. Not "today we're going to talk about cryptographic infrastructure" but the question, the scenario, or the local fact that makes the room sit up before you've explained anything. Recognition cannot be imported from outside — it must come from inside the audience's own life.</div>
+            <div class="arc-craft">Craft question: What is the first sentence you will say — and does it already belong to the room?</div>
+          </div>
+        </div>
+
+        <div class="arc-step">
+          <div class="arc-dot curiosity">2</div>
+          <div class="arc-content">
+            <div class="arc-label">Stage 2</div>
+            <div class="arc-name">Curiosity — make the invisible visible</div>
+            <div class="arc-body">Once the room is in — once they've recognised something — the next move is to show them something underneath it that they didn't know was there. This is the reveal: the moment where the familiar becomes newly strange. The padlock in the browser that most people have never thought about. The invisible mathematics underneath the payment they made this morning. The five institutions between their fingerprint and their pension. The moment of genuine surprise — not performed surprise, but real "I didn't know that" — is what moves an audience from polite attention to actual curiosity.</div>
+            <div class="arc-craft">Craft question: What is the single most surprising thing in your Living Landscape Brief for this specific audience — and have you told it yet?</div>
+          </div>
+        </div>
+
+        <div class="arc-step">
+          <div class="arc-dot fluency">3</div>
+          <div class="arc-content">
+            <div class="arc-label">Stage 3</div>
+            <div class="arc-name">Fluency — give them enough to hold</div>
+            <div class="arc-body">After the reveal, the audience needs enough context to hold what they've just seen — not everything you know, but enough that the recognition doesn't evaporate when the session ends. This is where the minimum material from the design process (Tab 0) does its work. One well-chosen genealogy connection ("this is why it works this way — because of a decision made in 1976"), one concrete local example, one interactive demonstration or case study. Fluency at this stage is not expertise — it is the ability to say to someone later: "Actually, I know something about that."</div>
+            <div class="arc-craft">Craft question: What is the single thing from Module B or C that gives this audience the most leverage for understanding what they've just seen?</div>
+          </div>
+        </div>
+
+        <div class="arc-step">
+          <div class="arc-dot empathy">4</div>
+          <div class="arc-content">
+            <div class="arc-label">Stage 4</div>
+            <div class="arc-name">Empathy — show them another room</div>
+            <div class="arc-body">The Present Ambassador's unique contribution — built from the genealogy's full reach across very different communities — is the ability to show one community how the same infrastructure looks from inside a very different community. The high school students seeing how UPI changed daily life for a rural smallholder. The council officials understanding how an Aadhaar exclusion produced a humanitarian crisis. The fintech practitioners seeing how a Kenyan merchant navigator navigates a payment system not designed for them. Empathy across contexts is what distinguishes an ambassador from an expert: the expert knows the system, the ambassador knows multiple rooms the system affects.</div>
+            <div class="arc-craft">Craft question: Which community from the genealogy — a case study, a B-track example, a stress point — is most different from this audience, and would most expand how they see the infrastructure they share?</div>
+          </div>
+        </div>
+
+        <div class="arc-step">
+          <div class="arc-dot agency">5</div>
+          <div class="arc-content">
+            <div class="arc-label">Stage 5</div>
+            <div class="arc-name">Agency — land on something they can do</div>
+            <div class="arc-body">The arc closes not on information but on a feeling of agency — the sense that this matters, that there are choices being made, and that they have a stake in those choices. This is not a call to action in the marketing sense. It is something more specific: the question they can now ask that they couldn't before. The thing they will now notice that they used to overlook. The decision that's coming for their community where they're now better equipped to participate. The closing of a Present Ambassador engagement should feel like an opening, not a conclusion.</div>
+            <div class="arc-craft">Craft question: What will someone do differently in the next week because of this engagement — even something small?</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">The most common failure: skipping to fluency</div>
+      <div class="warning-body">The most common structural mistake in presentations about complex technical topics is starting at stage 3 — beginning with context and explanation before the audience has had a reason to care. When the genealogy comes before the recognition, the room is polite but not present. The information lands, but nothing changes. The arc must run in sequence: recognition first, always. If you find yourself planning an opening that begins with "so today I want to explain how cryptographic trust works," that's the signal to go back and find the entry point that belongs to the room.</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: The formats toolkit -->
+  <div class="page">
+    <div class="section-label">E.2 — Formats as components, not templates</div>
+
+    <p class="body-text">What follows is not a menu of formats to choose from whole. It is a toolkit of components — each with its own strengths, entry conditions, and what it draws from the handbook. Most engagements combine two or three of these components rather than using one alone. The design questions from Tab 0 tell you which combination serves your specific entry point, audience, and time.</p>
+
+    <div class="format-tabs">
+      <button class="format-tab active" onclick="showFormat(0)">The talk</button>
+      <button class="format-tab" onclick="showFormat(1)">The workshop</button>
+      <button class="format-tab" onclick="showFormat(2)">Tell Your Story</button>
+      <button class="format-tab" onclick="showFormat(3)">The demo</button>
+      <button class="format-tab" onclick="showFormat(4)">The brief</button>
+    </div>
+
+    <div class="format-panel active" id="fp-0">
+      <div class="format-panel-title">The talk — a narrative arc delivered to a room</div>
+      <div class="format-panel-body">A talk is the right format when the recognition requires a specific sequence — when what the audience needs is to be taken on a journey rather than to explore something themselves. It works particularly well for the genealogy structure: beginning in the audience's world, revealing what's underneath, connecting to a broader picture, landing on agency. It is the most ambassador-controlled format — which makes it high-leverage and high-risk. A talk that starts at stage 3 of the arc (fluency before recognition) is a lecture. A talk that starts at stage 1 (the entry point) and earns its way to fluency is a genuine engagement.</div>
+      <div class="format-when">
+        <div class="format-when-label">Works best when</div>
+        The audience is diverse in background, time is limited (20–45 minutes), the entry point is a single compelling story or finding, and the ambassador has built enough fluency to speak from understanding rather than notes.
+      </div>
+      <div class="format-from-handbook">
+        <div class="format-from-label">Draw from the handbook</div>
+        The case studies throughout B (DigiNotar, the Hong Kong video call, the Aadhaar exclusions, the Filipino nurse's remittance cost) are built for talks — they carry the arc from recognition through empathy in a few sentences. Choose the one that fits your room. One case study, delivered with genuine understanding, outperforms three delivered from slides.
+      </div>
+    </div>
+
+    <div class="format-panel" id="fp-1">
+      <div class="format-panel-title">The workshop — structured experience and discussion</div>
+      <div class="format-panel-body">A workshop is the right format when the recognition requires the audience to experience something rather than hear about it — to try, to discuss, to encounter friction, to surface their own knowledge and gaps. It works particularly well when the entry point lives in the audience's own experience (a "Tell Your Story" component embedded within a workshop structure), or when the demographic is students or practitioners who learn through doing. A workshop requires more time (60–120 minutes minimum) and more facilitation skill than a talk — but it produces recognition that runs deeper, because the audience has participated in uncovering it.</div>
+      <div class="format-when">
+        <div class="format-when-label">Works best when</div>
+        Time is available for genuine interaction, the audience is relatively homogeneous in background (so small-group discussion is productive), the entry point benefits from hands-on exploration, and the ambassador is comfortable adapting structure in real time.
+      </div>
+      <div class="format-from-handbook">
+        <div class="format-from-label">Draw from the handbook</div>
+        The interactive demonstrations from Module A (the DH key exchange, the digital signature tamper demo) work exceptionally well as workshop centrepieces — they make the abstract tangible in a way that discussion alone cannot. The remittance calculator from B3 works as a workshop activity for communities with remittance connections. The TLS certificate inspection activity from B1 works as a hands-on starting point for any audience with smartphones.
+      </div>
+    </div>
+
+    <div class="format-panel" id="fp-2">
+      <div class="format-panel-title">Tell Your Story — surfacing what the room already knows</div>
+      <div class="format-panel-body">A "Tell Your Story" session inverts the usual direction of information: rather than the ambassador bringing knowledge to the room, the session is designed to surface what the room already knows and has experienced — and then connect it to the genealogy. The ambassador's role is facilitation, not delivery. It is the most powerful format for producing recognition at the community level — because the recognition comes from the community itself, connected and named by the ambassador, rather than delivered from outside. It requires the most preparation, because the ambassador must be fluent enough to connect whatever the room surfaces to the genealogy without a script.</div>
+      <div class="format-when">
+        <div class="format-when-label">Works best when</div>
+        The community has rich direct experience of the infrastructure being discussed (mobile money users, small business payment operators, people who send or receive remittances, anyone who has experienced a digital system failure). The ambassador's role is less "expert" and more "connector" — making visible the pattern across individual stories.
+      </div>
+      <div class="format-from-handbook">
+        <div class="format-from-label">Draw from the handbook</div>
+        The opening questions throughout Module B's "Your community" tabs are designed for Tell Your Story facilitation — "Has a digital system ever told you it couldn't verify who you are?" "What did you do online this morning?" "Is there anything you sent digitally in the last year you wouldn't want read in fifteen years?" Each is designed to produce stories that the ambassador can connect to the genealogy.
+      </div>
+    </div>
+
+    <div class="format-panel" id="fp-3">
+      <div class="format-panel-title">The demo — showing before explaining</div>
+      <div class="format-panel-body">A demo is not a format on its own — it is a component that can amplify any of the other formats. Its specific power is producing recognition without explanation: showing the DH key exchange working before explaining what it is; inspecting a certificate before discussing what CAs do; running the remittance calculator before talking about why costs are high. Demos short-circuit the "so what?" response that explanations often produce, because the audience has seen something work (or fail) before they've been told why it matters. Used at the opening of a talk or workshop, a demo establishes attention. Used in the middle, it anchors an abstract explanation in something concrete.</div>
+      <div class="format-when">
+        <div class="format-when-label">Works best when</div>
+        The concept being demonstrated produces genuine surprise when experienced directly. A demo that confirms what the audience already assumed adds little. A demo that reveals something the audience did not expect produces the "lean in" moment that the rest of the engagement can build from.
+      </div>
+      <div class="format-from-handbook">
+        <div class="format-from-label">Draw from the handbook</div>
+        The Module A interactive demos (DH key exchange, digital signature tamper test) are the most direct. The TLS certificate inspection (B1) and SSL Labs grading of local services work as live demos. The remittance calculator (B3) works as a demo of a real cost. The "three versions of the quantum threat" interactive from B5 can be run as a demo — asking the room which version they would have believed before the session.
+      </div>
+    </div>
+
+    <div class="format-panel" id="fp-4">
+      <div class="format-panel-title">The brief — a written engagement for policy audiences</div>
+      <div class="format-panel-body">Not every engagement is a room. Policy audiences — government officials, regulators, procurement officers, institutional leadership — often respond better to a written brief than to a presentation: something they can read, share, and return to. A Living Landscape Brief adapted for a specific decision or audience is itself an engagement format, especially when it connects a local policy decision to the genealogy in a way the decision-maker can act on. The brief format requires the same design process as a talk or workshop — but the recognition arc is built into the structure of the document rather than the flow of a session.</div>
+      <div class="format-when">
+        <div class="format-when-label">Works best when</div>
+        The audience is a decision-maker who needs to act on the information rather than simply understand it. The engagement is preparing for a specific decision: a procurement, a policy adoption, a legislative consultation, a standards alignment choice.
+      </div>
+      <div class="format-from-handbook">
+        <div class="format-from-label">Draw from the handbook</div>
+        Your Living Landscape Brief from Module C is the foundation. The "contested / notable" cells in the mapping framework (C, Tab 1) are the entry points for a policy brief — they connect local decisions to global patterns in a way that's directly actionable. The post-quantum migration bar chart from B5 adapted to your specific region's infrastructure is the kind of visual that lands in a policy brief in a way prose alone doesn't.
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Handling the room -->
+  <div class="page">
+    <div class="section-label">E.3 — What to do when the plan meets reality</div>
+
+    <p class="body-text">No engagement runs exactly as designed. What separates a confident ambassador from an anxious one is not that fewer things go wrong — it's that the ambassador has thought through the most common disruptions in advance and knows how to respond. The scenarios below are the ones that come up most often.</p>
+
+    <div class="scenario-block">
+
+      <div class="scenario">
+        <div class="scenario-header" onclick="toggleScenario(0)">
+          <div class="scenario-icon">❓</div>
+          <div class="scenario-name">Someone asks a question you can't answer</div>
+        </div>
+        <div class="scenario-body" id="sc-0">
+          This is not a failure — it is a demonstration of genuine fluency. An ambassador who claims to know everything about cryptographic trust is not credible. An ambassador who knows the edges of their knowledge and is honest about them is. The two-part response: name what you know, and name what you don't. "I know that X is the case — I'm not certain about the mechanism behind Y. I'll find out and follow up." The follow-up is not optional. If you say you'll find out, find out. That follow-up, sent to the room after the session, is itself a continuation of the engagement. What you should never do is guess in a way that sounds confident — the genealogy's stress points are full of examples where well-intentioned but inaccurate information about cryptographic systems caused real harm.
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header" onclick="toggleScenario(1)">
+          <div class="scenario-icon">😶</div>
+          <div class="scenario-name">The room is quiet — no responses to your opening</div>
+        </div>
+        <div class="scenario-body" id="sc-1">
+          Silence after an opening question usually means one of three things: the question was too abstract, the room needs more psychological safety before they'll speak, or the entry point didn't land for this specific audience. The immediate fix for abstraction: make the question more specific and personal. "Has anyone here ever received a message that looked like it was from their bank but wasn't?" is more likely to produce hands than "Who knows about phishing?" The fix for safety: answer the question yourself first, then invite. The fix for a missed entry point: have a second entry point ready — one from your Living Landscape Brief that's more local, more recent, or more surprising than your first choice.
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header" onclick="toggleScenario(2)">
+          <div class="scenario-icon">🔥</div>
+          <div class="scenario-name">An expert in the room challenges something you've said</div>
+        </div>
+        <div class="scenario-body" id="sc-2">
+          First, distinguish between a genuine correction and a style challenge. If someone with genuine expertise corrects a factual claim — thank them, correct the record, and move on. The genealogy has enough depth that one corrected fact doesn't undermine the whole arc. If someone is challenging the framing or emphasis rather than the facts — acknowledge the tension honestly. "You're right that there's a strong case for X — what I'm focusing on here is Y, because that's where I think this community's most productive entry point is." A room with a genuine expert in it is an opportunity, not a threat: invite them to add their perspective at the appropriate moment rather than competing with it.
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header" onclick="toggleScenario(3)">
+          <div class="scenario-icon">⏰</div>
+          <div class="scenario-name">You're running out of time before the arc is complete</div>
+        </div>
+        <div class="scenario-body" id="sc-3">
+          Cut fluency before you cut recognition or agency. If the arc must be shortened, the middle can compress more gracefully than the opening or the close. A recognition without fluency leaves the audience with a feeling but no framework. A recognition without agency leaves them informed but unchanged. The fluency without recognition or agency is a lecture — the one thing this module has been designed to avoid. The five-minute version of any engagement should still contain the opening question, one surprise, and one landing point. Everything else is expansion.
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header" onclick="toggleScenario(4)">
+          <div class="scenario-icon">🌊</div>
+          <div class="scenario-name">The room takes the discussion somewhere you didn't plan</div>
+        </div>
+        <div class="scenario-body" id="sc-4">
+          This is usually a good sign — it means the recognition has landed and the room is genuinely engaged. The question is whether the direction they've taken is productive or whether it's pulling the engagement away from the landing point you planned. If the digression connects to the genealogy (and almost anything about digital trust eventually does), follow it — your fluency lets you navigate territory you didn't plan to cover. If the digression is moving away from the landing point the community actually needs, you can redirect gracefully: "That's a really important question — it connects to something I want to come back to at the end. Let me hold it here and make sure we get there." Then land there.
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-header" onclick="toggleScenario(5)">
+          <div class="scenario-icon">🙅</div>
+          <div class="scenario-name">Someone expresses strong distrust — of technology, of institutions, or of you</div>
+        </div>
+        <div class="scenario-body" id="sc-5">
+          Don't argue with distrust — understand where it comes from and work with it. Strong distrust of digital systems is often well-founded: the genealogy's stress points (Aadhaar exclusions, CA failures, APP fraud, the liar's dividend) exist precisely because institutions have let people down. Acknowledge that the distrust makes sense, and name the specific failure it's rooted in if you can. Then make the distinction that the genealogy makes throughout: the mathematics of cryptographic trust is sound — the institutions that deploy it are the source of most failures. That distinction is often more credible to a sceptical audience than a defence of the technology would be.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The most important thing to remember in any room</div>
+      <div class="callout-body">You are not there to defend the infrastructure. You are there to make it visible — including its failures, its gaps, and its politics. An ambassador who can say "here's what works, here's what doesn't, here's who bears the cost of what doesn't" is more credible and more useful to a community than one who presents a technology success story. The genealogy you've traced is honest about stress points for a reason: because the communities that most need to understand this infrastructure are the ones that have most often been failed by it.</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Engagement plan + log -->
+  <div class="page">
+    <div class="section-label">E.4 — Your engagement plan</div>
+
+    <p class="body-text">The plan below is the deliverable that Module F (Go Do It) builds from. It should be specific enough that someone else could read it and understand what you're going to do, but not so rigid that there's no room to follow where the room goes. A plan is a preparation tool, not a script.</p>
+
+    <div class="plan-block">
+      <div class="plan-section">
+        <div class="plan-label">Community</div>
+        <div class="plan-prompt">From your Module D Community Profile — who, specifically.</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-label">Format and duration</div>
+        <div class="plan-prompt">Talk / workshop / Tell Your Story / brief — or which combination. How long.</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-label">The one thing</div>
+        <div class="plan-prompt">In one sentence: what do you want this community to see differently when they leave?</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-label">Opening — the entry point in the room</div>
+        <div class="plan-prompt">The first question, statement, or demo. Must belong to the room. Maximum two sentences.</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-label">The reveal</div>
+        <div class="plan-prompt">The one surprising thing from your Living Landscape Brief or the genealogy that you'll show this audience. One case study, one fact, one demonstration.</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-label">Minimum material</div>
+        <div class="plan-prompt">The one genealogy connection and the one local example that give this audience enough to hold the recognition when they leave.</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-label">The empathy moment</div>
+        <div class="plan-prompt">Which community from the genealogy — most different from this room — will you show them, and why?</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-label">The landing</div>
+        <div class="plan-prompt">What will someone do, ask, or notice differently in the next week because of this engagement?</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-label">Backup entry point</div>
+        <div class="plan-prompt">If the opening doesn't land — what's the second entry point you have ready?</div>
+      </div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 12 — The craft of engagement</div>
+      <div class="log-field">
+        <label class="log-label">The design decision that took longest</label>
+        <textarea class="log-area" rows="2" placeholder="Which of the four design questions (Tab 0) was hardest to answer — and what does that tell you?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The format you chose and why</label>
+        <textarea class="log-area" rows="2" placeholder="Not just which format — the reason it serves this entry point for this audience."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The room scenario you're most anxious about</label>
+        <textarea class="log-area" rows="2" placeholder="And what you've decided you'll do if it happens."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The landing you're aiming for</label>
+        <textarea class="log-area" rows="2" placeholder="What will someone do differently in the next week because of this engagement?"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module E complete</div>
+      <div class="completion-body">You have a designed engagement — a specific format, a specific entry point, a specific arc, and a specific landing. You know what you're doing and why. Next: Module F — Go Do It, where the plan meets the room and the reflection begins.</div>
+      <div class="badge-row">
+        <span class="badge-pill">Design principle — applied</span>
+        <span class="badge-pill">Arc — engineered</span>
+        <span class="badge-pill">Format — chosen</span>
+        <span class="badge-pill">Engagement plan — ready</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showFormat(n) {
+  document.querySelectorAll('.format-panel').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.format-tab').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showDim(n) {
+  document.querySelectorAll('.dim-card').forEach((c, i) => c.classList.toggle('active', i === n));
+}
+
+function toggleScenario(n) {
+  const body = document.getElementById('sc-' + n);
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>
