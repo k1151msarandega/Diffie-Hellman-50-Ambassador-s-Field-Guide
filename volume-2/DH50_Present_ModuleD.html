@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  /* Positionality cards */
+  .position-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .position-card { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: var(--paper-card); }
+  .position-role { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 6px; }
+  .position-title { font-family: var(--serif); font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .position-body { font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Framework dimension cards */
+  .dim-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 20px 0; }
+  .dim-card { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: var(--paper-card); cursor: pointer; transition: all 0.15s; }
+  .dim-card:hover { border-color: var(--accent-mid); }
+  .dim-card.active { border-color: var(--accent-mid); background: var(--accent-light); }
+  .dim-header { display: flex; align-items: center; gap: 10px; }
+  .dim-icon { font-size: 18px; flex-shrink: 0; }
+  .dim-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .dim-detail { font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; margin-top: 10px; display: none; padding-top: 10px; border-top: 1px solid var(--rule-soft); }
+  .dim-card.active .dim-detail { display: block; }
+
+  /* Doc template */
+  .doc-template { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .doc-section { padding: 16px 20px; border-bottom: 1px solid var(--rule-soft); }
+  .doc-section:last-child { border-bottom: none; }
+  .doc-section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .doc-section-prompt { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .position-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide</div>
+    <div class="header-title">Module D — Know Your Community</div>
+    <div class="header-subtitle">Short, and non-negotiable. Good communication always begins here.</div>
+    <div class="module-badge">Before you walk in</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">Why this comes first</button>
+    <button class="tab-btn" onclick="showTab(1)">The framework</button>
+    <button class="tab-btn" onclick="showTab(2)">Your community profile</button>
+  </div>
+
+  <!-- Tab 0: Why this comes first -->
+  <div class="page active">
+    <div class="section-label">D.0 — The temptation to skip ahead</div>
+
+    <p class="body-text">By this point, you know a great deal. You've traced the genealogy of cryptographic trust across six major branches and one of your own. You've mapped the living landscape of your region — what's deployed, what's missing, what's contested. You are, by any reasonable measure, fluent. The natural impulse at this point is to start building: a workshop outline, a talk structure, a slide deck. The craft modules are right there, waiting.</p>
+
+    <p class="body-text">This module asks you to pause before that — not because the craft doesn't matter, but because everything the craft modules teach you assumes something this module provides: a clear picture of who you're actually talking to.</p>
+
+    <p class="body-text">Here is the problem with skipping ahead. Module A through C gave you a vast amount of material — branches, case studies, statistics, frameworks, comparisons. Without a clear picture of your specific audience, the temptation when building an engagement is to include as much of it as possible, because all of it feels important. The result is a workshop or talk that tries to cover everything and lands nothing. The Present Ambassador's job, as established back in Module 0, is not to transmit information — it is to create a moment of recognition. That moment requires choosing the right entry point for the right audience, and that choice cannot be made well until the audience is known.</p>
+
+    <div class="pull-quote">
+      "You now hold a map of the entire territory. This module is where you ask: who, exactly, am I inviting to look at it with me — and what part of the map will mean something to them?"
+    </div>
+
+    <p class="body-text">Recall Module 0's four profiles — the educator, the practitioner, the community organiser, the communicator. Each has a different relationship to "their community." For some, the community is a given — a practitioner working in digital identity already has a professional community they're embedded in. For others, the community is a choice — an educator might engage their existing students, or might choose to run a session for a community group they're connected to outside work. Either way, the work of this module is the same: turning "my community" from a category into a specific, known group of people.</p>
+
+    <div class="callout">
+      <div class="callout-title">The output of this module</div>
+      <div class="callout-body">A short Community Profile — shorter than your Living Landscape Brief, but just as essential. It captures who your audience is, what they already trust and use, what's invisible to them, and what entry point connects your fluency to their lived experience. Module E will ask you to design an engagement around this profile. Without it, Module E has nothing to design around.</div>
+    </div>
+  </div>
+
+  <!-- Tab 1: The framework -->
+  <div class="page">
+    <div class="section-label">D.1 — Four dimensions of knowing a community</div>
+
+    <p class="body-text">"Know your audience" is true and unhelpful as stated — it doesn't tell you what to actually find out. The four dimensions below translate it into specific questions, each connected to the fluency you've already built. Select each to see what it asks and why it matters.</p>
+
+    <div class="dim-grid">
+      <div class="dim-card active" onclick="showDim(0)" id="dc-0">
+        <div class="dim-header">
+          <div class="dim-icon">🤝</div>
+          <div class="dim-name">What they already trust, use, and depend on</div>
+        </div>
+        <div class="dim-detail">Every community has a set of digital tools, services, and systems woven into daily life — often without anyone thinking of them as "cryptographic infrastructure" at all. A banking app. A government portal. A messaging platform. A payment method. These are your raw material: the things from your Living Landscape Brief that are not abstract to this audience, because they touch it every day. Before you can show someone something invisible, you need to know what's visible to them — what they already use, without question, every day.</div>
+      </div>
+      <div class="dim-card" onclick="showDim(1)" id="dc-1">
+        <div class="dim-header">
+          <div class="dim-icon">😟</div>
+          <div class="dim-name">What they fear, distrust, or have been let down by</div>
+        </div>
+        <div class="dim-detail">Distrust is often a more productive starting point than trust, because it's where people are already paying attention. Has this community experienced a scam, a fraud, a data breach, a service outage, an exclusion from a benefit due to authentication failure? These experiences — even if the community doesn't connect them to "cryptography" — are exactly the entry points the genealogy can illuminate. Module B's stress points (DigiNotar, Aadhaar exclusions, APP fraud, the Hong Kong deepfake call) all map onto experiences that ordinary communities have, in smaller and more local forms.</div>
+      </div>
+      <div class="dim-card" onclick="showDim(2)" id="dc-2">
+        <div class="dim-header">
+          <div class="dim-icon">👁️</div>
+          <div class="dim-name">What's most invisible to them — and why</div>
+        </div>
+        <div class="dim-detail">Invisibility isn't uniform. Some infrastructure is invisible because it works perfectly (TLS, for most people, most of the time). Some is invisible because it's deliberately obscured (who controls a payment rail, who issued a certificate). Some is invisible because the community has never had a reason to look (post-quantum migration, AI content provenance). Identifying which kind of invisibility applies to which part of your Living Landscape Brief, for this specific audience, tells you what kind of "reveal" will land — a "did you know this was happening underneath something you do every day?" moment, versus a "did you know this decision was being made, and you weren't told?" moment.</div>
+      </div>
+      <div class="dim-card" onclick="showDim(3)" id="dc-3">
+        <div class="dim-header">
+          <div class="dim-icon">🔗</div>
+          <div class="dim-name">Their relationship to the infrastructure — user, excluded, builder, regulator</div>
+        </div>
+        <div class="dim-detail">A room of people who use a system, a room of people excluded from it, a room of people who build it, and a room of people who regulate it are four different audiences — even if the system under discussion is the same. A workshop for users might focus on "here's what's happening when you do this." A session with people excluded by a system might focus on "here's why this happens to you, and here's the choice that caused it." A session with builders or regulators might focus on "here's the trade-off you're making, and here's how other regions have made it differently." Knowing which relationship (or mix of relationships) is in the room shapes everything about tone, framing, and what you're actually offering them.</div>
+      </div>
+    </div>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">For ambassadors with an existing community</div>
+          <div class="step-body">If you're a practitioner, educator, or organiser already embedded in a community — your students, your colleagues, your professional network, your local organisation — your task is to look at that community freshly through these four dimensions. You may know them well personally, but have you ever specifically asked what they trust, fear, can't see, or how they relate to the infrastructure you now understand so well?</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">For ambassadors choosing a community</div>
+          <div class="step-body">If you're choosing who to engage — perhaps from several possible communities you have access to — let these four dimensions guide the choice itself. A community where you can answer all four questions with specificity, because you already have real relationships there, will almost always make for a stronger engagement than a community you have only general or theoretical access to. Proximity and relationship are themselves part of the "fluency" this handbook has been building toward.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-label">Activity — 20 minutes</div>
+      <div class="activity-title">Apply the four dimensions</div>
+      <div class="activity-body">
+        <p>Choose the community you intend to engage — or, if undecided, the community you're currently leaning toward. Work through each of the four dimensions above, writing down what you know and, honestly, what you don't.</p>
+        <ul class="prompt-list">
+          <li>For anything you don't know, is it something you could find out by simply asking someone in that community — a quick conversation rather than formal research?</li>
+          <li>Does anything you've written down connect directly to a specific finding from your Living Landscape Brief (Module C)? If so, that connection may be your entry point.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Your community profile -->
+  <div class="page">
+    <div class="section-label">D.2 — Building your community profile</div>
+
+    <p class="body-text">The template below is deliberately short. Unlike the Living Landscape Brief, which rewards thoroughness, the Community Profile rewards specificity and honesty — a few sentences per section that are precisely true are worth more than a page of generalities.</p>
+
+    <div class="doc-template">
+      <div class="doc-section">
+        <div class="doc-section-label">Who is the community</div>
+        <div class="doc-section-prompt">Be as specific as possible. Not "young people" — "second-year students in the computer science club at [institution]." Not "the public" — "residents attending the monthly ward council meeting in [neighbourhood]."</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Your relationship to this community</div>
+        <div class="doc-section-prompt">How do you know them, or how would you gain access? What credibility or trust do you already have with them — and what would you need to build?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">What they already trust, use, and depend on</div>
+        <div class="doc-section-prompt">The specific tools, services, and systems woven into this community's daily life.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">What they fear, distrust, or have been let down by</div>
+        <div class="doc-section-prompt">Specific experiences — a scam, an outage, an exclusion, a scandal — that this community has lived through or talks about.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">What's most invisible to them — and which kind of invisible</div>
+        <div class="doc-section-prompt">Working perfectly and unnoticed? Deliberately obscured? Never had reason to look? Which part of your Living Landscape Brief does this connect to?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">Their relationship to the infrastructure</div>
+        <div class="doc-section-prompt">User, excluded, builder, regulator — or some mix. What does that mean for tone and framing?</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-section-label">The entry point</div>
+        <div class="doc-section-prompt">Drawing on everything above — and on the entry point you identified in your Living Landscape Brief — what is the single opening that connects your fluency to this community's lived experience?</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">If the entry point doesn't come easily</div>
+      <div class="callout-body">That's a signal worth listening to — not a failure. It may mean the community needs more thought, or a conversation with someone in it before you proceed, or that a different community (one you have a clearer line of sight into) would serve better for a first engagement. There's no requirement to use the first community you consider. Module E goes more smoothly when this module produces genuine clarity rather than a forced answer.</div>
+    </div>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 11 — Know your community</div>
+      <div class="log-field">
+        <label class="log-label">The community you've chosen</label>
+        <textarea class="log-area" rows="2" placeholder="Be specific."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The entry point</label>
+        <textarea class="log-area" rows="2" placeholder="The single opening you'll build your engagement around."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">What you still need to find out before Module E</label>
+        <textarea class="log-area" rows="2" placeholder="Any gaps in your profile that a quick conversation could fill before you start designing the engagement?"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module D complete</div>
+      <div class="completion-body">You hold a Community Profile alongside your Living Landscape Brief — the people and the terrain, both specific, both yours. You know who you're talking to and what will make them lean in. Next: Module E — The Craft of Engagement, where these two documents become a workshop, talk, or session designed for this community, this terrain, and this moment.</div>
+      <div class="badge-row">
+        <span class="badge-pill">Community profile — drafted</span>
+        <span class="badge-pill">Entry point — confirmed</span>
+        <span class="badge-pill">Ready for Module E</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showDim(n) {
+  document.querySelectorAll('.dim-card').forEach((c, i) => c.classList.toggle('active', i === n));
+}
+</script>
+</body>
+</html>
