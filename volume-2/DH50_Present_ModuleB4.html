@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DH50 Present Ambassador — Module B4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink-mid: #4a4740; --ink-soft: #7a7670; --ink-faint: #b0ada6;
+    --paper: #faf8f4; --paper-warm: #f3f0e8; --paper-card: #ffffff;
+    --rule: #e2ddd4; --rule-soft: #ede9e0;
+    --accent: #1a5276; --accent-light: #d6eaf8; --accent-mid: #2e86c1;
+    --teal: #1e7a6e; --teal-light: #d5f0eb; --teal-dark: #154a43;
+    --gold: #9a7b2e; --gold-light: #f5edda;
+    --red: #922b21; --red-light: #fdf2f2;
+    --plum: #5a3d6b; --plum-light: #ede5f5;
+    --serif: 'Lora', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); min-height: 100vh; }
+  .handbook { max-width: 680px; margin: 0 auto; padding: 0 0 80px; }
+
+  .header { padding: 40px 32px 32px; border-bottom: 1px solid var(--rule); }
+  .header-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; }
+  .header-title { font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .header-subtitle { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--ink-soft); line-height: 1.5; }
+  .module-badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-light); border: 1px solid #a9cce3; border-radius: 20px; padding: 4px 12px; margin-top: 16px; }
+
+  .tab-nav { display: flex; border-bottom: 1px solid var(--rule); padding: 0 32px; background: var(--paper); position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  .tab-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 14px 12px; cursor: pointer; letter-spacing: 0.02em; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .page { display: none; padding: 36px 32px; }
+  .page.active { display: block; }
+
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 20px; font-weight: 300; }
+  .body-text strong { font-weight: 500; }
+  .pull-quote { border-left: 3px solid var(--accent-mid); margin: 28px 0; padding: 14px 20px; font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink-mid); line-height: 1.65; background: var(--accent-light); border-radius: 0 6px 6px 0; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+  .page-divider { border: none; border-top: 1px solid var(--rule-soft); margin: 28px 0; }
+
+  .steps-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; background: var(--paper-card); }
+  .step-row { display: flex; border-bottom: 1px solid var(--rule-soft); padding: 18px 20px; align-items: flex-start; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 16px; margin-top: 1px; border: 1px solid #a9cce3; }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .step-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .step-body strong { font-weight: 500; color: var(--ink); }
+
+  .activity-box { border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin: 20px 0; background: var(--paper-card); }
+  .activity-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .activity-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .activity-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; font-weight: 300; }
+  .activity-body p { margin-bottom: 10px; }
+  .activity-body p:last-child { margin-bottom: 0; }
+  .prompt-list { list-style: none; padding: 0; margin: 12px 0 0; }
+  .prompt-list li { display: flex; gap: 10px; font-size: 14px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.55; font-weight: 300; }
+  .prompt-list li::before { content: "→"; flex-shrink: 0; color: var(--ink-faint); }
+
+  .callout { background: var(--teal-light); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .callout-title { font-size: 13px; font-weight: 500; color: var(--teal); margin-bottom: 8px; }
+  .callout-body { font-size: 13px; color: var(--teal-dark); line-height: 1.65; font-weight: 300; }
+
+  .warning-box { background: var(--gold-light); border: 1px solid #dfd0a0; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .warning-title { font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; }
+  .warning-body { font-size: 13px; color: #6b5318; line-height: 1.65; font-weight: 300; }
+
+  .incident-box { background: var(--red-light); border: 1px solid #f1948a; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+  .incident-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .incident-title { font-size: 14px; font-weight: 500; color: var(--red); margin-bottom: 8px; font-family: var(--serif); }
+  .incident-body { font-size: 13px; color: #6e2018; line-height: 1.65; font-weight: 300; }
+
+  /* Signature properties demo */
+  .sig-props { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 24px; margin: 24px 0; }
+  .sig-props-title { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .sig-props-subtitle { font-size: 13px; color: var(--ink-soft); line-height: 1.5; font-weight: 300; margin-bottom: 22px; }
+  .prop-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .prop-card { border: 1px solid var(--rule); border-radius: 8px; padding: 16px; background: var(--paper-warm); cursor: pointer; transition: all 0.15s; }
+  .prop-card:hover { border-color: var(--accent-mid); }
+  .prop-card.active { border-color: var(--accent-mid); background: var(--accent-light); }
+  .prop-icon { font-size: 22px; margin-bottom: 8px; }
+  .prop-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .prop-tagline { font-size: 11px; color: var(--ink-soft); font-weight: 300; line-height: 1.4; }
+  .prop-detail { background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 8px; padding: 18px 20px; margin-top: 4px; display: none; }
+  .prop-detail.active { display: block; }
+  .prop-detail-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; font-family: var(--serif); }
+  .prop-detail-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .prop-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .prop-compare-col { }
+  .prop-compare-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .prop-compare-body { font-size: 12px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Reach of signatures — sector tiles */
+  .sector-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
+  .sector-tile { border: 1px solid var(--rule); border-radius: 8px; padding: 16px 14px; background: var(--paper-card); cursor: pointer; transition: all 0.15s; }
+  .sector-tile:hover { border-color: var(--accent-mid); background: var(--accent-light); }
+  .sector-tile.active { border-color: var(--accent-mid); background: var(--accent-light); }
+  .sector-icon { font-size: 20px; margin-bottom: 6px; }
+  .sector-name { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .sector-sub { font-size: 11px; color: var(--ink-faint); font-weight: 300; }
+  .sector-detail { background: var(--paper-card); border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; margin-top: 4px; display: none; }
+  .sector-detail.active { display: block; }
+  .sector-detail-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+  .sector-detail-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; font-weight: 300; }
+  .sector-detail-body p { margin-bottom: 10px; }
+  .sector-detail-body p:last-child { margin-bottom: 0; }
+  .sector-example { display: inline-block; font-size: 11px; font-weight: 500; color: var(--teal); background: var(--teal-light); border-radius: 4px; padding: 2px 8px; margin-top: 8px; margin-right: 4px; }
+
+  /* Signature tier comparison */
+  .tier-block { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .tier-head { display: grid; grid-template-columns: 140px 1fr 1fr 1fr; background: var(--paper-warm); border-bottom: 1px solid var(--rule); }
+  .tier-head-cell { padding: 10px 14px; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); border-right: 1px solid var(--rule); }
+  .tier-head-cell:last-child { border-right: none; }
+  .tier-head-cell.qes { color: var(--accent); }
+  .tier-row { display: grid; grid-template-columns: 140px 1fr 1fr 1fr; border-bottom: 1px solid var(--rule-soft); }
+  .tier-row:last-child { border-bottom: none; }
+  .tier-cell { padding: 12px 14px; font-size: 12px; color: var(--ink-mid); line-height: 1.5; font-weight: 300; border-right: 1px solid var(--rule-soft); }
+  .tier-cell:last-child { border-right: none; }
+  .tier-cell.label { font-weight: 500; color: var(--ink); font-size: 12px; }
+  .tier-cell.qes-col { background: var(--accent-light); color: var(--ink); font-weight: 400; }
+
+  /* Timeline */
+  .timeline { margin: 24px 0; }
+  .tl-item { display: flex; gap: 16px; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -4px; width: 1px; background: var(--rule); }
+  .tl-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 4px; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-mid); border: 2px solid var(--accent-light); flex-shrink: 0; }
+  .tl-content { padding-bottom: 24px; flex: 1; }
+  .tl-year { font-size: 11px; font-weight: 500; color: var(--accent-mid); letter-spacing: 0.08em; margin-bottom: 3px; }
+  .tl-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tl-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; font-weight: 300; }
+
+  /* Log */
+  .log-box { border: 1px dashed #c8c3ba; border-radius: 10px; padding: 22px 24px; margin: 24px 0; background: var(--paper-warm); }
+  .log-entry-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .log-field { margin-bottom: 20px; }
+  .log-field:last-child { margin-bottom: 0; }
+  .log-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 7px; display: block; }
+  .log-area { border: none; border-bottom: 1px solid var(--rule); width: 100%; background: transparent; font-size: 14px; color: var(--ink); padding: 4px 0 7px; outline: none; resize: none; font-family: var(--sans); line-height: 1.65; font-weight: 300; }
+  .log-area:focus { border-bottom-color: var(--accent-mid); }
+
+  .completion-box { margin-top: 28px; padding: 18px 22px; border-radius: 10px; background: var(--gold-light); border: 1px solid #dfd0a0; }
+  .completion-title { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 6px; }
+  .completion-body { font-size: 13px; color: #7a6520; line-height: 1.6; font-weight: 300; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--rule); }
+
+  @media (max-width: 480px) {
+    .header { padding: 28px 20px 24px; }
+    .tab-btn { padding: 12px 10px 10px; font-size: 11px; }
+    .page { padding: 28px 20px; }
+    .header-title { font-size: 26px; }
+    .prop-row { grid-template-columns: 1fr; }
+    .prop-compare { grid-template-columns: 1fr; }
+    .sector-grid { grid-template-columns: 1fr 1fr; }
+    .tier-head { grid-template-columns: 100px 1fr 1fr 1fr; }
+    .tier-row { grid-template-columns: 100px 1fr 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="handbook">
+
+  <div class="header">
+    <div class="header-eyebrow">DH50 · Present Ambassador Field Guide · Module B</div>
+    <div class="header-title">B4 — Digital Signatures and Legal Validity</div>
+    <div class="header-subtitle">How a mathematical operation became legally binding in most of the world — and what it means when the law catches up to the mathematics.</div>
+    <div class="module-badge">Track 4 of 6</div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab(0)">The signature problem</button>
+    <button class="tab-btn" onclick="showTab(1)">Three properties</button>
+    <button class="tab-btn" onclick="showTab(2)">How the law caught up</button>
+    <button class="tab-btn" onclick="showTab(3)">Where signatures reach</button>
+    <button class="tab-btn" onclick="showTab(4)">Stress points</button>
+    <button class="tab-btn" onclick="showTab(5)">Your community</button>
+    <button class="tab-btn" onclick="showTab(6)">Log entry</button>
+  </div>
+
+  <!-- Tab 0: The signature problem -->
+  <div class="page active">
+    <div class="section-label">B4.0 — What a signature actually does</div>
+
+    <p class="body-text">Before you can understand what a digital signature is, it helps to be precise about what a physical signature does — because the two are not identical, and the differences matter.</p>
+
+    <p class="body-text">A handwritten signature on a physical document does several things simultaneously. It asserts that the signatory has seen and agreed to the content. It binds that assertion to a specific physical object — the piece of paper — in a way that is difficult to separate. And it provides evidence of identity through a pattern of marks that is hard to replicate without practice and is traceable to the individual whose hand made them. The legal system has built centuries of doctrine around these properties: what constitutes a valid signature, what happens when a signature is disputed, how forgery is prosecuted, what witnesses and notaries contribute.</p>
+
+    <p class="body-text">When documents moved from paper to digital, every one of these properties evaporated. A digital file has no physical embodiment that a signature can be bound to. It can be copied perfectly, modified invisibly, and transmitted to anyone. The name typed at the bottom of an email proves nothing about who typed it. The image of a scanned signature on a PDF proves nothing about whether the person who made it agreed to this particular content.</p>
+
+    <div class="pull-quote">
+      "The problem was not that digital documents lacked a place for a signature. It was that digital documents lacked the properties that made signatures meaningful — and no amount of clicking 'I agree' could substitute for them."
+    </div>
+
+    <p class="body-text">The mathematical solution — public-key digital signatures, built directly on the RSA branch of the DHM genealogy — restored all three properties and in some respects improved on them. A cryptographic digital signature is harder to forge than a handwritten one, produces tamper evidence that is mathematically verifiable, and can be verified by anyone with access to the signer's public key, without requiring the original document to be physically present.</p>
+
+    <p class="body-text">But restoring the mathematical properties was only the beginning. For a digital signature to be legally meaningful, courts had to accept it as evidence, legislators had to define its legal standing, and institutions had to build the trust infrastructure — timestamping services, qualified trust providers, signature validation services — that makes the mathematical proof usable in practice. That journey took decades, and it is still uneven across the world.</p>
+
+    <div class="activity-box">
+      <div class="activity-label">Opening reflection — 5 minutes</div>
+      <div class="activity-title">The documents that matter in your community</div>
+      <div class="activity-body">
+        <p>Before reading further, name three documents in your community's daily life that carry legal weight because of the signature on them. For each one:</p>
+        <ul class="prompt-list">
+          <li>Is it signed digitally or physically? If digitally — what mechanism provides the signature?</li>
+          <li>If the signature were disputed, what would the legal process be for resolving that dispute?</li>
+          <li>What would happen if that document type could not be signed digitally — what would it cost in time, money, and access?</li>
+        </ul>
+        <p>Keep these documents in mind. By the end of this module, you will be able to trace exactly how the cryptographic genealogy reaches each of them.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 1: Three properties -->
+  <div class="page">
+    <div class="section-label">B4.1 — What a digital signature must prove</div>
+
+    <p class="body-text">A cryptographic digital signature must satisfy three distinct properties, each corresponding to something the law needs from a signature. They are not the same thing, and a system that provides some but not all of them is not adequate for legal purposes. Understanding the three properties is what allows a Present Ambassador to explain why "typing your name" or "inserting a scanned image" does not constitute a valid digital signature — and why the mathematics of RSA and its successors does.</p>
+
+    <!-- Signature Properties Interactive -->
+    <div class="sig-props">
+      <div class="sig-props-title">The three properties of a valid digital signature</div>
+      <div class="sig-props-subtitle">Select each property to understand what it requires mathematically — and what its absence would mean in practice.</div>
+
+      <div class="prop-row">
+        <div class="prop-card active" onclick="showProp(0)" id="prop-card-0">
+          <div class="prop-icon">🔐</div>
+          <div class="prop-name">Authentication</div>
+          <div class="prop-tagline">Proof that the signature came from the claimed signer</div>
+        </div>
+        <div class="prop-card" onclick="showProp(1)" id="prop-card-1">
+          <div class="prop-icon">🔒</div>
+          <div class="prop-name">Integrity</div>
+          <div class="prop-tagline">Proof that the document has not changed since signing</div>
+        </div>
+        <div class="prop-card" onclick="showProp(2)" id="prop-card-2">
+          <div class="prop-icon">⛔</div>
+          <div class="prop-name">Non-repudiation</div>
+          <div class="prop-tagline">Proof that the signer cannot credibly deny having signed</div>
+        </div>
+      </div>
+
+      <div class="prop-detail active" id="prop-detail-0">
+        <div class="prop-detail-title">Authentication — only the private key holder can produce this signature</div>
+        <div class="prop-detail-body">
+          A digital signature is produced by applying a mathematical operation to the document using the signer's private key. The result can be verified by anyone with the corresponding public key — but it can only be produced by someone with the private key. Since the private key is known only to the signer, a valid signature is proof that the signer — or someone with access to their private key — produced it.<br><br>The mathematical mechanism is the same as the toy demonstration in Module A: the private key signs; the public key verifies. The security rests on the computational infeasibility of deriving the private key from the public key.
+          <div class="prop-compare">
+            <div class="prop-compare-col">
+              <div class="prop-compare-label">Physical signature</div>
+              <div class="prop-compare-body">Verified by visual comparison to a known sample, or by a handwriting expert. Can be forged by a skilled forger. Verification requires physical access to the document.</div>
+            </div>
+            <div class="prop-compare-col">
+              <div class="prop-compare-label">Digital signature</div>
+              <div class="prop-compare-body">Verified mathematically against the signer's public key. Cannot be forged without the private key. Verification can be performed by anyone, anywhere, without the original document being physically present.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prop-detail" id="prop-detail-1">
+        <div class="prop-detail-title">Integrity — the signature is bound to this exact document</div>
+        <div class="prop-detail-body">
+          A digital signature is not applied to the document as a whole — it is applied to a cryptographic hash of the document. A hash function produces a fixed-length fingerprint of any input: the same document always produces the same hash, and any change to even a single character produces a completely different hash.<br><br>When a signature is verified, the verifier recomputes the hash of the document they hold and checks it against the hash embedded in the signature. If the document has been altered in any way since signing — a number changed, a word added, a comma removed — the hashes will not match, and the signature will be invalid.<br><br>This property is stronger than any physical equivalent. A physical document can be altered after signing in ways that are difficult to detect. A digitally signed document cannot be altered without invalidating the signature — and the invalidation is mathematically certain, not a matter of expert judgment.
+          <div class="prop-compare">
+            <div class="prop-compare-col">
+              <div class="prop-compare-label">Physical document</div>
+              <div class="prop-compare-body">Alterations may be detectable by forensic examination. But subtle changes — to numbers, to terms — may escape detection. Disputes require expert testimony.</div>
+            </div>
+            <div class="prop-compare-col">
+              <div class="prop-compare-label">Digitally signed document</div>
+              <div class="prop-compare-body">Any alteration invalidates the signature. The detection is mathematical and automatic — no expert required. The integrity proof is as strong as the hash function itself.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prop-detail" id="prop-detail-2">
+        <div class="prop-detail-title">Non-repudiation — the signer cannot credibly deny having signed</div>
+        <div class="prop-detail-body">
+          Non-repudiation is the property that makes a signature legally useful. It means that once a valid signature has been produced, the signer cannot credibly claim they did not produce it — because only they had access to the private key that produced it.<br><br>This property is not absolute — it rests on the assumption that the private key was not compromised at the time of signing. If a signer claims their private key was stolen and used fraudulently, that claim must be assessed on its merits. This is why the security of private key storage matters so much: a key stored carelessly is a non-repudiation problem waiting to happen.<br><br>Non-repudiation is also strengthened by timestamping: a trusted timestamp proves not just that a signature was made, but when. This matters enormously in disputes about whether a document was signed before or after a key was reported compromised.
+          <div class="prop-compare">
+            <div class="prop-compare-col">
+              <div class="prop-compare-label">Physical signature</div>
+              <div class="prop-compare-body">Can be repudiated by claiming forgery. Disputed signatures require handwriting experts, and outcomes are uncertain. The cost of repudiation is low enough to be used tactically.</div>
+            </div>
+            <div class="prop-compare-col">
+              <div class="prop-compare-label">Digital signature</div>
+              <div class="prop-compare-body">Repudiation requires claiming private key compromise — a specific, verifiable, legally assessed claim. The bar for successful repudiation is higher, and the evidence trail is richer.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The genealogy connection</div>
+      <div class="callout-body">All three properties flow directly from the public-key cryptography that RSA built on DHM's foundation. Authentication requires asymmetric key pairs. Integrity requires cryptographic hash functions. Non-repudiation requires both, plus the institutional infrastructure of key management and timestamping. The genealogy is not just providing a technical capability — it is providing the mathematical substrate for a legal institution. That is a different kind of significance from securing a web connection or authenticating a login.</div>
+    </div>
+  </div>
+
+  <!-- Tab 2: How the law caught up -->
+  <div class="page">
+    <div class="section-label">B4.2 — The legal journey</div>
+
+    <p class="body-text">The mathematics of digital signatures was established in 1977 with RSA. The legal framework that made them binding took another two decades to arrive — and the journey was neither smooth nor uniform. Different legal systems took different approaches, made different choices about trust infrastructure, and arrived at different levels of legal certainty. Understanding that journey is essential for a Present Ambassador, because the legal landscape your community operates in determines what digital signatures can actually do for them.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">1977</div>
+          <div class="tl-title">RSA — the mathematical foundation exists</div>
+          <div class="tl-body">Rivest, Shamir, and Adleman publish the RSA algorithm, providing the first practical implementation of public-key digital signatures. The mathematics is sound. The legal system has no framework for it. Courts have no doctrine for assessing it. For two decades, digital signatures are technically possible and legally meaningless in most jurisdictions.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">1995</div>
+          <div class="tl-title">Utah Digital Signature Act — the first dedicated legislation</div>
+          <div class="tl-body">The US state of Utah passes the first law in the world specifically governing digital signatures, creating a framework for licensed Certification Authorities and establishing digital signatures as legally equivalent to handwritten ones for the purposes covered. The approach — prescriptive, CA-centric, technically specific — influenced early legislation globally but was later criticised for being too rigid and technology-specific.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">1999</div>
+          <div class="tl-title">EU eSignatures Directive — a principles-based framework</div>
+          <div class="tl-body">The European Union takes a different approach: rather than specifying technology, it defines legal categories of electronic signature and assigns them different legal weights. The Directive established the principle that an electronic signature cannot be denied legal effect solely because it is in electronic form — a principle that became foundational in international electronic commerce law.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2000</div>
+          <div class="tl-title">US ESIGN Act — federal recognition across the United States</div>
+          <div class="tl-body">The Electronic Signatures in Global and National Commerce Act gives electronic signatures the same legal standing as handwritten signatures for most purposes under federal law. Signed by President Clinton using a smartcard — itself a symbolic assertion that the technology worked — the Act became the anchor of US electronic commerce law and was followed by similar legislation across common law jurisdictions worldwide.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2016</div>
+          <div class="tl-title">eIDAS Regulation — qualified signatures with EU-wide legal force</div>
+          <div class="tl-body">The EU replaces its 1999 Directive with the eIDAS Regulation — directly applicable across all member states without national transposition. eIDAS creates a tiered system of electronic signatures (simple, advanced, qualified) and establishes that a Qualified Electronic Signature has the same legal effect as a handwritten signature in all EU member states. It also creates a framework for trusted lists of Qualified Trust Service Providers — the institutional layer that gives the mathematics its legal standing.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-year">2000s–present</div>
+          <div class="tl-title">Global adoption — uneven, incomplete, consequential</div>
+          <div class="tl-body">More than 60 countries have enacted electronic signature legislation. But the frameworks vary enormously in what they recognise, what they require, and how they handle cross-border validity. A Qualified Electronic Signature under eIDAS is legally binding across 27 EU countries. The same signature may have uncertain standing in a contract with a counterparty in a jurisdiction that does not recognise the issuing trust service provider. The legal map of digital signatures is a patchwork — and for communities engaged in cross-border transactions, the gaps in that patchwork have real costs.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">The gap between legal recognition and practical access</div>
+      <div class="warning-body">Legal recognition of digital signatures does not mean that everyone has equal access to them. A Qualified Electronic Signature under eIDAS requires a qualified certificate issued by a Qualified Trust Service Provider — which typically requires identity verification, a fee, and access to the infrastructure to use it. In many jurisdictions, the cost and complexity of obtaining a legally recognised digital signature is a barrier that falls disproportionately on individuals and small organisations. The legal framework may be in place; the access infrastructure may not be.</div>
+    </div>
+
+    <!-- Signature tiers -->
+    <div class="tier-block">
+      <div class="tier-head">
+        <div class="tier-head-cell">Dimension</div>
+        <div class="tier-head-cell">Simple e-signature</div>
+        <div class="tier-head-cell">Advanced e-signature</div>
+        <div class="tier-head-cell qes">Qualified e-signature</div>
+      </div>
+      <div class="tier-row">
+        <div class="tier-cell label">Example</div>
+        <div class="tier-cell">Typed name, checkbox, scanned image</div>
+        <div class="tier-cell">Cryptographic signature linked to signer identity</div>
+        <div class="tier-cell qes-col">Qualified certificate on a secure device (e.g. smart card, token)</div>
+      </div>
+      <div class="tier-row">
+        <div class="tier-cell label">Legal weight (EU)</div>
+        <div class="tier-cell">Admissible evidence; weight assessed by court</div>
+        <div class="tier-cell">Higher evidential value; harder to repudiate</div>
+        <div class="tier-cell qes-col">Equivalent to handwritten signature across all EU member states</div>
+      </div>
+      <div class="tier-row">
+        <div class="tier-cell label">Suitable for</div>
+        <div class="tier-cell">Low-risk agreements, internal approvals</div>
+        <div class="tier-cell">Most commercial contracts, employment documents</div>
+        <div class="tier-cell qes-col">Property transfers, notarial documents, regulated financial transactions</div>
+      </div>
+      <div class="tier-row">
+        <div class="tier-cell label">Access barrier</div>
+        <div class="tier-cell">None — any platform</div>
+        <div class="tier-cell">Requires identity verification and cryptographic credential</div>
+        <div class="tier-cell qes-col">Requires qualified certificate from a regulated Trust Service Provider</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Where signatures reach -->
+  <div class="page">
+    <div class="section-label">B4.3 — The breadth of the branch</div>
+
+    <p class="body-text">One of the most important things a Present Ambassador can do with this module is help their community see how far the digital signature branch actually reaches. Most people, when they think of digital signatures, think of PDF contracts and DocuSign. The actual reach is vastly wider — and in many cases, the people whose lives are most affected by digital signature infrastructure have never thought about it at all.</p>
+
+    <p class="body-text">Select each sector below to see how digital signatures operate within it — and what the genealogy connection is.</p>
+
+    <div class="sector-grid" id="sector-grid">
+      <div class="sector-tile active" onclick="showSector(0)" id="stile-0">
+        <div class="sector-icon">🏛️</div>
+        <div class="sector-name">Land and property</div>
+        <div class="sector-sub">Title, transfer, registration</div>
+      </div>
+      <div class="sector-tile" onclick="showSector(1)" id="stile-1">
+        <div class="sector-icon">⚖️</div>
+        <div class="sector-name">Courts and justice</div>
+        <div class="sector-sub">Filings, orders, evidence</div>
+      </div>
+      <div class="sector-tile" onclick="showSector(2)" id="stile-2">
+        <div class="sector-icon">💊</div>
+        <div class="sector-name">Healthcare</div>
+        <div class="sector-sub">Records, prescriptions, consent</div>
+      </div>
+      <div class="sector-tile" onclick="showSector(3)" id="stile-3">
+        <div class="sector-icon">🚢</div>
+        <div class="sector-name">Trade and customs</div>
+        <div class="sector-sub">Documents, certificates, manifests</div>
+      </div>
+      <div class="sector-tile" onclick="showSector(4)" id="stile-4">
+        <div class="sector-icon">💻</div>
+        <div class="sector-name">Software and code</div>
+        <div class="sector-sub">Code signing, software supply chain</div>
+      </div>
+      <div class="sector-tile" onclick="showSector(5)" id="stile-5">
+        <div class="sector-icon">🏢</div>
+        <div class="sector-name">Corporate governance</div>
+        <div class="sector-sub">Resolutions, filings, disclosures</div>
+      </div>
+      <div class="sector-tile" onclick="showSector(6)" id="stile-6">
+        <div class="sector-icon">🎓</div>
+        <div class="sector-name">Education and credentials</div>
+        <div class="sector-sub">Degrees, certificates, transcripts</div>
+      </div>
+      <div class="sector-tile" onclick="showSector(7)" id="stile-7">
+        <div class="sector-icon">🏦</div>
+        <div class="sector-name">Tax and government</div>
+        <div class="sector-sub">Filings, declarations, permits</div>
+      </div>
+      <div class="sector-tile" onclick="showSector(8)" id="stile-8">
+        <div class="sector-icon">📦</div>
+        <div class="sector-name">Supply chain</div>
+        <div class="sector-sub">Provenance, certification, auditing</div>
+      </div>
+    </div>
+
+    <div class="sector-detail active" id="sdetail-0">
+      <div class="sector-detail-title">Land and property — the most consequential document type</div>
+      <div class="sector-detail-body">
+        <p>Land titles are among the most consequential documents in human life — the difference between having a home and losing one, between collateral for a loan and exclusion from credit. Historically, land registries required physical presence, physical documents, and physical signatures witnessed by a notary. The move to digital land registries has been one of the most significant applications of digital signature infrastructure worldwide.</p>
+        <p>Estonia's X-Road system processes all land transactions digitally, using qualified digital signatures on the national ID card. The UK Land Registry accepts digitally signed conveyances. Singapore's property transactions are processed through a government digital signature platform. In each case, the qualified signature provides the legal certainty required for a transaction that may represent the largest financial event of a person's life.</p>
+        <p>The failure mode is correspondingly severe. In countries where digital land registries have been deployed without adequate cryptographic security — or where the underlying records have been manipulated — the consequences for property owners have been irreversible. Land fraud through fraudulent digital signatures has emerged as a specific crime category in several jurisdictions.</p>
+        <span class="sector-example">Estonia X-Road</span>
+        <span class="sector-example">UK Land Registry</span>
+        <span class="sector-example">Singapore SLA</span>
+      </div>
+    </div>
+
+    <div class="sector-detail" id="sdetail-1">
+      <div class="sector-detail-title">Courts and justice — signatures in the administration of law</div>
+      <div class="sector-detail-body">
+        <p>The digitisation of court filings, judicial orders, and legal evidence has required digital signature infrastructure that meets the highest standards of authenticity and non-repudiation — because the stakes of document tampering or repudiation in a legal context are among the highest conceivable.</p>
+        <p>The US federal courts' PACER/ECF system processes millions of digitally signed filings annually. The EU's e-Justice portal enables cross-border legal document exchange using eIDAS-compliant signatures. India's eCourts system processes case filings with Aadhaar-authenticated signatures. Brazil's judiciary was an early adopter of digital signatures for court orders — a notable achievement in a country with a massive case backlog that digital processing has significantly reduced.</p>
+        <p>For communities with access to digitally capable courts, this represents a significant reduction in the time and cost of legal processes. For communities whose courts lack the infrastructure — or where the signatures used lack adequate legal standing — the gap produces a two-tier justice system.</p>
+        <span class="sector-example">US PACER/ECF</span>
+        <span class="sector-example">Brazil e-Judiciary</span>
+        <span class="sector-example">EU e-Justice</span>
+      </div>
+    </div>
+
+    <div class="sector-detail" id="sdetail-2">
+      <div class="sector-detail-title">Healthcare — signatures where the stakes are clinical</div>
+      <div class="sector-detail-body">
+        <p>Digital signatures in healthcare operate in a high-stakes environment where errors or tampering have clinical consequences. Electronic prescriptions, signed by a qualified practitioner's digital certificate, prevent the forgery and alteration that plagued paper prescription systems. Patient consent forms signed digitally provide a non-repudiable record that is significantly harder to dispute than a physical signature on a form that may have been signed under pressure or without adequate information.</p>
+        <p>Electronic health records in most developed healthcare systems are signed and timestamped to create an auditable trail of who recorded what, and when. This matters both for clinical continuity — subsequent clinicians can rely on the record — and for legal accountability when care is disputed.</p>
+        <p>The sensitive dimension of healthcare signatures is the privacy intersection: a signed prescription or consent form carries both identity information and health information. The infrastructure that protects signature integrity must also protect the privacy of the data being signed — and the two requirements sometimes pull in different directions.</p>
+        <span class="sector-example">Electronic prescriptions</span>
+        <span class="sector-example">EHR audit trails</span>
+        <span class="sector-example">Informed consent</span>
+      </div>
+    </div>
+
+    <div class="sector-detail" id="sdetail-3">
+      <div class="sector-detail-title">Trade and customs — the infrastructure of global commerce</div>
+      <div class="sector-detail-body">
+        <p>International trade generates an enormous volume of documentation — bills of lading, certificates of origin, phytosanitary certificates, letters of credit, customs declarations — that has historically been paper-based, slow, and expensive to process. The digital transformation of trade documents is one of the largest ongoing applications of digital signature infrastructure in the world.</p>
+        <p>Singapore's TradeNet, launched in 1989, was one of the first national single-window trade facilitation platforms — connecting customs, port operators, and government agencies through a single authenticated digital system. The UN's eBL (Electronic Bill of Lading) initiative is working to standardise digitally signed bills of lading across global shipping. The UK's Electronic Trade Documents Act 2023 gave electronic trade documents the same legal standing as paper equivalents — a significant reform that had been blocked for decades by the requirement under the Bills of Exchange Act for paper documents.</p>
+        <p>For developing economies, digital trade document infrastructure can significantly reduce the cost and time of export — but only where trading partners have compatible systems that recognise each other's digital signatures. Interoperability is the binding constraint.</p>
+        <span class="sector-example">Singapore TradeNet</span>
+        <span class="sector-example">Electronic Bill of Lading</span>
+        <span class="sector-example">UK Electronic Trade Documents Act</span>
+      </div>
+    </div>
+
+    <div class="sector-detail" id="sdetail-4">
+      <div class="sector-detail-title">Software and code — signing the infrastructure itself</div>
+      <div class="sector-detail-body">
+        <p>Code signing is the application of digital signatures to software — allowing users and systems to verify that a piece of software came from the claimed publisher and has not been tampered with since publication. It is the infrastructure of the software supply chain, and its failure has been among the most consequential security incidents of the past decade.</p>
+        <p>Operating systems — Windows, macOS, iOS, Android — use code signing to verify that software installed on devices is from a legitimate publisher. The certificate hierarchy is similar to TLS: a root CA, intermediate CAs, and leaf certificates issued to software publishers. A compromised code signing certificate can allow malware to be installed on millions of devices with the appearance of legitimacy.</p>
+        <p>The SolarWinds attack of 2020 — in which attackers inserted malicious code into a legitimate software update, signed with SolarWinds' genuine code signing certificate — compromised the systems of numerous US government agencies and Fortune 500 companies. The signature was valid. The software was malicious. The attack illustrated that code signing protects against tampering in transit, not against compromise of the signing process itself.</p>
+        <span class="sector-example">Apple Notarization</span>
+        <span class="sector-example">Windows Authenticode</span>
+        <span class="sector-example">npm package signing</span>
+      </div>
+    </div>
+
+    <div class="sector-detail" id="sdetail-5">
+      <div class="sector-detail-title">Corporate governance — binding decisions at the boardroom level</div>
+      <div class="sector-detail-body">
+        <p>Board resolutions, shareholder agreements, regulatory filings, and financial disclosures are among the most legally consequential documents that organisations produce. Their authenticity and non-repudiation are matters of corporate law, securities regulation, and — when things go wrong — criminal liability.</p>
+        <p>The digitisation of corporate governance has accelerated sharply since 2020, when pandemic conditions made physical board meetings and wet-ink signatures impractical. Most major jurisdictions now accept digitally signed board minutes, shareholder resolutions, and regulatory filings. XBRL-tagged financial reports filed with securities regulators are digitally signed to prevent tampering after submission.</p>
+        <p>The corporate governance dimension of digital signatures is particularly relevant for communities engaged in economic development — because the cost and complexity of corporate document management is a significant barrier for small and medium enterprises, and digital signature infrastructure that reduces that barrier can have measurable effects on business formation and growth.</p>
+        <span class="sector-example">SEC EDGAR filings</span>
+        <span class="sector-example">Companies House (UK)</span>
+        <span class="sector-example">XBRL financial reporting</span>
+      </div>
+    </div>
+
+    <div class="sector-detail" id="sdetail-6">
+      <div class="sector-detail-title">Education and credentials — the fight against fraud</div>
+      <div class="sector-detail-body">
+        <p>Academic credential fraud — fake degrees, forged transcripts, altered certificates — is a global industry estimated to generate billions of dollars annually. Digital signatures applied to academic credentials are the most robust available countermeasure: a verifiable credential signed by a university's digital certificate cannot be forged without access to the university's private key.</p>
+        <p>MIT has issued blockchain-anchored, digitally signed diplomas since 2017. The EU's Europass digital credentials framework uses eIDAS-compliant signatures for academic and professional qualifications. Kenya, India, and several other countries with significant credential fraud problems are deploying national verifiable credential systems for academic qualifications.</p>
+        <p>The access dimension matters here too: a credential that can be verified instantly by any employer anywhere in the world, without contacting the issuing institution, reduces the friction of recognition for migrants and internationally mobile workers — a significant benefit in communities with high emigration rates.</p>
+        <span class="sector-example">MIT Digital Diplomas</span>
+        <span class="sector-example">EU Europass</span>
+        <span class="sector-example">Verifiable credentials standards</span>
+      </div>
+    </div>
+
+    <div class="sector-detail" id="sdetail-7">
+      <div class="sector-detail-title">Tax and government — the state's relationship with its citizens</div>
+      <div class="sector-detail-body">
+        <p>Tax filings, permit applications, benefit claims, and government declarations are among the highest-volume document types that citizens produce in their relationship with the state. Digitising them with adequate signature infrastructure has significant efficiency benefits — but also significant power implications.</p>
+        <p>Estonia's e-Tax system processes over 95% of tax returns digitally, using national ID card signatures. India's Income Tax e-filing system processes hundreds of millions of returns annually with Aadhaar-based OTP authentication. Brazil's e-CPF system uses digital certificates for tax filings and government transactions.</p>
+        <p>The power dimension is acute in this sector: a government that requires citizens to use a specific digital signature infrastructure for mandatory processes effectively controls the conditions of participation in civic life. The design choices — which trust providers are recognised, what data is collected during authentication, how long records are retained — are political choices with daily consequences for every citizen.</p>
+        <span class="sector-example">Estonia e-Tax</span>
+        <span class="sector-example">India e-Filing</span>
+        <span class="sector-example">Brazil e-CPF</span>
+      </div>
+    </div>
+
+    <div class="sector-detail" id="sdetail-8">
+      <div class="sector-detail-title">Supply chain — proving that things are what they claim to be</div>
+      <div class="sector-detail-body">
+        <p>Supply chain integrity — the ability to verify that a product is authentic, that its provenance is as claimed, that it has not been tampered with in transit — is one of the most commercially significant applications of digital signatures. From pharmaceutical anti-counterfeiting to food safety certification to conflict mineral disclosure, the ability to attach a cryptographically verifiable provenance record to a physical product is transforming supply chain management.</p>
+        <p>The EU's Digital Product Passport, coming into force progressively from 2024, will require manufacturers to provide verifiable digital records of product composition, origin, and sustainability credentials — signed and anchored to prevent falsification. In the pharmaceutical sector, the US Drug Supply Chain Security Act and the EU Falsified Medicines Directive both require serialised, verifiable records for prescription drugs.</p>
+        <p>For communities in agricultural producing regions, verifiable supply chain credentials — organic certification, fair-trade status, geographical indication — can command significant price premiums. The ability to provide cryptographically verifiable provenance is becoming a competitive advantage, and the barrier to providing it is falling as standardised verifiable credential infrastructure becomes available.</p>
+        <span class="sector-example">EU Digital Product Passport</span>
+        <span class="sector-example">Pharmaceutical serialisation</span>
+        <span class="sector-example">Agricultural provenance</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The "burrow wide" instruction</div>
+      <div class="callout-body">This is the module where the instruction from the handbook's design — to help ambassadors burrow deep and wide — is most directly applicable. Most people know that you can sign a PDF digitally. Few know that the same genealogical thread runs through their prescription, their land title, the software on their phone, the degree on their wall, and the certification that the food on their table came from where it claims to come from. That breadth, made visible to a specific community through the examples most relevant to them, is what transforms a technical explanation into a genuine revelation.</div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Stress points -->
+  <div class="page">
+    <div class="section-label">B4.4 — Where the branch has been stressed</div>
+
+    <p class="body-text">Digital signatures have been legally recognised and technically mature for decades. But the branch carries its own stress points — places where the system's assumptions have been violated, where the law has not kept pace with practice, or where the deployment has produced consequences its designers did not anticipate.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">The long-term validity problem</div>
+          <div class="step-body">A digital signature is only as trustworthy as the cryptographic algorithms it uses — and algorithms have lifespans. SHA-1, widely used in digital signatures until the 2010s, was deprecated after researchers demonstrated practical collision attacks. Documents signed with SHA-1 certificates are now of uncertain legal standing in jurisdictions that require signatures to remain valid over long periods — contracts, land titles, wills — because the signature's integrity property can no longer be guaranteed.<br><br>The emerging post-quantum transition (covered in B5) makes this problem acute: documents signed today with RSA or ECDSA may have compromised integrity standing in 10–20 years if quantum computers capable of breaking those algorithms are developed. Long-term signature validity — through archival standards like PAdES, XAdES, and ASiC, combined with periodic re-timestamping — is a solved problem in principle, but requires active maintenance that most organisations are not performing.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Key compromise and the repudiation window</div>
+          <div class="step-body">When a signing key is compromised, every document signed with that key before the compromise was reported is potentially affected. An attacker who obtained a private key could have signed fraudulent documents; a legitimate signer could repudiate genuine documents by claiming the key was already compromised at the time of signing. The period between actual compromise and reported compromise — the repudiation window — is a structural vulnerability in every digital signature system.<br><br>Certificate revocation lists and OCSP (Online Certificate Status Protocol) address this for TLS certificates but are less consistently applied in document signing contexts. The SolarWinds case illustrated the extreme version: a signing key used with no indication of compromise, producing signatures that were valid, on software that was malicious.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Cross-border validity gaps</div>
+          <div class="step-body">A Qualified Electronic Signature issued by an eIDAS-compliant Trust Service Provider has equivalent legal standing to a handwritten signature across all 27 EU member states. The same signature has uncertain standing in a contract dispute in Singapore, no recognised standing under many US state laws, and potentially no recognition in jurisdictions without electronic signature legislation. For businesses and individuals engaged in international transactions, this patchwork creates significant legal risk — and the cost of navigating it falls disproportionately on smaller parties who cannot afford legal counsel in multiple jurisdictions.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">The access gap — who can obtain a legally recognised signature</div>
+          <div class="step-body">In many jurisdictions, a legally recognised digital signature — one with sufficient standing to execute a property transfer, sign a regulated financial document, or appear in court — requires a qualified certificate from an accredited trust service provider. Obtaining one requires identity verification, payment of fees, and access to the technical infrastructure to use it. For individuals in countries without accredited trust service providers, for people without the identity documents required for verification, and for organisations without the technical capacity to manage certificates, the legal recognition exists in theory and is inaccessible in practice.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="incident-box">
+      <div class="incident-label">Case study — for community engagement</div>
+      <div class="incident-title">When the signature outlasts the algorithm</div>
+      <div class="incident-body">A land title signed digitally in 2008 using a SHA-1 certificate. A property dispute in 2019. The defendant's legal team argues that the signature cannot be relied upon because SHA-1 was deprecated in 2017 — raising a theoretical possibility, however remote, that the signature was forged. The court must assess whether a cryptographic argument about hash function deprecation should affect the evidential weight of a document that was validly signed under the standards of its time. This is not a hypothetical: courts in several jurisdictions have faced exactly this question, and the answers have not been consistent. The lesson for your community is practical: organisations holding digitally signed documents of long-term legal significance should be re-timestamping them under current algorithms now, before the question arises in a dispute. Most are not doing so, because most do not know they need to.</div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Your community -->
+  <div class="page">
+    <div class="section-label">B4.5 — Signatures in your community</div>
+
+    <p class="body-text">Every community has documents that matter. The question for a Present Ambassador is: which of those documents are digitally signed, which should be but aren't, which are signed in ways that provide inadequate legal protection, and who bears the cost of each of those gaps?</p>
+
+    <p class="body-text">The sector tiles in Tab 3 give you the vocabulary to ask these questions across the range of contexts where digital signatures operate. The stress points in Tab 4 give you the failure modes to look for. What follows is the framework for turning that knowledge into a community engagement.</p>
+
+    <div class="steps-block">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Map the document landscape in your community</div>
+          <div class="step-body">Choose three to five document types that carry significant legal, economic, or personal weight for the people you are engaging. For each: is it currently signed digitally or physically? If digitally — what tier of signature does it use? Is that tier adequate for its legal standing requirements? Who has access to the signing infrastructure, and who is excluded?</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Find the gap that costs your community most</div>
+          <div class="step-body">In almost every community, there is a document type where the gap between what digital signature infrastructure could provide and what is currently deployed has a measurable cost. Slow property transactions that delay credit access. Credential fraud that disadvantages job seekers. Trade documentation that adds days and cost to export processes. Identify the gap that your audience will recognise — and be able to name the infrastructure that would close it.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Find the entry point for your specific audience</div>
+          <div class="step-body">For a general public audience: the document they most recently signed — and whether it was actually a valid digital signature or just a typed name. For a legal or policy audience: the jurisdiction's electronic signature framework and its cross-border recognition gaps. For a business audience: the long-term validity question — what digitally signed documents does the organisation hold, and are they being maintained under current cryptographic standards? For a technology audience: the post-quantum implications for document signing infrastructure.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Connect to what's coming</div>
+          <div class="step-body">The EU Digital Identity Wallet will make qualified digital signatures accessible to all EU citizens from a smartphone — potentially collapsing the access gap for the largest digital signature framework in the world. Verifiable credentials are extending digital signature infrastructure into new document types. And the post-quantum transition means that every organisation's digital signature infrastructure needs a migration plan. Is your community's document-signing infrastructure on a roadmap for any of these changes?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">The question that surprises every audience</div>
+      <div class="callout-body">"When you signed a document digitally this year — was it actually a digital signature?" Most people who have clicked "sign here" on a DocuSign email, typed their name into an online form, or inserted a scanned image of their signature into a PDF believe they have digitally signed something. In many legal contexts, they have not — they have produced a simple electronic signature with minimal legal standing. That gap between what people believe they have and what they actually have is the entry point for this module in almost any room.</div>
+    </div>
+  </div>
+
+  <!-- Tab 6: Log entry -->
+  <div class="page">
+    <div class="section-label">Module B4 — Log Entry</div>
+
+    <p class="body-text">You've traced digital signatures from their mathematical foundations through legal recognition to their reach across nine sectors of daily life — and named the stress points that reveal where the system's assumptions break down. Before moving to B5, record where you are.</p>
+
+    <div class="log-box">
+      <div class="log-entry-label">Entry 6 — Digital signatures and legal validity</div>
+      <div class="log-field">
+        <label class="log-label">The sector where digital signatures most affect your community — and how</label>
+        <textarea class="log-area" rows="2" placeholder="Land? Healthcare? Trade? Credentials? Be specific about the impact."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The gap that costs your community most</label>
+        <textarea class="log-area" rows="2" placeholder="Where is the distance between what digital signature infrastructure could provide and what is currently deployed — and who pays for it?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The stress point most relevant to your context</label>
+        <textarea class="log-area" rows="2" placeholder="Long-term validity? Cross-border gaps? Access barriers? Key compromise? Which one would your audience find most surprising?"></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">The entry point you'll use with your specific community</label>
+        <textarea class="log-area" rows="2" placeholder="The question, the document, or the gap that will open the room."></textarea>
+      </div>
+      <div class="log-field">
+        <label class="log-label">Update to your genealogy sketch</label>
+        <textarea class="log-area" rows="2" placeholder="Digital signatures branch from RSA, which grew from DHM. What sub-branches did you add across the nine sectors? What pressures labelled them?"></textarea>
+      </div>
+    </div>
+
+    <div class="completion-box">
+      <div class="completion-title">Module B4 complete</div>
+      <div class="completion-body">You understand digital signatures as a legal institution built on mathematical foundations — their three properties, their legal journey, their reach across nine sectors, and the stress points that reveal where the deployment falls short of the promise. Next: Module B5 — Post-Quantum Pressures, where the question becomes existential: what happens to fifty years of cryptographic infrastructure when the mathematical problems it rests on can be solved?</div>
+      <div class="badge-row">
+        <span class="badge-pill">Three properties — understood</span>
+        <span class="badge-pill">Legal framework — mapped</span>
+        <span class="badge-pill">Nine sectors — explored</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function showProp(n) {
+  document.querySelectorAll('.prop-card').forEach((c, i) => c.classList.toggle('active', i === n));
+  document.querySelectorAll('.prop-detail').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+
+function showSector(n) {
+  document.querySelectorAll('.sector-tile').forEach((t, i) => t.classList.toggle('active', i === n));
+  document.querySelectorAll('.sector-detail').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+</script>
+</body>
+</html>
